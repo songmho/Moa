@@ -15,9 +15,9 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public MyViewPagerAdapter(FragmentManager fm) {
         super(fm);
-        fragments[0] = new FragmentA();
-        fragments[1] = new FragmentB();
-        fragments[2] = new FragmentC();
+        fragments[0] = new MainFragment();
+        fragments[1] = new MainFragment();
+        fragments[2] = new MainFragment();
     }
 
 
