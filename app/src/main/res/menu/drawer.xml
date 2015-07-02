@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
+<group
         android:checkableBehavior="single">
         <item
             android:id="@+id/invate"
-            android:checked="true"
             android:title="팀원초대하기"
             />
         <item
             android:id="@+id/teambuild"
-            android:checked="true"
             android:title="팀빌딩 현황보기"
             />
         <item
             android:id="@+id/basket"
-            android:checked="true"
             android:title="장바구니 확인하기"
             />
         <item
             android:id="@+id/setup"
-            android:checked="true"
             android:title="설정"
             />
     </group>

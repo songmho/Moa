@@ -1,24 +1,22 @@
 package com.team1.valueupapp;
 
 import android.content.res.Configuration;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    ActionBarDrawerToggle drawerToggle;
+public class MainActivity extends ActionBarActivity implements View.OnClickListener {
     Button btn[] = new Button[3];
     ViewPager viewPager = null;
     Thread thread = null;
@@ -26,19 +24,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int p=0;
     int v=1;
     DrawerLayout drawerLayout;
+    NavigationView navigationView;
+
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("소개");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF08ae9e));
+
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setUpNavDrawer();
 
         drawerLayout=(DrawerLayout)findViewById(R.id.drawerlayout);
-        NavigationView navigationView=(NavigationView)findViewById(R.id.navigationView);
+        navigationView=(NavigationView)findViewById(R.id.navigationView);
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(getSupportFragmentManager());
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                menuItem.setChecked(true);
+                switch (menuItem.getItemId()){
+                    case R.id.invate:
+                        Toast.makeText(getApplicationContext(),"팀원초대",Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.teambuild:
+                        Toast.makeText(getApplicationContext(),"팀빌딩",Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.basket:
+                        Toast.makeText(getApplicationContext(),"장바구니",Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.setup:
+                        Toast.makeText(getApplicationContext(),"설정",Toast.LENGTH_SHORT).show();
+                        return true;
+
+                }
+                return true;
+            }
+        });
         viewPager.setAdapter(adapter);
 
         btn[0] = (Button)findViewById(R.id.btn_a);
@@ -70,35 +95,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         };
-
-        drawerToggle =new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close){
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-        };
-        drawerLayout.setDrawerListener(drawerToggle);
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerLayout.closeDrawers();
-                return true;
-            }
-        });
-
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+    private void setUpNavDrawer() {
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("소개");
+        toolbar.setNavigationIcon(R.drawable.drawericon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
     }
 
     public void onClick(View v) {
@@ -123,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -131,25 +140,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if(drawerToggle.onOptionsItemSelected(item))
-            return true;
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
-        }
-        if(id==android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
             return true;
         }
         return super.onOptionsItemSelected(item);
