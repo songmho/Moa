@@ -47,7 +47,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
                 switch (menuItem.getItemId()){
-                    case R.id.invate:
+                    case R.id.introduce:
                         Toast.makeText(getApplicationContext(),"팀원초대",Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.teambuild:

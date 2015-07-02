@@ -7,11 +7,21 @@
     android:id="@+id/drawerlayout"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar" />
+    </LinearLayout>
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -42,19 +52,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#FF08ae9e"/>
+        android:background="@color/ColorPrimary"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/tool_bar" />
     </LinearLayout>
  <android.support.design.widget.NavigationView
         android:background="#FFFFFF"

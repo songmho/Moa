@@ -3,8 +3,9 @@
 <group
         android:checkableBehavior="single">
         <item
-            android:id="@+id/invate"
-            android:title="팀원초대하기"
+            android:id="@+id/introduce"
+            android:checked="true"
+            android:title="소개"
             />
         <item
             android:id="@+id/teambuild"
