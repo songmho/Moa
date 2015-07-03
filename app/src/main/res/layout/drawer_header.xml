@@ -2,12 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:orientation="vertical">
-    <ImageView
+    android:orientation="vertical"
+    android:background="@color/ColorPrimary">
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:scaleType="centerCrop"
-        android:background="@color/ColorPrimary"/>
+        android:gravity="bottom"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/test"/>
     <TextView
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
@@ -15,4 +23,5 @@
         android:layout_gravity="bottom"
         android:layout_margin="16dp"
         android:text="Your Name Here" />
+    </LinearLayout>
 </FrameLayout>
