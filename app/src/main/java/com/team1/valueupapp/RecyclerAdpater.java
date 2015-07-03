@@ -1,10 +1,8 @@
 package com.team1.valueupapp;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +21,7 @@ import java.util.List;
 public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHolder> {
     Context context;
     List<ListRecyclerItem> items_list;
-    List<Griditem> items_grid;
+    List<item> items_grid;
     int itemLayout;
     int frag;
 
@@ -32,7 +29,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
 
     }
 
-    RecyclerAdpater(Context context, List<Griditem> items, int itemLayout) {
+    RecyclerAdpater(Context context, List<item> items, int itemLayout) {
         this.context=context;
         this.items_grid=items;
         this.itemLayout=itemLayout;
@@ -102,7 +99,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 break;
 
             case R.layout.item_grid:
-                Griditem item_grid = items_grid.get(i);
+                item item_grid = items_grid.get(i);
                 viewHolder.idea.setText(item_grid.getIdea());
                 viewHolder.plan.setText(String.valueOf(""+item_grid.getPlan()));
                 viewHolder.develop.setText(String.valueOf(""+item_grid.getDevelop()));

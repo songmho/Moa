@@ -1,6 +1,5 @@
 package com.team1.valueupapp;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,10 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -46,11 +43,11 @@ public class BuildFragment extends Fragment {
             }
         });
 
-        List<Griditem> items=new ArrayList<>();
-        Griditem item1=new Griditem("버스킹어플",1,5,1);
-        Griditem item2=new Griditem("버스킹어플",1,5,1);
-        Griditem item3=new Griditem("버스킹어플",1,5,1);
-        Griditem item4=new Griditem("버스킹어플",1,5,1);
+        List<item> items=new ArrayList<>();
+        item item1=new item("버스킹어플",1,5,1);
+        item item2=new item("버스킹어플",1,5,1);
+        item item3=new item("버스킹어플",1,5,1);
+        item item4=new item("버스킹어플",1,5,1);
         items.add(item1);
         items.add(item2);
         items.add(item3);
