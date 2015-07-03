@@ -39,7 +39,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         btn[0] = (Button)cur_container.findViewById(R.id.btn_a);
         btn[1] = (Button)cur_container.findViewById(R.id.btn_b);
         btn[2] = (Button)cur_container.findViewById(R.id.btn_c);
-        for(int i=0;i<btn.length; i++) btn[i].setOnClickListener(this);
+        for (Button aBtn : btn) aBtn.setOnClickListener(this);
         return cur_container;
     }
 

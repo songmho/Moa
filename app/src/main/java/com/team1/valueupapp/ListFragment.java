@@ -20,9 +20,7 @@ public class ListFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     LinearLayout cur_container;
     int cur_fragment;
-    public ListFragment(int i) {
-        this.cur_fragment=i;
-    }
+    public ListFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,10 +29,11 @@ public class ListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_list,container,false);
         recyclerView=(RecyclerView)cur_container.findViewById(R.id.recyclerview);
 
+        Bundle bundle=this.getArguments();
+        cur_fragment=bundle.getInt("cur_fragment",0);
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
