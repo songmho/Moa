@@ -43,11 +43,11 @@ public class BuildFragment extends Fragment {
             }
         });
 
-        List<item> items=new ArrayList<>();
-        item item1=new item("버스킹어플",1,5,1);
-        item item2=new item("버스킹어플",1,5,1);
-        item item3=new item("버스킹어플",1,5,1);
-        item item4=new item("버스킹어플",1,5,1);
+        List<Grid_Item> items=new ArrayList<>();
+        Grid_Item item1=new Grid_Item("버스킹어플",1,5,1);
+        Grid_Item item2=new Grid_Item("버스킹어플",1,5,1);
+        Grid_Item item3=new Grid_Item("버스킹어플",1,5,1);
+        Grid_Item item4=new Grid_Item("버스킹어플",1,5,1);
         items.add(item1);
         items.add(item2);
         items.add(item3);

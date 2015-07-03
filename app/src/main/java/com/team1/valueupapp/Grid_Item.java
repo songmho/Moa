@@ -3,7 +3,7 @@ package com.team1.valueupapp;
 /**
  * Created by songmho on 2015-07-04.
  */
-public class item {
+public class Grid_Item {
     String idea;
     int plan;
     int develop;
@@ -23,7 +23,7 @@ public class item {
         return  this.design;
     }
 
-    public item(String idea, int plan, int develop, int design){
+    public Grid_Item(String idea, int plan, int develop, int design){
         this.idea=idea;
         this.plan=plan;
         this.develop=develop;

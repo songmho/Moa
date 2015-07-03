@@ -21,7 +21,7 @@ import java.util.List;
 public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHolder> {
     Context context;
     List<ListRecyclerItem> items_list;
-    List<item> items_grid;
+    List<Grid_Item> items_grid;
     int itemLayout;
     int frag;
 
@@ -29,7 +29,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
 
     }
 
-    RecyclerAdpater(Context context, List<item> items, int itemLayout) {
+    RecyclerAdpater(Context context, List<Grid_Item> items, int itemLayout) {
         this.context=context;
         this.items_grid=items;
         this.itemLayout=itemLayout;
@@ -99,7 +99,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 break;
 
             case R.layout.item_grid:
-                item item_grid = items_grid.get(i);
+                Grid_Item item_grid = items_grid.get(i);
                 viewHolder.idea.setText(item_grid.getIdea());
                 viewHolder.plan.setText(String.valueOf(""+item_grid.getPlan()));
                 viewHolder.develop.setText(String.valueOf(""+item_grid.getDevelop()));
