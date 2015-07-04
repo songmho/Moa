@@ -9,12 +9,14 @@ import com.parse.ParseACL;
  * Created by songmho on 2015-07-03.
  */
 public class Moa extends Application {
-    private static final String APPLICATION_ID="fq7iAT1SAXB2GUDtbgJnA11fJGAuCw8LsT6ifF4m";
-    private static final String CLIENT_KEY="1vfQkCpcB5hNQiovnVZdpgojHx8Yv3Fg5wNDnUn0";
+    String APPLICATION_ID="1meD1nBM07SCIDJ5cGdIWLXT4ASzvtF4QFprTbuD";
+    String CLIENT_KEY="tLtCFKlQ4SZKmCwOgrkUdAhmkZvCyLe7h5tCvl7E";
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Parse.enableLocalDatastore(this);
         Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
         ParseACL defaultACL=new ParseACL();
         defaultACL.setPublicReadAccess(true);

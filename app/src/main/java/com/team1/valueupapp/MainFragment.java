@@ -1,19 +1,14 @@
 package com.team1.valueupapp;
 
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 /**
  * Created by songmho on 2015-07-03.
