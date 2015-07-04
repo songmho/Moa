@@ -16,6 +16,14 @@
         android:layout_height="wrap_content"
         android:background="@color/ColorPrimary">
 
+        <ImageButton
+            android:id="@+id/star"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:background="@drawable/star_selector"/>
+
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
