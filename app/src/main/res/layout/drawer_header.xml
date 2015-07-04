@@ -22,6 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="16dp"
-        android:text="Your Name Here" />
+        android:text="최에스더" />
     </LinearLayout>
 </FrameLayout>

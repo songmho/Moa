@@ -44,14 +44,17 @@ public class BuildFragment extends Fragment {
         });
 
         List<Grid_Item> items=new ArrayList<>();
-        Grid_Item item1=new Grid_Item("버스킹어플",1,5,1);
-        Grid_Item item2=new Grid_Item("버스킹어플",1,5,1);
-        Grid_Item item3=new Grid_Item("버스킹어플",1,5,1);
-        Grid_Item item4=new Grid_Item("버스킹어플",1,5,1);
-        items.add(item1);
-        items.add(item2);
-        items.add(item3);
-        items.add(item4);
+        Grid_Item[] item=new Grid_Item[6];
+
+        item[0]=new Grid_Item("팀빌딩어플",1,0,2);
+        item[1]=new Grid_Item("핼스어플",1,2,0);
+        item[2]=new Grid_Item("가계부어플",1,3,1);
+        item[3]=new Grid_Item("밥먹기어플",2,2,0);
+        item[4]=new Grid_Item("여행어플",1,1,3);
+        item[5]=new Grid_Item("고민어플",1,0,0);
+
+        for(int i=0;i<6;i++)
+            items.add(item[i]);
         recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_grid));
         return cur_container;
     }

@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "com.team1.valueupapp"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 20
         versionCode 1
-        versionName "0.30"
+        versionName "0.31"
     }
     buildTypes {
         release {
@@ -25,7 +25,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:22.1.1'
     compile 'com.android.support:recyclerview-v7:22.1.1'
     compile 'com.android.support:design:22.2.0'
-    compile 'com.parse.bolts:bolts-android:1.+'
-    compile fileTree(dir: 'lib', include: 'Parse-*.jar')
     compile files('lib/Parse-1.9.3.jar')
 }

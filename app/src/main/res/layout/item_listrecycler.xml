@@ -39,7 +39,7 @@
                 android:layout_marginBottom="3dp"/>
                <TextView
                    android:id="@+id/name"
-                   android:textSize="15dp"
+                   android:textSize="17dp"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
 

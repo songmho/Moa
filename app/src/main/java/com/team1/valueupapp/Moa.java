@@ -6,7 +6,7 @@ import com.parse.Parse;
 import com.parse.ParseACL;
 
 /**
- * Created by songmho on 2015-07-03.
+ * Created by songmho on 2015-07-04.
  */
 public class Moa extends Application {
     String APPLICATION_ID="1meD1nBM07SCIDJ5cGdIWLXT4ASzvtF4QFprTbuD";

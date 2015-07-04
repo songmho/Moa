@@ -25,6 +25,7 @@
             android:background="@drawable/star_selector"/>
 
         <ImageView
+            android:id="@+id/profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -37,6 +38,7 @@
             android:layout_gravity="bottom"
             android:layout_margin="10dp"
             android:gravity="center"
+            android:id="@+id/idea"
             android:text="idea!" />
     </LinearLayout>
     <LinearLayout
@@ -46,13 +48,13 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="information1"/>
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="information2"/>
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </LinearLayout>

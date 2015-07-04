@@ -1,8 +1,10 @@
 package com.team1.valueupapp;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -57,13 +59,13 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         return null;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         switch (itemLayout) {
             case R.layout.item_listrecycler:
                 final ListRecyclerItem item_list = items_list.get(i);
-
-                Drawable drawable=context.getDrawable(item_list.getProfile());
+                Drawable drawable=context.getResources().getDrawable(item_list.getProfile());
                 viewHolder.itemView.setTag(item_list);
                 viewHolder.profile.setBackground(drawable);
                 viewHolder.name.setText(item_list.getName());
@@ -77,6 +79,9 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                    //     Toast.makeText(context.getApplicationContext(),"list",Toast.LENGTH_SHORT).show();
                         Intent goto_info=new Intent(context.getApplicationContext(),InfoActivity.class);
                         goto_info.putExtra("name",item_list.getName());
+                        goto_info.putExtra("idea",item_list.getApp_name());
+                        goto_info.putExtra("detail",item_list.getDetail());
+                        goto_info.putExtra("star",item_list.getStar());
                         context.startActivity(goto_info);
                     }
                 });
@@ -108,7 +113,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       // Toast.makeText(context.getApplicationContext(),"grid",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context.getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
+
                     }
                 });
 

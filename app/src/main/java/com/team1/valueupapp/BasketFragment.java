@@ -38,14 +38,15 @@ public class BasketFragment extends Fragment {
             recyclerView.setLayoutManager(layoutManager);
 
         List<ListRecyclerItem> items=new ArrayList<>();
-        ListRecyclerItem item1=new ListRecyclerItem(R.drawable.test,"버스킹어플","최에스더",false,"blar blar");
-        ListRecyclerItem item2=new ListRecyclerItem(R.drawable.test,"버스킹어플","최에스더",false,"blar blar");
-        ListRecyclerItem item3=new ListRecyclerItem(R.drawable.test,"버스킹어플","최에스더",false,"blar blar");
-        ListRecyclerItem item4=new ListRecyclerItem(R.drawable.test,"버스킹어플","최에스더",false,"blar blar");
-        items.add(item1);
-        items.add(item2);
-        items.add(item3);
-        items.add(item4);
+        ListRecyclerItem[] item = new ListRecyclerItem[6];
+        item[0]=new ListRecyclerItem(R.drawable.test,"팀빌딩어플","서완규",true,"팀빌딩을 위한 어플");
+        item[1]=new ListRecyclerItem(R.drawable.test2,"","송명호",true,"c, c++, 안드로이드,java, 포토샵 쪼금");
+        item[2]=new ListRecyclerItem(R.drawable.test4,"","김유진",true,"c, c++, java, html, css");
+        item[3]=new ListRecyclerItem(R.drawable.test3,"","한혜미",true,"c, c++, java, mysql");
+        item[4]=new ListRecyclerItem(R.drawable.test,"","최에스더",true,"포토샵, 일러스트레이터, UI, UX, 인디자인");
+        item[5]=new ListRecyclerItem(R.drawable.test2,"","황의찬",true,"포토샵, 일러스트레이터, HTML, CSS");
+        for(int i=0;i<6;i++)
+            items.add(item[i]);
         recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
         return cur_container;
     }
