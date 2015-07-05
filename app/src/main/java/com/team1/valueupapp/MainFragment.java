@@ -3,6 +3,8 @@ package com.team1.valueupapp;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,20 +30,21 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_main,container,false);
         viewPager = (ViewPager)cur_container.findViewById(R.id.viewPager);
+        PagerTabStrip pager_header=(PagerTabStrip)cur_container.findViewById(R.id.pager_header);
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(getActivity().getSupportFragmentManager());
-
+        pager_header.setTabIndicatorColor(0x004DD0E1);
         viewPager.setAdapter(adapter);
-        btn[0] = (Button)cur_container.findViewById(R.id.btn_a);
+       /* btn[0] = (Button)cur_container.findViewById(R.id.btn_a);
         btn[1] = (Button)cur_container.findViewById(R.id.btn_b);
         btn[2] = (Button)cur_container.findViewById(R.id.btn_c);
         for (Button aBtn : btn) aBtn.setOnClickListener(this);
-        return cur_container;
+        */return cur_container;
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.btn_a:
+         /*   case R.id.btn_a:
                 viewPager.setCurrentItem(0);
                 break;
             case R.id.btn_b:
@@ -50,7 +53,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             case R.id.btn_c:
                 viewPager.setCurrentItem(2);
                 break;
-            default:
+           */ default:
                 break;
 
         }

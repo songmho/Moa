@@ -14,8 +14,6 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
     Fragment[] fragments = new Fragment[3];
     Bundle[] bundle=new Bundle[3];
 
-
-
     public MyViewPagerAdapter(FragmentManager fm) {
         super(fm);
         fragments[0] = new ListFragment();
@@ -34,6 +32,18 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
         fragments[2].setArguments(bundle[2]);
     }
 
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch(position){
+            case 0:
+                return "기획자";
+            case 1:
+                return "개발자";
+            case 2:
+                return "디자이너";
+        }
+        return null;
+    }
 
     public Fragment getItem(int arg0) {
         return fragments[arg0];
