@@ -21,11 +21,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/profile"
-                android:background="@color/ColorPrimary"/>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FAFAFA">
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/profile"/>
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/box01"/>
+            </FrameLayout>
            <LinearLayout
                android:layout_marginLeft="20dp"
                android:orientation="vertical"

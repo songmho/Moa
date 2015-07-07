@@ -9,13 +9,23 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:scaleType="centerCrop"
-        android:gravity="bottom"
-        android:layout_marginLeft="25dp"
-        android:background="@drawable/test"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:gravity="bottom"
+            android:background="#ffffff">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/test"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/box02"/>
+        </FrameLayout>
     <TextView
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
