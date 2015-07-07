@@ -16,6 +16,7 @@
             android:id="@+id/toolbar"
             layout="@layout/tool_bar" />
         <LinearLayout
+            android:orientation="horizontal"
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

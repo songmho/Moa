@@ -1,6 +1,8 @@
 package com.team1.valueupapp;
 
 import android.app.SearchManager;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -10,10 +12,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.parse.ParseUser;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
@@ -24,10 +29,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     FragmentTransaction fragmentTransaction;
     Fragment cur_fragment=new MainFragment();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences pref=getPreferences(MODE_PRIVATE);
+        if(ParseUser.getCurrentUser()==null && pref.getInt("count",0)<=0) {
+            Log.d("hello", "hh");
+            startActivity(new Intent(MainActivity.this, SplashActivity.class));
+            finish();
+        }
         setContentView(R.layout.activity_main);
 
         toolbar=(Toolbar)findViewById(R.id.toolbar);

@@ -16,7 +16,7 @@ public class Moa extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Parse.enableLocalDatastore(this);
+        //Parse.enableLocalDatastore(this);
         Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
         ParseACL defaultACL=new ParseACL();
         defaultACL.setPublicReadAccess(true);
