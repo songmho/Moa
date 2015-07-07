@@ -7,3 +7,8 @@
 /captures
 
 build
+.idea
+gradle
+Moa.iml
+app/app.iml
+gradle.properties
