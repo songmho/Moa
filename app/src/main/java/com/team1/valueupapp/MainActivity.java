@@ -12,7 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
-public class MainActivity extends ActionBarActivity implements View.OnClickListener {
+public class MainActivity extends ActionBarActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -35,7 +35,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         SharedPreferences pref=getPreferences(MODE_PRIVATE);
         if(ParseUser.getCurrentUser()==null && pref.getInt("count",0)<=0) {
-            Log.d("hello", "hh");
             startActivity(new Intent(MainActivity.this, SplashActivity.class));
             finish();
         }
@@ -94,6 +93,23 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        switch (keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                if(drawerLayout.isDrawerOpen(navigationView))
+                    drawerLayout.closeDrawers();
+                else {
+                    moveTaskToBack(true);
+                    finish();
+                }
+                break;
+        }
+
+        return true;
+    }
+
     private void setUpNavDrawer() {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("소개");
@@ -105,10 +121,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
         });
     }
-
-    public void onClick(View v) {
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
