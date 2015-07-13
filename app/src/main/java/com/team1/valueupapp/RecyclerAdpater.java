@@ -3,7 +3,6 @@ package com.team1.valueupapp;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by songmho on 2015-06-30.
@@ -65,9 +65,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         switch (itemLayout) {
             case R.layout.item_listrecycler:
                 final ListRecyclerItem item_list = items_list.get(i);
-                Drawable drawable=context.getResources().getDrawable(item_list.getProfile());
                 viewHolder.itemView.setTag(item_list);
-                viewHolder.profile.setBackground(drawable);
+                viewHolder.profile.setImageResource(item_list.getProfile());
                 viewHolder.name.setText(item_list.getName());
                 viewHolder.app_name.setText(item_list.getApp_name());
                 viewHolder.detail.setText(item_list.getDetail());
@@ -139,7 +138,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         TextView name;
         TextView detail;
         ImageButton star;
-        ImageView profile;
+        CircleImageView profile;
 
         CardView cardView;
 
@@ -152,7 +151,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
             super(itemView);
             switch (itemLayout) {
                 case R.layout.item_listrecycler:
-                    profile=(ImageView)itemView.findViewById(R.id.profile);
+                    profile=(CircleImageView)itemView.findViewById(R.id.profile);
                     app_name = (TextView) itemView.findViewById(R.id.app_name);
                     name = (TextView) itemView.findViewById(R.id.name);
                     star = (ImageButton) itemView.findViewById(R.id.star);
