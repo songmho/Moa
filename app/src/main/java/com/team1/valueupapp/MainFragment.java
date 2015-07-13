@@ -1,5 +1,6 @@
 package com.team1.valueupapp;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +17,6 @@ import android.widget.LinearLayout;
  * Created by songmho on 2015-07-03.
  */
 public class MainFragment extends Fragment implements View.OnClickListener {
-    Button btn[] = new Button[3];
     LinearLayout cur_container;
     ViewPager viewPager;
 
@@ -28,17 +28,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_main,container,false);
+        cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_main, container, false);
         viewPager = (ViewPager)cur_container.findViewById(R.id.viewPager);
-        PagerTabStrip pager_header=(PagerTabStrip)cur_container.findViewById(R.id.pager_header);
+        TabLayout tabLayout=(TabLayout)cur_container.findViewById(R.id.tablayout);
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(getActivity().getSupportFragmentManager());
-        pager_header.setTabIndicatorColor(0x004DD0E1);
         viewPager.setAdapter(adapter);
-       /* btn[0] = (Button)cur_container.findViewById(R.id.btn_a);
-        btn[1] = (Button)cur_container.findViewById(R.id.btn_b);
-        btn[2] = (Button)cur_container.findViewById(R.id.btn_c);
-        for (Button aBtn : btn) aBtn.setOnClickListener(this);
-        */return cur_container;
+        tabLayout.setupWithViewPager(viewPager);
+        return cur_container;
     }
 
     @Override

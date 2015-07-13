@@ -16,6 +16,7 @@
             android:gravity="bottom"
             android:background="#ffffff">
             <ImageView
+                android:id="@+id/profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:scaleType="centerCrop"
@@ -27,6 +28,7 @@
                 android:background="@drawable/box02"/>
         </FrameLayout>
     <TextView
+        android:id="@+id/name"
         style="@style/TextAppearance.AppCompat.Subhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
