@@ -7,7 +7,6 @@ public class ListRecyclerItem {
     String app_name;
     String name;
     boolean star;
-    String detail;
     int profile;
 
     int getProfile(){return  this.profile;}
@@ -24,14 +23,10 @@ public class ListRecyclerItem {
         this.star=star;
     }
 
-    String getDetail(){
-        return this.detail;
-    }
-    public ListRecyclerItem(int profile,String app_name, String name, boolean star, String detail) {
+    public ListRecyclerItem(int profile, String app_name, String name, boolean star) {
         this.profile=profile;
         this.app_name=app_name;
         this.name=name;
         this.star=star;
-        this.detail=detail;
     }
 }

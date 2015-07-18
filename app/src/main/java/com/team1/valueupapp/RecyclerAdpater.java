@@ -14,6 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -27,10 +33,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
     List<Grid_Item> items_grid;
     int itemLayout;
     int frag;
-
-    RecyclerAdpater(){
-
-    }
 
     RecyclerAdpater(Context context, List<Grid_Item> items, int itemLayout) {
         this.context=context;
@@ -70,7 +72,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.profile.setImageResource(item_list.getProfile());
                 viewHolder.name.setText(item_list.getName());
                 viewHolder.app_name.setText(item_list.getApp_name());
-                viewHolder.detail.setText(item_list.getDetail());
                 viewHolder.star.setSelected(item_list.getStar());
 
                 viewHolder.contaner.setOnClickListener(new View.OnClickListener() {
@@ -79,8 +80,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                    //     Toast.makeText(context.getApplicationContext(),"list",Toast.LENGTH_SHORT).show();
                         Intent goto_info=new Intent(context.getApplicationContext(),InfoActivity.class);
                         goto_info.putExtra("name",item_list.getName());
+                        goto_info.putExtra("profile",item_list.getProfile());
                         goto_info.putExtra("idea",item_list.getApp_name());
-                        goto_info.putExtra("detail",item_list.getDetail());
                         goto_info.putExtra("star",item_list.getStar());
                         context.startActivity(goto_info);
                     }
@@ -89,16 +90,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.star.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(item_list.getStar()){
-                            item_list.setStar(false);
-                            viewHolder.star.setSelected(false);
-                            Toast.makeText(context.getApplicationContext(),"관심멤버에서 제외합니다.",Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            item_list.setStar(true);
-                            viewHolder.star.setSelected(true);
-                            Toast.makeText(context.getApplicationContext(), "관심멤버에 추가합니다.", Toast.LENGTH_SHORT).show();
-                        }
+                        checkStar(item_list, viewHolder);
                     }
                 });
                 break;
@@ -118,10 +110,36 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
 
                     }
                 });
-
-
                 break;
         }
+    }
+
+
+    private void checkStar(final ListRecyclerItem item_list, final ViewHolder viewHolder) {
+        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_people");
+        query.whereEqualTo("name",item_list.getName());
+        query.whereEqualTo("info",item_list.getApp_name());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                for(int i=0;i<list.size();i++){
+                    ParseObject parseObject=list.get(i);
+                    if(parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name"))){
+                            item_list.setStar(false);
+                            viewHolder.star.setSelected(false);
+                            Toast.makeText(context.getApplicationContext(), "관심멤버에서 제외합니다.", Toast.LENGTH_SHORT).show();
+                            parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
+                    }
+                    else{
+                            item_list.setStar(true);
+                            viewHolder.star.setSelected(true);
+                            Toast.makeText(context.getApplicationContext(), "관심멤버에 추가합니다.", Toast.LENGTH_SHORT).show();
+                            parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
+                    }
+                    parseObject.saveInBackground();
+                }
+            }
+        });
     }
 
     @Override
