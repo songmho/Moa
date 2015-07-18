@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#262626"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <ImageView
+            android:id="@+id/splash_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/splash_logo"
+            android:layout_gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="MOA"
+            android:textColor="@color/ColorPrimary"
+            android:textSize="30dp"
+            />
+        <EditText
+            android:layout_width="218dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="59dp"
+            android:hint="이름"
+            android:id="@+id/edittext_1" />
+        <EditText
+            android:layout_width="218dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            />
+        <Button
+            android:layout_width="218dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/ColorPrimary"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:text="Login"/>
+        
+        
+        
+        
+    </LinearLayout>
+
+</LinearLayout>
