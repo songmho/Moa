@@ -2,8 +2,10 @@ package com.team1.valueupapp;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by songmho on 2015-07-04.
@@ -15,6 +17,7 @@ public class Moa extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
