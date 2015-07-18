@@ -105,8 +105,9 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
 
             case R.layout.item_grid:
                 Grid_Item item_grid = items_grid.get(i);
+                viewHolder.state.setText(item_grid.getState());
                 viewHolder.idea.setText(item_grid.getIdea());
-                viewHolder.plan.setText(String.valueOf(""+item_grid.getPlan()));
+                viewHolder.plan.setText(String.valueOf("" + item_grid.getPlan()));
                 viewHolder.develop.setText(String.valueOf(""+item_grid.getDevelop()));
                 viewHolder.design.setText(String.valueOf(""+item_grid.getDesign()));
 
@@ -148,6 +149,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         TextView plan;
         TextView develop;
         TextView design;
+        TextView state;
 
         public ViewHolder(View itemView,int itemLayout) {
             super(itemView);
@@ -163,6 +165,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     break;
                 case R.layout.item_grid:
                     idea=(TextView)itemView.findViewById(R.id.idea);
+                    state=(TextView)itemView.findViewById(R.id.state);
                     plan=(TextView)itemView.findViewById(R.id.plan);
                     develop=(TextView)itemView.findViewById(R.id.develop);
                     design=(TextView)itemView.findViewById(R.id.design);
