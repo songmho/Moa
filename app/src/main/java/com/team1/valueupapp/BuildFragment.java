@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class BuildFragment extends Fragment {
         cur_container=(FrameLayout)inflater.inflate(R.layout.fragment_build,container,false);
         recyclerView=(RecyclerView)cur_container.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),2));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),1));
 
         ImageButton add=(ImageButton)cur_container.findViewById(R.id.add);
         add.setOnClickListener(new View.OnClickListener() {
@@ -53,8 +54,7 @@ public class BuildFragment extends Fragment {
         item[4]=new Grid_Item("여행어플",1,1,3);
         item[5]=new Grid_Item("고민어플",1,0,0);
 
-        for(int i=0;i<6;i++)
-            items.add(item[i]);
+        items.addAll(Arrays.asList(item).subList(0, 6));
         recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_grid));
         return cur_container;
     }

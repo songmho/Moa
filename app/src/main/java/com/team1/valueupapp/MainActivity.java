@@ -3,6 +3,7 @@ package com.team1.valueupapp;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
@@ -23,7 +25,7 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -52,6 +54,7 @@ public class MainActivity extends ActionBarActivity {
         fragmentTransaction.commit();
         drawerLayout=(DrawerLayout)findViewById(R.id.drawerlayout);
         navigationView=(NavigationView)findViewById(R.id.navigationView);
+     //   navigationView.setItemTextColor(ColorStateList.valueOf(0XffFFFFFF));
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -61,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
                 switch (menuItem.getItemId()){
                     case R.id.introduce:
                         getSupportActionBar().setTitle("소개");
+
                         cur_fragment=new MainFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();

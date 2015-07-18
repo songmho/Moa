@@ -7,8 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:id="@+id/add"
         android:layout_gravity="bottom|right"
         android:layout_margin="10dp"

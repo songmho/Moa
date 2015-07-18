@@ -22,7 +22,7 @@
             android:layout_marginLeft="30dp"
             android:layout_width="23dp"
             android:layout_height="23dp"
-            android:background="@drawable/star_selector"/>
+            android:background="@drawable/check_selector"/>
 
         <ImageView
             android:id="@+id/profile"

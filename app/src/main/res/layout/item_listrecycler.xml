@@ -1,68 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    card_view:cardCornerRadius="3dp"
-    android:padding="10dp"
-    android:layout_margin="7dp">
+    android:background="@color/BackGround"
+    android:orientation="vertical">
 
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="12dp">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:background="@color/BackGround"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:padding="10dp"
             >
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/profile"
-                app:border_color="@color/ColorPrimary"
-                app:border_width="2dp"/>
+                android:src="@drawable/splash_logo"
+                app:border_color="@color/ColorPrimary"/>
            <LinearLayout
-               android:layout_marginLeft="20dp"
                android:orientation="vertical"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content">
+               android:layout_width="230dp"
+               android:layout_height="wrap_content"
+               android:layout_marginLeft="6dp"
+               android:layout_marginRight="15dp">
                <TextView
-                android:id="@+id/app_name"
-                android:textSize="22dp"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"/>
+                    android:id="@+id/app_name"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                   android:text="해커톤을 위한 팀빌딩 어플"
+                   android:textColor="@color/TextColor"/>
                <TextView
                    android:id="@+id/name"
-                   android:textSize="17dp"
+                   android:textSize="15dp"
                    android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
+                   android:layout_height="wrap_content"
+                   android:text="서완규"
+                   android:textColor="@color/TextColor_sub" />
 
            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"/>
             <TextView
                 android:id="@+id/detail"
                 android:textSize="15dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+            <ImageButton
+                android:id="@+id/star"
+                android:layout_margin="10dp"
+                android:layout_gravity="right|center"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:background="@drawable/check_selector"/>
     </LinearLayout>
-    <ImageButton
-        android:id="@+id/star"
-        android:layout_margin="10dp"
-        android:layout_gravity="right"
-        android:layout_width="23dp"
-        android:layout_height="23dp"
-        android:background="@drawable/star_selector"/>
-
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/Listdivider"/>
 </android.support.v7.widget.CardView>
