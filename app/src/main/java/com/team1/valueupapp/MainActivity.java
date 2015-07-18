@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
         drawerLayout=(DrawerLayout)findViewById(R.id.drawerlayout);
         navigationView=(NavigationView)findViewById(R.id.navigationView);
-     //   navigationView.setItemTextColor(ColorStateList.valueOf(0XffFFFFFF));
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
