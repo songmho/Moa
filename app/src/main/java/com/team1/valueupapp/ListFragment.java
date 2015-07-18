@@ -9,20 +9,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by eugene on 2015-06-30.
  */
+
 public class ListFragment extends Fragment {
+
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     LinearLayout cur_container;
     int cur_fragment;
-    public ListFragment(){}
-
+    List<ListRecyclerItem> items;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +35,7 @@ public class ListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_list,container,false);
+        cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView=(RecyclerView)cur_container.findViewById(R.id.recyclerview);
 
         Bundle bundle=this.getArguments();
@@ -39,34 +44,38 @@ public class ListFragment extends Fragment {
         layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        List<ListRecyclerItem> items=new ArrayList<>();
-        ListRecyclerItem[] item = new ListRecyclerItem[6];
+        items=new ArrayList<>();
         switch (cur_fragment){
             case 0:
-                item[0]=new ListRecyclerItem(R.drawable.splash_logo,"팀빌딩어플","서완규",false,"팀빌딩을 위한 어플");
-                item[1]=new ListRecyclerItem(R.drawable.test2,"핼스어플","최에스더",false,"건강을 위한 물먹기 알람 어플");
-                item[2]=new ListRecyclerItem(R.drawable.test3,"가계부어플","황의찬",false,"모르는 사이에 빠져나가는 돈!");
-                item[3]=new ListRecyclerItem(R.drawable.test4,"밥먹기어플","송명호",false,"같이 밥먹어요!");
-                item[4]=new ListRecyclerItem(R.drawable.test,"여행어플","김유진",false,"사진과 함께 여행을!!");
-                item[5]=new ListRecyclerItem(R.drawable.test2,"고민어플","한혜미",false,"고민이 많으신가요?");
-                items.addAll(Arrays.asList(item).subList(0, 6));
+                getListData("plan");
                 break;
             case 1:
-                item[0]=new ListRecyclerItem(R.drawable.test,"","송명호",false,"c, c++, 안드로이드,java, 포토샵 쪼금");
-                item[1]=new ListRecyclerItem(R.drawable.test3,"","김유진",false,"c, c++, java, html, css");
-                item[2]=new ListRecyclerItem(R.drawable.test4,"","한혜미",false,"c, c++, java, mysql");
-                items.addAll(Arrays.asList(item).subList(0, 3));
+                getListData("dev");
                 break;
             case 2:
-                item[0]=new ListRecyclerItem(R.drawable.test2,"","최에스더",false,"포토샵, 일러스트레이터, UI, UX, 인디자인");
-                item[1]=new ListRecyclerItem(R.drawable.test4,"","황의찬",false,"포토샵, 일러스트레이터, HTML, CSS");
-                items.addAll(Arrays.asList(item).subList(0, 2));
+                getListData("dis");
                 break;
             default:
                 break;
         }
-        recyclerView.setAdapter(new RecyclerAdpater(getActivity(),items,R.layout.item_listrecycler,0));
 
         return cur_container;
     }
+    private void getListData(String job) {
+        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_people");
+        parseQuery.whereContains("job", job);
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                for (int i=0;i<list.size();i++) {
+                    ListRecyclerItem item = new ListRecyclerItem(R.drawable.splash_logo,
+                            list.get(i).getString("info"),list.get(i).getString("name"), false, "");
+                    items.add(item);
+                }
+                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
+            }
+        });
+    }
+
+
 }
