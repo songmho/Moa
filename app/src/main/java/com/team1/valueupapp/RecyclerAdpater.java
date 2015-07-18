@@ -107,14 +107,18 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 Grid_Item item_grid = items_grid.get(i);
                 viewHolder.state.setText(item_grid.getState());
                 viewHolder.idea.setText(item_grid.getIdea());
-                viewHolder.plan.setText(String.valueOf("" + item_grid.getPlan()));
-                viewHolder.develop.setText(String.valueOf(""+item_grid.getDevelop()));
-                viewHolder.design.setText(String.valueOf(""+item_grid.getDesign()));
+                viewHolder.plan.setText(String.valueOf(item_grid.getPlan()));
+                viewHolder.max_plan.setText(String.valueOf(item_grid.getMax_plan()));
+                viewHolder.develop.setText(String.valueOf(item_grid.getDevelop()));
+                viewHolder.max_dev.setText(String.valueOf(item_grid.getMax_dev()));
+                viewHolder.design.setText(String.valueOf(item_grid.getDesign()));
+                viewHolder.max_dis.setText(String.valueOf(item_grid.getMax_dis()));
+                viewHolder.idea_info.setText(item_grid.getIdea_info());
 
                 viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context.getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context.getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -150,6 +154,10 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         TextView develop;
         TextView design;
         TextView state;
+        TextView max_plan;
+        TextView max_dev;
+        TextView max_dis;
+        TextView idea_info;
 
         public ViewHolder(View itemView,int itemLayout) {
             super(itemView);
@@ -167,8 +175,12 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     idea=(TextView)itemView.findViewById(R.id.idea);
                     state=(TextView)itemView.findViewById(R.id.state);
                     plan=(TextView)itemView.findViewById(R.id.plan);
+                    max_plan=(TextView)itemView.findViewById(R.id.max_plan);
                     develop=(TextView)itemView.findViewById(R.id.develop);
+                    max_dev=(TextView)itemView.findViewById(R.id.max_develop);
                     design=(TextView)itemView.findViewById(R.id.design);
+                    max_dis=(TextView)itemView.findViewById(R.id.max_design);
+                    idea_info=(TextView)itemView.findViewById(R.id.idea_info);
                     cardView=(CardView)itemView.findViewById(R.id.cardview);
                     break;
             }
