@@ -18,6 +18,10 @@
 
 
         </activity>
+        <activity android:name=".loginActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
 
 
         <activity

@@ -29,13 +29,15 @@
             android:layout_marginTop="59dp"
             android:hint="이름"
             android:textColorHint="#ffffff"
-            android:id="@+id/edittext_1" />
+            android:id="@+id/id_text"
+            />
         <EditText
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:hint="휴대폰 번호(01012345678)"
             android:textColorHint="#ffffff"
             android:layout_marginTop="12dp"
+            android:id="@+id/pass_text"
             />
         <Button
             android:layout_width="250dp"
@@ -44,7 +46,8 @@
             android:background="@color/ColorPrimary"
             android:textColor="#ffffff"
             android:textSize="20dp"
-            android:text="Login"/>
+            android:text="Login"
+            android:id="@+id/login_btn"/>
 
         
     </LinearLayout>

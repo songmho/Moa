@@ -34,7 +34,7 @@ public class SplashActivity extends Activity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this, loginActivity.class));
                     finish();
                 }//run
 
