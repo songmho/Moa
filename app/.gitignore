@@ -1,1 +1,52 @@
-/build
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+.settings/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+
+# IntelliJ IDEA (Android Studio files)
+.idea
+out
+*.iml
+
+# SVN files
+.svn
+
+# Mercurial files
+.hg
+
+#lint
+lint.xml
+
+# gradle
+.gradle/
+build/
+gradle/
+
+# sonar
+.sonar/
+
+# etc
+.DS_Store
+changelog.xml
+
+# crashtics
+crashlytics.properties
+crashlytics-build.properties
+com_crashlytics_export_strings.xml
