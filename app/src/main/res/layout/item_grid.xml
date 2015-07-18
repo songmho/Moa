@@ -26,7 +26,7 @@
                     android:padding="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/status"
+                    android:id="@+id/state"
                     android:textSize="20dp"
                     android:text="팀빌딩 중"/>
 
@@ -107,6 +107,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/idea_info"
                     android:text="스팩에 치인 대학생들을 위한 간편 스터디 앱 모입"/>
             </LinearLayout>
 

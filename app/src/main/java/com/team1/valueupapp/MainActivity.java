@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ActionBarActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
