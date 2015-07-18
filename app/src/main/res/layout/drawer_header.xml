@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:orientation="vertical"
@@ -11,13 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
             <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/test"
-                app:border_color="#FFFFFF"
-                app:border_width="2dp"/>
+                android:src="@drawable/splash_logo"/>
     <TextView
         android:id="@+id/name"
         style="@style/TextAppearance.AppCompat.Subhead"
@@ -26,6 +24,6 @@
         android:layout_gravity="bottom"
         android:layout_margin="16dp"
         android:textColor="#FFFFFF"
-        android:text="최에스더" />
+        android:text="null" />
     </LinearLayout>
 </FrameLayout>

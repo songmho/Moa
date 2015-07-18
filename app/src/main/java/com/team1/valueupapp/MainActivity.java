@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.parse.ParseUser;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends ActionBarActivity {
 
     DrawerLayout drawerLayout;
@@ -53,8 +55,12 @@ public class MainActivity extends ActionBarActivity {
         fragmentTransaction.add(R.id.container, cur_fragment);
         fragmentTransaction.commit();
         drawerLayout=(DrawerLayout)findViewById(R.id.drawerlayout);
+
         navigationView=(NavigationView)findViewById(R.id.navigationView);
 
+        CircleImageView c=(CircleImageView)navigationView.findViewById(R.id.profile);
+        TextView t=(TextView)navigationView.findViewById(R.id.name);
+        t.setText("Hello");
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
