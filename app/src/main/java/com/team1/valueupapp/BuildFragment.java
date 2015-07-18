@@ -50,12 +50,10 @@ public class BuildFragment extends Fragment {
             }
         });
 
-
+        final List<Grid_Item> items=new ArrayList<>();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
         query.findInBackground(new FindCallback<ParseObject>() {
-
-            final List<Grid_Item> items=new ArrayList<>();
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
