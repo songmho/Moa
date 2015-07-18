@@ -17,13 +17,17 @@ public class Moa extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+
+        // 개발 버전에서는 Crashlytics log가 발생하지 않도록 예외처리
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, new Crashlytics());
+        }
 
         //Parse.enableLocalDatastore(this);
         Parse.initialize(this, APPLICATION_ID, CLIENT_KEY);
         ParseACL defaultACL=new ParseACL();
         defaultACL.setPublicReadAccess(true);
         defaultACL.setPublicWriteAccess(true);
-        ParseACL.setDefaultACL(defaultACL,true);
+        ParseACL.setDefaultACL(defaultACL, true);
     }
 }
