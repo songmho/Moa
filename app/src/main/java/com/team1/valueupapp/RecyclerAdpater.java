@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,7 +73,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.detail.setText(item_list.getDetail());
                 viewHolder.star.setSelected(item_list.getStar());
 
-                viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                viewHolder.contaner.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                    //     Toast.makeText(context.getApplicationContext(),"list",Toast.LENGTH_SHORT).show();
@@ -139,6 +140,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         TextView detail;
         ImageButton star;
         CircleImageView profile;
+        LinearLayout contaner;
 
         CardView cardView;
 
@@ -156,7 +158,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     name = (TextView) itemView.findViewById(R.id.name);
                     star = (ImageButton) itemView.findViewById(R.id.star);
                     detail = (TextView) itemView.findViewById(R.id.detail);
-                    cardView = (CardView) itemView.findViewById(R.id.cardview);
+                    contaner=(LinearLayout)itemView.findViewById(R.id.container);
                     star.setSelected(false);
                     break;
                 case R.layout.item_grid:
