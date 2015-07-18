@@ -60,7 +60,9 @@ public class BuildFragment extends Fragment {
                     for (int i = 0; i < list.size(); i++) {
                         ParseObject ob = list.get(i);
                         Grid_Item grid_item = new Grid_Item(ob.getString("idea"), ob.getString("state"),
-                                ob.getInt("plan"), ob.getInt("dev"), ob.getInt("dis"));
+                                ob.getJSONArray("plan").length(), ob.getInt("max_plan"),
+                                ob.getJSONArray("dev").length(), ob.getInt("max_dev"),
+                                ob.getJSONArray("dis").length(), ob.getInt("max_dis"),ob.getString("info"));
                         items.add(grid_item);
                     }
                     recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_grid));
