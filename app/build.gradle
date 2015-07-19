@@ -51,7 +51,7 @@ android {
             minifyEnabled true
             zipAlignEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             if (project.hasProperty("store_file")) {
                 File signFile = rootProject.file(store_file)
