@@ -10,5 +10,11 @@
     <style name="drawer" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorPrimary">@color/ColorPrimary</item>
     </style>
+    <style name="appCompatEdittext" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorAccent">@color/TextColor</item>
+        <item name="android:cacheColorHint">@color/ColorPrimary</item>
+        <item name="android:textColorHint">@color/ColorPrimary</item>
 
+    </style>
 </resources>

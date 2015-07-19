@@ -10,6 +10,7 @@
         android:orientation="vertical"
         android:gravity="center">
         <ImageView
+            android:focusable="true"
             android:id="@+id/splash_logo"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -33,12 +34,11 @@
             >
 
             <android.support.v7.widget.AppCompatEditText
+                android:theme="@style/appCompatEdittext"
                 android:layout_width="250dp"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_marginTop="59dp"
                 android:hint="이름"
-                android:textColor="#ffffff"
-                android:textColorHint="#ffffff"
                 android:id="@+id/id_text"
                 android:singleLine="true"
                 android:maxLines="1"
@@ -54,11 +54,10 @@
             >
 
             <android.support.v7.widget.AppCompatEditText
+                android:theme="@style/appCompatEdittext"
                 android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:textColor="#ffffff"
+                android:layout_height="55dp"
                 android:hint="휴대폰 번호(01012345678)"
-                android:textColorHint="#ffffff"
                 android:layout_marginTop="12dp"
                 android:id="@+id/pass_text"
                 android:password="true"
