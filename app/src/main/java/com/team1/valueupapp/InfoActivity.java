@@ -11,7 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 import org.w3c.dom.Text;
+
+import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by songmho on 2015-07-04.
@@ -34,7 +44,7 @@ public class InfoActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-        Intent intent=getIntent();
+        final Intent intent=getIntent();
         toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -43,24 +53,40 @@ public class InfoActivity extends ActionBarActivity {
         TextView idea=(TextView)findViewById(R.id.idea);
         TextView detail=(TextView)findViewById(R.id.detail);
         final ImageButton star=(ImageButton)findViewById(R.id.star);
+        CircleImageView profile=(CircleImageView)findViewById(R.id.profile);
+
+
         //ImageView
         idea.setText(intent.getStringExtra("idea"));
         detail.setText(intent.getStringExtra("detail"));
-        star.setSelected(intent.getBooleanExtra("star",false));
+        star.setSelected(intent.getBooleanExtra("star", false));
+        profile.setImageResource(intent.getIntExtra("profile",R.drawable.splash_logo));
         ischeck=intent.getBooleanExtra("star",false);
         star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ischeck){
-                    ischeck=false;
-                    star.setSelected(false);
-                    Toast.makeText(getApplicationContext(), "관심멤버에서 제외합니다.", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    ischeck=true;
-                    star.setSelected(true);
-                    Toast.makeText(getApplicationContext(), "관심멤버에 추가합니다.", Toast.LENGTH_SHORT).show();
-                }
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_people");
+                query.whereEqualTo("name",intent.getStringExtra("name"));
+                query.whereEqualTo("info",intent.getStringExtra("idea"));
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+                        for (int i=0;i<list.size();i++) {
+                            ParseObject parseObject = list.get(i);
+                            if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name"))) {
+                                star.setSelected(false);
+                                Toast.makeText(getApplicationContext(), "관심멤버에서 제외합니다.", Toast.LENGTH_SHORT).show();
+                                parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
+                            } else {
+                                star.setSelected(true);
+                                Toast.makeText(getApplicationContext(), "관심멤버에 추가합니다.", Toast.LENGTH_SHORT).show();
+                                parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
+                            }
+                            parseObject.saveInBackground();
+                        }
+                    }
+                });
+
             }
         });
 

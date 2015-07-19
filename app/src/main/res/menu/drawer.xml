@@ -5,18 +5,22 @@
         <item
             android:id="@+id/introduce"
             android:checked="true"
+            android:icon="@drawable/ic_introduce"
             android:title="소개"
             />
         <item
             android:id="@+id/teambuild"
+            android:icon="@drawable/ic_teambuild"
             android:title="팀빌딩"
             />
         <item
             android:id="@+id/basket"
+            android:icon="@drawable/ic_basket"
             android:title="관심멤버"
             />
         <item
             android:id="@+id/setup"
+            android:icon="@drawable/ic_setting"
             android:title="설정"
             />
     </group>

@@ -24,7 +24,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
-        versionName "0.396"
+        versionName "0.400"
     }
 
     if (project.hasProperty("store_file")) {
