@@ -34,38 +34,31 @@ public class loginActivity extends ActionBarActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //startActivity(new Intent(loginActivity.this, MainActivity.class));
-                //finish();
-
-                ParseUser.logInInBackground(String.valueOf(id_text.getText()), String.valueOf(pass_text.getText()), new LogInCallback() {
+                new Thread(new Runnable() {
                     @Override
-                    public void done(ParseUser user, ParseException e) {
-                        if(user != null){
-
-
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            progressBar.setVisibility(View.VISIBLE);
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBar.setVisibility(View.VISIBLE);
+                                ParseUser.logInInBackground(String.valueOf(id_text.getText()), String.valueOf(pass_text.getText()), new LogInCallback() {
+                                    @Override
+                                    public void done(ParseUser user, ParseException e) {
+                                        progressBar.setVisibility(View.GONE);
+                                        if(user != null){
                                             startActivity(new Intent(loginActivity.this, MainActivity.class));
                                             finish();
+                                        }else{
+                                            Toast.makeText(getApplicationContext(),"틀렸습니다.",Toast.LENGTH_SHORT).show();
                                         }
-                                    });
-                                }
-                            }).start();
 
-                        }else{
-                            Toast.makeText(getApplicationContext(),"틀렸습니다.",Toast.LENGTH_SHORT).show();
-                        }
 
+                                    }
+                                });
+                            }
+                        });
                     }
-
-                });
-
+                }).start();
 
             }
         });

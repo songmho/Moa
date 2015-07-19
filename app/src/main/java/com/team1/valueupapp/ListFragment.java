@@ -94,19 +94,21 @@ public class ListFragment extends Fragment {
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                for (int i=0;i<list.size();i++) {
-                    ListRecyclerItem item;
-                    ParseObject parseObject=list.get(i);
-                    if(parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name")))
-                        item = new ListRecyclerItem(R.drawable.splash_logo,
-                                parseObject.getString("info"),parseObject.getString("name"), true);
-                    else
-                        item = new ListRecyclerItem(R.drawable.splash_logo,
-                                parseObject.getString("info"),parseObject.getString("name"), false);
-                    items.add(item);
-                }
-                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler,0));
+                if (list != null){
+                    for (int i = 0; i < list.size(); i++) {
+                        ListRecyclerItem item;
+                        ParseObject parseObject = list.get(i);
+                        if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name")))
+                            item = new ListRecyclerItem(R.drawable.splash_logo,
+                                    parseObject.getString("info"), parseObject.getString("name"), true);
+                        else
+                            item = new ListRecyclerItem(R.drawable.splash_logo,
+                                    parseObject.getString("info"), parseObject.getString("name"), false);
+                        items.add(item);
+                    }
+                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
                 progressBar.setVisibility(View.GONE);
+            }
             }
         });
     }

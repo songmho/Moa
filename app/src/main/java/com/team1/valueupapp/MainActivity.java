@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -40,14 +41,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        SharedPreferences pref=getPreferences(MODE_PRIVATE);
-        if(ParseUser.getCurrentUser()==null && pref.getInt("count",0)<=0) {
+        if(ParseUser.getCurrentUser()==null) {
             startActivity(new Intent(MainActivity.this, SplashActivity.class));
             finish();
         }
+
+        setContentView(R.layout.activity_main);
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         setUpNavDrawer();
 

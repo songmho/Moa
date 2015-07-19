@@ -10,11 +10,14 @@
     <style name="drawer" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorPrimary">@color/ColorPrimary</item>
     </style>
-    <style name="appCompatEdittext" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorAccent">@color/TextColor</item>
-        <item name="android:cacheColorHint">@color/ColorPrimary</item>
+    <style name="MyAppCompatEdittext" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:textColorHint">@color/ColorPrimary</item>
-
+        <item name="colorControlNormal">@color/ColorPrimary</item>
+        <item name="colorControlActivated">@color/ColorPrimary</item>
+    </style>
+    <style name="MyTextInputLayoutTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/ColorPrimary</item>
+        <item name="colorControlNormal">@color/ColorPrimary</item>
+        <item name="colorControlActivated">@color/ColorPrimary</item>
     </style>
 </resources>
