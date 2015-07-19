@@ -3,9 +3,9 @@ package com.team1.valueupapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -17,8 +17,8 @@ import com.parse.ParseUser;
  * Created by eugene on 2015-07-18.
  */
 public class loginActivity extends ActionBarActivity {
-    EditText id_text;
-    EditText pass_text;
+    AppCompatEditText id_text;
+    AppCompatEditText pass_text;
     Button login_btn;
     ProgressBar progressBar;
 
@@ -26,8 +26,8 @@ public class loginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        id_text= (EditText) findViewById(R.id.id_text);
-        pass_text= (EditText) findViewById(R.id.pass_text);
+        id_text= (AppCompatEditText) findViewById(R.id.id_text);
+        pass_text= (AppCompatEditText) findViewById(R.id.pass_text);
         login_btn= (Button) findViewById(R.id.login_btn);
         progressBar=(ProgressBar)findViewById(R.id.progressbar);
 
