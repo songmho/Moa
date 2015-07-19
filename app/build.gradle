@@ -26,11 +26,66 @@ android {
         versionCode 1
         versionName "0.396"
     }
+
+    if (project.hasProperty("store_file")) {
+        println 'Store File:' + store_file
+        File signFile = rootProject.file(store_file)
+        if (signFile.exists()) {
+            signingConfigs {
+                release {
+                    storeFile signFile
+                    storePassword store_password
+                    keyAlias key_alias
+                    keyPassword key_password
+                }
+            }
+        } else {
+            println 'No Keystore file..'
+        }
+    } else {
+        println 'No store_file property'
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+
+            if (project.hasProperty("store_file")) {
+                File signFile = rootProject.file(store_file)
+                if (signFile.exists()) {
+                    signingConfig signingConfigs.release
+                }
+            }
         }
+
+        debug {
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+
+            if (project.hasProperty("store_file")) {
+                File signFile = rootProject.file(store_file)
+                if (signFile.exists()) {
+                    signingConfig signingConfigs.release
+                }
+            }
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    dexOptions {
+        // preDexLibraries = false
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 }
 
