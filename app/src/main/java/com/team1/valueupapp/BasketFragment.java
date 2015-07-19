@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -24,9 +26,10 @@ import java.util.List;
  */
 public class BasketFragment extends Fragment {
 
-    LinearLayout cur_container;
+    FrameLayout cur_container;
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,31 +39,44 @@ public class BasketFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_basket, container, false);
+        cur_container=(FrameLayout)inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView=(RecyclerView)cur_container.findViewById(R.id.recyclerview);
-
-            recyclerView.setHasFixedSize(true);
-            layoutManager=new LinearLayoutManager(getActivity());
-            recyclerView.setLayoutManager(layoutManager);
+        progressBar=(ProgressBar)cur_container.findViewById(R.id.progressbar);
+        recyclerView.setHasFixedSize(true);
+        layoutManager=new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
         makeList();
         return cur_container;
     }
 
     private void makeList() {
-        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_people");
-        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));       //pick array에 현재 유저네임 있으면 그사람 출력.
-        final List<ListRecyclerItem> items=new ArrayList<>();
-        query.findInBackground(new FindCallback<ParseObject>() {
+        new Thread(new Runnable() {
             @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                for(int i=0;i<list.size();i++){
-                    ListRecyclerItem item=new ListRecyclerItem(R.drawable.splash_logo,list.get(i).getString("info"),
-                            list.get(i).getString("name"),true);
-                    items.add(item);
-                }
-                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_people");
+                        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));       //pick array에 현재 유저네임 있으면 그사람 출력.
+                        final List<ListRecyclerItem> items=new ArrayList<>();
+                        query.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> list, ParseException e) {
+                                for(int i=0;i<list.size();i++){
+                                    ListRecyclerItem item=new ListRecyclerItem(R.drawable.splash_logo,list.get(i).getString("info"),
+                                            list.get(i).getString("name"),true);
+                                    items.add(item);
+                                }
+                                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                });
             }
-        });
+        }).start();
+
     }
 }

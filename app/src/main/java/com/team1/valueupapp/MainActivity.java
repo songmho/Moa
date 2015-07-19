@@ -58,12 +58,7 @@ public class MainActivity extends ActionBarActivity {
 
         navigationView=(NavigationView)findViewById(R.id.navigationView);
 
-        CircleImageView c=(CircleImageView)navigationView.findViewById(R.id.profile);
-        TextView t=(TextView)navigationView.findViewById(R.id.name);
-        if(ParseUser.getCurrentUser()!=null)
-            t.setText(ParseUser.getCurrentUser().getString("name"));
-        else
-            t.setText("Hello");
+        makeDrawerHeader();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -107,6 +102,15 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    private void makeDrawerHeader() {
+        CircleImageView c=(CircleImageView)navigationView.findViewById(R.id.profile);
+        TextView t=(TextView)navigationView.findViewById(R.id.name);
+        if(ParseUser.getCurrentUser()!=null)
+            t.setText(ParseUser.getCurrentUser().getString("name"));
+        else
+            t.setText("Hello");
     }
 
     @Override

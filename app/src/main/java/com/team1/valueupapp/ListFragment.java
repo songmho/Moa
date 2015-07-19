@@ -2,6 +2,8 @@ package com.team1.valueupapp;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
+import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -28,9 +32,10 @@ public class ListFragment extends Fragment {
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    LinearLayout cur_container;
+    FrameLayout cur_container;
     int cur_fragment;
     List<ListRecyclerItem> items;
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,10 @@ public class ListFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_list, container, false);
+        cur_container=(FrameLayout)inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView=(RecyclerView)cur_container.findViewById(R.id.recyclerview);
+        progressBar=(ProgressBar)cur_container.findViewById(R.id.progressbar);
+
         Bundle bundle=this.getArguments();
         cur_fragment=bundle.getInt("cur_fragment",0);
         recyclerView.setHasFixedSize(true);
@@ -54,20 +61,31 @@ public class ListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        items.clear();
-        switch (cur_fragment) {
-            case 0:
-                getListData("plan");
-                break;
-            case 1:
-                getListData("dev");
-                break;
-            case 2:
-                getListData("dis");
-                break;
-            default:
-                break;
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
+                        items.clear();
+                        switch (cur_fragment) {
+                            case 0:
+                                getListData("plan");
+                                break;
+                            case 1:
+                                getListData("dev");
+                                break;
+                            case 2:
+                                getListData("dis");
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     private void getListData(String job) {
@@ -88,6 +106,7 @@ public class ListFragment extends Fragment {
                     items.add(item);
                 }
                 recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler,0));
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

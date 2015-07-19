@@ -3,7 +3,9 @@ package com.team1.valueupapp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +31,8 @@ public class BuildFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     FrameLayout cur_container;
+    SwipeRefreshLayout refreshLayout;
+    List<Grid_Item> items;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,39 +41,77 @@ public class BuildFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         cur_container=(FrameLayout)inflater.inflate(R.layout.fragment_build, container, false);
         recyclerView=(RecyclerView)cur_container.findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-
         ImageButton add=(ImageButton)cur_container.findViewById(R.id.add);
+        refreshLayout=(SwipeRefreshLayout)cur_container.findViewById(R.id.refreshlayout);
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager= new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
+        items=new ArrayList<>();
+     //   recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity().getApplicationContext(),"add_준비중입니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), "add_준비중입니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        final List<Grid_Item> items=new ArrayList<>();
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {     //swiperefreshlayout이 trigger됬을 때
             @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < list.size(); i++) {
-                        ParseObject ob = list.get(i);
-                        Grid_Item grid_item = new Grid_Item(ob.getString("idea"), ob.getString("state"),
-                                ob.getJSONArray("plan").length(), ob.getInt("max_plan"),
-                                ob.getJSONArray("dev").length(), ob.getInt("max_dev"),
-                                ob.getJSONArray("dis").length(), ob.getInt("max_dis"),ob.getString("info"));
-                        items.add(grid_item);
-                    }
-                    recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_grid));
-                }
+            public void onRefresh() {
+                makingList();
             }
         });
 
         return cur_container;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        makingList();
+    }
+
+    private void makingList() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        items.clear();      //item array 초기화
+
+                        refreshLayout.setRefreshing(true);      //swiperefreshlayout 보이게 하기
+
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
+                        query.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> list, ParseException e) {
+                                if (e == null) {
+                                    for (int i = 0; i < list.size(); i++) {
+                                        ParseObject ob = list.get(i);
+                                        Grid_Item grid_item = new Grid_Item(ob.getString("idea"), ob.getString("state"),
+                                                ob.getJSONArray("plan").length(), ob.getInt("max_plan"),
+                                                ob.getJSONArray("dev").length(), ob.getInt("max_dev"),
+                                                ob.getJSONArray("dis").length(), ob.getInt("max_dis"),ob.getString("info"));
+                                        items.add(grid_item);
+                                    }
+                                    recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_grid));
+                                    refreshLayout.setRefreshing(false);         //데이터 다 불러온 후 swiperefreshlayout 보이지 않게.
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }).start();
+
+
     }
 }
