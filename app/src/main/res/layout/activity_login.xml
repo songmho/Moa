@@ -23,29 +23,53 @@
             android:textColor="@color/ColorPrimary"
             android:textSize="30dp"
             />
-        <EditText
+
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:layout_marginTop="59dp"
-            android:hint="이름"
-            android:textColor="#ffffff"
-            android:textColorHint="#ffffff"
-            android:id="@+id/id_text"
-            android:singleLine="true"
-            android:maxLines="1"
-            />
-        <EditText
+
+            >
+
+            <android.support.v7.widget.AppCompatEditText
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="59dp"
+                android:hint="이름"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff"
+                android:id="@+id/id_text"
+                android:singleLine="true"
+                android:maxLines="1"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:textColor="#ffffff"
-            android:hint="휴대폰 번호(01012345678)"
-            android:textColorHint="#ffffff"
             android:layout_marginTop="12dp"
-            android:id="@+id/pass_text"
-            android:password="true"
-            android:singleLine="true"
-            android:maxLines="1"
-            />
+
+            >
+
+            <android.support.v7.widget.AppCompatEditText
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:textColor="#ffffff"
+                android:hint="휴대폰 번호(01012345678)"
+                android:textColorHint="#ffffff"
+                android:layout_marginTop="12dp"
+                android:id="@+id/pass_text"
+                android:password="true"
+                android:singleLine="true"
+                android:maxLines="1"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
         <Button
             android:layout_width="250dp"
             android:layout_height="50dp"
@@ -63,8 +87,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:background="@color/ColorPrimary"
-        android:visibility="gone"
+        android:background="#262626"
+        android:visibility="invisible"
         android:id="@+id/progressbar"/>
 
 

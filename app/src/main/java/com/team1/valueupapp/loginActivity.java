@@ -42,8 +42,22 @@ public class loginActivity extends ActionBarActivity {
                     @Override
                     public void done(ParseUser user, ParseException e) {
                         if(user != null){
-                            startActivity(new Intent(loginActivity.this, MainActivity.class));
-                            finish();
+
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progressBar.setVisibility(View.VISIBLE);
+                                            startActivity(new Intent(loginActivity.this, MainActivity.class));
+                                            finish();
+                                        }
+                                    });
+                                }
+                            }).start();
+
                         }else{
                             Toast.makeText(getApplicationContext(),"틀렸습니다.",Toast.LENGTH_SHORT).show();
                         }
@@ -51,8 +65,6 @@ public class loginActivity extends ActionBarActivity {
                     }
 
                 });
-
-
 
 
             }
