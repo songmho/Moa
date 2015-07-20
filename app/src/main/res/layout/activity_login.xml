@@ -28,15 +28,15 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="250dp"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginTop="59dp"
-
+            android:theme="@style/MyTextInputLayoutTextAppearance"
             >
 
             <android.support.v7.widget.AppCompatEditText
-                android:theme="@style/appCompatEdittext"
+                android:theme="@style/MyAppCompatEdittext"
                 android:layout_width="250dp"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="59dp"
                 android:hint="이름"
                 android:id="@+id/id_text"
@@ -48,19 +48,19 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="250dp"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_marginTop="12dp"
-
+            android:theme="@style/MyTextInputLayoutTextAppearance"
             >
 
             <android.support.v7.widget.AppCompatEditText
-                android:theme="@style/appCompatEdittext"
+                android:theme="@style/MyAppCompatEdittext"
                 android:layout_width="250dp"
-                android:layout_height="55dp"
+                android:layout_height="wrap_content"
                 android:hint="휴대폰 번호(01012345678)"
                 android:layout_marginTop="12dp"
                 android:id="@+id/pass_text"
-                android:password="true"
+                android:inputType="textPassword"
                 android:singleLine="true"
                 android:maxLines="1"
                 />
