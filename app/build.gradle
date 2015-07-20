@@ -1,3 +1,11 @@
+ext {
+    verCode = 1
+
+    // Jenkins로 빌드하는 경우 BUILD_NUMBER를 Version Code로 사용한다.
+    buildNumber = "$System.env.BUILD_NUMBER"
+    if (buildNumber.toString().size() > 0 && buildNumber.isInteger()) verCode = buildNumber.toInteger()
+}
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -23,7 +31,7 @@ android {
         applicationId "com.team1.valueupapp"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 1
+        versionCode verCode
         versionName "0.410"
     }
 
