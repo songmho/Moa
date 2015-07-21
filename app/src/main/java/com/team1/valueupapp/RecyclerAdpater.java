@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,7 +67,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         switch (itemLayout) {
-            case R.layout.item_listrecycler:
+            case R.layout.item_listrecycler:                                 //소개 및 관심멤버페이지의 경우
                 final ListRecyclerItem item_list = items_list.get(i);
                 viewHolder.itemView.setTag(item_list);
                 viewHolder.profile.setImageResource(item_list.getProfile());
@@ -77,8 +78,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.contaner.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                   //     Toast.makeText(context.getApplicationContext(),"list",Toast.LENGTH_SHORT).show();
                         Intent goto_info=new Intent(context.getApplicationContext(),InfoActivity.class);
+                        goto_info.putExtra("cur_job",item_list.getJob());
                         goto_info.putExtra("name",item_list.getName());
                         goto_info.putExtra("profile",item_list.getProfile());
                         goto_info.putExtra("idea",item_list.getApp_name());
@@ -95,8 +96,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 });
                 break;
 
-            case R.layout.item_grid:
-                Grid_Item item_grid = items_grid.get(i);
+            case R.layout.item_grid:                                 //팀빌딩페이지의 경우
+                final Grid_Item item_grid = items_grid.get(i);
                 viewHolder.state.setText(item_grid.getState());
                 viewHolder.idea.setText(item_grid.getIdea());
                 viewHolder.plan.setText(String.valueOf(item_grid.getPlan()));
@@ -110,7 +111,9 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context.getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
+                        Intent goto_team=new Intent(context.getApplicationContext(),TeamActivity.class);
+                        goto_team.putExtra("idea",item_grid.getIdea());
+                        context.startActivity(goto_team);
 
                     }
                 });
@@ -127,20 +130,46 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 for(int i=0;i<list.size();i++){
-                    ParseObject parseObject=list.get(i);
+                    final ParseObject parseObject=list.get(i);
+
+                    Snackbar snackbar;
+
                     if(parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name"))){
-                            item_list.setStar(false);
-                            viewHolder.star.setSelected(false);
-                            Toast.makeText(context.getApplicationContext(), "관심멤버에서 제외합니다.", Toast.LENGTH_SHORT).show();
-                            parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
+                       item_list.setStar(false);
+                        viewHolder.star.setSelected(false);
+                        snackbar=Snackbar.make(item_list.getRecyclerView(),"관심멤버에서 제외합니다.",Snackbar.LENGTH_LONG);
+                        parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
+                        parseObject.saveInBackground();
+                        snackbar.setAction("실행취소", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                item_list.setStar(true);
+                                viewHolder.star.setSelected(true);
+                                parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
+                                parseObject.saveInBackground();
+                            }
+                        });
+                        snackbar.show();
+
                     }
                     else{
-                            item_list.setStar(true);
-                            viewHolder.star.setSelected(true);
-                            Toast.makeText(context.getApplicationContext(), "관심멤버에 추가합니다.", Toast.LENGTH_SHORT).show();
-                            parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
+                        item_list.setStar(true);
+                        viewHolder.star.setSelected(true);
+                        snackbar=Snackbar.make(item_list.getRecyclerView(),"관심멤버에 추가합니다.",Snackbar.LENGTH_LONG);
+                        parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
+                        parseObject.saveInBackground();
+                        snackbar.setAction("실행취소", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                item_list.setStar(false);
+                                viewHolder.star.setSelected(false);
+                                parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
+                                parseObject.saveInBackground();
+                            }
+                        });
+                        snackbar.show();
+
                     }
-                    parseObject.saveInBackground();
                 }
             }
         });
@@ -151,7 +180,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         switch (itemLayout) {
             case R.layout.item_listrecycler:
             return items_list.size();
-            case R.layout.item_grid:
+            case R.layout.item_grid:                                //팀빌딩페이지의 경우
                 return  items_grid.size();
         }
         return 0;
@@ -180,7 +209,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         public ViewHolder(View itemView,int itemLayout) {
             super(itemView);
             switch (itemLayout) {
-                case R.layout.item_listrecycler:
+                case R.layout.item_listrecycler:                                //소개 및 관심멤버페이지의 경우
                     profile=(CircleImageView)itemView.findViewById(R.id.profile);
                     app_name = (TextView) itemView.findViewById(R.id.app_name);
                     name = (TextView) itemView.findViewById(R.id.name);
@@ -189,7 +218,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     contaner=(LinearLayout)itemView.findViewById(R.id.container);
                     star.setSelected(false);
                     break;
-                case R.layout.item_grid:
+                case R.layout.item_grid:                                //팀빌딩페이지의 경우
                     idea=(TextView)itemView.findViewById(R.id.idea);
                     state=(TextView)itemView.findViewById(R.id.state);
                     plan=(TextView)itemView.findViewById(R.id.plan);

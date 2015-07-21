@@ -1,18 +1,13 @@
 package com.team1.valueupapp;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.parse.FindCallback;
@@ -33,7 +28,7 @@ public class ListFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     FrameLayout cur_container;
-    int cur_fragment;
+    int cur_job;
     List<ListRecyclerItem> items;
     ProgressBar progressBar;
 
@@ -49,7 +44,7 @@ public class ListFragment extends Fragment {
         progressBar=(ProgressBar)cur_container.findViewById(R.id.progressbar);
 
         Bundle bundle=this.getArguments();
-        cur_fragment=bundle.getInt("cur_fragment",0);
+        cur_job =bundle.getInt("cur_job",0);
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -69,7 +64,7 @@ public class ListFragment extends Fragment {
                     public void run() {
                         progressBar.setVisibility(View.VISIBLE);
                         items.clear();
-                        switch (cur_fragment) {
+                        switch (cur_job) {
                             case 0:
                                 getListData("plan");
                                 break;
@@ -100,10 +95,10 @@ public class ListFragment extends Fragment {
                         ParseObject parseObject = list.get(i);
                         if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name")))
                             item = new ListRecyclerItem(R.drawable.splash_logo,
-                                    parseObject.getString("info"), parseObject.getString("name"), true);
+                                    parseObject.getString("info"), parseObject.getString("name"), true,cur_job,recyclerView);
                         else
                             item = new ListRecyclerItem(R.drawable.splash_logo,
-                                    parseObject.getString("info"), parseObject.getString("name"), false);
+                                    parseObject.getString("info"), parseObject.getString("name"), false,cur_job,recyclerView);
                         items.add(item);
                     }
                 recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));

@@ -28,7 +28,7 @@ import com.parse.ParseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;

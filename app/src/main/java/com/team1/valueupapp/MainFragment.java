@@ -4,19 +4,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 /**
  * Created by songmho on 2015-07-03.
  */
-public class MainFragment extends Fragment implements View.OnClickListener {
+public class MainFragment extends Fragment {
     LinearLayout cur_container;
     ViewPager viewPager;
 
@@ -35,23 +32,5 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         return cur_container;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-         /*   case R.id.btn_a:
-                viewPager.setCurrentItem(0);
-                break;
-            case R.id.btn_b:
-                viewPager.setCurrentItem(1);
-                break;
-            case R.id.btn_c:
-                viewPager.setCurrentItem(2);
-                break;
-           */ default:
-                break;
-
-        }
     }
 }

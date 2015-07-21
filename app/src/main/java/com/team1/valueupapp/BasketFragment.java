@@ -30,6 +30,7 @@ public class BasketFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    int cur_job;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +66,14 @@ public class BasketFragment extends Fragment {
                             @Override
                             public void done(List<ParseObject> list, ParseException e) {
                                 for(int i=0;i<list.size();i++){
+                                    if(list.get(i).getString("job").equals("plan"))
+                                        cur_job=0;
+                                    else if(list.get(i).getString("job").equals("dev"))
+                                        cur_job=1;
+                                    else
+                                        cur_job=2;
                                     ListRecyclerItem item=new ListRecyclerItem(R.drawable.splash_logo,list.get(i).getString("info"),
-                                            list.get(i).getString("name"),true);
+                                            list.get(i).getString("name"),true,cur_job,recyclerView);
                                     items.add(item);
                                 }
                                 recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));

@@ -2,6 +2,8 @@ package com.team1.valueupapp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,7 +32,7 @@ import java.util.List;
 public class BuildFragment extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
-    FrameLayout cur_container;
+    CoordinatorLayout cur_container;
     SwipeRefreshLayout refreshLayout;
     List<Grid_Item> items;
     @Override
@@ -42,9 +44,9 @@ public class BuildFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        cur_container=(FrameLayout)inflater.inflate(R.layout.fragment_build, container, false);
+        cur_container=(CoordinatorLayout)inflater.inflate(R.layout.fragment_build, container, false);
         recyclerView=(RecyclerView)cur_container.findViewById(R.id.recyclerview);
-        ImageButton add=(ImageButton)cur_container.findViewById(R.id.add);
+        FloatingActionButton add=(FloatingActionButton)cur_container.findViewById(R.id.add);
         refreshLayout=(SwipeRefreshLayout)cur_container.findViewById(R.id.refreshlayout);
 
         recyclerView.setHasFixedSize(true);
@@ -52,7 +54,6 @@ public class BuildFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         items=new ArrayList<>();
-     //   recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +88,7 @@ public class BuildFragment extends Fragment {
                     public void run() {
                         items.clear();      //item array 초기화
 
-                        refreshLayout.setRefreshing(true);      //swiperefreshlayout 보이게 하기
+                         refreshLayout.setRefreshing(true);      //swiperefreshlayout 보이게 하기
 
                         ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
                         query.findInBackground(new FindCallback<ParseObject>() {

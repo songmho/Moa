@@ -18,17 +18,17 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         fragments[0] = new ListFragment();
         bundle[0]=new Bundle();
-        bundle[0].putInt("cur_fragment",0);
+        bundle[0].putInt("cur_job",0);
         fragments[0].setArguments(bundle[0]);
 
         fragments[1] = new ListFragment();
         bundle[1]=new Bundle();
-        bundle[1].putInt("cur_fragment",1);
+        bundle[1].putInt("cur_job",1);
         fragments[1].setArguments(bundle[1]);
 
         fragments[2] = new ListFragment();
         bundle[2]=new Bundle();
-        bundle[2].putInt("cur_fragment",2);
+        bundle[2].putInt("cur_job",2);
         fragments[2].setArguments(bundle[2]);
     }
 

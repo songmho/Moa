@@ -1,23 +1,31 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Base.Theme.SupportDesign"/>
+    <style name="Base.Theme.SupportDesign" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/transparent</item>
     </style>
 
     <style name="drawer" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorPrimary">@color/ColorPrimary</item>
     </style>
+
     <style name="MyAppCompatEdittext" parent="ThemeOverlay.AppCompat.Dark">
         <item name="android:textColorHint">@color/ColorPrimary</item>
         <item name="colorControlNormal">@color/ColorPrimary</item>
         <item name="colorControlActivated">@color/ColorPrimary</item>
     </style>
+
     <style name="MyTextInputLayoutTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColorHint">@color/ColorPrimary</item>
         <item name="colorControlNormal">@color/ColorPrimary</item>
         <item name="colorControlActivated">@color/ColorPrimary</item>
+    </style>
+
+    <style name="FabTheme">
+        <item name="colorAccent">#00BCD4</item>
     </style>
 </resources>
