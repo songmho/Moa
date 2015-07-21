@@ -23,6 +23,9 @@ import java.util.List;
  * Created by songmho on 2015-07-04.
  */
 public class InfoActivity extends AppCompatActivity {
+    FloatingActionButton fab;
+    TextView mydetail;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -46,10 +49,9 @@ public class InfoActivity extends AppCompatActivity {
         TextView myjob=(TextView)findViewById(R.id.myjob);
         TextView title=(TextView)findViewById(R.id.info);
         TextView myinfo=(TextView)findViewById(R.id.myinfo);
-        TextView mydetail=(TextView)findViewById(R.id.mydetail);
+        mydetail=(TextView)findViewById(R.id.mydetail);
 
-        FloatingActionButton fab=(FloatingActionButton)findViewById(R.id.fab);
-
+        fab=(FloatingActionButton)findViewById(R.id.fab);
         collapsing_toolbar.setTitle(intent.getStringExtra("name"));
 
         switch (intent.getIntExtra("cur_job",0)){      //직종과 아이디어 및 스킬 텍스트 설정
@@ -66,20 +68,23 @@ public class InfoActivity extends AppCompatActivity {
                 title.setText("스킬");
                 break;
         }
-        myinfo.setText(intent.getStringExtra("idea"));
+        String idea=intent.getStringExtra("idea").replaceAll(", ","\n- ");
+        idea="- "+idea;
+        myinfo.setText(idea);
+
+        loadingData(intent, 0);     //detail 불러오기
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setChecking(intent);
+                loadingData(intent, 1);
             }
         });
 
 
     }
 
-    private void setChecking(Intent intent) {
-        final View container=findViewById(R.id.container);
+    private void loadingData(Intent intent, final int action) {
         ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_people");
         query.whereEqualTo("name",intent.getStringExtra("name"));
         query.whereEqualTo("info",intent.getStringExtra("idea"));
@@ -88,36 +93,49 @@ public class InfoActivity extends AppCompatActivity {
             public void done(List<ParseObject> list, ParseException e) {
                 for (int i=0;i<list.size();i++) {
                     final ParseObject parseObject = list.get(i);
-                    if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name"))) {
-
-                        Snackbar snackbar=Snackbar.make(container,"관심멤버에서 제외합니다.",Snackbar.LENGTH_LONG);
-                        parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
-                        parseObject.saveInBackground();
-
-                        snackbar.setAction("실행취소", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
-                                parseObject.saveInBackground();
-                            }
-                        });
-                        snackbar.show();
-
-                    } else {
-                        Snackbar snackbar=Snackbar.make(container,"관심멤버에 추가합니다.",Snackbar.LENGTH_LONG);
-                        parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
-                        parseObject.saveInBackground();
-                        snackbar.setAction("실행취소", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
-                                parseObject.saveInBackground();
-                            }
-                        });
-                        snackbar.show();
-                    }
+                    if(action==0)
+                        mydetail.setText(parseObject.getString("detail"));
+                    else
+                        fab_clicked(parseObject);
                 }
             }
         });
+    }
+
+    private void fab_clicked(final ParseObject parseObject) {
+        View container=findViewById(R.id.container);
+
+        if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name"))) {
+
+            Snackbar snackbar=Snackbar.make(container,"관심멤버에서 제외합니다.",Snackbar.LENGTH_LONG);
+            parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
+            parseObject.saveInBackground();
+            fab.setImageResource(R.drawable.add);
+
+            snackbar.setAction("실행취소", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
+                    parseObject.saveInBackground();
+                    fab.setImageResource(R.drawable.ic_check_white);
+                }
+            });
+            snackbar.show();
+
+        } else {
+            Snackbar snackbar=Snackbar.make(container,"관심멤버에 추가합니다.",Snackbar.LENGTH_LONG);
+            parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
+            parseObject.saveInBackground();
+            fab.setImageResource(R.drawable.ic_check_white);
+            snackbar.setAction("실행취소", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
+                    parseObject.saveInBackground();
+                    fab.setImageResource(R.drawable.add);
+                }
+            });
+            snackbar.show();
+        }
     }
 }

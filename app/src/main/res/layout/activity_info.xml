@@ -42,7 +42,8 @@
         android:layout_gravity="fill_vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@color/BackGround">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,14 +58,15 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="15dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
-                    android:layout_marginRight="50dp"
+                    android:textColor="@color/TextColor"
                     android:text="직군"/>
                 <TextView
                     android:id="@+id/myjob"
                     android:textSize="18dp"
+                    android:textColor="@color/TextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -76,14 +78,15 @@
                 android:layout_marginBottom="15dp">
                 <TextView
                     android:id="@+id/info"
-                    android:layout_width="wrap_content"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/TextColor"
                     android:textSize="18dp"
-                    android:layout_marginRight="50dp"
                     android:text=""/>
                 <TextView
                     android:id="@+id/myinfo"
                     android:textSize="18dp"
+                    android:textColor="@color/TextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -94,14 +97,15 @@
                 android:orientation="horizontal"
                 android:layout_marginBottom="15dp">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/TextColor"
                     android:textSize="18dp"
-                    android:layout_marginRight="50dp"
                     android:text="소개"/>
                 <TextView
                     android:id="@+id/mydetail"
                     android:textSize="18dp"
+                    android:textColor="@color/TextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -111,7 +115,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_check_white_24dp"
+        android:src="@drawable/ic_check_white"
         android:layout_margin="16dp"
         android:theme="@style/FabTheme"
         app:layout_anchor="@+id/app_bar"
