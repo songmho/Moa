@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 /**
  * Created by songmho on 2015-07-21.
@@ -36,5 +38,9 @@ public class TeamActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsing_toolbar=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(intent.getStringExtra("idea"));
 
+        TextView idea=(TextView)findViewById(R.id.idea);
+        RecyclerView recyclerview=(RecyclerView)findViewById(R.id.recyclerview);
+
+        TeamlistItem item=new TeamlistItem(R.drawable.splash_logo,"최에스더",2);
     }
 }
