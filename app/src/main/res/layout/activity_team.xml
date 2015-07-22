@@ -104,7 +104,8 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/recyclerview"/>
+                android:id="@+id/recyclerview"
+                android:nestedScrollingEnabled="false"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

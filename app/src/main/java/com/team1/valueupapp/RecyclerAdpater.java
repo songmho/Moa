@@ -7,13 +7,13 @@ import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -32,6 +32,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
     Context context;
     List<ListRecyclerItem> items_list;
     List<Grid_Item> items_grid;
+    List<TeamlistItem> items_team;
     int itemLayout;
     int frag;
 
@@ -47,6 +48,12 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         this.frag=frag;
     }
 
+    public RecyclerAdpater(Context context, List<TeamlistItem> items, int item_teamlist, int i, int i1) {
+        this.context=context;
+        this.items_team=items;
+        this.itemLayout=item_teamlist;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -58,6 +65,9 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
             case R.layout.item_grid:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_grid, viewGroup, false);
                 return new ViewHolder(v, itemLayout);
+            case R.layout.item_teamlist:
+                v=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_teamlist,viewGroup, false);
+                return new ViewHolder(v,itemLayout);
 
         }
         return null;
@@ -75,15 +85,15 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.app_name.setText(item_list.getApp_name());
                 viewHolder.star.setSelected(item_list.getStar());
 
-                viewHolder.contaner.setOnClickListener(new View.OnClickListener() {
+                viewHolder.container.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent goto_info=new Intent(context.getApplicationContext(),InfoActivity.class);
-                        goto_info.putExtra("cur_job",item_list.getJob());
-                        goto_info.putExtra("name",item_list.getName());
-                        goto_info.putExtra("profile",item_list.getProfile());
-                        goto_info.putExtra("idea",item_list.getApp_name());
-                        goto_info.putExtra("star",item_list.getStar());
+                        Intent goto_info = new Intent(context.getApplicationContext(), InfoActivity.class);
+                        goto_info.putExtra("cur_job", item_list.getJob());
+                        goto_info.putExtra("name", item_list.getName());
+                        goto_info.putExtra("profile", item_list.getProfile());
+                        goto_info.putExtra("idea", item_list.getApp_name());
+                        goto_info.putExtra("star", item_list.getStar());
                         context.startActivity(goto_info);
                     }
                 });
@@ -117,6 +127,23 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
 
                     }
                 });
+                break;
+            case R.layout.item_teamlist:
+                final TeamlistItem item_team=items_team.get(i);
+                viewHolder.name.setText(item_team.getName());
+                viewHolder.job.setText(item_team.getJob());
+                viewHolder.container.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent goto_info = new Intent(context.getApplicationContext(), InfoActivity.class);
+                        goto_info.putExtra("cur_job", item_team.getJob());
+                        goto_info.putExtra("name", item_team.getName());
+                        goto_info.putExtra("profile", item_team.getProfile());
+                        context.startActivity(goto_info);
+
+                    }
+                });
+                Log.d("heee", "" + items_team.size());
                 break;
         }
     }
@@ -182,6 +209,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
             return items_list.size();
             case R.layout.item_grid:                                //팀빌딩페이지의 경우
                 return  items_grid.size();
+            case R.layout.item_teamlist:
+                return 1;
         }
         return 0;
     }
@@ -192,7 +221,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         TextView detail;
         ImageButton star;
         CircleImageView profile;
-        LinearLayout contaner;
+        LinearLayout container;
 
         CardView cardView;
 
@@ -206,6 +235,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         TextView max_dis;
         TextView idea_info;
 
+        TextView job;
+
         public ViewHolder(View itemView,int itemLayout) {
             super(itemView);
             switch (itemLayout) {
@@ -215,7 +246,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     name = (TextView) itemView.findViewById(R.id.name);
                     star = (ImageButton) itemView.findViewById(R.id.star);
                     detail = (TextView) itemView.findViewById(R.id.detail);
-                    contaner=(LinearLayout)itemView.findViewById(R.id.container);
+                    container =(LinearLayout)itemView.findViewById(R.id.container);
                     star.setSelected(false);
                     break;
                 case R.layout.item_grid:                                //팀빌딩페이지의 경우
@@ -229,6 +260,12 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     max_dis=(TextView)itemView.findViewById(R.id.max_design);
                     idea_info=(TextView)itemView.findViewById(R.id.idea_info);
                     cardView=(CardView)itemView.findViewById(R.id.cardview);
+                    break;
+                case R.layout.item_teamlist:
+                    container=(LinearLayout)itemView.findViewById(R.id.container);
+                    profile=(CircleImageView)itemView.findViewById(R.id.profile);
+                    name=(TextView)itemView.findViewById(R.id.name);
+                    job=(TextView)itemView.findViewById(R.id.job);
                     break;
             }
         }
