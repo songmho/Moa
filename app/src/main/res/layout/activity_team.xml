@@ -101,11 +101,27 @@
                 android:layout_height="1.5dp"
                 android:background="@color/TextColor"/>
 
-            <android.support.v7.widget.RecyclerView
+            <include
+                android:id="@+id/people1"
+                layout="@layout/item_teamlist"/>
+            <include
+                android:id="@+id/people2"
+                layout="@layout/item_teamlist"/>
+            <include
+                android:id="@+id/people3"
+                layout="@layout/item_teamlist"/>
+            <include
+                android:id="@+id/people4"
+                layout="@layout/item_teamlist"/>
+            <include
+                android:id="@+id/people5"
+                layout="@layout/item_teamlist"/>
+            <include
+                android:id="@+id/people6"
+                layout="@layout/item_teamlist"/>
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/recyclerview"
-                android:nestedScrollingEnabled="false"/>
+                android:layout_height="100dp"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

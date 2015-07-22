@@ -4,14 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by songmho on 2015-07-21.
@@ -43,14 +50,23 @@ public class TeamActivity extends AppCompatActivity {
         collapsing_toolbar.setTitle(intent.getStringExtra("idea"));
 
         TextView idea=(TextView)findViewById(R.id.idea);
-        RecyclerView recyclerview=(RecyclerView)findViewById(R.id.recyclerview);
 
-        List<TeamlistItem> items=new ArrayList<>();
-        TeamlistItem item=new TeamlistItem(R.drawable.splash_logo,"최에스더",2);
-        items.add(item);
-        recyclerview.setAdapter(new RecyclerAdpater(getApplicationContext(), items, R.layout.item_teamlist, 0, 0));
-        RecyclerAdpater adapter=new RecyclerAdpater(getApplicationContext(), items, R.layout.item_teamlist, 0, 0);
+        View[] v=new View[6];
+        TextView[] j=new TextView[6];
+        TextView[] n=new TextView[6];
+        CircleImageView[] c=new CircleImageView[6];
 
-        recyclerview.getLayoutParams().height=adapter.getItemCount()*100;
+        v[0]=findViewById(R.id.people1);
+        v[1]=findViewById(R.id.people2);
+        v[2]=findViewById(R.id.people3);
+        v[3]=findViewById(R.id.people4);
+        v[4]=findViewById(R.id.people5);
+        v[5]=findViewById(R.id.people6);
+
+        for(int i=0;i<6;i++) {
+            n[i] = (TextView) v[i].findViewById(R.id.name);
+            j[i] = (TextView) v[i].findViewById(R.id.job);
+            c[i]=(CircleImageView)v[i].findViewById(R.id.profile);
+        }
     }
 }
