@@ -11,9 +11,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +32,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by songmho on 2015-07-21.
  */
 public class TeamActivity extends AppCompatActivity {
+    int[] cur_job;
+    String[] info;
+    ProgressBar progressBar;
+    FrameLayout container_prog;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -46,27 +58,74 @@ public class TeamActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(intent.getStringExtra("idea"));
 
-        CollapsingToolbarLayout collapsing_toolbar=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(intent.getStringExtra("idea"));
+        progressBar=(ProgressBar)findViewById(R.id.progressbar);
+        container_prog=(FrameLayout)findViewById(R.id.container_prog);
+        container_prog.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+        TextView idea=(TextView)findViewById(R.id.info);
+        idea.setText(intent.getStringExtra("info"));
+        final String[] name_list=intent.getStringArrayExtra("list");
+        LinearLayout[] v=new LinearLayout[6];
+        final TextView[] j=new TextView[name_list.length];
+        TextView[] n=new TextView[name_list.length];
+        CircleImageView[] c=new CircleImageView[name_list.length];
+        info=new String[name_list.length];
+        cur_job=new int[name_list.length];
 
-        TextView idea=(TextView)findViewById(R.id.idea);
+        v[0]=(LinearLayout)findViewById(R.id.people1);
+        v[1]=(LinearLayout)findViewById(R.id.people2);
+        v[2]=(LinearLayout)findViewById(R.id.people3);
+        v[3]=(LinearLayout)findViewById(R.id.people4);
+        v[4]=(LinearLayout)findViewById(R.id.people5);
+        v[5]=(LinearLayout)findViewById(R.id.people6);
 
-        View[] v=new View[6];
-        TextView[] j=new TextView[6];
-        TextView[] n=new TextView[6];
-        CircleImageView[] c=new CircleImageView[6];
+        for (int k=0;k<6;k++)
+            v[k].setVisibility(View.GONE);
 
-        v[0]=findViewById(R.id.people1);
-        v[1]=findViewById(R.id.people2);
-        v[2]=findViewById(R.id.people3);
-        v[3]=findViewById(R.id.people4);
-        v[4]=findViewById(R.id.people5);
-        v[5]=findViewById(R.id.people6);
-
-        for(int i=0;i<6;i++) {
+        for(int i=0;i<name_list.length;i++) {
+            v[i].setVisibility(View.VISIBLE);
             n[i] = (TextView) v[i].findViewById(R.id.name);
             j[i] = (TextView) v[i].findViewById(R.id.job);
             c[i]=(CircleImageView)v[i].findViewById(R.id.profile);
+            n[i].setText(name_list[i]);
+            ParseQuery<ParseObject> q=ParseQuery.getQuery("ValueUp_people");
+            q.whereContains("name", name_list[i]);
+            final int finalI = i;
+            q.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    info[finalI] = list.get(0).getString("info");
+                    if (list.get(0).getString("job").equals("plan")) {
+                        j[finalI].setText("기획자");
+                        cur_job[finalI] = 0;
+                    } else if (list.get(0).getString("job").equals("dev")) {
+                        j[finalI].setText("개발자");
+                        cur_job[finalI] = 1;
+                    } else {
+                        j[finalI].setText("디자이너");
+                        cur_job[finalI] = 2;
+                    }
+
+                    if(finalI>=name_list.length-1) {
+                        container_prog.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+            });
         }
+        for(int i=0;i<name_list.length;i++) {
+            final int finalI = i;
+            v[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent goto_info = new Intent(TeamActivity.this, InfoActivity.class);
+                    goto_info.putExtra("name", name_list[finalI]);
+                    goto_info.putExtra("cur_job", cur_job[finalI]);
+                    goto_info.putExtra("idea", info[finalI]);
+                    startActivity(goto_info);
+                }
+            });
+        }
+
     }
 }

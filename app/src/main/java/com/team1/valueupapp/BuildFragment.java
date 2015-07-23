@@ -97,9 +97,17 @@ public class BuildFragment extends Fragment {
                                 if (e == null) {
                                     for (int i = 0; i < list.size(); i++) {
                                         ParseObject ob = list.get(i);
+                                        List<String> s=new ArrayList<>();
+                                        List<String> l1=ob.getList("plan");
+                                        List<String> l2=ob.getList("dev");
+                                        List<String> l3=ob.getList("dis");
+                                        s.addAll(l1);
+                                        s.addAll(l2);
+                                        s.addAll(l3);
+                                   //     Log.d("dddd",s.get(2));
                                         Grid_Item grid_item = new Grid_Item(ob.getString("idea"), ob.getString("state"),
                                                 ob.getJSONArray("plan").length(), ob.getJSONArray("dev").length(),
-                                                ob.getJSONArray("dis").length(), ob.getString("info"));
+                                                ob.getJSONArray("dis").length(), ob.getString("info"),s);
                                         items.add(grid_item);
                                     }
                                     recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_grid));

@@ -1,5 +1,6 @@
 package com.team1.valueupapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,7 +17,7 @@ import com.parse.ParseUser;
 /**
  * Created by eugene on 2015-07-18.
  */
-public class loginActivity extends ActionBarActivity {
+public class loginActivity extends Activity {
     AppCompatEditText id_text;
     AppCompatEditText pass_text;
     Button login_btn;

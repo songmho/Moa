@@ -110,7 +110,11 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String[] list=new String[item_grid.getList().size()];
+                        list=item_grid.getList().toArray(list);
                         Intent goto_team=new Intent(context.getApplicationContext(),TeamActivity.class);
+                        goto_team.putExtra("info",item_grid.getIdea_info());
+                        goto_team.putExtra("list",list);
                         goto_team.putExtra("idea",item_grid.getIdea());
                         context.startActivity(goto_team);
 

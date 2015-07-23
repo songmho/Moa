@@ -1,70 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="192dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:background="#00FFFFFF"
-            android:id="@+id/collapsing_toolbar"
+    <LinearLayout
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar"/>
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="?attr/colorPrimary">
-            <ImageView
-                android:background="#558B2F"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
+            android:layout_height="match_parent">
     <android.support.v4.widget.NestedScrollView
         android:layout_gravity="fill_vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="@color/BackGround"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:background="@color/BackGround">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingTop="36dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp">
-
-            <TextView
-                android:id="@+id/idea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="22dp"
-                android:layout_margin="10dp"
-                android:text="아이디어"
-                android:textColor="@color/TextColor"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@color/TextColor"/>
 
             <TextView
                 android:text="소개"
@@ -73,6 +35,11 @@
                 android:textSize="22dp"
                 android:layout_margin="10dp"
                 android:textColor="@color/TextColor"/>
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/TextColor"/>
+
             <TextView
                 android:id="@+id/info"
                 android:layout_width="match_parent"
@@ -80,16 +47,13 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
                 android:textSize="16dp"
                 android:textColor="@color/TextColor"
-                android:text="dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@color/TextColor"/>
+                android:text="info.."/>
 
             <TextView
+                android:paddingTop="20dp"
                 android:text="팀멤버"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,21 +83,19 @@
             <include
                 android:id="@+id/people6"
                 layout="@layout/item_teamlist"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="100dp"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/add"
-        android:layout_margin="16dp"
-        android:theme="@style/FabTheme"
-        app:layout_anchor="@+id/app_bar"
-        app:layout_anchorGravity="bottom|right|end"
-        />
-
+            <FrameLayout
+                android:id="@+id/container_prog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#262626">
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

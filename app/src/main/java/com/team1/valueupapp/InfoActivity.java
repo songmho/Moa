@@ -68,8 +68,11 @@ public class InfoActivity extends AppCompatActivity {
                 title.setText("스킬");
                 break;
         }
-        String idea=intent.getStringExtra("idea").replaceAll(", ","\n- ");
-        idea="- "+idea;
+        String idea=intent.getStringExtra("idea");
+            if(intent.getIntExtra("cur_job",0)!=0) {
+                idea = intent.getStringExtra("idea").replaceAll(", ", "\n ");
+                idea = " " + idea;
+            }
         myinfo.setText(idea);
 
         loadingData(intent, 0);     //detail 불러오기
