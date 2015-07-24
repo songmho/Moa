@@ -8,36 +8,47 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         >
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/profile"
+            android:layout_marginRight="16dp"
             android:src="@drawable/splash_logo"
             app:border_color="@color/ColorPrimary"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1120"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
         <TextView
             android:id="@+id/name"
-            android:layout_marginLeft="10dp"
-            android:textSize="20dp"
-            android:layout_width="100dp"
+            android:textSize="16dp"
+            android:layout_width="0dp"
+            android:layout_weight="878"
+            android:layout_height="wrap_content"
+            android:textColor="@color/TextColor_sub"
+            android:text="name..."/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="242"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="name..."/>
+            android:orientation="vertical"
+            android:layout_marginRight="10dp">
         <TextView
             android:id="@+id/job"
-            android:layout_marginRight="10dp"
-            android:textSize="20dp"
+            android:textSize="13dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="right"
+            android:textColor="@color/TextColor_sub"
             android:text="job..."/>
-
+        </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@color/Listdivider"/>
 </LinearLayout>

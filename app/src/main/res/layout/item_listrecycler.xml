@@ -7,23 +7,32 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             >
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/profile"
+                android:layout_marginRight="15dp"
                 android:src="@drawable/splash_logo"
-                app:border_color="@color/ColorPrimary"/>
+                app:border_color="@color/ColorPrimary"
+                android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1116">
            <LinearLayout
                android:orientation="vertical"
-               android:layout_width="230dp"
-               android:layout_height="wrap_content"
-               android:layout_marginLeft="6dp"
-               android:layout_marginRight="15dp">
+               android:layout_width="0dp"
+               android:layout_weight="932"
+               android:layout_height="wrap_content">
                <TextView
                     android:id="@+id/app_name"
                     android:textSize="20dp"
@@ -33,7 +42,7 @@
                    android:text="해커톤을 위한 팀빌딩 어플"/>
                <TextView
                    android:id="@+id/name"
-                   android:textSize="15dp"
+                   android:textSize="13dp"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:text="서완규"/>
@@ -44,13 +53,21 @@
                 android:textSize="15dp"
                 android:layout_width="0dp"
                 android:layout_height="0dp" />
-            <ImageButton
-                android:id="@+id/star"
-                android:layout_margin="10dp"
-                android:layout_gravity="right|center"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
-                android:background="@drawable/check_selector"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="184"
+                    android:orientation="vertical"
+                    android:layout_gravity="center">
+                <ImageButton
+                    android:id="@+id/star"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    android:layout_gravity="right"
+                    android:background="@drawable/check_selector"/>
+                </LinearLayout>
+                </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_gravity="bottom"

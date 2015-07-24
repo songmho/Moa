@@ -23,16 +23,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:paddingBottom="16dp">
 
             <TextView
-                android:text="소개"
+                android:text="Info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="22dp"
-                android:layout_margin="10dp"/>
+                android:textSize="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/TextColor"/>
             <LinearLayout
                 android:background="@color/Listdivider"
                 android:layout_width="match_parent"
@@ -47,18 +48,22 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:textSize="16dp"
-                android:text="info.."/>
+                android:text="info.."
+                android:textColor="@color/TextColor_sub"/>
 
             <LinearLayout
                 android:paddingTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
             <TextView
-                android:text="팀멤버"
+                android:text="Members"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="22dp"
-                android:layout_margin="10dp"/>
+                android:textSize="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/TextColor"/>
                 <ImageButton
                     android:layout_marginLeft="200dp"
                     android:layout_width="40dp"
@@ -70,6 +75,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
             <include
                 android:id="@+id/people1"
                 layout="@layout/item_teamlist"/>
@@ -88,6 +99,7 @@
             <include
                 android:id="@+id/people6"
                 layout="@layout/item_teamlist"/>
+            </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
             <FrameLayout

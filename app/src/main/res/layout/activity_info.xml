@@ -49,16 +49,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingTop="36dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:paddingBottom="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:text="직군"
-                    android:layout_margin="10dp"/>
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="16dp"/>
             <LinearLayout
                 android:background="@color/Listdivider"
                 android:layout_width="match_parent"
@@ -68,7 +68,10 @@
                     android:textSize="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"/>
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -78,40 +81,50 @@
                     android:id="@+id/info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:text=""
-                    android:layout_margin="10dp"/>
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="16dp"/>
             <LinearLayout
                 android:background="@color/Listdivider"
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"/>
                 <TextView
                     android:id="@+id/myinfo"
-                    android:textSize="16dp"
+                    android:textSize="17dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp" />
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="25dp"/>
 
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:text="소개"
-                android:layout_margin="10dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="소개"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="16dp"/>
             <LinearLayout
                 android:background="@color/Listdivider"
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"/>
                 <TextView
                     android:id="@+id/mydetail"
-                    android:textSize="16dp"
+                    android:textSize="17dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp" />
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.FloatingActionButton

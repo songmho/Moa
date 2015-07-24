@@ -3,7 +3,10 @@
     <color name="ColorPrimary">#f58a22</color>
     <color name="ColorPrimaryDark">#F57C00</color>
     <color name="BackGround">#262626</color>
-    <color name="Listdivider">#545454</color>
-    <color name="TextColor">#FFFFFF</color>
+    <color name="Listdivider">#E0E0E0</color>
+    <color name="TextColor">#9e9e9e</color>
+    <color name="TextColor_sub">#616161</color>
     <color name="transparent">#22000000</color>
+
+    <color name="tab_color">#FFFFFF</color>
 </resources>

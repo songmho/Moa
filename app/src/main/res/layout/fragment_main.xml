@@ -10,9 +10,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/tablayout"
         android:background="@color/ColorPrimary"
-        app:tabIndicatorColor="@color/TextColor"
-        app:tabSelectedTextColor="@color/TextColor"
-        app:tabTextColor="@color/TextColor"
+        app:tabSelectedTextColor="@color/tab_color"
+        app:tabTextColor="@color/tab_color"
         app:tabIndicatorHeight="4dp"
         />
         <android.support.v4.view.ViewPager
