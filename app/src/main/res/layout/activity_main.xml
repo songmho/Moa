@@ -19,19 +19,16 @@
             android:orientation="horizontal"
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/BackGround"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
  <android.support.design.widget.NavigationView
      android:fitsSystemWindows="true"
-     android:background="@color/BackGround"
      android:id="@+id/navigationView"
      android:layout_width="wrap_content"
      android:layout_height="match_parent"
      android:layout_gravity="start"
      app:headerLayout="@layout/drawer_header"
-     android:theme="@style/drawer"
      app:menu="@menu/drawer"/>
 
 </android.support.v4.widget.DrawerLayout>

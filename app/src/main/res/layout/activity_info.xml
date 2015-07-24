@@ -42,7 +42,6 @@
         android:layout_gravity="fill_vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="@color/BackGround"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -58,17 +57,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
-                    android:textColor="@color/TextColor"
                     android:text="직군"
                     android:layout_margin="10dp"/>
             <LinearLayout
+                android:background="@color/Listdivider"
                 android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@color/TextColor"/>
+                android:layout_height="1.5dp"/>
                 <TextView
                     android:id="@+id/myjob"
                     android:textSize="16dp"
-                    android:textColor="@color/TextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"/>
@@ -81,18 +78,16 @@
                     android:id="@+id/info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/TextColor"
                     android:textSize="20dp"
                     android:text=""
                     android:layout_margin="10dp"/>
             <LinearLayout
+                android:background="@color/Listdivider"
                 android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@color/TextColor"/>
+                android:layout_height="1.5dp"/>
                 <TextView
                     android:id="@+id/myinfo"
                     android:textSize="16dp"
-                    android:textColor="@color/TextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp" />
@@ -104,18 +99,16 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/TextColor"
                     android:textSize="20dp"
                     android:text="소개"
                 android:layout_margin="10dp"/>
             <LinearLayout
+                android:background="@color/Listdivider"
                 android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@color/TextColor"/>
+                android:layout_height="1.5dp"/>
                 <TextView
                     android:id="@+id/mydetail"
                     android:textSize="16dp"
-                    android:textColor="@color/TextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp" />

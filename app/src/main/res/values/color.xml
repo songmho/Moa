@@ -5,6 +5,5 @@
     <color name="BackGround">#262626</color>
     <color name="Listdivider">#545454</color>
     <color name="TextColor">#FFFFFF</color>
-    <color name="TextColor_sub">#F1F1F1</color>
     <color name="transparent">#22000000</color>
 </resources>

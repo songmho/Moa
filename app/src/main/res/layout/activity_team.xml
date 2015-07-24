@@ -18,8 +18,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_gravity="fill_vertical"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:background="@color/BackGround">
+        android:layout_width="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -33,12 +32,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22dp"
-                android:layout_margin="10dp"
-                android:textColor="@color/TextColor"/>
+                android:layout_margin="10dp"/>
             <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:background="@color/TextColor"/>
+                android:background="@color/Listdivider"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"/>
 
             <TextView
                 android:id="@+id/info"
@@ -49,21 +47,28 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
                 android:textSize="16dp"
-                android:textColor="@color/TextColor"
                 android:text="info.."/>
 
-            <TextView
+            <LinearLayout
                 android:paddingTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+            <TextView
                 android:text="팀멤버"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="22dp"
-                android:layout_margin="10dp"
-                android:textColor="@color/TextColor"/>
+                android:layout_margin="10dp"/>
+                <ImageButton
+                    android:layout_marginLeft="200dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/add"/>
+            </LinearLayout>
             <LinearLayout
+                android:background="@color/Listdivider"
                 android:layout_width="match_parent"
-                android:layout_height="1.5dp"
-                android:background="@color/TextColor"/>
+                android:layout_height="1.5dp"/>
 
             <include
                 android:id="@+id/people1"
@@ -89,7 +94,7 @@
                 android:id="@+id/container_prog"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#262626">
+                android:background="#FFFFFF">
                 <ProgressBar
                     android:id="@+id/progressbar"
                     android:layout_width="wrap_content"

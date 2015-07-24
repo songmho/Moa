@@ -3,7 +3,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/BackGround"
     android:orientation="vertical">
 
         <LinearLayout
@@ -31,15 +30,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
-                   android:text="해커톤을 위한 팀빌딩 어플"
-                   android:textColor="@color/TextColor"/>
+                   android:text="해커톤을 위한 팀빌딩 어플"/>
                <TextView
                    android:id="@+id/name"
                    android:textSize="15dp"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="서완규"
-                   android:textColor="@color/TextColor_sub" />
+                   android:text="서완규"/>
 
            </LinearLayout>
             <TextView

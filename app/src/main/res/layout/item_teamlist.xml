@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/BackGround"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -25,8 +24,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="name..."
-            android:textColor="@color/TextColor_sub"/>
+            android:text="name..."/>
         <TextView
             android:id="@+id/job"
             android:layout_marginRight="10dp"
@@ -34,8 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="job..."
-            android:textColor="@color/TextColor_sub"/>
+            android:text="job..."/>
 
     </LinearLayout>
     <LinearLayout
