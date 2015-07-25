@@ -14,26 +14,28 @@
 
 
         <LinearLayout
-            android:padding="7dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
+                android:padding="5dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:padding="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="9"
                     android:textSize="20dp"
                     android:id="@+id/idea"
                     android:text="IDEA"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:id="@+id/state"
+                    android:text="STATE"
                     />
 
             </LinearLayout>
@@ -41,11 +43,12 @@
 
 
             <LinearLayout
+                android:padding="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:padding="5dp"
+                    android:layout_marginLeft="5dp"
                     android:id="@+id/idea_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,16 +56,15 @@
             </LinearLayout>
 
             <View
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:background="#CCCCCC"
+                android:background="@color/Listdivider"
                 android:layout_marginBottom="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -79,7 +81,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="기 획 자"/>
+                        android:text="기획자"/>
 
                 </LinearLayout>
 
@@ -97,7 +99,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="개 발 자"/>
+                        android:text="개발자"/>
 
                 </LinearLayout>
 
