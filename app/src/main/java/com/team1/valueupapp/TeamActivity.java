@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -36,6 +37,7 @@ public class TeamActivity extends AppCompatActivity {
     String[] info;
     ProgressBar progressBar;
     FrameLayout container_prog;
+    ImageButton people_add;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -63,6 +65,14 @@ public class TeamActivity extends AppCompatActivity {
         container_prog.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         TextView idea=(TextView)findViewById(R.id.info);
+        people_add=(ImageButton)findViewById(R.id.people_add);
+        people_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         idea.setText(intent.getStringExtra("info"));
         final String[] name_list=intent.getStringArrayExtra("list");
         LinearLayout[] v=new LinearLayout[6];

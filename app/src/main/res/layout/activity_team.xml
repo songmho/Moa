@@ -54,21 +54,22 @@
             <LinearLayout
                 android:paddingTop="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp">
             <TextView
                 android:text="Members"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
                 android:layout_marginLeft="16dp"
                 android:textColor="@color/TextColor"/>
                 <ImageButton
-                    android:layout_marginLeft="200dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/add"/>
+                    android:id="@+id/people_add"
+                    android:layout_marginLeft="230dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_person_add"/>
             </LinearLayout>
             <LinearLayout
                 android:background="@color/Listdivider"
