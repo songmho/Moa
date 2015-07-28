@@ -1,9 +1,8 @@
 package com.team1.valueupapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,7 @@ import com.parse.ParseUser;
 /**
  * Created by eugene on 2015-07-18.
  */
-public class loginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
     AppCompatEditText id_text;
     AppCompatEditText pass_text;
     Button login_btn;
@@ -47,7 +46,7 @@ public class loginActivity extends Activity {
                                     public void done(ParseUser user, ParseException e) {
                                         progressBar.setVisibility(View.GONE);
                                         if(user != null){
-                                            startActivity(new Intent(loginActivity.this, MainActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                             finish();
                                         }else{
                                             Toast.makeText(getApplicationContext(),"틀렸습니다.",Toast.LENGTH_SHORT).show();
