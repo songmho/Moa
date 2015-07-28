@@ -1,5 +1,6 @@
 package com.team1.valueupapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -58,7 +59,9 @@ public class BuildFragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity().getApplicationContext(), "add_준비중입니다.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity().getApplicationContext(), "add_준비중입니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), AddActivity.class);
+                startActivity(intent);
             }
         });
 
