@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -100,7 +101,11 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
 
             case R.layout.item_grid:                                 //팀빌딩페이지의 경우
                 final Grid_Item item_grid = items_grid.get(i);
-                viewHolder.state.setText(item_grid.getState());
+                if(item_grid.getState().equals("팀빌딩 중")){
+                    viewHolder.state.setSelected(false);
+                } else if(item_grid.getState().equals("팀빌딩 완료")) {
+                    viewHolder.state.setSelected(true);
+                }//end else
                 viewHolder.idea.setText(item_grid.getIdea());
                 viewHolder.plan.setText(String.valueOf(item_grid.getPlan()));
                 viewHolder.develop.setText(String.valueOf(item_grid.getDevelop()));
@@ -204,7 +209,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         TextView plan;
         TextView develop;
         TextView design;
-        TextView state;
+        ImageView state;
         TextView idea_info;
         public ViewHolder(View itemView,int itemLayout) {
             super(itemView);
@@ -220,7 +225,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     break;
                 case R.layout.item_grid:                                //팀빌딩페이지의 경우
                     idea=(TextView)itemView.findViewById(R.id.idea);
-                    state=(TextView)itemView.findViewById(R.id.state);
+                    state=(ImageView)itemView.findViewById(R.id.state);
                     plan=(TextView)itemView.findViewById(R.id.plan);
                     develop=(TextView)itemView.findViewById(R.id.develop);
                     design=(TextView)itemView.findViewById(R.id.design);
