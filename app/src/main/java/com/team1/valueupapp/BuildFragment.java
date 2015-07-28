@@ -107,10 +107,10 @@ public class BuildFragment extends Fragment {
                                         s.addAll(l1);
                                         s.addAll(l2);
                                         s.addAll(l3);
-                                   //     Log.d("dddd",s.get(2));
+
                                         Grid_Item grid_item = new Grid_Item(ob.getString("idea"), ob.getString("state"),
                                                 ob.getJSONArray("plan").length(), ob.getJSONArray("dev").length(),
-                                                ob.getJSONArray("dis").length(), ob.getString("info"),s);
+                                                ob.getJSONArray("dis").length(), ob.getString("info"),s,ob.getString("constructor"));
                                         items.add(grid_item);
                                     }
                                     recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_grid));

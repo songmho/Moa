@@ -20,9 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,11 @@ public class TeamActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         TextView idea=(TextView)findViewById(R.id.info);
         people_add=(ImageButton)findViewById(R.id.people_add);
+
+        if (intent.getStringExtra("constructor").equals(ParseUser.getCurrentUser().getString("name")))
+            people_add.setVisibility(View.VISIBLE);
+
+
         people_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

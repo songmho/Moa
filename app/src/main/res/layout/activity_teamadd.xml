@@ -6,9 +6,12 @@
     android:id="@+id/container"
     android:orientation="vertical">
 
-    <include layout="@layout/tool_bar" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar" />
 
     <EditText
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

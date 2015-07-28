@@ -116,6 +116,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                         goto_team.putExtra("info",item_grid.getIdea_info());
                         goto_team.putExtra("list",list);
                         goto_team.putExtra("idea",item_grid.getIdea());
+                        goto_team.putExtra("constructor",item_grid.getConstructor());
                         context.startActivity(goto_team);
 
                     }

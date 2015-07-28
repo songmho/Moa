@@ -13,7 +13,7 @@ public class Grid_Item {
     int design;
     String idea_info;
     List<String> list;
-
+    String constructor;
 
     String getIdea(){
         return this.idea;
@@ -30,6 +30,7 @@ public class Grid_Item {
     int getDesign(){
         return  this.design;
     }
+    String getConstructor(){return this.constructor;}
 
     public String getIdea_info() {
         return idea_info;
@@ -37,7 +38,7 @@ public class Grid_Item {
 
     List<String> getList(){return  this.list;}
 
-    public Grid_Item(String idea, String state, int plan, int develop, int design, String idea_info, List<String> s){
+    public Grid_Item(String idea, String state, int plan, int develop, int design, String idea_info, List<String> s,String constructor){
         this.idea=idea;
         this.state=state;
         this.plan=plan;
@@ -45,5 +46,6 @@ public class Grid_Item {
         this.design=design;
         this.idea_info=idea_info;
         this.list=s;
+        this.constructor=constructor;
     }
 }

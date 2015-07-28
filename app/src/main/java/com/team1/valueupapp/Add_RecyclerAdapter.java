@@ -57,11 +57,12 @@ public class Add_RecyclerAdapter extends RecyclerView.Adapter<Add_RecyclerAdapte
         viewHolder.profile.setImageResource(item_list.getProfile());
         viewHolder.name.setText(item_list.getName());
         viewHolder.check.setSelected(item_list.getCheck());
-
+        if(item_list.getCheck())
+            ((AddActivity)context).addMembers(item_list.getName());
         viewHolder.check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectMember(viewHolder);
+                selectMember(item_list, viewHolder);
             }
         });
         viewHolder.container.setOnClickListener(new View.OnClickListener() {
@@ -72,11 +73,13 @@ public class Add_RecyclerAdapter extends RecyclerView.Adapter<Add_RecyclerAdapte
         });
     }//onBindViewHolder
 
-    private void selectMember(final ViewHolder viewHolder) {
-        if (viewHolder.check.isSelected() == false) {
+    private void selectMember(Add_item item_list, final ViewHolder viewHolder) {
+        if (!viewHolder.check.isSelected()) {
             viewHolder.check.setSelected(true);
+            ((AddActivity)context).addMembers(item_list.getName());
         } else {
             viewHolder.check.setSelected(false);
+            ((AddActivity)context).delMembers(item_list.getName());
         }//end else
     }//selectMember
 

@@ -65,6 +65,7 @@
                 android:layout_marginLeft="16dp"
                 android:textColor="@color/TextColor"/>
                 <ImageButton
+                    android:visibility="gone"
                     android:id="@+id/people_add"
                     android:layout_marginLeft="230dp"
                     android:layout_width="25dp"
