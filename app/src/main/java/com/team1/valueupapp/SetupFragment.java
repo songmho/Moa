@@ -25,4 +25,5 @@ public class SetupFragment extends Fragment {
         cur_container=(LinearLayout)inflater.inflate(R.layout.fragment_setup,container,false);
         return cur_container;
     }
+
 }
