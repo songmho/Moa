@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/setpage"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,7 +19,7 @@
             android:textSize="15dp" />
 
         <LinearLayout
-
+            android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="10dp"
@@ -28,12 +28,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="로그아웃" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -162,12 +160,5 @@
             android:layout_marginTop="15dp"
             android:text="About page 이동" />
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressbar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
 
 </FrameLayout>

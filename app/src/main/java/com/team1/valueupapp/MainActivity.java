@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.setup:
                         getSupportActionBar().setTitle("설정");
-                        Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
                         cur_fragment=new SetupFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
