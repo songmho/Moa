@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
 import android.widget.Switch;
+
 import android.widget.Toast;
 
 import com.parse.ParseUser;
@@ -29,7 +31,6 @@ public class SetupFragment extends Fragment {
     Button btn_aboutpage;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +43,10 @@ public class SetupFragment extends Fragment {
 
         setup_container = (FrameLayout) inflater.inflate(R.layout.fragment_setup, container, false);
         logout = (LinearLayout) setup_container.findViewById(R.id.logout);
-        swc_login=(Switch) setup_container.findViewById(R.id.swc_login);
-        swc_teambuild=(Switch) setup_container.findViewById(R.id.swc_teambuild);
-        swc_notice=(Switch) setup_container.findViewById(R.id.swc_notice);
-        btn_aboutpage=(Button)setup_container.findViewById(R.id.btn_aboutpage);
-
+        swc_login = (Switch) setup_container.findViewById(R.id.swc_login);
+        swc_teambuild = (Switch) setup_container.findViewById(R.id.swc_teambuild);
+        swc_notice = (Switch) setup_container.findViewById(R.id.swc_notice);
+        btn_aboutpage = (Button) setup_container.findViewById(R.id.btn_aboutpage);
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +92,7 @@ public class SetupFragment extends Fragment {
             }
         });
 
-        btn_aboutpage.setOnClickListener(new View.OnClickListener(){
+        btn_aboutpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -100,9 +100,6 @@ public class SetupFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-
-
 
 
         return setup_container;
