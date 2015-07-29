@@ -51,7 +51,8 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="35dp" />
+                android:layout_marginLeft="35dp"
+                android:id="@+id/swc_login"/>
         </LinearLayout>
 
 
@@ -75,12 +76,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:text="팀 빌딩 알림" />
+                android:text="팀 빌딩 알림"
+                />
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp" />
+                android:layout_marginLeft="30dp"
+                android:id="@+id/swc_teambuild"/>
         </LinearLayout>
 
         <LinearLayout
@@ -100,7 +103,8 @@
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="20dp"
+                android:id="@+id/swc_notice"/>
         </LinearLayout>
 
 
@@ -158,7 +162,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="About page 이동" />
+            android:text="About page 이동"
+            android:id="@+id/btn_aboutpage"/>
     </LinearLayout>
 
 </FrameLayout>
