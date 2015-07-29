@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentTransaction fragmentTransaction;
     Fragment cur_fragment=new MainFragment();
+
+    Boolean isvisible=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
                         drawerLayout.closeDrawers();
+                        isvisible=true;
+                        invalidateOptionsMenu();
                         return true;
                     case R.id.teambuild:
                         getSupportActionBar().setTitle("팀빌딩");
@@ -81,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
                         drawerLayout.closeDrawers();
+                        isvisible=true;
+                        invalidateOptionsMenu();
                         return true;
                     case R.id.basket:
                         getSupportActionBar().setTitle("관심멤버");
@@ -88,14 +95,18 @@ public class MainActivity extends AppCompatActivity {
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
                         drawerLayout.closeDrawers();
+                        isvisible=true;
+                        invalidateOptionsMenu();
                         return true;
                     case R.id.setup:
                         getSupportActionBar().setTitle("설정");
-                        Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
                         cur_fragment=new SetupFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
                         drawerLayout.closeDrawers();
+                        isvisible=false;
+                        invalidateOptionsMenu();
                         return true;
 
                 }
@@ -148,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem searchItem=menu.findItem(R.id.action_search);
+        searchItem.setVisible(isvisible);
+        Log.d("dfdfdf",""+isvisible);
         SearchManager searchManager=(SearchManager)MainActivity.this.getSystemService(SEARCH_SERVICE);
         SearchView searchView=null;
         if(searchItem!=null){
