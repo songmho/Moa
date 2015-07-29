@@ -24,8 +24,18 @@ public class SetupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        cur_container = (LinearLayout) inflater.inflate(R.layout.fragment_setup, container, true);
+
+
         logout = (TextView) cur_container.findViewById(R.id.logout);
-        progressBar=(ProgressBar)cur_container.findViewById(R.id.progressbar);
+        progressBar = (ProgressBar) cur_container.findViewById(R.id.progressbar);
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +47,7 @@ public class SetupFragment extends Fragment {
                         progressBar.setVisibility(View.VISIBLE);
 
                         ParseUser.logOut();
-                        ParseUser currentUser = ParseUser.getCurrentUser();
+                        ParseUser logout = ParseUser.getCurrentUser();
 
                     }
                 }).start();
@@ -45,16 +55,6 @@ public class SetupFragment extends Fragment {
 
             }
         });
-
-
-    }
-
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        cur_container = (LinearLayout) inflater.inflate(R.layout.fragment_setup, container, false);
         return cur_container;
     }
 

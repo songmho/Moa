@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/setpage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,15 +19,16 @@
             android:textSize="15dp" />
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/border"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:id="@+id/logout">
+            android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -49,10 +50,10 @@
                 android:layout_marginLeft="15dp"
                 android:text="자동로그인" />
 
-            <ToggleButton
+            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New ToggleButton" />
+                android:layout_marginLeft="35dp" />
         </LinearLayout>
 
 
@@ -78,10 +79,10 @@
                 android:layout_marginLeft="15dp"
                 android:text="팀 빌딩 알림" />
 
-            <ToggleButton
+            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New ToggleButton" />
+                android:layout_marginLeft="30dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -98,10 +99,10 @@
                 android:layout_marginLeft="15dp"
                 android:text="교육 일정 알림" />
 
-            <ToggleButton
+            <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New ToggleButton" />
+                android:layout_marginLeft="20dp" />
         </LinearLayout>
 
 
@@ -162,4 +163,11 @@
             android:text="About page 이동" />
     </LinearLayout>
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
+</FrameLayout>
