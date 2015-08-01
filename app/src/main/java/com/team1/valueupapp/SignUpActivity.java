@@ -86,6 +86,12 @@ public class SignUpActivity extends AppCompatActivity {
                                                 progressBar.setVisibility(View.GONE);
                                                 if (e == null) {
                                                     Toast.makeText(getApplicationContext(), "가입에 성공하였습니다.", Toast.LENGTH_SHORT).show();
+
+                                                    ParseUser currentUser = ParseUser.getCurrentUser();
+                                                    if (currentUser != null) {
+                                                        currentUser.logOut();
+                                                    }
+
                                                     finish();
                                                 } else {
 //                                    Log.d("error", String.valueOf(e.getCode()));
@@ -111,6 +117,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });//signup_btn.clickListner
+
 
 
     }//onCreate
