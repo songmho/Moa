@@ -23,5 +23,11 @@
             android:icon="@drawable/ic_setting"
             android:title="설정"
             />
+    <item
+        android:id="@+id/hackarthon"
+        android:icon="@drawable/ic_setting"
+        android:title="해커톤소개"
+        />
+
     </group>
 </menu>

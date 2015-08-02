@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_margin="8dp"
         android:gravity="center">
 
         <ImageView
@@ -23,61 +23,15 @@
             android:textSize="30dp" />
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/hkt_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
 
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:background="#EACFBA" />
 
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_marginLeft="15dp"
-            android:background="#F18F86" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:background="#F0AC99" />
-
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_marginLeft="15dp"
-            android:background="#DBCCB5" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:background="#F0AC99" />
-
-        <ImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_marginLeft="15dp"
-            android:background="#DBCCB5" />
-
-    </LinearLayout>
 </LinearLayout>
