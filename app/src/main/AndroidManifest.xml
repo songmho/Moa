@@ -61,6 +61,12 @@
                 android:value=".AddActivity"/>
         </activity>
 
+        <activity android:name=".SignUpActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SignUpActivity"/>
+        </activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"

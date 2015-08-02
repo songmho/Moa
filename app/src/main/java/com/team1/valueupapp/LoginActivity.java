@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     AppCompatEditText id_text;
     AppCompatEditText pass_text;
     Button login_btn;
+    Button signup_btn;
     ProgressBar progressBar;
 
     @Override
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         id_text= (AppCompatEditText) findViewById(R.id.id_text);
         pass_text= (AppCompatEditText) findViewById(R.id.pass_text);
         login_btn= (Button) findViewById(R.id.login_btn);
+        signup_btn= (Button) findViewById(R.id.signup_btn);
         progressBar=(ProgressBar)findViewById(R.id.progressbar);
 
         login_btn.setOnClickListener(new View.OnClickListener() {
@@ -63,5 +65,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        signup_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            }
+        });//signup_btn.clickListner
     }
 }

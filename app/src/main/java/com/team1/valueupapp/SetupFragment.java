@@ -54,8 +54,9 @@ public class SetupFragment extends Fragment {
             public void onClick(View v) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 if (currentUser != null) {
-                    currentUser.logOut();
                     Toast.makeText(getActivity().getApplicationContext(), "로그아웃되었습니다", Toast.LENGTH_SHORT).show();
+                    currentUser.logOut();
+                    startActivity(new Intent(getActivity(), SplashActivity.class));
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "로그인정보를 확인하세요", Toast.LENGTH_SHORT).show();
                 }//end else
