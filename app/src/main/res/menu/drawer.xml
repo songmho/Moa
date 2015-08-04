@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <group
+    android:id="@+id/group_team"
         android:checkableBehavior="single">
         <item
             android:id="@+id/introduce"
@@ -18,16 +19,29 @@
             android:icon="@drawable/ic_basket"
             android:title="관심멤버"
             />
+
+    </group>
+    <group
+        android:id="@+id/group_mentor"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/mentor_info"
+            android:icon="@drawable/ic_setting"
+            android:title="멘토소개"
+            />
+        <item
+            android:id="@+id/mentoring"
+            android:icon="@drawable/ic_setting"
+            android:title="멘토링 일정"/>
+    </group>
+    <group
+        android:id="@+id/group_setup"
+        android:checkableBehavior="single">
+
         <item
             android:id="@+id/setup"
             android:icon="@drawable/ic_setting"
             android:title="설정"
             />
-    <item
-        android:id="@+id/hackarthon"
-        android:icon="@drawable/ic_setting"
-        android:title="해커톤소개"
-        />
-
     </group>
 </menu>

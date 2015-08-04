@@ -20,8 +20,8 @@ public class hackathon_Recycler extends Activity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hkt_recyclerview);
 
-        List<HackathonItem> dataItems = new ArrayList<HackathonItem>();
-        dataItems.add(new HackathonItem("ÇØÄ¿Åæ", "ÇØÄ¿Åæ"));
+        List<HackathonItem> dataItems = new ArrayList<>();
+        dataItems.add(new HackathonItem("test", "test"));
 
 
         HackathonAdapter myAdapter = new HackathonAdapter(dataItems);

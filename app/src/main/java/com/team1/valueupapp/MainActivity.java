@@ -59,6 +59,24 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                //현재 클릭된 그룹 알아내서 클릭 설정하는 코드
+                if(menuItem.getGroupId()==R.id.group_mentor){       //멘토 관련 그룹 클릭 됬을 때
+                    navigationView.getMenu().setGroupCheckable(R.id.group_setup,false,true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_team,false,true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_mentor,true,true);
+                }
+                else if(menuItem.getGroupId()==R.id.group_team){        //팀 관련 그룹 클릭 됬을 때
+                    navigationView.getMenu().setGroupCheckable(R.id.group_setup,false,true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_team,true,true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_mentor,false,true);
+                }
+                else{                                                   //설정 그룹 클릭 됬을 때
+                    navigationView.getMenu().setGroupCheckable(R.id.group_setup,true,true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_team,false,true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_mentor,false,true);
+                }
+
+
                 fragmentTransaction=getSupportFragmentManager().beginTransaction();
                 menuItem.setChecked(true);
                 switch (menuItem.getItemId()){
@@ -92,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.setup:
                         getSupportActionBar().setTitle("설정");
-//                        Toast.makeText(getApplicationContext(), "준비중입니다.", Toast.LENGTH_SHORT).show();
                         cur_fragment=new SetupFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
@@ -100,6 +117,30 @@ public class MainActivity extends AppCompatActivity {
                         isvisible=false;
                         invalidateOptionsMenu();
                         return true;
+
+
+                    case R.id.mentor_info:
+                        getSupportActionBar().setTitle("멘토소개");
+
+                        cur_fragment=new SetupFragment();
+                        fragmentTransaction.replace(R.id.container, cur_fragment);
+                        fragmentTransaction.commit();
+                        drawerLayout.closeDrawers();
+                        isvisible=false;
+                        invalidateOptionsMenu();
+                        return true;
+
+                    case R.id.mentoring:
+                        getSupportActionBar().setTitle("멘토링 일정");
+
+                        cur_fragment=new MentoringFragment();
+                        fragmentTransaction.replace(R.id.container, cur_fragment);
+                        fragmentTransaction.commit();
+                        drawerLayout.closeDrawers();
+                        isvisible=false;
+                        invalidateOptionsMenu();
+                        return true;
+
 
                 }
                 return true;
