@@ -1,11 +1,13 @@
 package com.team1.valueupapp;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -31,12 +33,19 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Mentoring_item item=items.get(position);
+        final Mentoring_item item=items.get(position);
 
         holder.job.setText("["+item.getJob()+"]");
         holder.date.setText(""+ item.getYear()+"."+item.getMonth()+"."+item.getDay());
         holder.title.setText(item.getTitle());
         holder.mentor.setText(item.getMentor());
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,item.getTitle(),Toast.LENGTH_SHORT).show();
+                //이곳에 intent추가 필요.
+            }
+        });
     }
 
 
@@ -51,6 +60,7 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
         TextView date;
         TextView title;
         TextView mentor;
+        CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -58,6 +68,7 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
             date=(TextView)itemView.findViewById(R.id.date);
             title=(TextView)itemView.findViewById(R.id.title);
             mentor=(TextView)itemView.findViewById(R.id.mentor);
+            cardView=(CardView)itemView.findViewById(R.id.cardview);
         }
     }
 }
