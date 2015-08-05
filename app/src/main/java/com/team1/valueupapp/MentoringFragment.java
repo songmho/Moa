@@ -31,7 +31,7 @@ public class MentoringFragment extends Fragment {
 
         RecyclerView recyclerView=(RecyclerView)mentoring_container.findViewById(R.id.recyclerview);
         List<Mentoring_item> items=new ArrayList<>();
-        Mentoring_item item=new Mentoring_item("디자이너",2015,8,05,"GUI 가이드라인 프로세스","송효수 멘토님");
+        Mentoring_item item=new Mentoring_item("디자이너",2015,8,05,"GUI 가이드라인 프로세스","송효수 멘토님","강남 알럿");
         items.add(item);items.add(item);items.add(item);items.add(item);items.add(item);
         recyclerView.setAdapter(new Mentoring_adapter(getActivity(), items, R.layout.fragment_mentoring));
 
