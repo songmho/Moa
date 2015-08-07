@@ -102,7 +102,6 @@ public class SetupFragment extends Fragment {
             }
         });
 
-
         return setup_container;
     }
 

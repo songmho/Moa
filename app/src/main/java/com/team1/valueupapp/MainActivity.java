@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.mentor_info:
                         getSupportActionBar().setTitle("멘토소개");
 
-                        cur_fragment=new SetupFragment();
+                        cur_fragment=new MentorFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
                         drawerLayout.closeDrawers();
