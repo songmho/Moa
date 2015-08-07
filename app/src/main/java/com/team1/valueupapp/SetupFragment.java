@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +24,8 @@ import com.parse.ParseUser;
  * Created by songmho on 2015-07-04.
  */
 public class SetupFragment extends Fragment {
-    FrameLayout setup_container;
-    LinearLayout logout;
-    Switch swc_login;
-    Switch swc_teambuild;
+    CoordinatorLayout setup_container;
+    Button logout;
     Switch swc_notice;
     Button btn_aboutpage;
 
@@ -41,10 +40,8 @@ public class SetupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        setup_container = (FrameLayout) inflater.inflate(R.layout.fragment_setup, container, false);
-        logout = (LinearLayout) setup_container.findViewById(R.id.logout);
-        swc_login = (Switch) setup_container.findViewById(R.id.swc_login);
-        swc_teambuild = (Switch) setup_container.findViewById(R.id.swc_teambuild);
+        setup_container = (CoordinatorLayout) inflater.inflate(R.layout.fragment_setup, container, false);
+        logout = (Button) setup_container.findViewById(R.id.logout);
         swc_notice = (Switch) setup_container.findViewById(R.id.swc_notice);
         btn_aboutpage = (Button) setup_container.findViewById(R.id.btn_aboutpage);
 
@@ -62,26 +59,6 @@ public class SetupFragment extends Fragment {
                 }//end else
             }
         });//OnClickListener
-
-        swc_login.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton cb, boolean isChecking) {
-
-                if (isChecking)
-                    Toast.makeText(getActivity(), "자동로그인 설정", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getActivity(), "자동로그인 해제", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        swc_teambuild.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton cb, boolean isChecking) {
-
-                if (isChecking)
-                    Toast.makeText(getActivity(), "팀빌딩알림 설정", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getActivity(), "팀빌딩알림 해제", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         swc_notice.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton cb, boolean isChecking) {
