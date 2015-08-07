@@ -34,7 +34,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/mypage"
-            android:icon="@drawable/splash_logo"
+            android:icon="@drawable/ic_mypage"
             android:title="마이페이지"/>
     </group>
     <group
