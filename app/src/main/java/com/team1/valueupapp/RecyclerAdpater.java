@@ -31,15 +31,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHolder> {
     Context context;
     List<ListRecyclerItem> items_list;
-    List<Grid_Item> items_grid;
     int itemLayout;
     int frag;
 
-    RecyclerAdpater(Context context, List<Grid_Item> items, int itemLayout) {
-        this.context=context;
-        this.items_grid=items;
-        this.itemLayout=itemLayout;
-    }
     RecyclerAdpater(Context context, List<ListRecyclerItem> items, int itemLayout, int frag) {
         this.context=context;
         this.items_list=items;
@@ -54,9 +48,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
             case R.layout.item_listrecycler:
             v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_listrecycler, viewGroup, false);
             return new ViewHolder(v, itemLayout);
-            case R.layout.item_grid:
-                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_grid, viewGroup, false);
-                return new ViewHolder(v, itemLayout);
             case R.layout.item_teamlist:
                 v=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_teamlist,viewGroup, false);
                 return new ViewHolder(v,itemLayout);
@@ -94,35 +85,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     @Override
                     public void onClick(View v) {
                         checkStar(item_list, viewHolder);
-                    }
-                });
-                break;
-
-            case R.layout.item_grid:                                 //팀빌딩페이지의 경우
-                final Grid_Item item_grid = items_grid.get(i);
-                if(item_grid.getState().equals("팀빌딩 중")){
-                    viewHolder.state.setSelected(false);
-                } else if(item_grid.getState().equals("팀빌딩 완료")) {
-                    viewHolder.state.setSelected(true);
-                }//end else
-                viewHolder.idea.setText(item_grid.getIdea());
-                viewHolder.plan.setText(String.valueOf(item_grid.getPlan()));
-                viewHolder.develop.setText(String.valueOf(item_grid.getDevelop()));
-                viewHolder.design.setText(String.valueOf(item_grid.getDesign()));
-                viewHolder.idea_info.setText(item_grid.getIdea_info());
-
-                viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String[] list=new String[item_grid.getList().size()];
-                        list=item_grid.getList().toArray(list);
-                        Intent goto_team=new Intent(context.getApplicationContext(),TeamActivity.class);
-                        goto_team.putExtra("info",item_grid.getIdea_info());
-                        goto_team.putExtra("list",list);
-                        goto_team.putExtra("idea",item_grid.getIdea());
-                        goto_team.putExtra("constructor",item_grid.getConstructor());
-                        context.startActivity(goto_team);
-
                     }
                 });
                 break;
@@ -188,8 +150,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         switch (itemLayout) {
             case R.layout.item_listrecycler:
             return items_list.size();
-            case R.layout.item_grid:                                //팀빌딩페이지의 경우
-                return  items_grid.size();
         }
         return 0;
     }
@@ -202,14 +162,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         CircleImageView profile;
         LinearLayout container;
 
-        CardView cardView;
-
-        TextView idea;
-        TextView plan;
-        TextView develop;
-        TextView design;
-        ImageView state;
-        TextView idea_info;
         public ViewHolder(View itemView,int itemLayout) {
             super(itemView);
             switch (itemLayout) {
@@ -221,15 +173,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     detail = (TextView) itemView.findViewById(R.id.detail);
                     container =(LinearLayout)itemView.findViewById(R.id.container);
                     star.setSelected(false);
-                    break;
-                case R.layout.item_grid:                                //팀빌딩페이지의 경우
-                    idea=(TextView)itemView.findViewById(R.id.idea);
-                    state=(ImageView)itemView.findViewById(R.id.state);
-                    plan=(TextView)itemView.findViewById(R.id.plan);
-                    develop=(TextView)itemView.findViewById(R.id.develop);
-                    design=(TextView)itemView.findViewById(R.id.design);
-                    idea_info=(TextView)itemView.findViewById(R.id.idea_info);
-                    cardView=(CardView)itemView.findViewById(R.id.cardview);
                     break;
             }
         }

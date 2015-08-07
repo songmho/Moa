@@ -90,15 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         isvisible=true;
                         invalidateOptionsMenu();
                         return true;
-                    case R.id.teambuild:
-                        getSupportActionBar().setTitle("팀빌딩");
-                        cur_fragment=new BuildFragment();
-                        fragmentTransaction.replace(R.id.container, cur_fragment);
-                        fragmentTransaction.commit();
-                        drawerLayout.closeDrawers();
-                        isvisible=true;
-                        invalidateOptionsMenu();
-                        return true;
+
                     case R.id.basket:
                         getSupportActionBar().setTitle("관심멤버");
                         cur_fragment=new BasketFragment();
