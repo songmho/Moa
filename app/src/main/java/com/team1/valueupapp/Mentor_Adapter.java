@@ -1,10 +1,12 @@
 package com.team1.valueupapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,12 +17,12 @@ import java.util.List;
 public class Mentor_Adapter extends RecyclerView.Adapter<Mentor_Adapter.ViewHolder> {
         Context context;
         List<Mentor_item> items;
-        int rayout;
+        int layout;
 
-        public Mentor_Adapter(Context context, List<Mentor_item> items, int rayout) {
+        public Mentor_Adapter(Context context, List<Mentor_item> items, int layout) {
             this.context=context;
             this.items=items;
-            this.rayout=rayout;
+            this.layout=layout;
         }
 
         @Override
@@ -36,8 +38,21 @@ public class Mentor_Adapter extends RecyclerView.Adapter<Mentor_Adapter.ViewHold
 
             holder.mentor_name.setText(item.getMentor_name());
             holder.mentor_field.setText(item.getMentor_filed());
+//            holder.company.setText(item.getCompany());
+//            holder.email.setText(item.getEmail());
+            holder.mentor_container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context.getApplicationContext(), MentorActivity.class);
+                    intent.putExtra("mentor_name", item.getMentor_name());
+                    intent.putExtra("mentor_field", item.getMentor_filed());
+                    intent.putExtra("company", item.getCompany());
+                    intent.putExtra("email", item.getEmail());
+                    context.startActivity(intent);
+                }
+            });//mentor_container.setOnClickListener
 
-        }
+        }//onBindViewHolder
 
 
         @Override
@@ -51,15 +66,17 @@ public class Mentor_Adapter extends RecyclerView.Adapter<Mentor_Adapter.ViewHold
             TextView mentor_field;
             TextView company;
             TextView email;
-
-
+            LinearLayout mentor_container;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 mentor_name=(TextView)itemView.findViewById(R.id.mentor_name);
                 mentor_field=(TextView)itemView.findViewById(R.id.mentor_field);
-
+                company = (TextView)itemView.findViewById(R.id.company);
+                email = (TextView)itemView.findViewById(R.id.email);
+                mentor_container = (LinearLayout)itemView.findViewById(R.id.mentor_container);
             }
-        }
-    }
+        }//ViewHolder
+
+}//class
 

@@ -10,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +39,24 @@ public class MentorFragment extends Fragment {
         recyclerView = (RecyclerView) mentor_container.findViewById(R.id.recyclerview);
 
         items = new ArrayList<>();
-        Mentor_item item;
-        item= new Mentor_item("송효수", "디자인", "엔터프라이즈", "mentor@test.com");
-        items.add(item);items.add(item);items.add(item);items.add(item);
+        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_mentor");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                for (int i =0; i <list.size(); i++) {
+                    Mentor_item item = new Mentor_item(list.get(i).getString("mentor_name"), list.get(i).getString("mentor_field"),
+                            list.get(i).getString("company"), list.get(i).getString("email"));
+                    items.add(item);
+                }
+                recyclerView.setAdapter(new Mentor_Adapter(getActivity(), items, R.layout.fragment_mentor));
+            }
+        });
 
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.setAdapter(new Mentor_Adapter(getActivity(), items, R.layout.fragment_mentor));
+
 
         return mentor_container;
     }

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 menuItem.setChecked(true);
                 switch (menuItem.getItemId()){
                     case R.id.introduce:
-                        getSupportActionBar().setTitle("소개");
+                        getSupportActionBar().setTitle("참가자 소개");
 
                         cur_fragment=new MainFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);

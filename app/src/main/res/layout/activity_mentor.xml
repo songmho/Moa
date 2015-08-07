@@ -22,10 +22,10 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="?attr/colorPrimary">
             <ImageView
-                android:id="@+id/imageView"
+                android:background="#558B2F"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitStart"
+                android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax" />
 
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="멘토"
+                android:text="분야"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="16dp"/>
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"/>
             <TextView
-                android:id="@+id/mentor"
+                android:id="@+id/mentor_field"
                 android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="날짜"
+                android:text="회사명"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="16dp"/>
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"/>
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/company"
                 android:textSize="17dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:text="장소"
+                android:text="이메일"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="16dp"/>
@@ -116,33 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"/>
             <TextView
-                android:id="@+id/venue"
-                android:textSize="17dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="25dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:text="강의정보"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="16dp"/>
-            <LinearLayout
-                android:background="@color/Listdivider"
-                android:layout_width="match_parent"
-                android:layout_height="1.5dp"/>
-            <TextView
-                android:id="@+id/mentoring_info"
+                android:id="@+id/email"
                 android:textSize="17dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
