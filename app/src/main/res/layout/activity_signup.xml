@@ -1,155 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/tool_bar"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="horizontal">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:theme="@style/MyTextInputLayoutTextAppearance">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar" />
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/user_name"
-                android:theme="@style/MyAppCompatEdittext"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="사용자 이름"
-                android:inputType="textPersonName"
-                android:singleLine="true"
-                android:maxLines="1" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_height="match_parent"
+                android:layout_margin="15dp"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/user_name_null"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="10dp"
-            android:textColor="#FF0000"
-            />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/MyTextInputLayoutTextAppearance">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:theme="@style/MyTextInputLayoutTextAppearance">
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="사용자 이름"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:theme="@style/MyAppCompatEdittext" />
+                </android.support.design.widget.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/mail"
-                android:theme="@style/MyAppCompatEdittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="e-mail"
-                android:inputType="textEmailAddress"
-                android:singleLine="true"
-                android:maxLines="1"
-                />
-        </android.support.design.widget.TextInputLayout>
-        <TextView
-            android:id="@+id/mail_null"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="10dp"
-            android:textColor="#FF0000" />
+                <TextView
+                    android:id="@+id/user_name_null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#FF0000"
+                    android:textSize="10dp" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:theme="@style/MyTextInputLayoutTextAppearance">
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/MyTextInputLayoutTextAppearance">
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/pass"
-                android:theme="@style/MyAppCompatEdittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="비밀번호"
-                android:inputType="textPassword"
-                android:singleLine="true"
-                android:maxLines="1"
-                />
-        </android.support.design.widget.TextInputLayout>
-        <TextView
-            android:id="@+id/pass_null"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="10dp"
-            android:textColor="#FF0000" />
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/mail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="e-mail"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:theme="@style/MyAppCompatEdittext" />
+                </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:theme="@style/MyTextInputLayoutTextAppearance">
+                <TextView
+                    android:id="@+id/mail_null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#FF0000"
+                    android:textSize="10dp" />
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/pass_check"
-                android:theme="@style/MyAppCompatEdittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="비밀번호 확인"
-                android:inputType="textPassword"
-                android:singleLine="true"
-                android:maxLines="1" />
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/MyTextInputLayoutTextAppearance">
 
-        <TextView
-            android:id="@+id/pass_check_null"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="10dp"
-            android:textColor="#FF0000"
-            />
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="비밀번호"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:theme="@style/MyAppCompatEdittext" />
+                </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/signup_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/ColorPrimary"
-            android:layout_marginTop="50dp"
-            android:textColor="#FFFFFF"
-            android:textSize="20dp"
-            android:text="Sign Up"/>
+                <TextView
+                    android:id="@+id/pass_null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#FF0000"
+                    android:textSize="10dp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:theme="@style/MyTextInputLayoutTextAppearance">
+
+                    <android.support.v7.widget.AppCompatEditText
+                        android:id="@+id/pass_check"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="비밀번호 확인"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:theme="@style/MyAppCompatEdittext" />
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/pass_check_null"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#FF0000"
+                    android:textSize="10dp" />
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="분야"
+                        android:id="@+id/field"
+                        android:textColor="@color/ColorPrimary"/>
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/fieldgroup">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="기획자"
+                            android:id="@+id/field1"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="개발자"
+                            android:id="@+id/field2"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="디자이너"
+                            android:id="@+id/field3"/>
+                    </RadioGroup>
+
+                <Button
+                    android:id="@+id/signup_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:background="@color/ColorPrimary"
+                    android:text="Sign Up"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp" />
+
+            </LinearLayout>
+
+
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+
+        </FrameLayout>
 
     </LinearLayout>
-
-
-    <ProgressBar
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        android:id="@+id/progressbar"/>
-
-    </FrameLayout>
-
-</LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

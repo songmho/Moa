@@ -3,18 +3,17 @@ package com.team1.valueupapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
-
-import java.text.ParseException;
 
 /**
  * Created by hyemi on 2015-08-02.
@@ -28,7 +27,13 @@ public class SignUpActivity extends AppCompatActivity {
     TextView mail_null;
     TextView pass_null;
     TextView pass_check_null;
+    TextView field;
     Button signup_btn;
+    RadioGroup fieldgroup;
+    RadioButton field1;
+    RadioButton field2;
+    RadioButton field3;
+    String fieldname;
 
     Toolbar toolbar;
 
@@ -57,8 +62,30 @@ public class SignUpActivity extends AppCompatActivity {
 
         signup_btn = (Button) findViewById(R.id.signup_btn);
 
-        progressBar=(ProgressBar)findViewById(R.id.progressbar);
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        field = (TextView) findViewById(R.id.field);
+        fieldgroup = (RadioGroup) findViewById(R.id.fieldgroup);
+        field1 = (RadioButton) findViewById(R.id.field1);
+        field2 = (RadioButton) findViewById(R.id.field2);
+        field3 = (RadioButton) findViewById(R.id.field3);
 
+        fieldgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.field1:
+                        fieldname = "기획자";
+                        break;
+                    case R.id.field2:
+                        fieldname = "개발자";
+                        break;
+                    case R.id.field3:
+                        fieldname = "디자이너";
+                        break;
+
+                }
+            }
+        });
 
 
         signup_btn.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if( nullCheck() == 0 ) {
+                                if (nullCheck() == 0) {
                                     if (String.valueOf(pass.getText()).equals(String.valueOf(pass_check.getText()))) {
 
                                         progressBar.setVisibility(View.VISIBLE);
@@ -78,7 +105,9 @@ public class SignUpActivity extends AppCompatActivity {
 
                                         user.setUsername(String.valueOf(mail.getText()));
                                         user.setPassword(String.valueOf(pass.getText()));
+
                                         user.put("name", String.valueOf(user_name.getText()));
+                                        user.put("field",fieldname);
 
                                         user.signUpInBackground(new SignUpCallback() {
                                             @Override
@@ -119,34 +148,33 @@ public class SignUpActivity extends AppCompatActivity {
         });//signup_btn.clickListner
 
 
-
     }//onCreate
 
     public int nullCheck() {
         int count = 0;
 
-        if( String.valueOf(user_name.getText()).equals("") ) {
+        if (String.valueOf(user_name.getText()).equals("")) {
             user_name_null.setText("항목을 입력하세요.");
             count++;
         } else {
             user_name_null.setText("");
         }//end else
 
-        if(String.valueOf(mail.getText()).equals("")) {
+        if (String.valueOf(mail.getText()).equals("")) {
             mail_null.setText("항목을 입력하세요.");
             count++;
         } else {
             mail_null.setText("");
         }//end else
 
-        if(String.valueOf(pass.getText()).equals("")) {
+        if (String.valueOf(pass.getText()).equals("")) {
             pass_null.setText("항목을 입력하세요.");
             count++;
         } else {
             pass_null.setText("");
         }//end else
 
-        if(String.valueOf(pass_check.getText()).equals("")) {
+        if (String.valueOf(pass_check.getText()).equals("")) {
             pass_check_null.setText("항목을 입력하세요.");
             count++;
         } else {
