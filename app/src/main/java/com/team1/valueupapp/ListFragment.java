@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,26 +85,27 @@ public class ListFragment extends Fragment {
     }
 
     private void getListData(String job) {
-        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_people");
+        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
         parseQuery.whereContains("job", job);
-        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> list, ParseException e) {
+            public void done(List<ParseUser> list, ParseException e) {
                 if (list != null){
                     for (int i = 0; i < list.size(); i++) {
                         ListRecyclerItem item;
                         ParseObject parseObject = list.get(i);
-                        if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name")))
+                        if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name"))) {
                             item = new ListRecyclerItem(R.drawable.splash_logo,
-                                    parseObject.getString("info"), parseObject.getString("name"), true,cur_job,recyclerView);
-                        else
+                                    parseObject.getString("info"), parseObject.getString("name"), true, cur_job, recyclerView);
+                        } else {
                             item = new ListRecyclerItem(R.drawable.splash_logo,
-                                    parseObject.getString("info"), parseObject.getString("name"), false,cur_job,recyclerView);
+                                    parseObject.getString("info"), parseObject.getString("name"), false, cur_job, recyclerView);
+                        }
                         items.add(item);
                     }
                 recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
                 progressBar.setVisibility(View.GONE);
-            }
+                }
             }
         });
     }

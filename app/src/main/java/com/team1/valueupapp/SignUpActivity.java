@@ -15,6 +15,12 @@ import android.widget.Toast;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+import java.sql.Array;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  * Created by hyemi on 2015-08-02.
  */
@@ -27,13 +33,12 @@ public class SignUpActivity extends AppCompatActivity {
     TextView mail_null;
     TextView pass_null;
     TextView pass_check_null;
-    TextView field;
     Button signup_btn;
     RadioGroup fieldgroup;
     RadioButton field1;
     RadioButton field2;
     RadioButton field3;
-    String fieldname;
+    String job="";
 
     Toolbar toolbar;
 
@@ -63,7 +68,6 @@ public class SignUpActivity extends AppCompatActivity {
         signup_btn = (Button) findViewById(R.id.signup_btn);
 
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
-        field = (TextView) findViewById(R.id.field);
         fieldgroup = (RadioGroup) findViewById(R.id.fieldgroup);
         field1 = (RadioButton) findViewById(R.id.field1);
         field2 = (RadioButton) findViewById(R.id.field2);
@@ -74,15 +78,14 @@ public class SignUpActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.field1:
-                        fieldname = "기획자";
+                        job = "plan";
                         break;
                     case R.id.field2:
-                        fieldname = "개발자";
+                        job = "dev";
                         break;
                     case R.id.field3:
-                        fieldname = "디자이너";
+                        job = "dis";
                         break;
-
                 }
             }
         });
@@ -107,7 +110,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         user.setPassword(String.valueOf(pass.getText()));
 
                                         user.put("name", String.valueOf(user_name.getText()));
-                                        user.put("field",fieldname);
+                                        user.put("job", job);
+                                        user.put("pick", new ArrayList<>());
 
                                         user.signUpInBackground(new SignUpCallback() {
                                             @Override

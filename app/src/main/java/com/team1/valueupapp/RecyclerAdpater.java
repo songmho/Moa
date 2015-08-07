@@ -7,6 +7,7 @@ import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,13 +94,14 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
 
 
     private void checkStar(final ListRecyclerItem item_list, final ViewHolder viewHolder) {
-        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_people");
-        query.whereEqualTo("name",item_list.getName());
-        query.whereEqualTo("info",item_list.getApp_name());
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+        parseQuery.whereEqualTo("name",item_list.getName());
+        parseQuery.whereEqualTo("info",item_list.getApp_name());
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> list, ParseException e) {
+            public void done(List<ParseUser> list, ParseException e) {
                 for(int i=0;i<list.size();i++){
+                    Log.d("aa", ""+list.size());
                     final ParseObject parseObject=list.get(i);
 
                     Snackbar snackbar;

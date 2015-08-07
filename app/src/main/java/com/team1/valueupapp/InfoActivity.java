@@ -88,12 +88,12 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     private void loadingData(Intent intent, final int action) {
-        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_people");
-        query.whereEqualTo("name",intent.getStringExtra("name"));
-        query.whereEqualTo("info",intent.getStringExtra("idea"));
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+        parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
+        parseQuery.whereEqualTo("info",intent.getStringExtra("idea"));
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> list, ParseException e) {
+            public void done(List<ParseUser> list, ParseException e) {
                 for (int i=0;i<list.size();i++) {
                     final ParseObject parseObject = list.get(i);
                     if(action==0)
