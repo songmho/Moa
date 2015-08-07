@@ -22,79 +22,136 @@
             android:fitsSystemWindows="true"
             android:orientation="horizontal">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="15dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/user_name"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="사용자 이름"
-                    android:inputType="textPersonName"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:theme="@style/MyAppCompatEdittext" />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_signup_name"/>
+                    <EditText
+                        android:id="@+id/user_name"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:hint="이름"
+                        android:textSize="15dp"
+                        android:inputType="textPersonName"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:theme="@style/MyAppCompatEdittext" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/user_name_null"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textColor="#FF0000"
                     android:textSize="10dp" />
 
-                <EditText
-                    android:id="@+id/mail"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="e-mail"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:editable="false"
-                    android:theme="@style/MyAppCompatEdittext" />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_signup_email"/>
+                    <EditText
+                        android:id="@+id/mail"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:textSize="15dp"
+                        android:layout_gravity="center"
+                        android:hint="e-mail"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:editable="false"
+                        android:theme="@style/MyAppCompatEdittext" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/mail_null"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textColor="#FF0000"
                     android:textSize="10dp" />
 
-                <EditText
-                    android:id="@+id/pass"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="비밀번호"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:theme="@style/MyAppCompatEdittext" />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_signup_pw"/>
+                    <EditText
+                        android:id="@+id/pass"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:textSize="15dp"
+                        android:layout_gravity="center"
+                        android:hint="비밀번호"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:theme="@style/MyAppCompatEdittext" />
+                </LinearLayout>
                 <TextView
                     android:id="@+id/pass_null"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textColor="#FF0000"
                     android:textSize="10dp" />
 
-                <EditText
-                    android:id="@+id/pass_check"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="비밀번호 확인"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:theme="@style/MyAppCompatEdittext" />
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        />
+                    <EditText
+                        android:id="@+id/pass_check"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:textSize="15dp"
+                        android:layout_gravity="center"
+                        android:hint="비밀번호 확인"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:theme="@style/MyAppCompatEdittext" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/pass_check_null"
-                    android:layout_width="match_parent"
+                    android:layout_width="250dp"
+                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textColor="#FF0000"
@@ -102,49 +159,81 @@
 
 
 
-                <RadioGroup
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3"
-                    android:id="@+id/fieldgroup">
-
-                    <RadioButton
-                        android:layout_width="0dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/ic_signup_job"/>
+                    <RadioGroup
+                        android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="기획자"
-                        android:textColor="@color/ColorPrimary"
-                        android:id="@+id/field1"/>
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:weightSum="3"
+                        android:id="@+id/fieldgroup">
 
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="개발자"
-                        android:textColor="@color/ColorPrimary"
-                        android:id="@+id/field2"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="3dp"
+                            android:textSize="15dp"
+                            android:text="기획자"
+                            android:textColor="@color/ColorPrimary"
+                            android:id="@+id/field1"/>
 
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="디자이너"
-                        android:textColor="@color/ColorPrimary"
-                        android:id="@+id/field3"/>
-                </RadioGroup>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="3dp"
+                            android:textSize="15dp"
+                            android:text="개발자"
+                            android:textColor="@color/ColorPrimary"
+                            android:id="@+id/field2"/>
 
-                <Button
-                    android:id="@+id/signup_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:background="@color/ColorPrimary"
-                    android:text="Sign Up"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20dp" />
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginTop="3dp"
+                            android:textSize="15dp"
+                            android:text="디자이너"
+                            android:textColor="@color/ColorPrimary"
+                            android:id="@+id/field3"/>
+                    </RadioGroup>
+                </LinearLayout>
+
+
+
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+                >
+
+                <Button
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:background="@color/ColorPrimary"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp"
+                    android:text="Sign Up"
+                    android:id="@+id/signup_btn"
+                    android:layout_gravity="bottom"
+                    />
+            </LinearLayout>
+            </LinearLayout>
+
+
+
 
 
             <ProgressBar
