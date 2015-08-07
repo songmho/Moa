@@ -97,12 +97,12 @@ public class TeamActivity extends AppCompatActivity {
             j[i] = (TextView) v[i].findViewById(R.id.job);
             c[i]=(CircleImageView)v[i].findViewById(R.id.profile);
             n[i].setText(name_list[i]);
-            ParseQuery<ParseObject> q=ParseQuery.getQuery("ValueUp_people");
-            q.whereContains("name", name_list[i]);
+            ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+            parseQuery.whereContains("name", name_list[i]);
             final int finalI = i;
-            q.findInBackground(new FindCallback<ParseObject>() {
+            parseQuery.findInBackground(new FindCallback<ParseUser>() {
                 @Override
-                public void done(List<ParseObject> list, ParseException e) {
+                public void done(List<ParseUser> list, ParseException e) {
                     info[finalI] = list.get(0).getString("info");
                     if (list.get(0).getString("job").equals("plan")) {
                         j[finalI].setText("기획자");
