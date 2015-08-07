@@ -15,11 +15,7 @@ import android.widget.Toast;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-import java.sql.Array;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by hyemi on 2015-08-02.
@@ -112,6 +108,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         user.put("name", String.valueOf(user_name.getText()));
                                         user.put("job", job);
                                         user.put("pick", new ArrayList<>());
+                                        user.put("detail", "");
+                                        user.put("info","");
 
                                         user.signUpInBackground(new SignUpCallback() {
                                             @Override

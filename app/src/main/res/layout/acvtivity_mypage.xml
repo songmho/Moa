@@ -106,6 +106,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="12dp"
+                android:text="dd"
                 android:textSize="17dp" />
 
             <View
@@ -134,6 +135,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="12dp"
+                android:text="dd"
                 android:textSize="17dp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
