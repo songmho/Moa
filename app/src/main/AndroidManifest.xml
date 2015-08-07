@@ -82,6 +82,13 @@
                 android:value=".MentorActivity"/>
         </activity>
 
+        <activity android:name=".MypageActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MentorActivity"/>
+        </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="9229aecee3d9ad2200d4df06f2f684c2b3584085" />

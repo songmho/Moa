@@ -30,6 +30,14 @@
             android:title="멘토링 일정"/>
     </group>
     <group
+        android:id="@+id/group_mypage"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/mypage"
+            android:icon="@drawable/splash_logo"
+            android:title="마이페이지"/>
+    </group>
+    <group
         android:id="@+id/group_setup"
         android:checkableBehavior="single">
 
