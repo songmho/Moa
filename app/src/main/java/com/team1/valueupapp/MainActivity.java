@@ -65,14 +65,26 @@ public class MainActivity extends AppCompatActivity {
                     navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
                     navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
                     navigationView.getMenu().setGroupCheckable(R.id.group_mentor, true, true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
+
                 } else if (menuItem.getGroupId() == R.id.group_team) {        //팀 관련 그룹 클릭 됬을 때
                     navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
                     navigationView.getMenu().setGroupCheckable(R.id.group_team, true, true);
                     navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
-                } else {                                                   //설정 그룹 클릭 됬을 때
+                    navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
+
+                }else if(menuItem.getGroupId() == R.id.group_mypage){
+                    navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_mypage, true, true);
+                }
+                else {                                                   //설정 그룹 클릭 됬을 때
                     navigationView.getMenu().setGroupCheckable(R.id.group_setup, true, true);
                     navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
                     navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
+                    navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
+
                 }
 
 
