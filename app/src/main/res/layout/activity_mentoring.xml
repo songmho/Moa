@@ -22,10 +22,10 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="?attr/colorPrimary">
             <ImageView
-                android:background="#558B2F"
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:scaleType="fitStart"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax" />
 

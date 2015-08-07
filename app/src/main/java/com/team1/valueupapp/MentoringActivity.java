@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -28,6 +29,14 @@ public class MentoringActivity extends AppCompatActivity {
         TextView date = (TextView) findViewById(R.id.date);
         TextView venue = (TextView) findViewById(R.id.venue);
         TextView mentoring_info = (TextView) findViewById(R.id.mentoring_info);
+        ImageView imageView=(ImageView)findViewById(R.id.imageView);
+
+        if(intent.getStringExtra("job").equals("개발자"))
+            imageView.setBackgroundResource(R.drawable.img_programming);
+        else if(intent.getStringExtra("job").equals("디자이너"))
+            imageView.setBackgroundResource(R.drawable.img_design);
+        else
+            imageView.setBackgroundResource(R.drawable.img_planning);
 
         mentor.setText(intent.getStringExtra("mentor"));
         date.setText(intent.getStringExtra("date"));
