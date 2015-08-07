@@ -94,7 +94,7 @@ public class ListFragment extends Fragment {
                     for (int i = 0; i < list.size(); i++) {
                         ListRecyclerItem item;
                         ParseObject parseObject = list.get(i);
-                        if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name"))) {
+                        if (ParseUser.getCurrentUser().getList("pick").contains(parseObject.getString("name"))) {
                             item = new ListRecyclerItem(R.drawable.splash_logo,
                                     parseObject.getString("info"), parseObject.getString("name"), true, cur_job, recyclerView);
                         } else {

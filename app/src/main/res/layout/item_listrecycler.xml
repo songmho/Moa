@@ -62,8 +62,8 @@
                     android:layout_gravity="center">
                 <ImageButton
                     android:id="@+id/star"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
                     android:layout_gravity="right"
                     android:background="@drawable/check_selector"/>
                 </LinearLayout>

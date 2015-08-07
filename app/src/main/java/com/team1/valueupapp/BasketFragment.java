@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,12 +59,13 @@ public class BasketFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_people");
-                        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));       //pick array에 현재 유저네임 있으면 그사람 출력.
+                        ParseQuery<ParseUser> query=ParseUser.getQuery();
+                        query.whereContainedIn("name", ParseUser.getCurrentUser().getList("pick"));
                         final List<ListRecyclerItem> items=new ArrayList<>();
-                        query.findInBackground(new FindCallback<ParseObject>() {
+                        query.findInBackground(new FindCallback<ParseUser>() {
                             @Override
-                            public void done(List<ParseObject> list, ParseException e) {
+                            public void done(List<ParseUser> list, ParseException e) {
+                                Log.d("dddd",""+list.size());
                                 for(int i=0;i<list.size();i++){
                                     if(list.get(i).getString("job").equals("plan"))
                                         cur_job=0;

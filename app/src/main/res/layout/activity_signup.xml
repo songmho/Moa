@@ -2,6 +2,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -99,15 +101,6 @@
                     android:textSize="10dp" />
 
 
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="분야"
-                    android:id="@+id/field"
-                    android:textColor="@color/ColorPrimary"/>
 
                 <RadioGroup
                     android:layout_width="match_parent"

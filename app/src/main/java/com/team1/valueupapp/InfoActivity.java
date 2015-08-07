@@ -25,6 +25,7 @@ import java.util.List;
 public class InfoActivity extends AppCompatActivity {
     FloatingActionButton fab;
     TextView mydetail;
+    Intent intent;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -40,7 +41,7 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-        final Intent intent=getIntent();
+        intent=getIntent();
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -52,6 +53,13 @@ public class InfoActivity extends AppCompatActivity {
         mydetail=(TextView)findViewById(R.id.mydetail);
 
         fab=(FloatingActionButton)findViewById(R.id.fab);
+
+        if(intent.getBooleanExtra("star",true ))
+            fab.setImageResource(R.drawable.ic_check_white);
+        else
+            fab.setImageResource(R.drawable.add);
+
+
         collapsing_toolbar.setTitle(intent.getStringExtra("name"));
 
         switch (intent.getIntExtra("cur_job",0)){      //직종과 아이디어 및 스킬 텍스트 설정
@@ -108,18 +116,18 @@ public class InfoActivity extends AppCompatActivity {
     private void fab_clicked(final ParseObject parseObject) {
         View container=findViewById(R.id.container);
 
-        if (parseObject.getList("pick").contains(ParseUser.getCurrentUser().get("name"))) {
+        if (ParseUser.getCurrentUser().getList("pick").contains(intent.getStringExtra("name"))) {
 
             Snackbar snackbar=Snackbar.make(container,"관심멤버에서 제외합니다.",Snackbar.LENGTH_LONG);
-            parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
-            parseObject.saveInBackground();
+            ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
+            ParseUser.getCurrentUser().saveInBackground();
             fab.setImageResource(R.drawable.add);
 
             snackbar.setAction("실행취소", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
-                    parseObject.saveInBackground();
+                    ParseUser.getCurrentUser().getList("pick").add(intent.getStringExtra("name"));
+                    ParseUser.getCurrentUser().saveInBackground();
                     fab.setImageResource(R.drawable.ic_check_white);
                 }
             });
@@ -127,14 +135,14 @@ public class InfoActivity extends AppCompatActivity {
 
         } else {
             Snackbar snackbar=Snackbar.make(container,"관심멤버에 추가합니다.",Snackbar.LENGTH_LONG);
-            parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name"));
-            parseObject.saveInBackground();
+            ParseUser.getCurrentUser().getList("pick").add(intent.getStringExtra("name"));
+            ParseUser.getCurrentUser().saveInBackground();
             fab.setImageResource(R.drawable.ic_check_white);
             snackbar.setAction("실행취소", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    parseObject.getList("pick").remove(ParseUser.getCurrentUser().get("name"));
-                    parseObject.saveInBackground();
+                    ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
+                    ParseUser.getCurrentUser().saveInBackground();
                     fab.setImageResource(R.drawable.add);
                 }
             });
