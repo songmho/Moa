@@ -91,6 +91,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
+        <activity android:name=".Mypage_edit_Activity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MypageActivity"/>
+        </activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"

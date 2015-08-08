@@ -237,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override
                 public boolean onClose() {
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.container, cur_fragment);
                     fragmentTransaction.commit();
                     return false;
