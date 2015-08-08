@@ -1,7 +1,9 @@
 package com.team1.valueupapp;
 
+import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -27,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
-
-    AppBarLayout appbar;
     Toolbar toolbar;
 
     FragmentTransaction fragmentTransaction;
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     SearchFragment searchFragment = new SearchFragment();
     Boolean isvisible = true;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        appbar = (AppBarLayout) findViewById(R.id.toolbar);
-        toolbar=(Toolbar)appbar.findViewById(R.id.tool_bar);
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setElevation(0);
         setSupportActionBar(toolbar);
 
         setUpNavDrawer();
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.introduce:
                         getSupportActionBar().setTitle("참가자 소개");
-
+                        toolbar.setElevation(0);
                         cur_fragment = new MainFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.basket:
                         getSupportActionBar().setTitle("관심멤버");
+                        toolbar.setElevation(12);
                         cur_fragment = new BasketFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.mentor_info:
                         getSupportActionBar().setTitle("멘토소개");
-
+                        toolbar.setElevation(12);
                         cur_fragment = new MentorFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.mentoring:
                         getSupportActionBar().setTitle("멘토링 일정");
-
+                        toolbar.setElevation(12);
                         cur_fragment = new MentoringFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
@@ -149,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.setup:
                         getSupportActionBar().setTitle("설정");
+                        toolbar.setElevation(12);
                         cur_fragment = new SetupFragment();
                         fragmentTransaction.replace(R.id.container, cur_fragment);
                         fragmentTransaction.commit();
@@ -213,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
             searchView = (SearchView) searchItem.getActionView();
         }
         if (searchView != null) {
+            searchView.setQueryHint("이름");
             searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
