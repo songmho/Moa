@@ -2,6 +2,7 @@ package com.team1.valueupapp;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -27,11 +28,13 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView navigationView;
 
+    AppBarLayout appbar;
     Toolbar toolbar;
 
     FragmentTransaction fragmentTransaction;
     Fragment cur_fragment = new MainFragment();
 
+    SearchFragment searchFragment = new SearchFragment();
     Boolean isvisible = true;
 
     @Override
@@ -44,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        appbar = (AppBarLayout) findViewById(R.id.toolbar);
+        toolbar=(Toolbar)appbar.findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
         setUpNavDrawer();
@@ -88,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-
-                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction=getSupportFragmentManager().beginTransaction();
                 menuItem.setChecked(true);
                 switch (menuItem.getItemId()) {
                     case R.id.introduce:
@@ -216,13 +219,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     Log.d("query", query);
-
-                    SearchFragment searchFragment = new SearchFragment();
                     Bundle bundle = new Bundle();
                     bundle.putString("query", query);
                     searchFragment.setArguments(bundle);
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.container, searchFragment);
+                    fragmentTransaction.hide(cur_fragment);
+                    fragmentTransaction.add(R.id.container, searchFragment);
                     fragmentTransaction.commit();
                     return false;
                 }
@@ -238,7 +240,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onClose() {
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.container, cur_fragment);
+                    fragmentTransaction.remove(searchFragment);
+                    fragmentTransaction.show(cur_fragment);
                     fragmentTransaction.commit();
                     return false;
                 }
