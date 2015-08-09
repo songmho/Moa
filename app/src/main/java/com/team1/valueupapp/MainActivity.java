@@ -9,7 +9,9 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     String file_up_path="data/data/com.team1.valueupapp/files/";
     byte[] profile_byte;
     ParseFile profile_parse;
-    ParseUser user;
+    ParseUser user=ParseUser.getCurrentUser();
     int CAMERA_REQUEST=1000;
     int SELECT_FILE=2000;
 
@@ -202,15 +204,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int position) {
                 if (item[position].equals("카메라")) {
-                    Intent camera=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File file=new File(Environment.getExternalStorageDirectory(),"tmp.jpg");
-                    camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                    startActivityForResult(camera, CAMERA_REQUEST);
+                    Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                     if (camera.resolveActivity(getPackageManager()) != null)
+                        startActivityForResult(camera, CAMERA_REQUEST);
                 } else if (item[position].equals("갤러리에서 사진 가져오기")) {
-                    Intent gallery=new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     gallery.addCategory(Intent.CATEGORY_OPENABLE);
                     gallery.setType("image/*");
-                    startActivityForResult(Intent.createChooser(gallery,"갤러리 선택"),SELECT_FILE);
+                    startActivityForResult(Intent.createChooser(gallery, "갤러리 선택"), SELECT_FILE);
                 } else if (item[position].equals("삭제")) {
                     File file = new File("data/data/com.team1.valueupapp/files/");
                     File file1 = new File("data/data/com.team1.valueupapp/files/profile.jpg");
@@ -239,12 +240,13 @@ public class MainActivity extends AppCompatActivity {
             t.setText(ParseUser.getCurrentUser().getString("name"));
         else
             t.setText("Hello");
-        if(profileimage.exists()){
+      /*  if(profileimage.exists()){
             bm= BitmapFactory.decodeFile(tempPath);
             int degree=0;
             profile.setImageResource(R.drawable.ic_edit);}
-        else
-            profile.setImageResource(R.drawable.splash_logo);
+        else*/
+            Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.splash_logo);
+            profile.setImageBitmap(b);
     }
 
     @Override
@@ -336,77 +338,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
+        Bitmap thum;
+        if(resultCode==RESULT_OK && data!=null){
             if(requestCode==CAMERA_REQUEST){
-                File f=new File(Environment.getExternalStorageDirectory().toString());
-                for(File tmp:f.listFiles()){
-                    if(tmp.getName().equals("tmp.jpg")){
-                        f=tmp;
-                        break;
-                    }
-                }
-                try {
-                    BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-
-                    bm = BitmapFactory.decodeFile(f.getAbsolutePath(), btmapOptions);
-                    int degree = GetExifOrientation(tempPath);
-                    bm = GetRotatedBitmap(bm, degree);
-                    profile.setImageBitmap(bm);
-
-                    profile_byte = bitmapTobyte(bm);
-                    profileToparse(profile_byte);
-
-                    OutputStream fout = null;
-                    File file = new File(tempPath);
-                    File file_up = new File(file_up_path);
-                    try {
-                        if (!file_up.exists()) {
-                            file_up.mkdirs();
-                        }
-                        file.createNewFile();
-                        fout = new FileOutputStream(file);
-                        bm.compress(Bitmap.CompressFormat.JPEG, 70, fout);
-                        fout.flush();
-                        fout.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                thum=(Bitmap)data.getExtras().get("data");
+                profile.setImageBitmap(thum);
+                imgSendParse(thum);
             }
-
             else if(requestCode==SELECT_FILE){
-                Uri selectedImageUri = data.getData();
-                String path = getPath(selectedImageUri, MainActivity.this);
-                BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
-                bm = BitmapFactory.decodeFile(path, btmapOptions);
-                int degree = GetExifOrientation(tempPath);
-                bm = GetRotatedBitmap(bm, degree);
-                profile.setImageBitmap(bm);
-
-               // profile_byte = bitmapTobyte(bm);
-               // profileToparse(profile_byte);
-
-                OutputStream outputStream = null;
-                File file = new File(tempPath);
-                File file_up = new File(file_up_path);
+                Uri uri=data.getData();
                 try {
-                    if (!file_up.exists()) {
-                        file_up.mkdirs();
-                    }
-                    file.createNewFile();
-                    outputStream = new FileOutputStream(file);
-                    bm.compress(Bitmap.CompressFormat.JPEG, 70, outputStream);
-                    outputStream.flush();
-                    outputStream.close();
+                    thum = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    profile.setImageBitmap(thum);
+                    imgSendParse(thum);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -414,54 +362,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private synchronized static Bitmap GetRotatedBitmap(Bitmap bm, int degree) {
-        if(degree != 0 && bm!=null){
-            Matrix m=new Matrix();
-            m.setRotate(degree,(float)bm.getWidth()/2,(float)bm.getHeight()/2);
-
-            try{
-                Bitmap b2=Bitmap.createBitmap(bm,0,0, bm.getWidth(),bm.getHeight(),m,true);
-                if(b2!=b2){
-                    bm.recycle();
-                    bm=b2;
-                }
-            }
-            catch (OutOfMemoryError ignored){}
-        }
-
-        return bm;
-    }
-
-    private synchronized static int GetExifOrientation(String tempPath) {
-        int degree=0;
-        ExifInterface exifInterface=null;
-
-        try {
-            exifInterface=new ExifInterface(tempPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if(exifInterface !=null){
-            int orientation=exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION,-1);
-
-            if(orientation!= -1){
-                switch (orientation){
-                    case ExifInterface.ORIENTATION_ROTATE_90:
-                        degree=90;
-                        break;
-
-                    case ExifInterface.ORIENTATION_ROTATE_180:
-                        degree=180;
-                        break;
-
-                    case ExifInterface.ORIENTATION_ROTATE_270:
-                        degree=270;
-                        break;
-                }
-            }
-        }
-        return degree;
+    private void imgSendParse(Bitmap thum) {
+        profile_parse=new ParseFile("profile.jpg",bitmapTobyte(thum));
+        if(user.get("profile")!=null)
+            user.remove("profile");
+        user.put("profile", profile_parse);
+        user.saveInBackground();
     }
 
     private byte[] bitmapTobyte(Bitmap bm) {
@@ -471,24 +377,4 @@ public class MainActivity extends AppCompatActivity {
         return bytes;
     }
 
-    private String getPath(Uri uri, Activity activity) {
-        String[] projection = {MediaStore.MediaColumns.DATA};
-        Cursor cursor = activity.managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-    private void profileToparse(byte[] profile_byte) {
-        user=ParseUser.getCurrentUser();
-        profile_parse=new ParseFile("profile.jpg",profile_byte);
-        if(user.get("userProfile")!=null){
-            user.remove("userProfile");
-        }
-        else{
-            Log.d("parse", "profile image not saved in Parse.com");
-        }
-        user.put("profile",profile_parse);
-        user.saveInBackground();
-    }
 }
