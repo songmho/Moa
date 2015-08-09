@@ -27,4 +27,9 @@
     <style name="FabTheme">
         <item name="colorAccent">@color/accentColor</item>
     </style>
+
+    <style name="dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#FFCC00</item>
+        <item name="android:textColorPrimary">@color/ColorPrimary</item>
+    </style>
 </resources>
