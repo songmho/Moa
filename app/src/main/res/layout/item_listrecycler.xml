@@ -40,6 +40,7 @@
                    android:layout_height="wrap_content"
                    android:layout_marginBottom="3dp"
                    android:maxLines="1"
+                   android:singleLine="true"
                    android:text="해커톤을 위한 팀빌딩 어플"/>
                <TextView
                    android:id="@+id/name"
