@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -17,8 +18,8 @@ import com.parse.ParseUser;
  * Created by eugene on 2015-07-18.
  */
 public class LoginActivity extends AppCompatActivity {
-    AppCompatEditText id_text;
-    AppCompatEditText pass_text;
+    EditText id_text;
+    EditText pass_text;
     Button login_btn;
     Button signup_btn;
     ProgressBar progressBar;
@@ -27,8 +28,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        id_text= (AppCompatEditText) findViewById(R.id.id_text);
-        pass_text= (AppCompatEditText) findViewById(R.id.pass_text);
+        id_text= (EditText) findViewById(R.id.id_text);
+        pass_text= (EditText) findViewById(R.id.pass_text);
         login_btn= (Button) findViewById(R.id.login_btn);
         signup_btn= (Button) findViewById(R.id.signup_btn);
         progressBar=(ProgressBar)findViewById(R.id.progressbar);

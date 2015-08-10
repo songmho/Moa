@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -62,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
     Bitmap bm;
     String tempPath="data/data/com.team1.valueupapp/files/profile.jpg";
     File profileimage=new File("data/data/com.team1.valueupapp/files/profile.jpg");
-    String file_up_path="data/data/com.team1.valueupapp/files/";
-    byte[] profile_byte;
+    File file_up_path=new File("data/data/com.team1.valueupapp/files/");
     ParseFile profile_parse;
     ParseUser user=ParseUser.getCurrentUser();
     int CAMERA_REQUEST=1000;
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int position) {
                 if (item[position].equals("카메라")) {
                     Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                     if (camera.resolveActivity(getPackageManager()) != null)
+                    if (camera.resolveActivity(getPackageManager()) != null)
                         startActivityForResult(camera, CAMERA_REQUEST);
                 } else if (item[position].equals("갤러리에서 사진 가져오기")) {
                     Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -213,20 +213,16 @@ public class MainActivity extends AppCompatActivity {
                     gallery.setType("image/*");
                     startActivityForResult(Intent.createChooser(gallery, "갤러리 선택"), SELECT_FILE);
                 } else if (item[position].equals("삭제")) {
-                    File file = new File("data/data/com.team1.valueupapp/files/");
-                    File file1 = new File("data/data/com.team1.valueupapp/files/profile.jpg");
-                    File[] files = file.listFiles();
-
-                    if (file1.exists()) {
-                        for (File file2 : files) {
-                            String fname = file2.getName();
-                            if (fname.equals("profile.jpg")) {
-                                file2.delete();
-                            }
-                        }
-                        profile.setImageResource(R.drawable.splash_logo);
+                    File[] files=file_up_path.listFiles();
+                    for(int i=0;i<files.length;i++){
+                        String fname=files[i].getName();
+                        if(fname.equals("profile.jpg"))
+                            files[i].delete();
                     }
-                    user.remove("userProfile");
+                    ParseUser.getCurrentUser().remove("profile");
+                    Toast.makeText(getApplicationContext(),"삭제하였습니다.",Toast.LENGTH_SHORT).show();
+                    Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.splash_logo);
+                    profile.setImageBitmap(b);
                 }
             }
         });
@@ -240,13 +236,13 @@ public class MainActivity extends AppCompatActivity {
             t.setText(ParseUser.getCurrentUser().getString("name"));
         else
             t.setText("Hello");
-      /*  if(profileimage.exists()){
-            bm= BitmapFactory.decodeFile(tempPath);
-            int degree=0;
-            profile.setImageResource(R.drawable.ic_edit);}
-        else*/
+        if(profileimage.exists()){
+            Bitmap bm=BitmapFactory.decodeFile(tempPath);
+            profile.setImageBitmap(bm);}
+        else{
             Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.splash_logo);
             profile.setImageBitmap(b);
+        }
     }
 
     @Override
@@ -342,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap thum;
+        Bitmap thum = null;
         if(resultCode==RESULT_OK && data!=null){
             if(requestCode==CAMERA_REQUEST){
                 thum=(Bitmap)data.getExtras().get("data");
@@ -358,6 +354,19 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+
+            File file=new File("profile.jpg");
+            FileOutputStream fos= null;
+            try {
+                fos = openFileOutput("profile.jpg",0);
+                thum.compress(Bitmap.CompressFormat.JPEG,100,fos);
+                fos.flush();
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
