@@ -1,6 +1,8 @@
 package com.team1.valueupapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +21,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.parse.ParseUser;
+
+import java.io.File;
 
 /**
  * Created by songmho on 2015-07-04.
@@ -50,10 +54,21 @@ public class SetupFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
+                File file_up_path=new File("data/data/com.team1.valueupapp/files/");
                 if (currentUser != null) {
+
+                    File[] files=file_up_path.listFiles();
+                    for(int i=0;i<files.length;i++){
+                        String fname=files[i].getName();
+                        if(fname.equals("profile.jpg"))
+                            files[i].delete();
+                    }
+                    ParseUser.getCurrentUser().remove("profile");
+
                     Toast.makeText(getActivity().getApplicationContext(), "로그아웃되었습니다", Toast.LENGTH_SHORT).show();
                     currentUser.logOut();
                     startActivity(new Intent(getActivity(), SplashActivity.class));
+                    getActivity().finish();
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(), "로그인정보를 확인하세요", Toast.LENGTH_SHORT).show();
                 }//end else
