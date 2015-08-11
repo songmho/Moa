@@ -3,6 +3,8 @@ package com.team1.valueupapp;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
@@ -22,6 +24,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -63,8 +68,15 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         switch (itemLayout) {
             case R.layout.item_listrecycler:                                 //소개 및 관심멤버페이지의 경우
                 final ListRecyclerItem item_list = items_list.get(i);
+
+                if(item_list.getProfile()==null) {
+                    viewHolder.profile.setImageResource(R.drawable.splash_logo);
+                }
+                else{
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(item_list.getProfile(), 0, item_list.getProfile().length);
+                    viewHolder.profile.setImageBitmap(bitmap);
+                }
                 viewHolder.itemView.setTag(item_list);
-                viewHolder.profile.setImageResource(item_list.getProfile());
                 viewHolder.name.setText(item_list.getName());
                 viewHolder.app_name.setText(item_list.getApp_name());
                 viewHolder.star.setSelected(item_list.getStar());

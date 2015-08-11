@@ -9,11 +9,11 @@ public class ListRecyclerItem {
     String app_name;
     String name;
     boolean star;
-    int profile;
+    byte[] profile;
     int job;
     RecyclerView recyclerView;
 
-    int getProfile(){return  this.profile;}
+    byte[] getProfile(){return  this.profile;}
     String getApp_name(){
         return this.app_name;
     }
@@ -29,7 +29,7 @@ public class ListRecyclerItem {
     int getJob(){return this.job;}
     RecyclerView getRecyclerView(){return this.recyclerView;}
 
-    public ListRecyclerItem(int profile, String app_name, String name, boolean star,int job, RecyclerView recyclerView) {
+    public ListRecyclerItem(byte[] profile, String app_name, String name, boolean star,int job, RecyclerView recyclerView) {
         this.profile=profile;
         this.app_name=app_name;
         this.name=name;

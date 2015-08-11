@@ -56,30 +56,30 @@ public class LoginActivity extends AppCompatActivity {
                                 ParseUser.logInInBackground(String.valueOf(id_text.getText()), String.valueOf(pass_text.getText()), new LogInCallback() {
                                     @Override
                                     public void done(ParseUser user, ParseException e) {
-                                        progressBar.setVisibility(View.GONE);
                                         if(user != null){
                                             ParseFile parse_file=(ParseFile)ParseUser.getCurrentUser().get("profile");
-                                            parse_file.getDataInBackground(new GetDataCallback() {
-                                                @Override
-                                                public void done(byte[] bytes, ParseException e) {
-                                                    Bitmap thum= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                                                    File file=new File("profile.jpg");
-                                                    FileOutputStream fos= null;
-                                                    try {
-                                                        fos = openFileOutput("profile.jpg",0);
-                                                        thum.compress(Bitmap.CompressFormat.JPEG,100,fos);
+
+                                            if(parse_file!=null) {
+                                                try {  byte[] bytes;
+                                                        bytes = parse_file.getData();
+                                                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                                        FileOutputStream fos = openFileOutput("profile.jpg", 0);
+                                                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                                                         fos.flush();
                                                         fos.close();
-                                                    } catch (FileNotFoundException e1) {
-                                                        e1.printStackTrace();
-                                                    } catch (IOException e1) {
-                                                        e1.printStackTrace();
-                                                    }
+                                                } catch (ParseException e1) {
+                                                    e1.printStackTrace();
+                                                } catch (FileNotFoundException e1) {
+                                                    e1.printStackTrace();
+                                                } catch (IOException e1) {
+                                                    e1.printStackTrace();
                                                 }
-                                            });
+                                            }
+                                            progressBar.setVisibility(View.GONE);
                                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                             finish();
                                         }else{
+                                            progressBar.setVisibility(View.GONE);
                                             Toast.makeText(getApplicationContext(),"틀렸습니다.",Toast.LENGTH_SHORT).show();
                                         }
 

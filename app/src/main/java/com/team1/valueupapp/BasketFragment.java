@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -73,9 +74,19 @@ public class BasketFragment extends Fragment {
                                         cur_job=1;
                                     else
                                         cur_job=2;
-                                    ListRecyclerItem item=new ListRecyclerItem(R.drawable.splash_logo,list.get(i).getString("info"),
-                                            list.get(i).getString("name"),true,cur_job,recyclerView);
-                                    items.add(item);
+                                    ParseFile parse_file=(ParseFile)list.get(i).get("profile");
+                                    try {
+                                        byte[] bytes;
+                                        if(parse_file!=null)
+                                             bytes=parse_file.getData();
+                                        else
+                                            bytes=null;
+                                        ListRecyclerItem item=new ListRecyclerItem(bytes,list.get(i).getString("info"),
+                                                list.get(i).getString("name"),true,cur_job,recyclerView);
+                                        items.add(item);
+                                    } catch (ParseException e1) {
+                                        e1.printStackTrace();
+                                    }
                                 }
                                 recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
                                 progressBar.setVisibility(View.GONE);

@@ -13,10 +13,12 @@ import android.widget.ProgressBar;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,15 +92,26 @@ public class ListFragment extends Fragment {
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
+                byte[] bytes = new byte[0];
                 if (list != null){
                     for (int i = 0; i < list.size(); i++) {
+
                         ListRecyclerItem item;
                         ParseObject parseObject = list.get(i);
+                        ParseFile parse_file=(ParseFile)list.get(i).get("profile");
+                        try {
+                            if(parse_file==null)
+                                bytes=null;
+                            else{
+                                bytes=parse_file.getData();}
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
                         if (ParseUser.getCurrentUser().getList("pick").contains(parseObject.getString("name"))) {
-                            item = new ListRecyclerItem(R.drawable.splash_logo,
+                            item = new ListRecyclerItem(bytes,
                                     parseObject.getString("info"), parseObject.getString("name"), true, cur_job, recyclerView);
                         } else {
-                            item = new ListRecyclerItem(R.drawable.splash_logo,
+                            item = new ListRecyclerItem(bytes,
                                     parseObject.getString("info"), parseObject.getString("name"), false, cur_job, recyclerView);
                         }
                         items.add(item);
