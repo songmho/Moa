@@ -347,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
                 profile.setImageBitmap(thum);
                 imgSendParse(thum);
             }
-            else if(requestCode==SELECT_FILE){
+            else if(requestCode==SELECT_FILE && data!=null){
                 Uri uri=data.getData();
                 try {
                     thum = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
@@ -362,10 +362,7 @@ public class MainActivity extends AppCompatActivity {
             FileOutputStream fos= null;
             try {
                 fos = openFileOutput("profile.jpg",0);
-                if(requestCode==CAMERA_REQUEST)
                     thum.compress(Bitmap.CompressFormat.JPEG,50,fos);
-                else if(requestCode==SELECT_FILE)
-                    thum.compress(Bitmap.CompressFormat.JPEG,30,fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -386,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
 
     private byte[] bitmapTobyte(Bitmap bm) {
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG,100,stream);
+        bm.compress(Bitmap.CompressFormat.JPEG,50,stream);
         byte[] bytes=stream.toByteArray();
         return bytes;
     }
