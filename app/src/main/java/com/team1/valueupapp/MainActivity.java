@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -350,7 +351,11 @@ public class MainActivity extends AppCompatActivity {
             else if(requestCode==SELECT_FILE && data!=null){
                 Uri uri=data.getData();
                 try {
-                    thum = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    AssetFileDescriptor afd=getContentResolver().openAssetFileDescriptor(uri,"r");
+                    BitmapFactory.Options opt=new BitmapFactory.Options();
+                    opt.inSampleSize=4;
+                    thum=BitmapFactory.decodeFileDescriptor(afd.getFileDescriptor(),null,opt);
+//                    thum = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                     profile.setImageBitmap(thum);
                     imgSendParse(thum);
                 } catch (IOException e) {
@@ -383,7 +388,7 @@ public class MainActivity extends AppCompatActivity {
 
     private byte[] bitmapTobyte(Bitmap bm) {
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG,50,stream);
+        bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
         byte[] bytes=stream.toByteArray();
         return bytes;
     }
