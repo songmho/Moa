@@ -17,7 +17,7 @@ import com.parse.ParseUser;
 public class MypageActivity extends AppCompatActivity {
     ParseUser parseUser;
     String str_job;
-    String str_info;
+//    String str_info;
 
     CollapsingToolbarLayout collapsing_toolbar;
     TextView myjob;
@@ -51,25 +51,25 @@ public class MypageActivity extends AppCompatActivity {
         switch (parseUser.getString("job")){
             case "plan":
                 str_job="기획자";
-                str_info="아이디어";
+//                str_info="아이디어";
                 myjob.setText("기획자");
-                title.setText("아이디어");
+//                title.setText("아이디어");
                 break;
             case "dev":
                 str_job="개발자";
-                str_info="스킬";
+//                str_info="스킬";
                 myjob.setText("개발자");
-                title.setText("스킬");
+//                title.setText("스킬");
                 break;
             case "dis":
                 str_job="디자이너";
-                str_info="스킬";
+//                str_info="스킬";
                 myjob.setText("디자이너");
-                title.setText("스킬");
+//                title.setText("스킬");
                 break;
         }
 
-        myinfo.setText(parseUser.getString("info"));
+//        myinfo.setText(parseUser.getString("info"));
         mydetail.setText(parseUser.getString("detail"));
 
     }
@@ -87,9 +87,9 @@ public class MypageActivity extends AppCompatActivity {
         if (id == R.id.action_edit) {
             Intent intent=new Intent(MypageActivity.this,Mypage_edit_Activity.class);
             intent.putExtra("name",parseUser.getString("name"));
-            intent.putExtra("info",str_info);
+//            intent.putExtra("info",str_info);
             intent.putExtra("job",str_job);
-            intent.putExtra("myinfo",parseUser.getString("info"));
+//            intent.putExtra("myinfo",parseUser.getString("info"));
             intent.putExtra("mydetail",parseUser.getString("detail"));
             startActivity(intent);
             return true;
