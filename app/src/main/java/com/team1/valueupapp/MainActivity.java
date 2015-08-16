@@ -205,24 +205,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int position) {
                 if (item[position].equals("카메라")) {
                     Intent camera;
-                        camera = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        if (camera.resolveActivity(getPackageManager()) != null)
-                            startActivityForResult(camera, CAMERA_REQUEST);
+                    camera = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (camera.resolveActivity(getPackageManager()) != null)
+                        startActivityForResult(camera, CAMERA_REQUEST);
                 } else if (item[position].equals("갤러리에서 사진 가져오기")) {
                     Intent gallery = null;
-                        gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                        gallery.addCategory(Intent.CATEGORY_OPENABLE);gallery.setType("image/*");
-                        startActivityForResult(Intent.createChooser(gallery, "갤러리 선택"), SELECT_FILE);
-                    } else if (item[position].equals("삭제")) {
-                    File[] files=file_up_path.listFiles();
-                    for(int i=0;i<files.length;i++){
-                        String fname=files[i].getName();
-                        if(fname.equals("profile.jpg"))
+                    gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    gallery.addCategory(Intent.CATEGORY_OPENABLE);
+                    gallery.setType("image/*");
+                    startActivityForResult(Intent.createChooser(gallery, "갤러리 선택"), SELECT_FILE);
+                } else if (item[position].equals("삭제")) {
+                    File[] files = file_up_path.listFiles();
+                    for (int i = 0; i < files.length; i++) {
+                        String fname = files[i].getName();
+                        if (fname.equals("profile.jpg"))
                             files[i].delete();
                     }
                     ParseUser.getCurrentUser().remove("profile");
-                    Toast.makeText(getApplicationContext(),"삭제하였습니다.",Toast.LENGTH_SHORT).show();
-                    Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.splash_logo);
+                    Toast.makeText(getApplicationContext(), "삭제하였습니다.", Toast.LENGTH_SHORT).show();
+                    Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.splash_logo);
                     profile.setImageBitmap(b);
                 }
             }
@@ -361,7 +362,10 @@ public class MainActivity extends AppCompatActivity {
             FileOutputStream fos= null;
             try {
                 fos = openFileOutput("profile.jpg",0);
-                thum.compress(Bitmap.CompressFormat.JPEG,50,fos);
+                if(requestCode==CAMERA_REQUEST)
+                    thum.compress(Bitmap.CompressFormat.JPEG,50,fos);
+                else if(requestCode==SELECT_FILE)
+                    thum.compress(Bitmap.CompressFormat.JPEG,30,fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
