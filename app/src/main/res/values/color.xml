@@ -8,6 +8,10 @@
     <color name="TextColor_sub">#616161</color>
     <color name="transparent">#22000000</color>
     <color name="accentColor">#009688</color>
+    <color name="mypageColor">#000000</color>
+    <color name="designer">#ef6191</color>
+    <color name="planner">#1464bf</color>
+    <color name="developer">#04ba04</color>
 
     <color name="tab_color">#FFFFFF</color>
 </resources>

@@ -53,12 +53,15 @@
             android:orientation="vertical"
             android:paddingBottom="16dp"
             android:paddingTop="36dp"
+
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp">
 
 
                 <ImageView
@@ -81,27 +84,47 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="25dp" />
+                android:layout_height="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="9dp">
 
-                <ImageView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:background="@drawable/ic_intro_idea" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/ic_intro_idea" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="아이디어"
+                        android:textColor="@color/mypageColor"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
 
 
                 <TextView
                     android:id="@+id/myinfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="10dp"
                     android:text="dd"
                     android:textSize="17dp" />
             </LinearLayout>
@@ -109,29 +132,47 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="25dp" />
+                android:layout_height="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="9dp">
 
-                <ImageView
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
-                    android:background="@drawable/ic_intro_descrip" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="@drawable/ic_intro_descrip" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="소개"
+                        android:textColor="@color/mypageColor"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
 
                 <TextView
                     android:id="@+id/mydetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="10dp"
                     android:text="dd"
                     android:textSize="17dp" />
+
             </LinearLayout>
 
         </LinearLayout>
