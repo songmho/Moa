@@ -62,13 +62,14 @@ public class MainActivity extends AppCompatActivity {
 
     CharSequence[] item={"카메라","갤러리에서 사진 가져오기","삭제"};
     Bitmap bm;
-    String tempPath="data/data/com.team1.valueupapp/files/profile.jpg";
-    File profileimage=new File("data/data/com.team1.valueupapp/files/profile.jpg");
+    String tempPath="data/data/com.team1.valueupapp/files/profile.png";
+    File profileimage=new File("data/data/com.team1.valueupapp/files/profile.png");
     File file_up_path=new File("data/data/com.team1.valueupapp/files/");
     ParseFile profile_parse;
     ParseUser user=ParseUser.getCurrentUser();
     int CAMERA_REQUEST=1000;
     int SELECT_FILE=2000;
+    int IMAGE_CROP=3000;
 
     int cur_fragment_int=0;
 
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         isvisible = true;
                         invalidateOptionsMenu();
-                        cur_fragment_int=0;
+                        cur_fragment_int = 0;
                         return true;
 
                     case R.id.team:
@@ -165,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         isvisible = true;
                         invalidateOptionsMenu();
-                        cur_fragment_int=1;
+                        cur_fragment_int = 1;
                         return true;
 
                     case R.id.mentor_info:
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                     File[] files = file_up_path.listFiles();
                     for (int i = 0; i < files.length; i++) {
                         String fname = files[i].getName();
-                        if (fname.equals("profile.jpg"))
+                        if (fname.equals("profile.png"))
                             files[i].delete();
                     }
                     ParseUser.getCurrentUser().remove("profile");
@@ -365,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
                 profile.setImageBitmap(thum);
                 imgSendParse(thum);
             }
-            else if(requestCode==SELECT_FILE && data!=null){
+            else if(requestCode==SELECT_FILE && data!=null) {
                 Uri uri=data.getData();
                 try {
                     AssetFileDescriptor afd=getContentResolver().openAssetFileDescriptor(uri,"r");
@@ -379,11 +380,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            File file=new File("profile.jpg");
+            File file=new File("profile.png");
             FileOutputStream fos= null;
             try {
-                fos = openFileOutput("profile.jpg",0);
-                    thum.compress(Bitmap.CompressFormat.JPEG,50,fos);
+                fos = openFileOutput("profile.png",0);
+                thum.compress(Bitmap.CompressFormat.PNG,50,fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -395,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void imgSendParse(Bitmap thum) {
-        profile_parse=new ParseFile("profile.jpg",bitmapTobyte(thum));
+        profile_parse=new ParseFile("profile.png",bitmapTobyte(thum));
         if(user.get("profile")!=null)
             user.remove("profile");
         user.put("profile", profile_parse);
@@ -404,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
 
     private byte[] bitmapTobyte(Bitmap bm) {
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] bytes=stream.toByteArray();
         return bytes;
     }

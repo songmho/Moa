@@ -96,8 +96,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
 
                     <ImageView
@@ -108,11 +108,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="아이디어"
-                        android:textSize="16dp"
                         android:layout_marginLeft="16dp"
+                        android:text="아이디어"
                         android:textColor="@color/mypageColor"
-                        android:textStyle="bold"/>
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
@@ -122,12 +122,11 @@
                     android:id="@+id/myinfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="10dp"
                     android:text="dd"
-                    android:textSize="17dp"
-                    android:layout_marginLeft="16dp"/>
+                    android:textSize="17dp" />
             </LinearLayout>
 
 
@@ -145,8 +144,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="38dp"
@@ -156,25 +155,23 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="소개"
-                        android:textSize="16dp"
                         android:layout_marginLeft="16dp"
+                        android:text="소개"
                         android:textColor="@color/mypageColor"
-                        android:textStyle="bold"/>
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
 
-
-                    <TextView
-                        android:id="@+id/mydetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginTop="4dp"
-                        android:text="dd"
-                        android:textSize="17dp"
-                        android:layout_marginLeft="16dp"/>
+                <TextView
+                    android:id="@+id/mydetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:text="dd"
+                    android:textSize="17dp" />
 
             </LinearLayout>
 

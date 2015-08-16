@@ -29,6 +29,10 @@ public class MentorActivity extends AppCompatActivity {
         TextView email = (TextView) findViewById(R.id.email);
 
         mentor_field.setText(intent.getStringExtra("mentor_field"));
+        mentor_field.setTextColor(getResources().getColor(R.color.tab_color));
+        mentor_field.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
+        mentor_field.setPadding(30, 15, 30, 15);
+
         company.setText(intent.getStringExtra("company"));
         email.setText(intent.getStringExtra("email"));
 
