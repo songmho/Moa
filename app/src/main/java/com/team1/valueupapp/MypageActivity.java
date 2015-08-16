@@ -1,12 +1,15 @@
 package com.team1.valueupapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
@@ -24,6 +27,7 @@ public class MypageActivity extends AppCompatActivity {
     TextView title;
     TextView myinfo;
     TextView mydetail;
+    ImageView imageView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +42,11 @@ public class MypageActivity extends AppCompatActivity {
         title=(TextView)findViewById(R.id.info);
         myinfo=(TextView)findViewById(R.id.myinfo);
         mydetail=(TextView)findViewById(R.id.mydetail);
+        imageView=(ImageView)findViewById(R.id.image);
 
+        String tempPath="data/data/com.team1.valueupapp/files/profile.png";
+        Bitmap bm= BitmapFactory.decodeFile(tempPath);
+        imageView.setImageBitmap(bm);
 
     }
 
