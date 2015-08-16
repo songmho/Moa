@@ -146,6 +146,17 @@ public class MainActivity extends AppCompatActivity {
                         cur_fragment_int=0;
                         return true;
 
+                    case R.id.team:
+                        getSupportActionBar().setTitle("팀");
+                        cur_fragment = new TeamFragment();
+                        fragmentTransaction.replace(R.id.container, cur_fragment);
+                        fragmentTransaction.commit();
+                        drawerLayout.closeDrawers();
+                        isvisible = true;
+                        invalidateOptionsMenu();
+                        cur_fragment_int=0;
+                        return true;
+
                     case R.id.basket:
                         getSupportActionBar().setTitle("관심멤버");
                         cur_fragment = new BasketFragment();
