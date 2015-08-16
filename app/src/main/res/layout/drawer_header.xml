@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="192dp"
     android:orientation="vertical"
-    android:background="@color/ColorPrimary">
+    android:background="@drawable/drawer_pattern"
+    >
     <LinearLayout
         android:layout_gravity="bottom"
         android:orientation="vertical"
         android:layout_marginLeft="15dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile"
                 android:layout_width="70dp"
