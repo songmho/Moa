@@ -205,29 +205,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int position) {
                 if (item[position].equals("카메라")) {
                     Intent camera;
-                    if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.LOLLIPOP) {
                         camera = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         if (camera.resolveActivity(getPackageManager()) != null)
                             startActivityForResult(camera, CAMERA_REQUEST);
-                    }
-                    else{
-       //                 Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
-                        camera=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        File file=new File(Environment.getExternalStorageDirectory(),"profile.jpg");
-                        camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                        startActivityForResult(camera, CAMERA_REQUEST);
-                    }
                 } else if (item[position].equals("갤러리에서 사진 가져오기")) {
                     Intent gallery = null;
-                    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
                         gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                         gallery.addCategory(Intent.CATEGORY_OPENABLE);gallery.setType("image/*");
                         startActivityForResult(Intent.createChooser(gallery, "갤러리 선택"), SELECT_FILE);
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
-                        //gallery=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    }
                     } else if (item[position].equals("삭제")) {
                     File[] files=file_up_path.listFiles();
                     for(int i=0;i<files.length;i++){
