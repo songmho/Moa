@@ -65,14 +65,24 @@ public class InfoActivity extends AppCompatActivity {
         switch (intent.getIntExtra("cur_job",0)){      //직종과 아이디어 및 스킬 텍스트 설정
             case 0:
                 myjob.setText("기획자");
+                myjob.setTextColor(getResources().getColor(R.color.tab_color));
+                myjob.setBackgroundColor(getResources().getColor(R.color.planner));
+                myjob.setPadding(30, 15, 30, 15);
 //                title.setText("아이디어");
                 break;
             case 1:
                 myjob.setText("개발자");
+                myjob.setTextColor(getResources().getColor(R.color.tab_color));
+                myjob.setBackgroundColor(getResources().getColor(R.color.developer));
+                myjob.setPadding(30, 15, 30, 15);
+
 //                title.setText("스킬");
                 break;
             case 2:
                 myjob.setText("디자이너");
+                myjob.setTextColor(getResources().getColor(R.color.tab_color));
+                myjob.setBackgroundColor(getResources().getColor(R.color.designer));
+                myjob.setPadding(30, 15, 30, 15);
 //                title.setText("스킬");
                 break;
         }
