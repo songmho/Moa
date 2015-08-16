@@ -225,7 +225,7 @@ public class Mypage_edit_Activity extends AppCompatActivity {
             FileOutputStream fos= null;
             try {
                 fos = openFileOutput("profile.jpg",0);
-                thum.compress(Bitmap.CompressFormat.JPEG,100,fos);
+                thum.compress(Bitmap.CompressFormat.JPEG,50,fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {

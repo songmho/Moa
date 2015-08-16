@@ -211,11 +211,11 @@ public class MainActivity extends AppCompatActivity {
                             startActivityForResult(camera, CAMERA_REQUEST);
                     }
                     else{
-                        Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
-                      /*  camera=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+       //                 Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
+                        camera=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         File file=new File(Environment.getExternalStorageDirectory(),"profile.jpg");
                         camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                        startActivityForResult(camera, CAMERA_REQUEST);*/
+                        startActivityForResult(camera, CAMERA_REQUEST);
                     }
                 } else if (item[position].equals("갤러리에서 사진 가져오기")) {
                     Intent gallery = null;
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
                         Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
-                        //  gallery=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        //gallery=new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     }
                     } else if (item[position].equals("삭제")) {
                     File[] files=file_up_path.listFiles();
@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
             FileOutputStream fos= null;
             try {
                 fos = openFileOutput("profile.jpg",0);
-                thum.compress(Bitmap.CompressFormat.JPEG,100,fos);
+                thum.compress(Bitmap.CompressFormat.JPEG,50,fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
