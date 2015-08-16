@@ -77,7 +77,7 @@ public class Mypage_edit_Activity extends AppCompatActivity {
             Bitmap bm=BitmapFactory.decodeFile(tempPath);
             profile.setImageBitmap(bm);}
         else{
-            Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.splash_logo);
+            Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.ic_user);
             profile.setImageBitmap(b);
         }
         Intent getIntent=getIntent();
@@ -192,7 +192,7 @@ public class Mypage_edit_Activity extends AppCompatActivity {
                     }
                     ParseUser.getCurrentUser().remove("profile");
                     Toast.makeText(getApplicationContext(), "삭제하였습니다.", Toast.LENGTH_SHORT).show();
-                    Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.splash_logo);
+                    Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
                     profile.setImageBitmap(b);
                 }
             }
@@ -246,7 +246,7 @@ public class Mypage_edit_Activity extends AppCompatActivity {
 
     private byte[] bitmapTobyte(Bitmap bm) {
         ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
         byte[] bytes=stream.toByteArray();
         return bytes;
     }

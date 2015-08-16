@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -62,10 +63,13 @@ public class BasketFragment extends Fragment {
                     public void run() {
                         ParseQuery<ParseUser> query=ParseUser.getQuery();
                         query.whereContainedIn("name", ParseUser.getCurrentUser().getList("pick"));
+                        query.addAscendingOrder("name");
                         final List<ListRecyclerItem> items=new ArrayList<>();
                         query.findInBackground(new FindCallback<ParseUser>() {
                             @Override
                             public void done(List<ParseUser> list, ParseException e) {
+                                if(list.isEmpty())
+                                    Toast.makeText(getActivity().getApplicationContext(),"검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
                                 Log.d("dddd",""+list.size());
                                 for(int i=0;i<list.size();i++){
                                     if(list.get(i).getString("job").equals("plan"))

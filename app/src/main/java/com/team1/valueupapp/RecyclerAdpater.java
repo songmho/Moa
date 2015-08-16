@@ -70,7 +70,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 final ListRecyclerItem item_list = items_list.get(i);
 
                 if(item_list.getProfile()==null) {
-                    viewHolder.profile.setImageResource(R.drawable.splash_logo);
+                    viewHolder.profile.setImageResource(R.drawable.ic_user);
                 }
                 else{
                     Bitmap bitmap = BitmapFactory.decodeByteArray(item_list.getProfile(), 0, item_list.getProfile().length);

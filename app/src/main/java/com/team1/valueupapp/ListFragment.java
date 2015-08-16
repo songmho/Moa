@@ -89,6 +89,7 @@ public class ListFragment extends Fragment {
     private void getListData(String job) {
         ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
         parseQuery.whereContains("job", job);
+        parseQuery.addAscendingOrder("name");
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
