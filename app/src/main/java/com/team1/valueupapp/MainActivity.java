@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     int CAMERA_REQUEST=1000;
     int SELECT_FILE=2000;
 
+    int cur_fragment_int=0;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -141,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         isvisible = true;
                         invalidateOptionsMenu();
+                        cur_fragment_int=0;
                         return true;
 
                     case R.id.basket:
@@ -151,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                         drawerLayout.closeDrawers();
                         isvisible = true;
                         invalidateOptionsMenu();
+                        cur_fragment_int=1;
                         return true;
 
                     case R.id.mentor_info:
@@ -224,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     ParseUser.getCurrentUser().remove("profile");
                     Toast.makeText(getApplicationContext(), "삭제하였습니다.", Toast.LENGTH_SHORT).show();
-                    Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.splash_logo);
+                    Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
                     profile.setImageBitmap(b);
                 }
             }
@@ -243,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
             Bitmap bm=BitmapFactory.decodeFile(tempPath);
             profile.setImageBitmap(bm);}
         else{
-            Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.splash_logo);
+            Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.ic_user);
             profile.setImageBitmap(b);
         }
     }
@@ -296,9 +300,12 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Log.d("query", query);
                     Bundle bundle = new Bundle();
                     bundle.putString("query", query);
+                    if(cur_fragment_int==0)
+                        bundle.putInt("fragment",0);
+                    else if(cur_fragment_int==1)
+                        bundle.putInt("fragment",1);
                     searchFragment.setArguments(bundle);
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.hide(cur_fragment);
@@ -309,7 +316,6 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    Log.d("newText", newText);
                     return false;
                 }
             });
@@ -354,8 +360,7 @@ public class MainActivity extends AppCompatActivity {
                     AssetFileDescriptor afd=getContentResolver().openAssetFileDescriptor(uri,"r");
                     BitmapFactory.Options opt=new BitmapFactory.Options();
                     opt.inSampleSize=4;
-                    thum=BitmapFactory.decodeFileDescriptor(afd.getFileDescriptor(),null,opt);
-//                    thum = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    thum=BitmapFactory.decodeFileDescriptor(afd.getFileDescriptor(), null, opt);
                     profile.setImageBitmap(thum);
                     imgSendParse(thum);
                 } catch (IOException e) {

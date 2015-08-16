@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
@@ -54,13 +55,13 @@ public class SearchFragment extends Fragment {
         //search=bundle.getString("search");
         Log.d("search", search);
 
-        makeList(search);
+        makeList(search,bundle.getInt("fragment"));
 
 
         return cur_container;
     }
-    public void makeList(final String search) {
-        Log.d("aa",search);
+
+    public void makeList(final String search, final int frag) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -69,7 +70,10 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void run() {
                         ParseQuery<ParseUser> query=ParseUser.getQuery();
-                        query.whereContains("name",search);
+                        query.whereContains("name", search);
+                        if(frag==1)
+                        query.whereContainedIn("name", ParseUser.getCurrentUser().getList("pick"));
+                        query.addAscendingOrder("name");
                         final List<ListRecyclerItem> items=new ArrayList<>();
                         query.findInBackground(new FindCallback<ParseUser>() {
                             @Override
