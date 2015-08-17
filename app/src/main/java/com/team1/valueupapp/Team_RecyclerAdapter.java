@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by hyemi on 2015-08-16.
@@ -37,7 +36,11 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Team_item item=items_list.get(position);
 
-        holder.state.setText(item.getState());
+        if(item.getState()==true) {
+            holder.state.setText("팀빌딩 완료");
+        } else {
+            holder.state.setText("팀빌딩 중");
+        }//end else
         holder.idea.setText(item.getIdea());
         holder.idea_info.setText(item.getIdea_info());
         holder.name1.setText(item.getName1());
