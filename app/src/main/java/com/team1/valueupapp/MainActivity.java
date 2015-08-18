@@ -139,9 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.introduce:
                         getSupportActionBar().setTitle("참가자 소개");
-                        cur_fragment = new MainFragment();
-                        fragmentTransaction.replace(R.id.container, cur_fragment);
-                        fragmentTransaction.commit();
+                        startActivity(new Intent(MainActivity.this, MemberActivity.class));
                         drawerLayout.closeDrawers();
                         isvisible = true;
                         invalidateOptionsMenu();
@@ -155,14 +153,6 @@ public class MainActivity extends AppCompatActivity {
                         isvisible = false;
                         invalidateOptionsMenu();
                         return true;
-//                        cur_fragment = new BasketFragment();
-//                        fragmentTransaction.replace(R.id.container, cur_fragment);
-//                        fragmentTransaction.commit();
-//                        drawerLayout.closeDrawers();
-//                        isvisible = true;
-//                        invalidateOptionsMenu();
-//                        cur_fragment_int = 1;
-//                        return true;
 
                     case R.id.mentor_info:
                         getSupportActionBar().setTitle("멘토소개");
