@@ -32,6 +32,7 @@ public class PickedFragment extends Fragment {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     int cur_job;
+    List<ListRecyclerItem> items = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,11 +49,12 @@ public class PickedFragment extends Fragment {
         layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        makeList();
         return cur_container;
     }
 
-    private void makeList() {
+    @Override
+    public void onResume() {
+        super.onResume();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -60,46 +62,52 @@ public class PickedFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        ParseQuery<ParseUser> query=ParseUser.getQuery();
-                        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
-//                        query.whereContainedIn("name", ParseUser.getCurrentUser().getList("pick"));
-                        query.addAscendingOrder("name");
-                        final List<ListRecyclerItem> items=new ArrayList<>();
-                        query.findInBackground(new FindCallback<ParseUser>() {
-                            @Override
-                            public void done(List<ParseUser> list, ParseException e) {
-                                if(list.isEmpty())
-                                    Toast.makeText(getActivity().getApplicationContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
-                                Log.d("dddd", "" + list.size());
-                                for(int i=0;i<list.size();i++){
-                                    if(list.get(i).getString("job").equals("plan"))
-                                        cur_job=0;
-                                    else if(list.get(i).getString("job").equals("dev"))
-                                        cur_job=1;
-                                    else
-                                        cur_job=2;
-                                    ParseFile parse_file=(ParseFile)list.get(i).get("profile");
-                                    try {
-                                        byte[] bytes;
-                                        if(parse_file!=null)
-                                            bytes=parse_file.getData();
-                                        else
-                                            bytes=null;
-                                        ListRecyclerItem item=new ListRecyclerItem(bytes,list.get(i).getString("info"),
-                                                list.get(i).getString("name"),true,cur_job,recyclerView);
-                                        items.add(item);
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                }
-                                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
+                        makeList();
                     }
                 });
             }
         }).start();
+
+    }
+
+    private void makeList() {
+        items.clear();
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
+//                        query.whereContainedIn("name", ParseUser.getCurrentUser().getList("pick"));
+        query.addAscendingOrder("name");
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                if (list.isEmpty())
+                    Toast.makeText(getActivity().getApplicationContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+                Log.d("dddd", "" + list.size());
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getString("job").equals("plan"))
+                        cur_job = 0;
+                    else if (list.get(i).getString("job").equals("dev"))
+                        cur_job = 1;
+                    else
+                        cur_job = 2;
+                    ParseFile parse_file = (ParseFile) list.get(i).get("profile");
+                    try {
+                        byte[] bytes;
+                        if (parse_file != null)
+                            bytes = parse_file.getData();
+                        else
+                            bytes = null;
+                        ListRecyclerItem item = new ListRecyclerItem(bytes, list.get(i).getString("info"),
+                                list.get(i).getString("name"), true, cur_job, recyclerView);
+                        items.add(item);
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
+                progressBar.setVisibility(View.GONE);
+            }
+        });
 
     }
 }//class
