@@ -70,14 +70,14 @@
                 android:value=".SignUpActivity"/>
         </activity>
 
-        <activity android:name=".MentoringActivity"
+        <activity android:name=".MentoringDetailActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MentoringActivity"/>
+                android:value=".MentoringDetailActivity"/>
         </activity>
 
-        <activity android:name=".MentorActivity"
+        <activity android:name=".MentorDetailActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -96,6 +96,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MypageActivity"/>
+        </activity>
+        <activity android:name=".SetupActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity android:name=".MentoringActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity android:name=".MentorActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
         </activity>
 
         <meta-data

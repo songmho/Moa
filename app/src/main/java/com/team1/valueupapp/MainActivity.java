@@ -1,22 +1,14 @@
 package com.team1.valueupapp;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.ExifInterface;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -27,7 +19,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +34,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -160,9 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.mentor_info:
                         getSupportActionBar().setTitle("멘토소개");
-                        cur_fragment = new MentorFragment();
-                        fragmentTransaction.replace(R.id.container, cur_fragment);
-                        fragmentTransaction.commit();
+                        startActivity(new Intent(MainActivity.this,MentorActivity.class));
                         drawerLayout.closeDrawers();
                         isvisible = false;
                         invalidateOptionsMenu();
@@ -171,9 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.mentoring:
                         getSupportActionBar().setTitle("멘토링 일정");
-                        cur_fragment = new MentoringFragment();
-                        fragmentTransaction.replace(R.id.container, cur_fragment);
-                        fragmentTransaction.commit();
+                        startActivity(new Intent(MainActivity.this, MentoringActivity.class));
                         drawerLayout.closeDrawers();
                         isvisible = false;
                         invalidateOptionsMenu();
@@ -189,9 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.setup:
                         getSupportActionBar().setTitle("설정");
-                        cur_fragment = new SetupFragment();
-                        fragmentTransaction.replace(R.id.container, cur_fragment);
-                        fragmentTransaction.commit();
+                        startActivity(new Intent(MainActivity.this, SetupActivity.class));
                         drawerLayout.closeDrawers();
                         isvisible = false;
                         invalidateOptionsMenu();

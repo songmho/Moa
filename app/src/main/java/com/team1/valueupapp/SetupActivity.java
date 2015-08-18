@@ -1,20 +1,17 @@
 package com.team1.valueupapp;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import android.widget.Switch;
 
@@ -27,8 +24,7 @@ import java.io.File;
 /**
  * Created by songmho on 2015-07-04.
  */
-public class SetupFragment extends Fragment {
-    CoordinatorLayout setup_container;
+public class SetupActivity extends AppCompatActivity {
     Button logout;
     Switch swc_notice;
     Button btn_aboutpage;
@@ -37,17 +33,17 @@ public class SetupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_setup);
 
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("설정");
 
-        setup_container = (CoordinatorLayout) inflater.inflate(R.layout.fragment_setup, container, false);
-        logout = (Button) setup_container.findViewById(R.id.logout);
-        swc_notice = (Switch) setup_container.findViewById(R.id.swc_notice);
-        btn_aboutpage = (Button) setup_container.findViewById(R.id.btn_aboutpage);
+        logout = (Button) findViewById(R.id.logout);
+        swc_notice = (Switch) findViewById(R.id.swc_notice);
+        btn_aboutpage = (Button) findViewById(R.id.btn_aboutpage);
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -58,19 +54,19 @@ public class SetupFragment extends Fragment {
                 if (currentUser != null) {
 
                     File[] files=file_up_path.listFiles();
-                    for(int i=0;i<files.length;i++){
-                        String fname=files[i].getName();
-                        if(fname.equals("profile.jpg"))
-                            files[i].delete();
+                    for (File file : files) {
+                        String fname = file.getName();
+                        if (fname.equals("profile.jpg"))
+                            file.delete();
                     }
                     ParseUser.getCurrentUser().remove("profile");
 
-                    Toast.makeText(getActivity().getApplicationContext(), "로그아웃되었습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "로그아웃되었습니다", Toast.LENGTH_SHORT).show();
                     currentUser.logOut();
-                    startActivity(new Intent(getActivity(), SplashActivity.class));
-                    getActivity().finish();
+                    startActivity(new Intent(SetupActivity.this, SplashActivity.class));
+                    finish();
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "로그인정보를 확인하세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext().getApplicationContext(), "로그인정보를 확인하세요", Toast.LENGTH_SHORT).show();
                 }//end else
             }
         });//OnClickListener
@@ -79,9 +75,9 @@ public class SetupFragment extends Fragment {
             public void onCheckedChanged(CompoundButton cb, boolean isChecking) {
 
                 if (isChecking)
-                    Toast.makeText(getActivity(), "교육일정알림 설정", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "교육일정알림 설정", Toast.LENGTH_SHORT).show();
                 else
-                    Toast.makeText(getActivity(), "교육일정알림 해제", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "교육일정알림 해제", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -93,8 +89,6 @@ public class SetupFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        return setup_container;
     }
 
 }//class

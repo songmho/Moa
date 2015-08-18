@@ -44,9 +44,9 @@ public class MypageActivity extends AppCompatActivity {
         mydetail=(TextView)findViewById(R.id.mydetail);
         imageView=(ImageView)findViewById(R.id.image);
 
-        String tempPath="data/data/com.team1.valueupapp/files/profile.png";
-        Bitmap bm= BitmapFactory.decodeFile(tempPath);
-        imageView.setImageBitmap(bm);
+//        String tempPath="data/data/com.team1.valueupapp/files/profile.png";
+ //       Bitmap bm= BitmapFactory.decodeFile(tempPath);
+  //      imageView.setImageBitmap(bm);
 
     }
 
