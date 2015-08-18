@@ -1,8 +1,6 @@
 package com.team1.valueupapp;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +26,7 @@ public class MypageActivity extends AppCompatActivity {
     TextView myinfo;
     TextView mydetail;
     ImageView imageView;
+    TextView str_info;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +42,7 @@ public class MypageActivity extends AppCompatActivity {
         myinfo=(TextView)findViewById(R.id.myinfo);
         mydetail=(TextView)findViewById(R.id.mydetail);
         imageView=(ImageView)findViewById(R.id.image);
+        str_info=(TextView)findViewById(R.id.str_info);
 
 //        String tempPath="data/data/com.team1.valueupapp/files/profile.png";
  //       Bitmap bm= BitmapFactory.decodeFile(tempPath);
@@ -60,7 +60,8 @@ public class MypageActivity extends AppCompatActivity {
 
             case "plan":
                 str_job="기획자";
-//                str_info="아이디어";
+                str_info.setText("아이디어");
+
                 myjob.setText("기획자");
                 myjob.setTextColor(getResources().getColor(R.color.tab_color));
                 myjob.setBackgroundColor(getResources().getColor(R.color.planner));
@@ -71,7 +72,7 @@ public class MypageActivity extends AppCompatActivity {
                 break;
             case "dev":
                 str_job="개발자";
-//                str_info="스킬";
+                str_info.setText("스킬");
                 myjob.setText("개발자");
                 myjob.setTextColor(getResources().getColor(R.color.tab_color));
                 myjob.setBackgroundColor(getResources().getColor(R.color.developer));
@@ -81,7 +82,7 @@ public class MypageActivity extends AppCompatActivity {
                 break;
             case "dis":
                 str_job="디자이너";
-//                str_info="스킬";
+                str_info.setText("스킬");
                 myjob.setText("디자이너");
                 myjob.setTextColor(getResources().getColor(R.color.tab_color));
                 myjob.setBackgroundColor(getResources().getColor(R.color.designer));
