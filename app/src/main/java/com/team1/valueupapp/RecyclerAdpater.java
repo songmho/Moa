@@ -117,18 +117,19 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.itemView.setTag(interest_list);
                 viewHolder.name.setText(interest_list.getName());
                 viewHolder.app_name.setText(interest_list.getApp_name());
+                viewHolder.memo.setText(interest_list.getMemo());
 
-//                viewHolder.container.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent goto_info = new Intent(context.getApplicationContext(), InfoActivity.class);
-//                        goto_info.putExtra("cur_job", interest_list.getJob());
-//                        goto_info.putExtra("name", interest_list.getName());
-//                        goto_info.putExtra("profile", interest_list.getProfile());
-//                        goto_info.putExtra("idea", interest_list.getApp_name());
-//                        context.startActivity(goto_info);
-//                    }
-//                });
+                viewHolder.cardview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent goto_info = new Intent(context.getApplicationContext(), InfoActivity.class);
+                        goto_info.putExtra("cur_job", interest_list.getJob());
+                        goto_info.putExtra("name", interest_list.getName());
+                        goto_info.putExtra("profile", interest_list.getProfile());
+                        goto_info.putExtra("idea", interest_list.getApp_name());
+                        context.startActivity(goto_info);
+                    }
+                });
 
                 break;
         }
@@ -210,6 +211,9 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         CircleImageView profile;
         LinearLayout container;
 
+        CardView cardview;
+        TextView memo;
+
         public ViewHolder(View itemView,int itemLayout) {
             super(itemView);
             switch (itemLayout) {
@@ -226,7 +230,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     profile=(CircleImageView)itemView.findViewById(R.id.profile);
                     app_name = (TextView) itemView.findViewById(R.id.app_name);
                     name = (TextView) itemView.findViewById(R.id.name);
-                    container =(LinearLayout)itemView.findViewById(R.id.container);
+                    memo = (TextView) itemView.findViewById(R.id.memo);
+                    cardview = (CardView)itemView.findViewById(R.id.cardview);
                     break;
             }
         }
