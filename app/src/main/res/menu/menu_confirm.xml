@@ -1,6 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".Mypage_edit_Activity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Mypage_edit_Activity">
     <item android:id="@+id/action_check"
         android:icon="@drawable/ic_mypage_complete"
         app:showAsAction="always"

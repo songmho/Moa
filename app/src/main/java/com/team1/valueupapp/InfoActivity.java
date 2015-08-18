@@ -1,14 +1,23 @@
 package com.team1.valueupapp;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -26,6 +35,8 @@ public class InfoActivity extends AppCompatActivity {
     FloatingActionButton fab;
     TextView mydetail;
     Intent intent;
+    Button memobutton;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -51,8 +62,12 @@ public class InfoActivity extends AppCompatActivity {
 //        TextView title=(TextView)findViewById(R.id.info);
         TextView myinfo=(TextView)findViewById(R.id.myinfo);
         mydetail=(TextView)findViewById(R.id.mydetail);
+        memobutton=(Button)findViewById(R.id.memobutton);
 
         fab=(FloatingActionButton)findViewById(R.id.fab);
+
+
+
 
         if(intent.getBooleanExtra("star",true ))
             fab.setImageResource(R.drawable.ic_check_white);
@@ -99,6 +114,20 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingData(intent, 1);
+            }
+        });
+        memobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialog = create_inputDialog();
+                Context context = getApplicationContext();
+                LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.popup_memo, (ViewGroup)findViewById(R.id.popup_root));
+                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                dialog.setView(layout);
+                dialog.show();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
             }
         });
 
@@ -158,5 +187,18 @@ public class InfoActivity extends AppCompatActivity {
             });
             snackbar.show();
         }
+    }
+    private AlertDialog create_inputDialog() {
+        AlertDialog dialogBox = new AlertDialog.Builder(this)
+                .setTitle("메모를 입력하세요")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).create();
+        return dialogBox;
     }
 }
