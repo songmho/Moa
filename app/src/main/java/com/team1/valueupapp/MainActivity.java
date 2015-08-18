@@ -150,14 +150,19 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.basket:
                         getSupportActionBar().setTitle("관심멤버");
-                        cur_fragment = new BasketFragment();
-                        fragmentTransaction.replace(R.id.container, cur_fragment);
-                        fragmentTransaction.commit();
+                        startActivity(new Intent(MainActivity.this, InterestActivity.class));
                         drawerLayout.closeDrawers();
-                        isvisible = true;
+                        isvisible = false;
                         invalidateOptionsMenu();
-                        cur_fragment_int = 1;
                         return true;
+//                        cur_fragment = new BasketFragment();
+//                        fragmentTransaction.replace(R.id.container, cur_fragment);
+//                        fragmentTransaction.commit();
+//                        drawerLayout.closeDrawers();
+//                        isvisible = true;
+//                        invalidateOptionsMenu();
+//                        cur_fragment_int = 1;
+//                        return true;
 
                     case R.id.mentor_info:
                         getSupportActionBar().setTitle("멘토소개");

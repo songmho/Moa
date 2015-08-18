@@ -11,7 +11,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
@@ -91,6 +90,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
+
+        <activity android:name=".InterestActivity"
+            android:screenOrientation="portrait"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
         <activity android:name=".Mypage_edit_Activity"
             android:screenOrientation="portrait">
             <meta-data
