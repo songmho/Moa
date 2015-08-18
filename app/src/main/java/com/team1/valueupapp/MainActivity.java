@@ -17,12 +17,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +38,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -45,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView profile;
 
     FragmentTransaction fragmentTransaction;
-    Fragment cur_fragment = new TeamFragment();
 
     SearchFragment searchFragment = new SearchFragment();
     Boolean isvisible = true;
@@ -59,7 +64,10 @@ public class MainActivity extends AppCompatActivity {
     ParseUser user=ParseUser.getCurrentUser();
     int CAMERA_REQUEST=1000;
     int SELECT_FILE=2000;
-    int IMAGE_CROP=3000;
+
+    RecyclerView recyclerView;
+    RecyclerView.LayoutManager layoutManager;
+    List<MainListitem> items;
 
     int cur_fragment_int=0;
 
@@ -79,12 +87,17 @@ public class MainActivity extends AppCompatActivity {
 
         setUpNavDrawer();
 
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.container, cur_fragment);
-        fragmentTransaction.commit();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
+        recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
+
+        layoutManager=new LinearLayoutManager(getApplicationContext());
+        FrameLayout pick=(FrameLayout)findViewById(R.id.pick);
+        FrameLayout picked=(FrameLayout)findViewById(R.id.picked);
+        TextView pick_int=(TextView)findViewById(R.id.pick_int);
+        TextView picked_int=(TextView)findViewById(R.id.picked_int);
+        LinearLayout team=(LinearLayout)findViewById(R.id.team);
 
         makeDrawerHeader();
         profile.setOnClickListener(new View.OnClickListener() {
@@ -94,103 +107,139 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        pick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"최에스더",Toast.LENGTH_SHORT).show();
+            }
+        });
+       picked.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Toast.makeText(getApplicationContext(),"최에스더",Toast.LENGTH_SHORT).show();
+           }
+       });
+       team.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Toast.makeText(getApplicationContext(),"최에스더",Toast.LENGTH_SHORT).show();
+           }
+       });
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                //현재 클릭된 그룹 알아내서 클릭 설정하는 코드
-                if (menuItem.getGroupId() == R.id.group_mentor) {       //멘토 관련 그룹 클릭 됬을 때
-                    navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_mentor, true, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
-
-                } else if (menuItem.getGroupId() == R.id.group_team) {        //팀 관련 그룹 클릭 됬을 때
-                    navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_team, true, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
-
-                } else if (menuItem.getGroupId() == R.id.group_mypage) {
-                    navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_mypage, true, true);
-                } else {                                                   //설정 그룹 클릭 됬을 때
-                    navigationView.getMenu().setGroupCheckable(R.id.group_setup, true, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
-                    navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
-
-                }
-
-                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                menuItem.setChecked(true);
-                switch (menuItem.getItemId()) {
-                    case R.id.team:
-                        getSupportActionBar().setTitle("팀빌딩 현황");
-                        cur_fragment = new TeamFragment();
-                        fragmentTransaction.replace(R.id.container, cur_fragment);
-                        fragmentTransaction.commit();
-                        drawerLayout.closeDrawers();
-                        isvisible = true;
-                        invalidateOptionsMenu();
-                        cur_fragment_int = 0;
-                        return true;
-
-                    case R.id.introduce:
-                        getSupportActionBar().setTitle("참가자 소개");
-                        startActivity(new Intent(MainActivity.this, MemberActivity.class));
-                        drawerLayout.closeDrawers();
-                        isvisible = true;
-                        invalidateOptionsMenu();
-                        cur_fragment_int=0;
-                        return true;
-
-                    case R.id.basket:
-                        getSupportActionBar().setTitle("관심멤버");
-                        startActivity(new Intent(MainActivity.this, InterestActivity.class));
-                        drawerLayout.closeDrawers();
-                        isvisible = false;
-                        invalidateOptionsMenu();
-                        return true;
-
-                    case R.id.mentor_info:
-                        getSupportActionBar().setTitle("멘토소개");
-                        startActivity(new Intent(MainActivity.this,MentorActivity.class));
-                        drawerLayout.closeDrawers();
-                        isvisible = false;
-                        invalidateOptionsMenu();
-                        return true;
-
-
-                    case R.id.mentoring:
-                        getSupportActionBar().setTitle("멘토링 일정");
-                        startActivity(new Intent(MainActivity.this, MentoringActivity.class));
-                        drawerLayout.closeDrawers();
-                        isvisible = false;
-                        invalidateOptionsMenu();
-                        return true;
-
-                    case R.id.mypage:
-                        getSupportActionBar().setTitle("마이페이지");
-                        startActivity(new Intent(MainActivity.this, MypageActivity.class));
-                        drawerLayout.closeDrawers();
-                        isvisible = false;
-                        invalidateOptionsMenu();
-                        return true;
-
-                    case R.id.setup:
-                        getSupportActionBar().setTitle("설정");
-                        startActivity(new Intent(MainActivity.this, SetupActivity.class));
-                        drawerLayout.closeDrawers();
-                        isvisible = false;
-                        invalidateOptionsMenu();
-                        return true;
-                }
-                return true;
+                return changeDrawerMenu(menuItem);
             }
         });
 
+        items=new ArrayList<>();
+
+        MainListitem item=new MainListitem("plan","송명호");
+        items.add(item);
+
+        MainListitem item1=new MainListitem("dev","송명호");
+        items.add(item1);
+
+        MainListitem item2=new MainListitem("dis","송명호");
+        items.add(item2);
+        items.add(item);items.add(item1);items.add(item2);
+        MainRecyclerAdapter adapter=new MainRecyclerAdapter(getApplicationContext(),items,R.layout.item_mainlist_name);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    private boolean changeDrawerMenu(MenuItem menuItem) {
+        //현재 클릭된 그룹 알아내서 클릭 설정하는 코드
+        if (menuItem.getGroupId() == R.id.group_mentor) {       //멘토 관련 그룹 클릭 됬을 때
+            navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_mentor, true, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
+
+        } else if (menuItem.getGroupId() == R.id.group_team) {        //팀 관련 그룹 클릭 됬을 때
+            navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_team, true, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
+
+        } else if (menuItem.getGroupId() == R.id.group_mypage) {
+            navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_mypage, true, true);
+        } else {                                                   //설정 그룹 클릭 됬을 때
+            navigationView.getMenu().setGroupCheckable(R.id.group_setup, true, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
+            navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
+
+        }
+
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        menuItem.setChecked(true);
+        switch (menuItem.getItemId()) {
+            case R.id.team:
+                getSupportActionBar().setTitle("팀빌딩 현황");
+                Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
+                drawerLayout.closeDrawers();
+                isvisible = true;
+                invalidateOptionsMenu();
+                cur_fragment_int = 0;
+                return true;
+
+            case R.id.introduce:
+                getSupportActionBar().setTitle("참가자 소개");
+                startActivity(new Intent(MainActivity.this, MemberActivity.class));
+                drawerLayout.closeDrawers();
+                isvisible = true;
+                invalidateOptionsMenu();
+                cur_fragment_int=0;
+                return true;
+
+            case R.id.basket:
+                getSupportActionBar().setTitle("관심멤버");
+                startActivity(new Intent(MainActivity.this, InterestActivity.class));
+                drawerLayout.closeDrawers();
+                isvisible = false;
+                invalidateOptionsMenu();
+                return true;
+
+            case R.id.mentor_info:
+                getSupportActionBar().setTitle("멘토소개");
+                startActivity(new Intent(MainActivity.this,MentorActivity.class));
+                drawerLayout.closeDrawers();
+                isvisible = false;
+                invalidateOptionsMenu();
+                return true;
+
+
+            case R.id.mentoring:
+                getSupportActionBar().setTitle("멘토링 일정");
+                startActivity(new Intent(MainActivity.this, MentoringActivity.class));
+                drawerLayout.closeDrawers();
+                isvisible = false;
+                invalidateOptionsMenu();
+                return true;
+
+            case R.id.mypage:
+                getSupportActionBar().setTitle("마이페이지");
+                startActivity(new Intent(MainActivity.this, MypageActivity.class));
+                drawerLayout.closeDrawers();
+                isvisible = false;
+                invalidateOptionsMenu();
+                return true;
+
+            case R.id.setup:
+                getSupportActionBar().setTitle("설정");
+                startActivity(new Intent(MainActivity.this, SetupActivity.class));
+                drawerLayout.closeDrawers();
+                isvisible = false;
+                invalidateOptionsMenu();
+                return true;
+        }
+        return true;
     }
 
     private void MakingAlertDialog() {
@@ -262,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpNavDrawer() {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("팀빌딩 현황");
+        getSupportActionBar().setTitle("모아");
         toolbar.setNavigationIcon(R.drawable.drawericon);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,7 +348,6 @@ public class MainActivity extends AppCompatActivity {
                         bundle.putInt("fragment",1);
                     searchFragment.setArguments(bundle);
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.hide(cur_fragment);
                     fragmentTransaction.add(R.id.container, searchFragment);
                     fragmentTransaction.commit();
                     return false;
@@ -316,7 +364,6 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onClose() {
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.remove(searchFragment);
-                    fragmentTransaction.show(cur_fragment);
                     fragmentTransaction.commit();
                     return false;
                 }
