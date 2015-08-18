@@ -108,6 +108,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         user.put("name", String.valueOf(user_name.getText()));
                                         user.put("job", job);
                                         user.put("pick", new ArrayList<>());
+                                        user.put("memo_owner", new ArrayList<>());
+                                        user.put("memo", new ArrayList<>());
                                         user.put("detail", "");
                                         user.put("info","");
 
