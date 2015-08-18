@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mentoring_info = new Intent(context.getApplicationContext(), MentoringActivity.class);
+                Intent mentoring_info = new Intent(context.getApplicationContext(), MentoringDetailActivity.class);
                 mentoring_info.putExtra("job", item.getJob());
                 mentoring_info.putExtra("date", item.getYear()+". "+item.getMonth()+". "+item.getDay());
                 mentoring_info.putExtra("title", item.getTitle());

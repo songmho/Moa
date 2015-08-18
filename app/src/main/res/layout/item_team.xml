@@ -30,8 +30,7 @@
                 <ImageView
                     android:id="@+id/profile"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="#FFFF00" />
+                    android:layout_height="50dp" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -97,6 +96,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
+                    android:textSize="11dp"
+                    android:gravity="center"
                     android:layout_marginRight="5dp"
                     android:text="서완규"
                     android:textColor="#FFFFFF"
@@ -107,6 +108,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
+                    android:textSize="11dp"
+                    android:gravity="center"
                     android:layout_marginRight="5dp"
                     android:text="한혜미"
                     android:textColor="#FFFFFF"
@@ -117,6 +120,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
+                    android:textSize="11dp"
+                    android:gravity="center"
                     android:layout_marginRight="5dp"
                     android:text="송명호"
                     android:textColor="#FFFFFF"
@@ -127,6 +132,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
+                    android:textSize="11dp"
+                    android:gravity="center"
                     android:layout_marginRight="5dp"
                     android:text="김유진"
                     android:textColor="#FFFFFF"
@@ -137,6 +144,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
+                    android:textSize="11dp"
+                    android:gravity="center"
                     android:layout_marginRight="5dp"
                     android:text="최에스더"
                     android:textColor="#FFFFFF"
@@ -147,6 +156,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="5dp"
+                    android:textSize="11dp"
+                    android:gravity="center"
                     android:layout_marginRight="5dp"
                     android:text="황의찬"
                     android:textColor="#FFFFFF"

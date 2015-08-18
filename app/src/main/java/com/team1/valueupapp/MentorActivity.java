@@ -1,41 +1,60 @@
 package com.team1.valueupapp;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by hyemi on 2015-08-07.
+ * Created by eugene on 2015-08-07.
  */
 public class MentorActivity extends AppCompatActivity {
+    List<Mentor_item> items;
+    RecyclerView recyclerView;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mentor);
 
-        final Intent intent=getIntent();
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("멘토소개");
 
-        CollapsingToolbarLayout collapsing_toolbar=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
-        collapsing_toolbar.setTitle(intent.getStringExtra("mentor_name"));
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
 
-        TextView mentor_field = (TextView) findViewById(R.id.mentor_field);
-        TextView company = (TextView) findViewById(R.id.company);
-        TextView email = (TextView) findViewById(R.id.email);
+        items = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_mentor");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                for (int i = 0; i < list.size(); i++) {
+                    Mentor_item item = new Mentor_item(list.get(i).getString("mentor_name"), list.get(i).getString("mentor_field"),
+                            list.get(i).getString("company"), list.get(i).getString("email"));
+                    items.add(item);
+                }
+                recyclerView.setAdapter(new Mentor_Adapter(getApplicationContext(), items, R.layout.activity_mentor));
+            }
+        });
 
-        mentor_field.setText(intent.getStringExtra("mentor_field"));
-        mentor_field.setTextColor(getResources().getColor(R.color.tab_color));
-        mentor_field.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
-        mentor_field.setPadding(30, 15, 30, 15);
-
-        company.setText(intent.getStringExtra("company"));
-        email.setText(intent.getStringExtra("email"));
-
-    }//onCreate
-
-}//class
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+    }
+}

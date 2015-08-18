@@ -5,7 +5,7 @@ package com.team1.valueupapp;
  */
 public class Team_item {
     int profile;
-    String state;
+    Boolean state;
     String idea;
     String idea_info;
     String name1;
@@ -51,12 +51,12 @@ public class Team_item {
         return name6;
     }
 
-    public String getState() {
+    public Boolean getState() {
         return state;
     }
 
     public Team_item(int profile, String idea, String idea_info, String name1, String name2,
-                     String name3, String name4, String name5, String name6, String state) {
+                     String name3, String name4, String name5, String name6, Boolean state) {
         this.profile = profile;
         this.idea = idea;
         this.idea_info = idea_info;

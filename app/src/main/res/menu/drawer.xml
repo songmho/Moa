@@ -4,15 +4,15 @@
     android:id="@+id/group_team"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/introduce"
+            android:id="@+id/team"
             android:checked="true"
             android:icon="@drawable/ic_intro"
-            android:title="참가자 소개"
+            android:title="팀빌딩 현황"
             />
         <item
-            android:id="@+id/team"
+            android:id="@+id/introduce"
             android:icon="@drawable/ic_intro"
-            android:title="팀"
+            android:title="참가자 소개"
             />
         <item
             android:id="@+id/basket"

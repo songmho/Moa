@@ -1,200 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="192dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#00FFFFFF"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:scaleType="fitStart"
-                app:layout_collapseMode="parallax" />
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="fill_vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="16dp"
-            android:paddingTop="36dp">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="12dp">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/ic_mento_company" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:text="멘토"
-                    android:textColor="@color/mypageColor"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/mentor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:textSize="16dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="12dp">
-
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/ic_mentocur_cal" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:text="날짜"
-                    android:textColor="@color/mypageColor"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:textSize="17dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="12dp">
-
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/ic_mentocur_place" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:text="장소"
-                    android:textColor="@color/mypageColor"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/venue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:textSize="17dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="12dp">
-
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/ic_intro_descrip" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:text="강의정보"
-                    android:textColor="@color/mypageColor"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/mentoring_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:textSize="17dp" />
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
-
+    </LinearLayout>
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar"
+        android:layout_gravity="center"/>
 </android.support.design.widget.CoordinatorLayout>
