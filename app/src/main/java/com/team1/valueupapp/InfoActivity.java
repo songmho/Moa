@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -119,14 +121,39 @@ public class InfoActivity extends AppCompatActivity {
         memobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog dialog = create_inputDialog();
+                final AlertDialog.Builder alert = new AlertDialog.Builder(InfoActivity.this);
+                final EditText input = new EditText(InfoActivity.this);
+                input.setSingleLine();
+                FrameLayout container = new FrameLayout(InfoActivity.this);
+                FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+              //  params.leftMargin= convertDpToPx(100); // remember to scale correctly
+                input.setLayoutParams(params);
+                container.addView(input);
+                alert.setTitle("메모를 입력하세요.");
+                alert.setView(container);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String value = input.getText().toString().trim();
+
+                    }
+                });
+
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+                alert.show();
+
+
+               /* AlertDialog dialog = create_inputDialog();
                 Context context = getApplicationContext();
                 LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
                 View layout = inflater.inflate(R.layout.popup_memo, (ViewGroup)findViewById(R.id.popup_root));
                 dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
                 dialog.setView(layout);
-                dialog.show();
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                dialog.show();*/
+             //   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
             }
         });
