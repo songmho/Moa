@@ -106,6 +106,7 @@
                         android:background="@drawable/ic_intro_idea" />
 
                     <TextView
+                        android:id="@+id/str_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16dp"
@@ -122,7 +123,7 @@
                     android:id="@+id/myinfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="55dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
                     android:text="dd"
@@ -167,13 +168,17 @@
                     android:id="@+id/mydetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="55dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
                     android:text="dd"
                     android:textSize="17dp" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

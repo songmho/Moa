@@ -113,7 +113,8 @@
                             android:text="아이디어"
                             android:textColor="@color/mypageColor"
                             android:textSize="16dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:id="@+id/str_info"/>
 
 
                     </LinearLayout>
@@ -123,9 +124,8 @@
                         android:id="@+id/myinfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginLeft="55dp"
                         android:layout_marginRight="16dp"
-                        android:layout_marginTop="10dp"
                         android:text="dd"
                         android:textSize="17dp" />
                 </LinearLayout>
@@ -145,6 +145,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+
                         android:orientation="horizontal">
 
                         <ImageView
@@ -167,11 +168,54 @@
                         android:id="@+id/mydetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
+                        android:layout_marginLeft="55dp"
                         android:layout_marginRight="16dp"
-                        android:layout_marginTop="10dp"
                         android:text="dd"
                         android:textSize="17dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/ic_memo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:text="메모"
+                            android:textColor="@color/mypageColor"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/memo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginRight="16dp"
+                        android:text="dd"
+                        android:textSize="17dp" />
+
 
                 </LinearLayout>
 

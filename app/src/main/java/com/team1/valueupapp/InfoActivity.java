@@ -1,10 +1,7 @@
 package com.team1.valueupapp;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -12,18 +9,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -39,6 +34,8 @@ public class InfoActivity extends AppCompatActivity {
     TextView mydetail;
     Intent intent;
     Button memobutton;
+    TextView str_info;
+    TextView memo;
 
 
     @Override
@@ -65,7 +62,9 @@ public class InfoActivity extends AppCompatActivity {
 //        TextView title=(TextView)findViewById(R.id.info);
         TextView myinfo=(TextView)findViewById(R.id.myinfo);
         mydetail=(TextView)findViewById(R.id.mydetail);
+        memo=(TextView)findViewById(R.id.memo);
         memobutton=(Button)findViewById(R.id.memobutton);
+        TextView str_info=(TextView)findViewById(R.id.str_info);
 
         fab=(FloatingActionButton)findViewById(R.id.fab);
 
@@ -83,6 +82,7 @@ public class InfoActivity extends AppCompatActivity {
         switch (intent.getIntExtra("cur_job",0)){      //직종과 아이디어 및 스킬 텍스트 설정
             case 0:
                 myjob.setText("기획자");
+                str_info.setText("아이디어");
                 myjob.setTextColor(getResources().getColor(R.color.tab_color));
                 myjob.setBackgroundColor(getResources().getColor(R.color.planner));
                 myjob.setPadding(30, 15, 30, 15);
@@ -90,6 +90,7 @@ public class InfoActivity extends AppCompatActivity {
                 break;
             case 1:
                 myjob.setText("개발자");
+                str_info.setText("스킬");
                 myjob.setTextColor(getResources().getColor(R.color.tab_color));
                 myjob.setBackgroundColor(getResources().getColor(R.color.developer));
                 myjob.setPadding(30, 15, 30, 15);
@@ -98,6 +99,7 @@ public class InfoActivity extends AppCompatActivity {
                 break;
             case 2:
                 myjob.setText("디자이너");
+                str_info.setText("스킬");
                 myjob.setTextColor(getResources().getColor(R.color.tab_color));
                 myjob.setBackgroundColor(getResources().getColor(R.color.designer));
                 myjob.setPadding(30, 15, 30, 15);
@@ -128,14 +130,30 @@ public class InfoActivity extends AppCompatActivity {
                 FrameLayout container = new FrameLayout(InfoActivity.this);
                 FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 input.setLayoutParams(params);
+
                 container.addView(input);
                 alert.setTitle("메모를 입력하세요");
                 alert.setView(container);
-                params.setMargins(50,0,50,0);
+                params.setMargins(50, 0, 50, 0);
                 input.setLayoutParams(params);
                 alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String value = input.getText().toString().trim();
+
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+
+                        query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+                            public void done(ParseObject object, ParseException e) {
+                                if (e == null) {
+                                    // object will be your game score
+                                } else {
+                                    // something went wrong
+                                }
+                            }
+                        });
+                        ParseUser.getCurrentUser().getList("memo_owner").add(intent.getStringExtra("name"));
+                        ParseUser.getCurrentUser().getList("memo").add(value);
+
                     }
                 });
 
@@ -166,6 +184,7 @@ public class InfoActivity extends AppCompatActivity {
         ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
         parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
         parseQuery.whereEqualTo("info",intent.getStringExtra("idea"));
+//        parseQuery.whereEqualTo("memo_owner",intent.getStringExtra("name"));
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
@@ -179,6 +198,8 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void fab_clicked(final ParseObject parseObject) {
         View container=findViewById(R.id.container);
@@ -221,6 +242,7 @@ public class InfoActivity extends AppCompatActivity {
                 .setTitle("메모를 입력하세요")
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+
                     }
                 })
                 .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
