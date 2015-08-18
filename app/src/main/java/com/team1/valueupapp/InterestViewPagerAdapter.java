@@ -19,7 +19,7 @@ public class InterestViewPagerAdapter extends FragmentStatePagerAdapter {
         bundle[0].putInt("cur_job", 0);
         fragments[0].setArguments(bundle[0]);
 
-        fragments[1] = new BasketFragment();
+        fragments[1] = new PickedFragment();
         bundle[1]=new Bundle();
         bundle[1].putInt("cur_job", 1);
         fragments[1].setArguments(bundle[1]);
