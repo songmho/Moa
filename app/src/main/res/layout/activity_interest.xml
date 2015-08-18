@@ -18,10 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tablayout"
-        android:background="@color/ColorPrimary"
-        app:tabIndicatorColor="#BF360C"
-        app:tabSelectedTextColor="@color/tab_color"
-        app:tabTextColor="@color/tab_color"
+        android:background="@color/tab_color"
+        app:tabIndicatorColor="@color/ColorPrimary"
+        app:tabSelectedTextColor="@color/ColorPrimary"
+        app:tabTextColor="@color/ColorPrimary"
         app:tabIndicatorHeight="4dp"
         />
 

@@ -51,9 +51,12 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v;
         switch (itemLayout) {
-            case R.layout.item_listrecycler:
-            v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_listrecycler, viewGroup, false);
-            return new ViewHolder(v, itemLayout);
+            case R.layout.item_listrecycler:                                 //소개페이지의 경우
+                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_listrecycler, viewGroup, false);
+                return new ViewHolder(v, itemLayout);
+            case R.layout.item_interest:                                 //관심멤버페이지의 경우
+                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_interest, viewGroup, false);
+                return new ViewHolder(v, itemLayout);
             case R.layout.item_teamlist:
                 v=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_teamlist,viewGroup, false);
                 return new ViewHolder(v,itemLayout);
@@ -66,7 +69,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
         switch (itemLayout) {
-            case R.layout.item_listrecycler:                                 //소개 및 관심멤버페이지의 경우
+            case R.layout.item_listrecycler:                                 //소개페이지의 경우
                 final ListRecyclerItem item_list = items_list.get(i);
 
                 if(item_list.getProfile()==null) {
@@ -101,6 +104,33 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     }
                 });
                 break;
+            case R.layout.item_interest:                                 //관심멤버페이지의 경우
+                final ListRecyclerItem interest_list = items_list.get(i);
+
+                if(interest_list.getProfile()==null) {
+                    viewHolder.profile.setImageResource(R.drawable.ic_user);
+                }
+                else{
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(interest_list.getProfile(), 0, interest_list.getProfile().length);
+                    viewHolder.profile.setImageBitmap(bitmap);
+                }
+                viewHolder.itemView.setTag(interest_list);
+                viewHolder.name.setText(interest_list.getName());
+                viewHolder.app_name.setText(interest_list.getApp_name());
+
+//                viewHolder.container.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent goto_info = new Intent(context.getApplicationContext(), InfoActivity.class);
+//                        goto_info.putExtra("cur_job", interest_list.getJob());
+//                        goto_info.putExtra("name", interest_list.getName());
+//                        goto_info.putExtra("profile", interest_list.getProfile());
+//                        goto_info.putExtra("idea", interest_list.getApp_name());
+//                        context.startActivity(goto_info);
+//                    }
+//                });
+
+                break;
         }
     }
 
@@ -119,7 +149,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     Snackbar snackbar;
 
                     if(ParseUser.getCurrentUser().getList("pick").contains(item_list.getName())){
-                       item_list.setStar(false);
+                        item_list.setStar(false);
                         viewHolder.star.setSelected(false);
                         snackbar=Snackbar.make(item_list.getRecyclerView(),"관심멤버에서 제외합니다.",Snackbar.LENGTH_LONG);
                         ParseUser.getCurrentUser().getList("pick").remove(item_list.getName());
@@ -165,7 +195,9 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
     public int getItemCount() {
         switch (itemLayout) {
             case R.layout.item_listrecycler:
-            return items_list.size();
+                return items_list.size();
+            case R.layout.item_interest:
+                return items_list.size();
         }
         return 0;
     }
@@ -181,7 +213,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
         public ViewHolder(View itemView,int itemLayout) {
             super(itemView);
             switch (itemLayout) {
-                case R.layout.item_listrecycler:                                //소개 및 관심멤버페이지의 경우
+                case R.layout.item_listrecycler:                                //소개페이지의 경우
                     profile=(CircleImageView)itemView.findViewById(R.id.profile);
                     app_name = (TextView) itemView.findViewById(R.id.app_name);
                     name = (TextView) itemView.findViewById(R.id.name);
@@ -189,6 +221,12 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     detail = (TextView) itemView.findViewById(R.id.detail);
                     container =(LinearLayout)itemView.findViewById(R.id.container);
                     star.setSelected(false);
+                    break;
+                case R.layout.item_interest:                                //관심멤버페이지의 경우
+                    profile=(CircleImageView)itemView.findViewById(R.id.profile);
+                    app_name = (TextView) itemView.findViewById(R.id.app_name);
+                    name = (TextView) itemView.findViewById(R.id.name);
+                    container =(LinearLayout)itemView.findViewById(R.id.container);
                     break;
             }
         }

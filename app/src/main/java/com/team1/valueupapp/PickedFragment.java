@@ -104,7 +104,7 @@ public class PickedFragment extends Fragment {
                         e1.printStackTrace();
                     }
                 }
-                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
+                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_interest, 0));
                 progressBar.setVisibility(View.GONE);
             }
         });
