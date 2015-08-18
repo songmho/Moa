@@ -10,6 +10,11 @@
             android:title="참가자 소개"
             />
         <item
+            android:id="@+id/team"
+            android:icon="@drawable/ic_intro"
+            android:title="팀"
+            />
+        <item
             android:id="@+id/basket"
             android:icon="@drawable/ic_basket"
             android:title="관심멤버"
