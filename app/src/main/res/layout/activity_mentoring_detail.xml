@@ -79,7 +79,7 @@
                 android:id="@+id/mentor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="60dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="10dp"
                 android:textSize="16dp" />
@@ -115,7 +115,7 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="60dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="10dp"
                 android:textSize="17dp" />
@@ -152,7 +152,7 @@
                 android:id="@+id/venue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="60dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="10dp"
                 android:textSize="17dp" />
@@ -188,7 +188,7 @@
                 android:id="@+id/mentoring_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="60dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="10dp"
                 android:textSize="17dp" />

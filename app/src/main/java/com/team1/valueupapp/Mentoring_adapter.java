@@ -36,7 +36,7 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
         final Mentoring_item item=items.get(position);
 
         holder.job.setText(item.getJob());
-        holder.date.setText(""+ item.getYear()+"."+item.getMonth()+"."+item.getDay());
+        holder.date.setText(""+ item.getYear()+". "+item.getMonth()+". "+item.getDay());
         holder.title.setText(item.getTitle());
         holder.mentor.setText(item.getMentor());
         holder.cardView.setOnClickListener(new View.OnClickListener() {

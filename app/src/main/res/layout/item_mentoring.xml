@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="3dp"
     android:orientation="vertical"
+    app:cardCornerRadius="3dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="2dp"
     android:id="@+id/cardview">
 
     <LinearLayout
@@ -16,51 +21,68 @@
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp">
 
+        <TextView
+            android:id="@+id/mentor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="송효수 멘토"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:textColor="@color/ColorPrimary"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/job"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="디자이너"
+            android:textSize="12dp"
+            android:textColor="@color/ColorPrimary"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text="GUI 가이드라인 프로세스"
+            android:textSize="16dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="5dp"/>
+
         <LinearLayout
+            android:layout_marginTop="16dp"
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-        <FrameLayout
+            android:layout_height="1.5dp"
+            android:background="@color/Listdivider"/>
+
+        <LinearLayout
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/job"
+            android:gravity="right">
+
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:text="[디자인]"/>
+                android:layout_height="wrap_content">
+
+            <ImageView
+                android:background="@drawable/ic_event_black"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:textSize="13dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
                 android:text="2015.08.04"/>
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:text="GUI 가이드라인 프로세스"/>
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/mentor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="@color/accentColor"
-            android:text="송효수 멘토님"
-            android:layout_gravity="center"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@color/Listdivider"/>
 </android.support.v7.widget.CardView>
