@@ -1,20 +1,15 @@
 package com.team1.valueupapp;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -33,9 +28,11 @@ public class InfoActivity extends AppCompatActivity {
     TextView mydetail;
     Intent intent;
     Button memobutton;
-    TextView str_info;
+    TextView myjob;
+    TextView myinfo;
     TextView mymemo;
-
+    TextView str_info;
+    CollapsingToolbarLayout collapsing_toolbar;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -56,19 +53,23 @@ public class InfoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        CollapsingToolbarLayout collapsing_toolbar=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
-        TextView myjob=(TextView)findViewById(R.id.myjob);
+         collapsing_toolbar=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
+         myjob=(TextView)findViewById(R.id.myjob);
 //        TextView title=(TextView)findViewById(R.id.info);
-        TextView myinfo=(TextView)findViewById(R.id.myinfo);
-        TextView mymemo=(TextView)findViewById(R.id.mymemo);
+         myinfo=(TextView)findViewById(R.id.myinfo);
+         mymemo=(TextView)findViewById(R.id.mymemo);
         mydetail=(TextView)findViewById(R.id.mydetail);
         memobutton=(Button)findViewById(R.id.memobutton);
-        TextView str_info=(TextView)findViewById(R.id.str_info);
+         str_info=(TextView)findViewById(R.id.str_info);
 
         fab=(FloatingActionButton)findViewById(R.id.fab);
 
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         if(intent.getBooleanExtra("star",true ))
             fab.setImageResource(R.drawable.ic_check_white);
@@ -106,151 +107,99 @@ public class InfoActivity extends AppCompatActivity {
                 break;
         }
         String idea=intent.getStringExtra("idea");
-            if(intent.getIntExtra("cur_job",0)!=0) {
-                idea = intent.getStringExtra("idea").replaceAll(", ", "\n ");
-                idea = " " + idea;
-            }
+        if(intent.getIntExtra("cur_job",0)!=0) {
+            idea = intent.getStringExtra("idea").replaceAll(", ", "\n ");
+            idea = " " + idea;
+        }
         myinfo.setText(idea);
+//        mymemo.setText(memo);
+
+        loadingData(intent, 0);     //detail 불러오기
+
+        List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
+        if(memo_owner.contains(intent.getStringExtra("name"))) {
+            memobutton.setText("메모수정");
+            List<String> memo_list = ParseUser.getCurrentUser().getList("memo");
+            for (int i = 0; i < memo_owner.size(); i++) {
+                if (memo_owner.get(i).equals(intent.getStringExtra("name"))) {
+                    mymemo.setText(memo_list.get(i));
+                }//end if
+            }//end for
+        }//end if
 
 
-
-                    loadingData(intent, 0);     //detail 불러오기
-
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            loadingData(intent, 1);
-                        }
-                    });
-                    memobutton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final AlertDialog.Builder alert = new AlertDialog.Builder(InfoActivity.this);
-                            final EditText input = new EditText(InfoActivity.this);
-                            input.setSingleLine();
-                            FrameLayout container = new FrameLayout(InfoActivity.this);
-                            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            input.setLayoutParams(params);
-
-                            container.addView(input);
-                            alert.setTitle("메모를 입력하세요");
-                            alert.setView(container);
-                            params.setMargins(50, 0, 50, 0);
-                            input.setLayoutParams(params);
-                            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-
-                                    ParseQuery<ParseUser> query = ParseUser.getQuery();
-                                    query.whereEqualTo("name", intent.getStringExtra("name"));
-                                    query.findInBackground(new FindCallback<ParseUser>() {
-                                        public void done(List<ParseUser> objects, ParseException e) {
-                                            String value = input.getText().toString().trim();
-                                            if (e == null) {
-                                                ParseUser.getCurrentUser().getList("memo_owner").add(intent.getStringExtra("name"));
-                                                ParseUser.getCurrentUser().getList("memo").add(value);
-                                                ParseUser.getCurrentUser().saveInBackground();
-
-                                            } else {
-
-                                            }
-                                        }
-                                    });
-
-                                }
-                            });
-
-                            alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.cancel();
-                                }
-                            });
-                            alert.show();
-
-
-               /* AlertDialog dialog = create_inputDialog();
-                Context context = getApplicationContext();
-                LayoutInflater inflater = (LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.popup_memo, (ViewGroup)findViewById(R.id.popup_root));
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                dialog.setView(layout);
-                dialog.show();*/
-                            //   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-
-                        }
-                    });
-
-                }
-
-            private void loadingData(Intent intent, final int action) {
-                ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-                parseQuery.whereEqualTo("name", intent.getStringExtra("name"));
-                parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
-
-                parseQuery.findInBackground(new FindCallback<ParseUser>() {
-                    @Override
-                    public void done(List<ParseUser> list, ParseException e) {
-                        for (int i = 0; i < list.size(); i++) {
-                            final ParseObject parseObject = list.get(i);
-                            if (action == 0)
-                                mydetail.setText(parseObject.getString("detail"));
-
-                            else
-                                fab_clicked(parseObject);
-                        }
-                    }
-                });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingData(intent, 1);
             }
+        });
+        memobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent go_to = new Intent(InfoActivity.this, MemoActivity.class);
+                go_to.putExtra("name", intent.getStringExtra("name"));
+                startActivity(go_to);
+            }
+        });
+
+    }
+
+    private void loadingData(Intent intent, final int action) {
+        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+        parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
+        parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                for (int i=0;i<list.size();i++) {
+                    final ParseObject parseObject = list.get(i);
+                    if(action==0) {
+                        mydetail.setText(parseObject.getString("detail"));
+                    } else {
+                        fab_clicked(parseObject);
+                    }
+                }
+            }
+        });
+    }
 
 
-            private void fab_clicked(final ParseObject parseObject) {
-                View container = findViewById(R.id.container);
 
-                if (ParseUser.getCurrentUser().getList("pick").contains(intent.getStringExtra("name"))) {
+    private void fab_clicked(final ParseObject parseObject) {
+        View container=findViewById(R.id.container);
 
-                    Snackbar snackbar = Snackbar.make(container, "관심멤버에서 제외합니다.", Snackbar.LENGTH_LONG);
-                    ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
-                    ParseUser.getCurrentUser().saveInBackground();
-                    fab.setImageResource(R.drawable.add);
+        if (ParseUser.getCurrentUser().getList("pick").contains(intent.getStringExtra("name"))) {
 
-                    snackbar.setAction("실행취소", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ParseUser.getCurrentUser().getList("pick").add(intent.getStringExtra("name"));
-                            ParseUser.getCurrentUser().saveInBackground();
-                            fab.setImageResource(R.drawable.ic_check_white);
-                        }
-                    });
-                    snackbar.show();
+            Snackbar snackbar=Snackbar.make(container,"관심멤버에서 제외합니다.",Snackbar.LENGTH_LONG);
+            ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
+            ParseUser.getCurrentUser().saveInBackground();
+            fab.setImageResource(R.drawable.add);
 
-                } else {
-                    Snackbar snackbar = Snackbar.make(container, "관심멤버에 추가합니다.", Snackbar.LENGTH_LONG);
+            snackbar.setAction("실행취소", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     ParseUser.getCurrentUser().getList("pick").add(intent.getStringExtra("name"));
                     ParseUser.getCurrentUser().saveInBackground();
                     fab.setImageResource(R.drawable.ic_check_white);
-                    snackbar.setAction("실행취소", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
-                            ParseUser.getCurrentUser().saveInBackground();
-                            fab.setImageResource(R.drawable.add);
-                        }
-                    });
-                    snackbar.show();
                 }
-            }
+            });
+            snackbar.show();
 
-            private AlertDialog create_inputDialog() {
-                AlertDialog dialogBox = new AlertDialog.Builder(this)
-                        .setTitle("메모를 입력하세요")
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .setNeutralButton("cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).create();
-                return dialogBox;
-            }
+        } else {
+            Snackbar snackbar=Snackbar.make(container,"관심멤버에 추가합니다.",Snackbar.LENGTH_LONG);
+            ParseUser.getCurrentUser().getList("pick").add(intent.getStringExtra("name"));
+            ParseUser.getCurrentUser().saveInBackground();
+            fab.setImageResource(R.drawable.ic_check_white);
+            snackbar.setAction("실행취소", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
+                    ParseUser.getCurrentUser().saveInBackground();
+                    fab.setImageResource(R.drawable.add);
+                }
+            });
+            snackbar.show();
         }
+    }
+}
