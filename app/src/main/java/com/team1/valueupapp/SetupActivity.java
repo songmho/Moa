@@ -46,15 +46,15 @@ public class SetupActivity extends AppCompatActivity {
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 File file_up_path=new File("data/data/com.team1.valueupapp/files/");
                 if (currentUser != null) {
-
-                    File[] files=file_up_path.listFiles();
-                    for (File file : files) {
-                        String fname = file.getName();
-                        if (fname.equals("profile.jpg"))
-                            file.delete();
+                    File[] files = file_up_path.listFiles();
+                    if(files!=null) {
+                        for (File file : files) {
+                            String fname = file.getName();
+                            if (fname.equals("profile.jpg"))
+                                file.delete();
+                            ParseUser.getCurrentUser().remove("profile");
+                        }
                     }
-                    ParseUser.getCurrentUser().remove("profile");
-
                     Toast.makeText(getApplicationContext(), "로그아웃되었습니다", Toast.LENGTH_SHORT).show();
                     currentUser.logOut();
                     startActivity(new Intent(SetupActivity.this, SplashActivity.class));

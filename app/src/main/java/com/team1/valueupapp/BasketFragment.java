@@ -50,12 +50,6 @@ public class BasketFragment extends Fragment {
         layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        return cur_container;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -69,18 +63,19 @@ public class BasketFragment extends Fragment {
             }
         }).start();
 
+        return cur_container;
     }
+
 
     private void makeList() {
         items.clear();
-
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereContainedIn("name", ParseUser.getCurrentUser().getList("pick"));
         query.addAscendingOrder("name");
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
-                if (list.isEmpty())
+                if (!list.isEmpty())
                     Toast.makeText(getActivity().getApplicationContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
 //                Log.d("dddd", "" + list.size());
 //                Log.d("sss", ""+ParseUser.getCurrentUser().getList("memo").size());
