@@ -2,6 +2,7 @@ package com.team1.valueupapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +46,6 @@ public class MemoActivity extends AppCompatActivity{
 
         final List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
         final List<String> memo_list = ParseUser.getCurrentUser().getList("memo");
-        final List<String> pick_list = ParseUser.getCurrentUser().getList("pick");
 
         for (int i = 0; i < memo_owner.size(); i++) {
             if (memo_owner.get(i).equals(intent.getStringExtra("name"))) {
@@ -61,15 +61,15 @@ public class MemoActivity extends AppCompatActivity{
 
                 String value = memo_input.getText().toString().trim();
 
-                for(int i = 0; i < pick_list.size(); i++) {
-                    if (pick_list.get(i).equals(intent.getStringExtra("name"))) {
-                        ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
-                    }
+                if (ParseUser.getCurrentUser().getList("pick").contains(intent.getStringExtra("name"))) {
+                    ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
+                    ParseUser.getCurrentUser().saveInBackground();
                 }//end for
 
                 if (flag == true) {
                     ParseUser.getCurrentUser().getList("memo_owner").remove(intent.getStringExtra("name"));
-                    ParseUser.getCurrentUser().getList("memo").add(memo_list.get(flag_num));
+                    ParseUser.getCurrentUser().getList("memo").remove(memo_list.get(flag_num));
+                    ParseUser.getCurrentUser().saveInBackground();
                 }//이미 memo가 있다면 메모 삭제
 
                 if(ParseUser.getCurrentUser()!=null) {
