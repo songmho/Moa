@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -61,6 +60,7 @@ public class InfoActivity extends AppCompatActivity {
         TextView myjob=(TextView)findViewById(R.id.myjob);
 //        TextView title=(TextView)findViewById(R.id.info);
         TextView myinfo=(TextView)findViewById(R.id.myinfo);
+        TextView mymemo=(TextView)findViewById(R.id.mymemo);
         mydetail=(TextView)findViewById(R.id.mydetail);
         memo=(TextView)findViewById(R.id.memo);
         memobutton=(Button)findViewById(R.id.memobutton);
@@ -112,6 +112,7 @@ public class InfoActivity extends AppCompatActivity {
                 idea = " " + idea;
             }
         myinfo.setText(idea);
+//        mymemo.setText(memo);
 
         loadingData(intent, 0);     //detail 불러오기
 
@@ -138,21 +139,23 @@ public class InfoActivity extends AppCompatActivity {
                 input.setLayoutParams(params);
                 alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        String value = input.getText().toString().trim();
 
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
-
-                        query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
-                            public void done(ParseObject object, ParseException e) {
+                        ParseQuery<ParseUser> query = ParseUser.getQuery();
+                        query.whereEqualTo("name",intent.getStringExtra("name"));
+                        query.findInBackground(new FindCallback<ParseUser>() {
+                            public void done(List<ParseUser> objects, ParseException e) {
+                                String value = input.getText().toString().trim();
                                 if (e == null) {
-                                    // object will be your game score
+
+                                    ParseUser.getCurrentUser().getList("memo_owner").add(intent.getStringExtra("name"));
+                                    ParseUser.getCurrentUser().getList("memo").add(value);
+                                    ParseUser.getCurrentUser().saveInBackground();
+
                                 } else {
-                                    // something went wrong
+
                                 }
                             }
                         });
-                        ParseUser.getCurrentUser().getList("memo_owner").add(intent.getStringExtra("name"));
-                        ParseUser.getCurrentUser().getList("memo").add(value);
 
                     }
                 });
@@ -183,8 +186,7 @@ public class InfoActivity extends AppCompatActivity {
     private void loadingData(Intent intent, final int action) {
         ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
         parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
-        parseQuery.whereEqualTo("info",intent.getStringExtra("idea"));
-//        parseQuery.whereEqualTo("memo_owner",intent.getStringExtra("name"));
+        parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
