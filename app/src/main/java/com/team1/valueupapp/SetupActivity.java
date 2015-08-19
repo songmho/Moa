@@ -39,7 +39,7 @@ public class SetupActivity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("설정");
+        getSupportActionBar().setTitle("설정");
 
         logout = (Button) findViewById(R.id.logout);
         swc_notice = (Switch) findViewById(R.id.swc_notice);

@@ -1,5 +1,6 @@
 package com.team1.valueupapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -28,5 +29,13 @@ public class InterestActivity extends AppCompatActivity {
         InterestViewPagerAdapter adapter = new InterestViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        if(getIntent()!=null) {
+            Intent intent = getIntent();
+            if (intent.getIntExtra("page",0)==1){
+                viewPager.setCurrentItem(0);
+            }
+            else if(intent.getIntExtra("page",0)==2)
+                viewPager.setCurrentItem(1);
+        }
     }
 }

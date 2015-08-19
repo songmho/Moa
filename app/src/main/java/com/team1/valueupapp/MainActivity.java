@@ -30,7 +30,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
@@ -52,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
     FragmentTransaction fragmentTransaction;
 
-    SearchFragment searchFragment = new SearchFragment();
     Boolean isvisible = true;
 
     CharSequence[] item={"카메라","갤러리에서 사진 가져오기","삭제"};
@@ -96,8 +98,32 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout pick=(FrameLayout)findViewById(R.id.pick);
         FrameLayout picked=(FrameLayout)findViewById(R.id.picked);
         TextView pick_int=(TextView)findViewById(R.id.pick_int);
-        TextView picked_int=(TextView)findViewById(R.id.picked_int);
+        final TextView picked_int=(TextView)findViewById(R.id.picked_int);
         LinearLayout team=(LinearLayout)findViewById(R.id.team);
+        TextView name=(TextView)findViewById(R.id.name);
+        TextView job=(TextView)findViewById(R.id.job);
+
+        name.setText(ParseUser.getCurrentUser().getString("name"));
+        switch (ParseUser.getCurrentUser().getString("job")){
+            case "plan":
+                job.setText("기획자");
+                break;
+            case "dev":
+                job.setText("개발자");
+                break;
+            case "dis":
+                job.setText("디자이너");
+                break;
+        }
+        pick_int.setText("" + ParseUser.getCurrentUser().getList("pick").size());
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                picked_int.setText(""+list.size());
+            }
+        });
 
         makeDrawerHeader();
         profile.setOnClickListener(new View.OnClickListener() {
@@ -110,13 +136,17 @@ public class MainActivity extends AppCompatActivity {
         pick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"최에스더",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(MainActivity.this,InterestActivity.class);
+                intent.putExtra("page",1);
+                startActivity(intent);
             }
         });
        picked.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Toast.makeText(getApplicationContext(),"최에스더",Toast.LENGTH_SHORT).show();
+               Intent intent=new Intent(MainActivity.this,InterestActivity.class);
+               intent.putExtra("page",2);
+               startActivity(intent);
            }
        });
        team.setOnClickListener(new View.OnClickListener() {
@@ -181,62 +211,39 @@ public class MainActivity extends AppCompatActivity {
         menuItem.setChecked(true);
         switch (menuItem.getItemId()) {
             case R.id.team:
-                getSupportActionBar().setTitle("팀빌딩 현황");
                 Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
                 drawerLayout.closeDrawers();
-                isvisible = true;
-                invalidateOptionsMenu();
-                cur_fragment_int = 0;
                 return true;
 
             case R.id.introduce:
-                getSupportActionBar().setTitle("참가자 소개");
-                startActivity(new Intent(MainActivity.this, MemberActivity.class));
                 drawerLayout.closeDrawers();
-                isvisible = true;
-                invalidateOptionsMenu();
-                cur_fragment_int=0;
+                startActivity(new Intent(MainActivity.this, MemberActivity.class));
                 return true;
 
             case R.id.basket:
-                getSupportActionBar().setTitle("관심멤버");
-                startActivity(new Intent(MainActivity.this, InterestActivity.class));
                 drawerLayout.closeDrawers();
-                isvisible = false;
-                invalidateOptionsMenu();
+                startActivity(new Intent(MainActivity.this, InterestActivity.class));
                 return true;
 
             case R.id.mentor_info:
-                getSupportActionBar().setTitle("멘토소개");
-                startActivity(new Intent(MainActivity.this,MentorActivity.class));
                 drawerLayout.closeDrawers();
-                isvisible = false;
-                invalidateOptionsMenu();
+                startActivity(new Intent(MainActivity.this, MentorActivity.class));
                 return true;
 
 
             case R.id.mentoring:
-                getSupportActionBar().setTitle("멘토링 일정");
-                startActivity(new Intent(MainActivity.this, MentoringActivity.class));
                 drawerLayout.closeDrawers();
-                isvisible = false;
-                invalidateOptionsMenu();
+                startActivity(new Intent(MainActivity.this, MentoringActivity.class));
                 return true;
 
             case R.id.mypage:
-                getSupportActionBar().setTitle("마이페이지");
-                startActivity(new Intent(MainActivity.this, MypageActivity.class));
                 drawerLayout.closeDrawers();
-                isvisible = false;
-                invalidateOptionsMenu();
+                startActivity(new Intent(MainActivity.this, MypageActivity.class));
                 return true;
 
             case R.id.setup:
-                getSupportActionBar().setTitle("설정");
-                startActivity(new Intent(MainActivity.this, SetupActivity.class));
                 drawerLayout.closeDrawers();
-                isvisible = false;
-                invalidateOptionsMenu();
+                startActivity(new Intent(MainActivity.this, SetupActivity.class));
                 return true;
         }
         return true;
@@ -334,22 +341,16 @@ public class MainActivity extends AppCompatActivity {
         }
         if (searchView != null) {
             searchView.clearFocus();
-            searchView.setQueryHint("이름");
+            searchView.setQueryHint("이름 검색");
             searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("query", query);
-                    if(cur_fragment_int==0)
-                        bundle.putInt("fragment",0);
-                    else if(cur_fragment_int==1)
-                        bundle.putInt("fragment",1);
-                    searchFragment.setArguments(bundle);
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.add(R.id.container, searchFragment);
-                    fragmentTransaction.commit();
+                    Intent intent=new Intent(MainActivity.this,SearchActivity.class);
+                    intent.putExtra("query",query);
+                    intent.putExtra("page", "main");
+                    startActivity(intent);
                     return false;
                 }
 
@@ -362,9 +363,6 @@ public class MainActivity extends AppCompatActivity {
             searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                 @Override
                 public boolean onClose() {
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.remove(searchFragment);
-                    fragmentTransaction.commit();
                     return false;
                 }
             });
