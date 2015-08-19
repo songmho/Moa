@@ -1,79 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container"
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginBottom="-2dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="8dp"
+    app:cardCornerRadius="3dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            >
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:paddingTop="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/profile"
+                android:layout_gravity="center"
                 android:layout_marginRight="15dp"
                 android:src="@drawable/ic_user"
-                app:border_color="@color/ColorPrimary"
-                android:layout_gravity="center"/>
+                app:border_color="@color/ColorPrimary" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="1116">
-           <LinearLayout
-               android:orientation="vertical"
-               android:layout_width="0dp"
-               android:layout_weight="932"
-               android:layout_height="wrap_content">
-               <TextView
-                   android:id="@+id/app_name"
-                   android:textSize="20dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginBottom="3dp"
-                   android:maxLines="1"
-                   android:singleLine="true"
-                   android:text="해커톤을 위한 팀빌딩 어플"/>
-               <TextView
-                   android:id="@+id/name"
-                   android:textSize="13dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:text="서완규"/>
-
-           </LinearLayout>
-            <TextView
-                android:id="@+id/detail"
-                android:textSize="15dp"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="932"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/app_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="해커톤을 위한 팀빌딩 어플"
+                        android:textSize="20dp" />
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="서완규"
+                        android:textSize="13dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/detail"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:textSize="15dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="184"
-                    android:orientation="vertical"
-                    android:layout_gravity="center">
-                <ImageButton
-                    android:id="@+id/star"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
-                    android:layout_gravity="right"
-                    android:background="@drawable/check_selector"/>
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/star"
+                        android:layout_width="33dp"
+                        android:layout_height="33dp"
+                        android:layout_gravity="right"
+                        android:background="@drawable/check_selector" />
                 </LinearLayout>
-                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@color/Listdivider"/>
-</LinearLayout>
+</android.support.v7.widget.CardView>
