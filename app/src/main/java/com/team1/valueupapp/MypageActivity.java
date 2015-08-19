@@ -91,7 +91,7 @@ public class MypageActivity extends AppCompatActivity {
                 break;
         }
 
-//        myinfo.setText(parseUser.getString("info"));
+        myinfo.setText(parseUser.getString("info"));
         mydetail.setText(parseUser.getString("detail"));
 
     }
