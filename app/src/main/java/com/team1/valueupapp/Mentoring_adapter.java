@@ -43,6 +43,7 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
             @Override
             public void onClick(View v) {
                 Intent mentoring_info = new Intent(context.getApplicationContext(), MentoringDetailActivity.class);
+                mentoring_info.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mentoring_info.putExtra("job", item.getJob());
                 mentoring_info.putExtra("date", item.getYear()+". "+item.getMonth()+". "+item.getDay());
                 mentoring_info.putExtra("title", item.getTitle());

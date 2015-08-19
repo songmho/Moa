@@ -35,7 +35,7 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Team_item item=items_list.get(position);
-
+/*
         if(item.getState()==true) {
             holder.state.setText("팀빌딩 완료");
         } else {
@@ -51,7 +51,7 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
         holder.name6.setText(item.getName6());
         holder.profile.setBackgroundResource(item.getProfile());
 
-
+*/
 
     }
 
@@ -78,7 +78,7 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
         TextView myteam_state;
 
         public ViewHolder(View itemView) {
-            super(itemView);
+            super(itemView);/*
             profile = (ImageView) itemView.findViewById(R.id.profile);
             state = (TextView) itemView.findViewById(R.id.state);
             idea = (TextView) itemView.findViewById(R.id.idea);
@@ -91,7 +91,7 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
             name6 = (TextView) itemView.findViewById(R.id.name6);
             myteam_num = (TextView) itemView.findViewById(R.id.myteam_num);
             myteam_state = (TextView) itemView.findViewById(R.id.myteam_state);
-            cardview = (CardView) itemView.findViewById(R.id.cardview);
+            cardview = (CardView) itemView.findViewById(R.id.cardview);*/
         }//ViewHolder
     }
 }

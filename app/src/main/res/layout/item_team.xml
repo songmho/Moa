@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="3dp"
     android:orientation="vertical"
+    android:layout_margin="3dp"
     android:id="@+id/cardview">
 
     <LinearLayout
@@ -17,162 +18,80 @@
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:text="버스킹어플"
+            android:textSize="16dp"
+            android:textColor="@color/ColorPrimary"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="서완규"
+            android:textSize="12dp"
+            android:textColor="@color/ColorPrimary"
+            android:layout_marginBottom="8dp" />
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text="ffdkdkddddfdfkdfdffddkdkfdfkdfdffkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdf"
+            android:textSize="12dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="5dp"/>
+        <LinearLayout
+            android:layout_marginBottom="16dp"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/Listdivider"/>
+
+        <FrameLayout
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_height="wrap_content">
                 <ImageView
-                    android:id="@+id/profile"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_weight="3">
-
+                    android:id="@+id/pick_icon"
+                    android:background="@color/ColorPrimary"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
                 <TextView
-                    android:id="@+id/state"
+                    android:id="@+id/pick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:text="팀빌딩 완료"/>
-
-                <TextView
-                    android:id="@+id/idea"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
-                    android:textSize="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="다이어트 어플"/>
-
-
+                    android:text="chl"/>
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_gravity="right">
                 <ImageView
-                    android:id="@+id/state_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="#FFFF00"
-                    android:layout_gravity="right"/>
+                    android:background="@color/ColorPrimary"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+                <TextView
+                    android:id="@+id/team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:text="6명"/>
             </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/idea_info"
-                android:textSize="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="asdfasdfasdfasdfasdfasdfasdfasdf"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:weightSum="6"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/name1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:textSize="11dp"
-                    android:gravity="center"
-                    android:layout_marginRight="5dp"
-                    android:text="서완규"
-                    android:textColor="#FFFFFF"
-                    android:background="@color/planner"/>
-                <TextView
-                    android:id="@+id/name2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:textSize="11dp"
-                    android:gravity="center"
-                    android:layout_marginRight="5dp"
-                    android:text="한혜미"
-                    android:textColor="#FFFFFF"
-                    android:background="@color/developer"/>
-                <TextView
-                    android:id="@+id/name3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:textSize="11dp"
-                    android:gravity="center"
-                    android:layout_marginRight="5dp"
-                    android:text="송명호"
-                    android:textColor="#FFFFFF"
-                    android:background="@color/developer"/>
-                <TextView
-                    android:id="@+id/name4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:textSize="11dp"
-                    android:gravity="center"
-                    android:layout_marginRight="5dp"
-                    android:text="김유진"
-                    android:textColor="#FFFFFF"
-                    android:background="@color/developer"/>
-                <TextView
-                    android:id="@+id/name5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:textSize="11dp"
-                    android:gravity="center"
-                    android:layout_marginRight="5dp"
-                    android:text="최에스더"
-                    android:textColor="#FFFFFF"
-                    android:background="@color/designer"/>
-                <TextView
-                    android:id="@+id/name6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="5dp"
-                    android:textSize="11dp"
-                    android:gravity="center"
-                    android:layout_marginRight="5dp"
-                    android:text="황의찬"
-                    android:textColor="#FFFFFF"
-                    android:background="@color/designer"/>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
+        </FrameLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:background="@color/Listdivider"/>
 </android.support.v7.widget.CardView>

@@ -55,9 +55,9 @@ public class TeamFragment extends Fragment {
                     @Override
                     public void run() {
                         items.clear();
-                        Team_item item = new Team_item(R.drawable.splash_logo, "팀빌딩 어플", "팀빌딩을 도와주는 앱"
-                                , "서완규", "한혜미", "김유진", "송명호", "최에스더", "황의찬", true);
-                        items.add(item);
+                //        Team_item item = new Team_item(R.drawable.splash_logo, "팀빌딩 어플", "팀빌딩을 도와주는 앱"
+                     //           , "서완규", "한혜미", "김유진", "송명호", "최에스더", "황의찬", true);
+                  //      items.add(item);
                         recyclerView.setAdapter(new Team_RecyclerAdapter(getActivity(), items, R.layout.fragment_team));
                         progressBar.setVisibility(View.GONE);
                     }

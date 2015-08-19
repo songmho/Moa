@@ -44,6 +44,7 @@ public class Mentor_Adapter extends RecyclerView.Adapter<Mentor_Adapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context.getApplicationContext(), MentorDetailActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("mentor_name", item.getMentor_name());
                     intent.putExtra("mentor_field", item.getMentor_filed());
                     intent.putExtra("company", item.getCompany());

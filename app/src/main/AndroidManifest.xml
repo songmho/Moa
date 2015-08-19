@@ -73,7 +73,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MentoringDetailActivity"/>
+                android:value=".MentoringActivity"/>
         </activity>
 
         <activity android:name=".MentorDetailActivity"
