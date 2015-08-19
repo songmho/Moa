@@ -82,7 +82,6 @@ public class Mypage_edit_Activity extends AppCompatActivity {
         }
         Intent getIntent=getIntent();
         name.setText(getIntent.getStringExtra("name"));
-        info.setText(getIntent.getStringExtra("info"));
         myinfo.setText(getIntent.getStringExtra("myinfo"));
         detail.setText(getIntent.getStringExtra("mydetail"));
 
@@ -97,16 +96,20 @@ public class Mypage_edit_Activity extends AppCompatActivity {
         switch (getIntent.getStringExtra("job")){
             case "기획자":
                 field1.setChecked(true);
+                info.setText("아이디어");
                 break;
             case "개발자":
                 field2.setChecked(true);
+                info.setText("스킬");
                 break;
             case "디자이너":
                 field3.setChecked(true);
+                info.setText("스킬");
                 break;
         }
 
         fieldgroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
@@ -114,12 +117,14 @@ public class Mypage_edit_Activity extends AppCompatActivity {
                         field1.setChecked(true);
                         field2.setChecked(false);
                         field3.setChecked(false);
+                        info.setText("아이디어");
                         job_int=0;
                         break;
                     case R.id.field2:
                         field1.setChecked(false);
                         field2.setChecked(true);
                         field3.setChecked(false);
+                        info.setText("스킬");
                         job_int=1;
                         break;
                     case R.id.field3:
@@ -127,6 +132,7 @@ public class Mypage_edit_Activity extends AppCompatActivity {
                         field2.setChecked(false);
                         field3.setChecked(true);
                         job_int=2;
+                        info.setText("스킬");
                         break;
                 }
             }
