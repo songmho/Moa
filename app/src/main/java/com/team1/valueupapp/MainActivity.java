@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
-                picked_int.setText(""+list.size());
+                picked_int.setText("" + list.size());
             }
         });
 
@@ -136,23 +137,23 @@ public class MainActivity extends AppCompatActivity {
         pick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,InterestActivity.class);
-                intent.putExtra("page",1);
+                Intent intent = new Intent(MainActivity.this, InterestActivity.class);
+                intent.putExtra("page", 1);
                 startActivity(intent);
             }
         });
        picked.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Intent intent=new Intent(MainActivity.this,InterestActivity.class);
-               intent.putExtra("page",2);
+               Intent intent = new Intent(MainActivity.this, InterestActivity.class);
+               intent.putExtra("page", 2);
                startActivity(intent);
            }
        });
        team.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Toast.makeText(getApplicationContext(),"최에스더",Toast.LENGTH_SHORT).show();
+               Toast.makeText(getApplicationContext(), "최에스더", Toast.LENGTH_SHORT).show();
            }
        });
 
@@ -162,21 +163,26 @@ public class MainActivity extends AppCompatActivity {
                 return changeDrawerMenu(menuItem);
             }
         });
+        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
+        parseQuery.whereEqualTo("member", ParseUser.getCurrentUser().getString("name"));
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                items = new ArrayList<>();
+                if(list.size()==0)
+                    return;
+                List<String> member = list.get(0).getList("member");
+                List<String> member_job = list.get(0).getList("member_job");
+                for (int i = 0; i < member.size(); i++) {
+                    MainListitem item = new MainListitem(member_job.get(i), member.get(i));
+                    items.add(item);
 
-        items=new ArrayList<>();
-
-        MainListitem item=new MainListitem("plan","송명호");
-        items.add(item);
-
-        MainListitem item1=new MainListitem("dev","송명호");
-        items.add(item1);
-
-        MainListitem item2=new MainListitem("dis","송명호");
-        items.add(item2);
-        items.add(item);items.add(item1);items.add(item2);
-        MainRecyclerAdapter adapter=new MainRecyclerAdapter(getApplicationContext(),items,R.layout.item_mainlist_name);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
+                }
+                MainRecyclerAdapter adapter = new MainRecyclerAdapter(getApplicationContext(), items, R.layout.item_mainlist_name);
+                recyclerView.setAdapter(adapter);
+            }
+        });
+       recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
     }
 

@@ -6,7 +6,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
         android:layout_marginBottom="3dp">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/color"
@@ -17,7 +17,7 @@
         android:layout_marginRight="12dp"/>
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/white"

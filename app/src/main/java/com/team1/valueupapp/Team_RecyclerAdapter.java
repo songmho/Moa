@@ -1,6 +1,7 @@
 package com.team1.valueupapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
         holder.title.setText(item.getTitle());
         holder.name.setText(item.getName());
         holder.detail.setText(item.getDetail());
-        holder.pick.setText(item.getName() + " 소속");
+        holder.pick.setText(item.getPick() + " 소속");
         holder.team.setText(item.getTeam() + " 명");
         if(item.getPick().length()>0) {
             holder.pick_icon.setVisibility(View.VISIBLE);
@@ -55,7 +56,9 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context.getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(context.getApplicationContext(),TeamDetailActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }
