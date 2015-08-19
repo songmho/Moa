@@ -208,7 +208,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/memo"
+                        android:id="@+id/mymemo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="55dp"
