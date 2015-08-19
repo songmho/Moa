@@ -82,7 +82,6 @@ public class Mypage_edit_Activity extends AppCompatActivity {
         }
         Intent getIntent=getIntent();
         name.setText(getIntent.getStringExtra("name"));
-        info.setText(getIntent.getStringExtra("info"));
         myinfo.setText(getIntent.getStringExtra("myinfo"));
         detail.setText(getIntent.getStringExtra("mydetail"));
 

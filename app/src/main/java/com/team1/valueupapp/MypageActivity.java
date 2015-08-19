@@ -111,7 +111,7 @@ public class MypageActivity extends AppCompatActivity {
             intent.putExtra("name",parseUser.getString("name"));
 //            intent.putExtra("info",str_info);
             intent.putExtra("job",str_job);
-//            intent.putExtra("myinfo",parseUser.getString("info"));
+            intent.putExtra("myinfo",parseUser.getString("info"));
             intent.putExtra("mydetail",parseUser.getString("detail"));
             startActivity(intent);
             return true;
