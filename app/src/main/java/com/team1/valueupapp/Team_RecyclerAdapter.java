@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -35,24 +38,26 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Team_item item=items_list.get(position);
-/*
-        if(item.getState()==true) {
-            holder.state.setText("팀빌딩 완료");
-        } else {
-            holder.state.setText("팀빌딩 중");
-        }//end else
-        holder.idea.setText(item.getIdea());
-        holder.idea_info.setText(item.getIdea_info());
-        holder.name1.setText(item.getName1());
-        holder.name2.setText(item.getName2());
-        holder.name3.setText(item.getName3());
-        holder.name4.setText(item.getName4());
-        holder.name5.setText(item.getName5());
-        holder.name6.setText(item.getName6());
-        holder.profile.setBackgroundResource(item.getProfile());
 
-*/
-
+        holder.title.setText(item.getTitle());
+        holder.name.setText(item.getName());
+        holder.detail.setText(item.getDetail());
+        holder.pick.setText(item.getName() + " 소속");
+        holder.team.setText(item.getTeam() + " 명");
+        if(item.getPick().length()>0) {
+            holder.pick_icon.setVisibility(View.VISIBLE);
+            holder.pick.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.pick_icon.setVisibility(View.GONE);
+            holder.pick.setVisibility(View.GONE);
+        }
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context.getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -62,36 +67,23 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView state;
-        TextView idea;
-        TextView idea_info;
-        TextView name1;
-        TextView name2;
-        TextView name3;
-        TextView name4;
-        TextView name5;
-        TextView name6;
-        ImageView profile;
-        CardView cardview;
-
-        TextView myteam_num;
-        TextView myteam_state;
+        TextView title;
+        TextView name;
+        TextView detail;
+        TextView pick;
+        TextView team;
+        CardView cardView;
+        ImageView pick_icon;
 
         public ViewHolder(View itemView) {
-            super(itemView);/*
-            profile = (ImageView) itemView.findViewById(R.id.profile);
-            state = (TextView) itemView.findViewById(R.id.state);
-            idea = (TextView) itemView.findViewById(R.id.idea);
-            idea_info = (TextView) itemView.findViewById(R.id.idea_info);
-            name1 = (TextView) itemView.findViewById(R.id.name1);
-            name2 = (TextView) itemView.findViewById(R.id.name2);
-            name3 = (TextView) itemView.findViewById(R.id.name3);
-            name4 = (TextView) itemView.findViewById(R.id.name4);
-            name5 = (TextView) itemView.findViewById(R.id.name5);
-            name6 = (TextView) itemView.findViewById(R.id.name6);
-            myteam_num = (TextView) itemView.findViewById(R.id.myteam_num);
-            myteam_state = (TextView) itemView.findViewById(R.id.myteam_state);
-            cardview = (CardView) itemView.findViewById(R.id.cardview);*/
+            super(itemView);
+            title=(TextView)itemView.findViewById(R.id.title);
+            name=(TextView)itemView.findViewById(R.id.name);
+            detail=(TextView)itemView.findViewById(R.id.detail);
+            pick=(TextView)itemView.findViewById(R.id.pick);
+            team=(TextView)itemView.findViewById(R.id.team);
+            pick_icon=(ImageView)itemView.findViewById(R.id.pick_icon);
+            cardView=(CardView)itemView.findViewById(R.id.cardview);
         }//ViewHolder
     }
 }

@@ -211,8 +211,8 @@ public class MainActivity extends AppCompatActivity {
         menuItem.setChecked(true);
         switch (menuItem.getItemId()) {
             case R.id.team:
-                Toast.makeText(getApplicationContext(),"준비중입니다.",Toast.LENGTH_SHORT).show();
                 drawerLayout.closeDrawers();
+                startActivity(new Intent(MainActivity.this, TeamActivity.class));
                 return true;
 
             case R.id.introduce:

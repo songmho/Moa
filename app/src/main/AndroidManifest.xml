@@ -47,7 +47,7 @@
             android:value=".MainActivity"/>
         </activity>
 
-        <activity android:name=".TeamActivity"
+        <activity android:name=".TeamDetailActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -132,6 +132,13 @@
         </activity>
 
         <activity android:name=".SearchActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
+        <activity android:name=".TeamActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

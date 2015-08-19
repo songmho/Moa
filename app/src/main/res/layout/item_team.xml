@@ -6,7 +6,10 @@
     android:layout_height="wrap_content"
     app:cardCornerRadius="3dp"
     android:orientation="vertical"
-    android:layout_margin="3dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="2dp"
     android:id="@+id/cardview">
 
     <LinearLayout
@@ -23,9 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="버스킹어플"
-            android:textSize="16dp"
+            android:textStyle="bold"
+            android:textSize="18dp"
             android:textColor="@color/ColorPrimary"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="4dp"/>
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
@@ -33,18 +37,18 @@
             android:text="서완규"
             android:textSize="12dp"
             android:textColor="@color/ColorPrimary"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="16dp" />
         <TextView
             android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:text="ffdkdkddddfdfkdfdffddkdkfdfkdfdffkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdffdkdkfdfkdfdf"
-            android:textSize="12dp"
+            android:textSize="16dp"
             android:ellipsize="end"
             android:lineSpacingExtra="5dp"/>
         <LinearLayout
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="1.5dp"
@@ -52,7 +56,7 @@
 
         <FrameLayout
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -63,9 +67,9 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/pick_icon"
-                    android:background="@color/ColorPrimary"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"/>
+                    android:background="@drawable/ic_check_circle_gray"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"/>
                 <TextView
                     android:id="@+id/pick"
                     android:layout_width="wrap_content"
@@ -81,9 +85,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right">
                 <ImageView
-                    android:background="@color/ColorPrimary"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"/>
+                    android:background="@drawable/ic_introduce"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"/>
                 <TextView
                     android:id="@+id/team"
                     android:layout_width="wrap_content"
