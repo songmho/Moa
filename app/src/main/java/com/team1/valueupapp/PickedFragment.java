@@ -75,15 +75,25 @@ public class PickedFragment extends Fragment {
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
-//                        query.whereContainedIn("name", ParseUser.getCurrentUser().getList("pick"));
         query.addAscendingOrder("name");
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
                 if (list.isEmpty())
                     Toast.makeText(getActivity().getApplicationContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
-                Log.d("dddd", "" + list.size());
+//                Log.d("dddd", "" + list.size());
+//                Log.d("sss", ""+ParseUser.getCurrentUser().getList("memo").size());
+                final List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
+                final List<String> memo_list = ParseUser.getCurrentUser().getList("memo");
+
                 for (int i = 0; i < list.size(); i++) {
+                    String memo = "";
+//                    Log.d("ddd", "" + list.get(i).getList("memo_owner").size());
+                    for(int j = 0; j < memo_owner.size(); j++) {
+                        if(list.get(i).getString("name").equals(memo_owner.get(j))) {
+                            memo = memo_list.get(j);
+                        }//관심멤버의 이름이 memo_owner에 있으면 memo_owner번째 메모 memo변수에 저장
+                    }
                     if (list.get(i).getString("job").equals("plan"))
                         cur_job = 0;
                     else if (list.get(i).getString("job").equals("dev"))
@@ -98,7 +108,7 @@ public class PickedFragment extends Fragment {
                         else
                             bytes = null;
                         ListRecyclerItem item = new ListRecyclerItem(bytes, list.get(i).getString("info"),
-                                list.get(i).getString("name"), true, cur_job, recyclerView);
+                                list.get(i).getString("name"), true, cur_job, memo, recyclerView);
                         items.add(item);
                     } catch (ParseException e1) {
                         e1.printStackTrace();
@@ -108,6 +118,5 @@ public class PickedFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
     }
 }//class
