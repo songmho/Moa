@@ -33,7 +33,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/ColorPrimary"
+                    android:background="@drawable/main_00"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -58,11 +58,11 @@
                         android:id="@+id/job"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="3dp"
                         android:fontFamily="sans-serif-light"
                         android:text="직군"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -93,11 +93,11 @@
                             android:layout_height="100dp"
                             android:background="@drawable/main_01"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="10dp"/>
+                            android:layout_marginBottom="18dp"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="bottom"
                             android:background="#1a237e"
                             android:gravity="center">
@@ -107,7 +107,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="내가 찜한 멤버 "
                                 android:textColor="@color/white"
-                                android:textSize="20dp" />
+                                android:textSize="16dp" />
 
                             <TextView
                                 android:id="@+id/pick_int"
@@ -116,7 +116,7 @@
                                 android:background="#3F51B5"
                                 android:text="1"
                                 android:textColor="@color/white"
-                                android:textSize="20dp"
+                                android:textSize="16dp"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"
                                 />
@@ -133,14 +133,14 @@
 
                         <ImageView
                             android:layout_width="70dp"
-                            android:layout_height="110dp"
+                            android:layout_height="100dp"
                             android:background="@drawable/main_02"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="15dp"/>
+                            android:layout_marginBottom="25dp"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="35dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="bottom"
                             android:background="#f50057"
                             android:gravity="center">
@@ -150,7 +150,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="나를 찜한 멤버 "
                                 android:textColor="@color/white"
-                                android:textSize="20dp" />
+                                android:textSize="16dp" />
 
                             <TextView
                                 android:id="@+id/picked_int"
@@ -159,7 +159,7 @@
                                 android:background="#FE4080"
                                 android:text="1"
                                 android:textColor="@color/white"
-                                android:textSize="20dp"
+                                android:textSize="16dp"
                                 android:paddingLeft="5dp"
                                 android:paddingRight="5dp"/>
                         </LinearLayout>
@@ -179,7 +179,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:id="@+id/team"
-                        android:gravity="center"
+                        android:paddingTop="15dp"
                         >
 
                         <ImageView
@@ -193,14 +193,14 @@
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerview"
                             android:layout_width="100dp"
-                            android:layout_height="150dp"
+                            android:layout_height="170dp"
                             android:layout_gravity="center"
                             />
 
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="50dp"
                         android:background="#004d40"
                         android:gravity="center"
                         android:layout_gravity="bottom"
@@ -209,9 +209,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="우리팀 멤버 "
+                            android:text="우리팀 현황 "
                             android:textColor="@color/white"
-                            android:textSize="20dp" />
+                            android:textSize="16dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -219,7 +219,7 @@
                             android:background="#009687"
                             android:text="1"
                             android:textColor="@color/white"
-                            android:textSize="20dp"
+                            android:textSize="16dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"/>
                     </LinearLayout>
