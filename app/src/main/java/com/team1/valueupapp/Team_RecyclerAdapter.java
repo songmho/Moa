@@ -57,6 +57,10 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context.getApplicationContext(),TeamDetailActivity.class);
+                intent.putExtra("title",item.getTitle());
+                intent.putExtra("name",item.getName());
+                intent.putExtra("detail",item.getDetail());
+                intent.putExtra("pick",item.getPick());
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }

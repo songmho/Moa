@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/tool_bar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/memo_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="#EEEEEE"
+        android:hint="메모를 입력하세요"
+        />
+
+    <Button
+        android:id="@+id/input_button"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:text="메모등록"
+        android:textSize="20dp"
+        android:textColor="@color/tab_color"
+        android:background="@color/ColorPrimary"/>
+
+    </FrameLayout>
+</LinearLayout>
