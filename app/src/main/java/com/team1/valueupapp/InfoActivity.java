@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -170,36 +171,17 @@ public class InfoActivity extends AppCompatActivity {
         View container=findViewById(R.id.container);
 
         if (ParseUser.getCurrentUser().getList("pick").contains(intent.getStringExtra("name"))) {
+            Toast.makeText(getApplicationContext(), "관심멤버에서 제외합니다.", Toast.LENGTH_SHORT).show();
 
-            Snackbar snackbar=Snackbar.make(container,"관심멤버에서 제외합니다.",Snackbar.LENGTH_LONG);
             ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
             ParseUser.getCurrentUser().saveInBackground();
             fab.setImageResource(R.drawable.add);
 
-            snackbar.setAction("실행취소", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ParseUser.getCurrentUser().getList("pick").add(intent.getStringExtra("name"));
-                    ParseUser.getCurrentUser().saveInBackground();
-                    fab.setImageResource(R.drawable.ic_check_white);
-                }
-            });
-            snackbar.show();
-
         } else {
-            Snackbar snackbar=Snackbar.make(container,"관심멤버에 추가합니다.",Snackbar.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(),"관심멤버에서 추가합니다.",Toast.LENGTH_SHORT).show();
             ParseUser.getCurrentUser().getList("pick").add(intent.getStringExtra("name"));
             ParseUser.getCurrentUser().saveInBackground();
             fab.setImageResource(R.drawable.ic_check_white);
-            snackbar.setAction("실행취소", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
-                    ParseUser.getCurrentUser().saveInBackground();
-                    fab.setImageResource(R.drawable.add);
-                }
-            });
-            snackbar.show();
         }
     }
 }

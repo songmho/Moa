@@ -1,5 +1,6 @@
 package com.team1.valueupapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -47,16 +50,32 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         title=(EditText)findViewById(R.id.title);
         detail=(EditText)findViewById(R.id.detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
-
+        ImageView add=(ImageView)findViewById(R.id.add);
+        if(getIntent().getStringExtra("info")!=null){
+            title.setText(getIntent().getStringExtra("info"));
+            detail.setText(getIntent().getStringExtra("detail"));
+        }
+        else {
+            title.setText(ParseUser.getCurrentUser().getString("info"));
+            detail.setText(ParseUser.getCurrentUser().getString("detail"));
+        }
         byte[] bytes=null;
         items=new ArrayList<>();
         Teamadd_item item=new Teamadd_item(bytes,"송명호");
         items.add(item);items.add(item);items.add(item);items.add(item);items.add(item);items.add(item);
-        recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(),items));
+        recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
 
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(TeamAddActivity.this,Team_Member_Add_Activity.class);
+                startActivity(intent);
+            }
+        });
     }//onCreate
 
     @Override
@@ -66,8 +85,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         additem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getApplicationContext(),String.valueOf(title.getText())+" "+
-                String.valueOf(detail.getText()),Toast.LENGTH_SHORT).show();
+                finish();
                 return false;
             }
         });

@@ -162,6 +162,11 @@
                 android:value=".MemberActivity"/>
         </activity>
 
+        <activity android:name=".Team_Member_Add_Activity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="9229aecee3d9ad2200d4df06f2f684c2b3584085" />
