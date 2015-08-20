@@ -33,7 +33,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#FAA823"
+                    android:background="@drawable/main_00"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -202,8 +202,8 @@
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerview"
-                            android:layout_width="100dp"
-                            android:layout_height="130dp"
+                            android:layout_width="80dp"
+                            android:layout_height="150dp"
                             android:layout_gravity="center"
                             />
 

@@ -20,7 +20,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,27 +57,29 @@ public class MainActivity extends AppCompatActivity {
 
     Boolean isvisible = true;
 
-    CharSequence[] item={"카메라","갤러리에서 사진 가져오기","삭제"};
+    CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
     Bitmap bm;
-    String tempPath="data/data/com.team1.valueupapp/files/profile.png";
-    File profileimage=new File("data/data/com.team1.valueupapp/files/profile.png");
-    File file_up_path=new File("data/data/com.team1.valueupapp/files/");
+    String tempPath = "data/data/com.team1.valueupapp/files/profile.png";
+    File profileimage = new File("data/data/com.team1.valueupapp/files/profile.png");
+    File file_up_path = new File("data/data/com.team1.valueupapp/files/");
     ParseFile profile_parse;
-    ParseUser user=ParseUser.getCurrentUser();
-    int CAMERA_REQUEST=1000;
-    int SELECT_FILE=2000;
+    ParseUser user = ParseUser.getCurrentUser();
+    int CAMERA_REQUEST = 1000;
+    int SELECT_FILE = 2000;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     List<MainListitem> items;
 
-    int cur_fragment_int=0;
+    int cur_fragment_int = 0;
 
-    TextView pick_int=null;
-    TextView picked_int=null;
-    LinearLayout team=null;
-    TextView name=null;
-    TextView job=null;
+    TextView pick_int = null;
+    TextView picked_int = null;
+    TextView current_int = null;
+
+    LinearLayout team = null;
+    TextView name = null;
+    TextView job = null;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         setUpNavDrawer();
@@ -99,18 +100,38 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
 
-        layoutManager=new LinearLayoutManager(getApplicationContext());
-        FrameLayout pick=(FrameLayout)findViewById(R.id.pick);
-        FrameLayout picked=(FrameLayout)findViewById(R.id.picked);
-        pick_int=(TextView)findViewById(R.id.pick_int);
-        picked_int=(TextView)findViewById(R.id.picked_int);
-        team=(LinearLayout)findViewById(R.id.team);
-        name=(TextView)findViewById(R.id.name);
-        job=(TextView)findViewById(R.id.job);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        FrameLayout pick = (FrameLayout) findViewById(R.id.pick);
+        FrameLayout picked = (FrameLayout) findViewById(R.id.picked);
+        pick_int = (TextView) findViewById(R.id.pick_int);
+        picked_int = (TextView) findViewById(R.id.picked_int);
+        current_int = (TextView) findViewById(R.id.current_int);
+        team = (LinearLayout) findViewById(R.id.team);
+        name = (TextView) findViewById(R.id.name);
+        job = (TextView) findViewById(R.id.job);
 
-        if(ParseUser.getCurrentUser()!=null)
+        profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.profile);
+
+        if (profileimage.exists()) {
+            Bitmap bm = BitmapFactory.decodeFile(tempPath);
+            profile.setImageBitmap(bm);
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
+            profile.setImageBitmap(b);
+        }
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
+                MakingAlertDialog();
+            }
+        });
+
+
+        if (ParseUser.getCurrentUser() != null)
             setMain();
 
         makeDrawerHeader();
@@ -129,20 +150,20 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-       picked.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent intent = new Intent(MainActivity.this, InterestActivity.class);
-               intent.putExtra("page", 2);
-               startActivity(intent);
-           }
-       });
-       team.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Toast.makeText(getApplicationContext(), "최에스더", Toast.LENGTH_SHORT).show();
-           }
-       });
+        picked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InterestActivity.class);
+                intent.putExtra("page", 2);
+                startActivity(intent);
+            }
+        });
+        team.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "최에스더", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -154,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setMain() {
         name.setText(ParseUser.getCurrentUser().getString("name"));
-        switch (ParseUser.getCurrentUser().getString("job")){
+        switch (ParseUser.getCurrentUser().getString("job")) {
             case "plan":
                 job.setText("기획자");
                 break;
@@ -166,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         pick_int.setText("" + ParseUser.getCurrentUser().getList("pick").size());
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -176,28 +198,36 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("ValueUp_team");
         parseQuery.whereEqualTo("member", ParseUser.getCurrentUser().getString("name"));
-        parseQuery.whereEqualTo("ismade",true);
+        parseQuery.whereEqualTo("ismade", true);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                Log.d("dfdfdfdfdfd",""+list.size());
+
                 items = new ArrayList<>();
 
+
                 if (list.size() == 0)
-                    return;
+                return;
+
                 List<String> member = list.get(0).getList("member");
-                Log.d("list.size()", "gggggg" );
+
+                current_int.setText("" + member.size());
+
 
                 for (int i = 0; i < member.size(); i++) {
                     MainListitem item = new MainListitem(member.get(i));
                     items.add(item);
 
                 }
+
+
                 MainRecyclerAdapter adapter = new MainRecyclerAdapter(getApplicationContext(), items, R.layout.item_mainlist_name);
                 recyclerView.setAdapter(adapter);
             }
+
+
         });
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -313,11 +343,11 @@ public class MainActivity extends AppCompatActivity {
             t.setText(ParseUser.getCurrentUser().getString("name"));
         else
             t.setText("Hello");
-        if(profileimage.exists()){
-            Bitmap bm=BitmapFactory.decodeFile(tempPath);
-            profile.setImageBitmap(bm);}
-        else{
-            Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.ic_user);
+        if (profileimage.exists()) {
+            Bitmap bm = BitmapFactory.decodeFile(tempPath);
+            profile.setImageBitmap(bm);
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
             profile.setImageBitmap(b);
         }
     }
@@ -370,8 +400,8 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Intent intent=new Intent(MainActivity.this,SearchActivity.class);
-                    intent.putExtra("query",query);
+                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    intent.putExtra("query", query);
                     intent.putExtra("page", "main");
                     startActivity(intent);
                     return false;
@@ -407,19 +437,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap thum = null;
-        if(resultCode==RESULT_OK && data!=null){
-            if(requestCode==CAMERA_REQUEST){
-                thum=(Bitmap)data.getExtras().get("data");
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == CAMERA_REQUEST) {
+                thum = (Bitmap) data.getExtras().get("data");
                 profile.setImageBitmap(thum);
                 imgSendParse(thum);
-            }
-            else if(requestCode==SELECT_FILE && data!=null) {
-                Uri uri=data.getData();
+            } else if (requestCode == SELECT_FILE && data != null) {
+                Uri uri = data.getData();
                 try {
-                    AssetFileDescriptor afd=getContentResolver().openAssetFileDescriptor(uri,"r");
-                    BitmapFactory.Options opt=new BitmapFactory.Options();
-                    opt.inSampleSize=4;
-                    thum=BitmapFactory.decodeFileDescriptor(afd.getFileDescriptor(), null, opt);
+                    AssetFileDescriptor afd = getContentResolver().openAssetFileDescriptor(uri, "r");
+                    BitmapFactory.Options opt = new BitmapFactory.Options();
+                    opt.inSampleSize = 4;
+                    thum = BitmapFactory.decodeFileDescriptor(afd.getFileDescriptor(), null, opt);
                     profile.setImageBitmap(thum);
                     imgSendParse(thum);
                 } catch (IOException e) {
@@ -427,11 +456,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            File file=new File("profile.png");
-            FileOutputStream fos= null;
+            File file = new File("profile.png");
+            FileOutputStream fos = null;
             try {
-                fos = openFileOutput("profile.png",0);
-                thum.compress(Bitmap.CompressFormat.PNG,50,fos);
+                fos = openFileOutput("profile.png", 0);
+                thum.compress(Bitmap.CompressFormat.PNG, 50, fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -443,17 +472,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void imgSendParse(Bitmap thum) {
-        profile_parse=new ParseFile("profile.png",bitmapTobyte(thum));
-        if(user.get("profile")!=null)
+        profile_parse = new ParseFile("profile.png", bitmapTobyte(thum));
+        if (user.get("profile") != null)
             user.remove("profile");
         user.put("profile", profile_parse);
         user.saveInBackground();
     }
 
     private byte[] bitmapTobyte(Bitmap bm) {
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] bytes=stream.toByteArray();
+        byte[] bytes = stream.toByteArray();
         return bytes;
     }
 

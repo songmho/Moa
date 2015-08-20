@@ -2,11 +2,9 @@ package com.team1.valueupapp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +90,7 @@ public class PickedFragment extends Fragment {
 //                    Log.d("ddd", "" + list.get(i).getList("memo_owner").size());
                     for(int j = 0; j < memo_owner.size(); j++) {
                         if(list.get(i).getString("name").equals(memo_owner.get(j))) {
+
                             memo = memo_list.get(j);
                         }//관심멤버의 이름이 memo_owner에 있으면 memo_owner번째 메모 memo변수에 저장
                     }
