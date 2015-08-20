@@ -2,6 +2,7 @@ package com.team1.valueupapp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,10 +59,10 @@ public class PickedFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.VISIBLE);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
                         makeList();
                     }
                 });
@@ -80,7 +81,7 @@ public class PickedFragment extends Fragment {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
                 if (list.isEmpty())
-                    Toast.makeText(getActivity().getApplicationContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "kll검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
 //                Log.d("dddd", "" + list.size());
 //                Log.d("sss", ""+ParseUser.getCurrentUser().getList("memo").size());
                 final List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");

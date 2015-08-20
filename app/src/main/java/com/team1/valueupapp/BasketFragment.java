@@ -53,10 +53,10 @@ public class BasketFragment extends Fragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                progressBar.setVisibility(View.VISIBLE);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
                         makeList();
                     }
                 });
@@ -75,7 +75,7 @@ public class BasketFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
-                if (!list.isEmpty())
+                if (list.isEmpty())
                     Toast.makeText(getActivity().getApplicationContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
 //                Log.d("dddd", "" + list.size());
 //                Log.d("sss", ""+ParseUser.getCurrentUser().getList("memo").size());
