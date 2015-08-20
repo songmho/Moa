@@ -14,7 +14,12 @@
         android:id="@+id/toolbar"
         layout="@layout/tool_bar" />
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="10dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,14 +32,31 @@
             android:layout_height="32dp"
             android:background="@drawable/ic_intro_idea" />
 
-        <EditText
-            android:layout_width="280dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="7.5dp"
             android:layout_marginLeft="16dp"
-            android:hint="아이디어 및 제목을 입력하세요"
-            android:textColor="@color/mypageColor"
-            android:textSize="16dp"
-            android:textStyle="bold" />
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디어 제목"
+                android:textColor="@color/mypageColor"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:layout_marginBottom="7.5dp"/>
+
+            <EditText
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="아이디어 및 제목을 입력하세요"
+                android:textColor="@color/mypageColor"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -48,15 +70,31 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:background="@drawable/ic_intro_descrip" />
-
-        <EditText
-            android:layout_width="280dp"
-            android:layout_height="100dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7.5dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="아이디어 소개"
+                android:textColor="@color/mypageColor"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:layout_marginBottom="7.5dp" />
+        <EditText
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:hint="설명을 입력하세요"
             android:textColor="@color/mypageColor"
             android:textSize="16dp"
             android:textStyle="bold" />
+
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,12 +103,29 @@
         android:paddingLeft="12dp">
         <ImageView
             android:layout_width="32dp"
-            android:layout_height="32dp" />
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="@drawable/ic_introduce"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_height="match_parent"/>
+            android:layout_marginTop="7.5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="팀원"
+                android:textColor="@color/mypageColor"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:layout_marginBottom="7.5dp"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </LinearLayout>
     </LinearLayout>
 </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

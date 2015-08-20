@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -92,18 +93,21 @@ public class TeamDetailActivity extends AppCompatActivity {
         detail.setText(intent.getStringExtra("detail"));
 
         ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
-        parseQuery.whereContains("idea",intent.getStringExtra("title"));
-        parseQuery.whereContains("admin_member",intent.getStringExtra("name"));
+        parseQuery.whereEqualTo("idea", intent.getStringExtra("title"));
+        parseQuery.whereEqualTo("admin_member", intent.getStringExtra("name"));
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                List<String> mem_name=list.get(0).getList("member");
-                member_num.setText(""+list.size());
-                for(int i=0;i<list.size();i++){
-                    member[i].setVisibility(View.VISIBLE);
-                }
-                for(int i=0;i<mem_name.size();i++){
-                    member_name[i].setText(mem_name.get(i));
+                if (!list.isEmpty()){
+                        Log.d("dfdfdf", list.get(0).getString("idea"));
+                    List<String> mem_name = list.get(0).getList("member");
+                    member_num.setText("" + mem_name.size());
+                    for (int i = 0; i < mem_name.size(); i++) {
+                        member[i].setVisibility(View.VISIBLE);
+                    }
+                    for (int i = 0; i < mem_name.size(); i++) {
+                        member_name[i].setText(mem_name.get(i));
+                    }
                 }
             }
         });

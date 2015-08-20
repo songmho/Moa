@@ -83,7 +83,6 @@ public class TeamActivity extends AppCompatActivity {
                                         if(list_pick.contains(s))
                                             same_mem=same_mem+" "+s;
                                     }
-                                    Log.d(o.getString("idea"),same_mem);
                                     Team_item item = new Team_item(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
                                     items.add(item);
                                 }
