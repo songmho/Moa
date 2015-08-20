@@ -1,17 +1,13 @@
 package com.team1.valueupapp;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by songmho on 15. 8. 19.
@@ -45,13 +41,13 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((holder) holder).name.setText(item.getName());
             switch (item.getJob()){
                 case "plan":
-                    ((holder) holder).color.setImageResource(R.color.planner);
+//                    ((holder) holder).color.setImageResource(R.color.planner);
                     break;
                 case "dev":
-                    ((holder) holder).color.setImageResource(R.color.developer);
+//                    ((holder) holder).color.setImageResource(R.color.developer);
                     break;
                 case "dis":
-                    ((holder) holder).color.setImageResource(R.color.designer);
+//                    ((holder) holder).color.setImageResource(R.color.designer);
                     break;
             }
 
@@ -69,7 +65,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         public holder(View itemView) {
             super(itemView);
             name=(TextView)itemView.findViewById(R.id.name);
-            color=(CircleImageView)itemView.findViewById(R.id.color);
+//            color=(CircleImageView)itemView.findViewById(R.id.color);
 
         }
     }

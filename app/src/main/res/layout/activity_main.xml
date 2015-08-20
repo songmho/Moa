@@ -91,35 +91,40 @@
                         <ImageView
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:background="@drawable/main_01"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="18dp"/>
+                            android:layout_marginBottom="18dp"
+                            android:background="@drawable/main_01" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_gravity="bottom"
                             android:background="#1a237e"
-                            android:gravity="center">
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="8dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
                                 android:text="내가 찜한 멤버 "
                                 android:textColor="@color/white"
-                                android:textSize="16dp" />
+                                android:textSize="16dp"
+                                android:layout_marginLeft="10dp"
+                                />
 
                             <TextView
                                 android:id="@+id/pick_int"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="#3F51B5"
+                                android:layout_width="50dp"
+                                android:layout_height="match_parent"
+                                android:background="#212121"
+                                android:gravity="center"
                                 android:text="1"
                                 android:textColor="@color/white"
                                 android:textSize="16dp"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
                                 />
+
                         </LinearLayout>
 
                     </FrameLayout>
@@ -134,9 +139,9 @@
                         <ImageView
                             android:layout_width="70dp"
                             android:layout_height="100dp"
-                            android:background="@drawable/main_02"
                             android:layout_gravity="center"
-                            android:layout_marginBottom="25dp"/>
+                            android:layout_marginBottom="25dp"
+                            android:background="@drawable/main_02" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -146,22 +151,25 @@
                             android:gravity="center">
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
                                 android:text="나를 찜한 멤버 "
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="8dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
                                 android:textColor="@color/white"
-                                android:textSize="16dp" />
+                                android:textSize="16dp"
+                                android:layout_marginLeft="11dp"/>
 
                             <TextView
                                 android:id="@+id/picked_int"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="#FE4080"
+                                android:background="#212121"
+                                android:layout_width="50dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
                                 android:text="1"
                                 android:textColor="@color/white"
-                                android:textSize="16dp"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"/>
+                                android:textSize="16dp" />
                         </LinearLayout>
 
                     </FrameLayout>
@@ -171,57 +179,64 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#009688"
-                    >
+                    android:background="#009688">
 
                     <LinearLayout
+                        android:id="@+id/team"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:id="@+id/team"
-                        android:paddingTop="15dp"
-                        >
+                        android:paddingTop="15dp">
 
                         <ImageView
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:background="@drawable/main_03"
                             android:layout_gravity="center"
-                            android:paddingBottom="20dp"/>
+                            android:background="@drawable/main_03"
+                            android:layout_marginBottom="15dp"
+                            android:layout_marginTop="15dp"
+                             />
 
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerview"
-                            android:layout_width="100dp"
-                            android:layout_height="170dp"
+                            android:layout_width="70dp"
+                            android:layout_height="150dp"
                             android:layout_gravity="center"
                             />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="#004d40"
-                        android:gravity="center"
                         android:layout_gravity="bottom"
-                        >
+                        android:background="#004d40"
+                        android:gravity="center">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="우리팀 현황 "
-                            android:textColor="@color/white"
-                            android:textSize="16dp" />
-
-                        <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="#009687"
-                            android:text="1"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
                             android:textColor="@color/white"
                             android:textSize="16dp"
+                            android:layout_marginLeft="12dp"/>
+
+                        <TextView
+                            android:background="#212121"
                             android:paddingLeft="5dp"
-                            android:paddingRight="5dp"/>
+                            android:paddingRight="5dp"
+                            android:text="1"
+                            android:textColor="@color/white"
+                            android:layout_width="50dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="16dp"
+                            />
+
                     </LinearLayout>
                 </FrameLayout>
             </LinearLayout>
