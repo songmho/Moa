@@ -55,8 +55,25 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
             detail.setText(ParseUser.getCurrentUser().getString("detail"));
         byte[] bytes=null;
         items=new ArrayList<>();
-        Teamadd_item item=new Teamadd_item(bytes,"송명호");
-        items.add(item);items.add(item);items.add(item);items.add(item);items.add(item);items.add(item);
+        if(items.size()==0){
+        Teamadd_item item=new Teamadd_item(bytes,ParseUser.getCurrentUser().getString("name"));
+        items.add(item);}
+        else if(items.size()>0){
+            ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+            query.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    if(list.isEmpty())
+                        return;
+                    else{
+                        for(int i=0;i<list.get(0).getList("member").size();i++){
+                        Teamadd_item item=new Teamadd_item(null,String.valueOf(list.get(0).getList("member").get(i)));
+                        items.add(item);}
+                    }
+                }
+            });
+        }
         recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
 
         recyclerView.setHasFixedSize(true);
@@ -71,6 +88,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                     s.add(i.getName());
                 }
                 Intent intent=new Intent(TeamAddActivity.this,Team_Member_Add_Activity.class);
+                startActivity(intent);
                 ParseObject object=new ParseObject("ValueUp_team");
                 object.put("idea",String.valueOf(title.getText()));
                 object.put("idea_info",String.valueOf(title.getText()));
@@ -78,7 +96,6 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                 object.put("admin_member",ParseUser.getCurrentUser().getString("name"));
                 object.put("member", s);
                 object.saveInBackground();
-                startActivity(intent);
             }
         });
     }//onCreate
@@ -90,6 +107,18 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         additem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+                query.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+                        ParseObject object=list.get(0);
+                        object.put("idea",String.valueOf(title.getText()));
+                        object.put("idea_info",String.valueOf(title.getText()));
+                        object.put("ismade",true);
+                        object.saveInBackground();
+                    }
+                });
                 finish();
                 return false;
             }
