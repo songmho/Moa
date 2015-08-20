@@ -51,14 +51,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         detail=(EditText)findViewById(R.id.detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         ImageView add=(ImageView)findViewById(R.id.add);
-        if(getIntent().getStringExtra("info")!=null){
-            title.setText(getIntent().getStringExtra("info"));
-            detail.setText(getIntent().getStringExtra("detail"));
-        }
-        else {
             title.setText(ParseUser.getCurrentUser().getString("info"));
             detail.setText(ParseUser.getCurrentUser().getString("detail"));
-        }
         byte[] bytes=null;
         items=new ArrayList<>();
         Teamadd_item item=new Teamadd_item(bytes,"송명호");
@@ -72,9 +66,18 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ArrayList<String> s=new ArrayList<>();
+                for(Teamadd_item i:items){
+                    s.add(i.getName());
+                }
                 Intent intent=new Intent(TeamAddActivity.this,Team_Member_Add_Activity.class);
                 ParseObject object=new ParseObject("ValueUp_team");
-            //    object.
+                object.put("idea",String.valueOf(title.getText()));
+                object.put("idea_info",String.valueOf(title.getText()));
+                object.put("ismade",false);
+                object.put("admin_member",ParseUser.getCurrentUser().getString("name"));
+                object.put("member", s);
+                object.saveInBackground();
                 startActivity(intent);
             }
         });

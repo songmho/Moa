@@ -73,6 +73,7 @@ public class TeamActivity extends AppCompatActivity {
                         items.clear();
                         final List<String> list_pick= ParseUser.getCurrentUser().getList("pick");
                         ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
+                        parseQuery.whereEqualTo("ismade",true);
                         parseQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> list, ParseException e) {

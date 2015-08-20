@@ -178,19 +178,20 @@ public class MainActivity extends AppCompatActivity {
 
         ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
         parseQuery.whereEqualTo("member", ParseUser.getCurrentUser().getString("name"));
+        parseQuery.whereEqualTo("ismade",true);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
+                Log.d("dfdfdfdfdfd",""+list.size());
                 items = new ArrayList<>();
 
                 if (list.size() == 0)
                     return;
                 List<String> member = list.get(0).getList("member");
-                List<String> member_job = list.get(0).getList("member_job");
                 Log.d("list.size()", "gggggg" );
 
                 for (int i = 0; i < member.size(); i++) {
-                    MainListitem item = new MainListitem(member_job.get(i), member.get(i));
+                    MainListitem item = new MainListitem(member.get(i));
                     items.add(item);
 
                 }

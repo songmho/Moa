@@ -26,11 +26,8 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v;
-            //inflate your layout and pass it to view holder
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mainlist_name, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mainlist_name, parent, false);
             return new holder(v);
-
     }
 
     @Override
@@ -39,17 +36,6 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //cast holder to VHItem and set data
             MainListitem item=items.get(position);
             ((holder) holder).name.setText(item.getName());
-            switch (item.getJob()){
-                case "plan":
-//                    ((holder) holder).color.setImageResource(R.color.planner);
-                    break;
-                case "dev":
-//                    ((holder) holder).color.setImageResource(R.color.developer);
-                    break;
-                case "dis":
-//                    ((holder) holder).color.setImageResource(R.color.designer);
-                    break;
-            }
 
         }
     }
@@ -61,12 +47,10 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class holder extends RecyclerView.ViewHolder{
         TextView name;
-        de.hdodenhof.circleimageview.CircleImageView color;
+
         public holder(View itemView) {
             super(itemView);
             name=(TextView)itemView.findViewById(R.id.name);
-//            color=(CircleImageView)itemView.findViewById(R.id.color);
-
         }
     }
 
