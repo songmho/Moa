@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".AddActivity">
     <item android:id="@+id/action_add"
-        android:icon="@drawable/add"
+        android:icon="@drawable/ic_check_white"
         app:showAsAction="always"
         android:title="add"/>
 </menu>

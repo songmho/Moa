@@ -73,6 +73,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(TeamAddActivity.this,Team_Member_Add_Activity.class);
+                ParseObject object=new ParseObject("ValueUp_team");
+            //    object.
                 startActivity(intent);
             }
         });

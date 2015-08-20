@@ -132,7 +132,7 @@
                     android:layout_gravity="end"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/home_button_unselect"/>
+                    android:background="@drawable/ic_add_circle_gray"/>
             </FrameLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"

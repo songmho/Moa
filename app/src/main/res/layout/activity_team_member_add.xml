@@ -29,17 +29,17 @@
                 android:maxLines="1"/>
                 <Button
                     android:id="@+id/cancel"
-                    android:text="X"
-                    android:background="@color/white"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="right"/>
+                    android:background="@drawable/ic_cancel_gray"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="right|center"/>
             </FrameLayout>
             <Button
                 android:id="@+id/search"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:background="@android:drawable/ic_menu_search"/>
+                android:layout_gravity="center"
+                android:background="@drawable/ic_search_gray"/>
         </LinearLayout>
 
         <FrameLayout
