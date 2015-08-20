@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -74,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
 
     int cur_fragment_int=0;
 
+    TextView pick_int=null;
+    TextView picked_int=null;
+    LinearLayout team=null;
+    TextView name=null;
+    TextView job=null;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -98,33 +105,14 @@ public class MainActivity extends AppCompatActivity {
         layoutManager=new LinearLayoutManager(getApplicationContext());
         FrameLayout pick=(FrameLayout)findViewById(R.id.pick);
         FrameLayout picked=(FrameLayout)findViewById(R.id.picked);
-        TextView pick_int=(TextView)findViewById(R.id.pick_int);
-        final TextView picked_int=(TextView)findViewById(R.id.picked_int);
-        LinearLayout team=(LinearLayout)findViewById(R.id.team);
-        TextView name=(TextView)findViewById(R.id.name);
-        TextView job=(TextView)findViewById(R.id.job);
+        pick_int=(TextView)findViewById(R.id.pick_int);
+        picked_int=(TextView)findViewById(R.id.picked_int);
+        team=(LinearLayout)findViewById(R.id.team);
+        name=(TextView)findViewById(R.id.name);
+        job=(TextView)findViewById(R.id.job);
 
-        name.setText(ParseUser.getCurrentUser().getString("name"));
-        switch (ParseUser.getCurrentUser().getString("job")){
-            case "plan":
-                job.setText("기획자");
-                break;
-            case "dev":
-                job.setText("개발자");
-                break;
-            case "dis":
-                job.setText("디자이너");
-                break;
-        }
-        pick_int.setText("" + ParseUser.getCurrentUser().getList("pick").size());
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> list, ParseException e) {
-                picked_int.setText("" + list.size());
-            }
-        });
+        if(ParseUser.getCurrentUser()!=null)
+            setMain();
 
         makeDrawerHeader();
         profile.setOnClickListener(new View.OnClickListener() {
@@ -163,13 +151,39 @@ public class MainActivity extends AppCompatActivity {
                 return changeDrawerMenu(menuItem);
             }
         });
+    }
+
+    private void setMain() {
+        name.setText(ParseUser.getCurrentUser().getString("name"));
+        switch (ParseUser.getCurrentUser().getString("job")){
+            case "plan":
+                job.setText("기획자");
+                break;
+            case "dev":
+                job.setText("개발자");
+                break;
+            case "dis":
+                job.setText("디자이너");
+                break;
+        }
+        pick_int.setText("" + ParseUser.getCurrentUser().getList("pick").size());
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                picked_int.setText("" + list.size());
+            }
+        });
+
+
         ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
         parseQuery.whereEqualTo("member", ParseUser.getCurrentUser().getString("name"));
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 items = new ArrayList<>();
-                if(list.size()==0)
+                if (list.size() == 0)
                     return;
                 List<String> member = list.get(0).getList("member");
                 List<String> member_job = list.get(0).getList("member_job");
@@ -182,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView.setAdapter(adapter);
             }
         });
-       recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
     }
 
