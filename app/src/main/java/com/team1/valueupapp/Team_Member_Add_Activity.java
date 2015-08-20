@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -84,7 +86,6 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
         addItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                ArrayList<Team_Member_add_item>items=adapter.getPick_items();
                 finish();
                 return false;
             }
@@ -100,6 +101,18 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        final ArrayList<String> member=new ArrayList<>();
+                        ParseQuery<ParseObject> query1=ParseQuery.getQuery("ValueUp_team");
+                        query1.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
+                        query1.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> list, ParseException e) {
+                                for(int i=0;i<list.get(0).getList("member").size();i++){
+                                member.add(String.valueOf(list.get(0).getList("member").get(i)));
+                                Log.d("dfdfdf",member.get(i));}
+                            }
+                        });
+
                         ParseQuery<ParseUser> query=ParseUser.getQuery();
                         query.addAscendingOrder("name");
                         if(i.length()>0)
@@ -110,8 +123,17 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                                 if (list.isEmpty() || list.size() == 0)
                                     Toast.makeText(getApplicationContext(), "목록이 없습니다.", Toast.LENGTH_SHORT).show();
                                 for (ParseUser p : list) {
-                                    Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), false);
-                                    items.add(item);
+                                    for(String s:member) {
+                                        if(s.equals(p.getString("name"))){
+                                            Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), true);
+                                            items.add(item);
+                                            break;
+                                        }
+                                        else{
+                                            Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), false);
+                                            items.add(item);
+                                        }
+                                    }
                                 }
                                 progressBar.setVisibility(View.GONE);
                                 adapter=new Team_Member_add_Adapter(getApplicationContext(), items);
