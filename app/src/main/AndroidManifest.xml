@@ -147,6 +147,13 @@
                 android:value=".MainActivity"/>
         </activity>
 
+        <activity android:name=".SearchActivity_Mentor"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
         <activity android:name=".TeamActivity"
             android:screenOrientation="portrait">
             <meta-data
