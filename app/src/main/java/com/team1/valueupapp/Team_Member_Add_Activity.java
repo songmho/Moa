@@ -1,6 +1,5 @@
 package com.team1.valueupapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -97,79 +96,72 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
 
     private void makeList(final String i) {
         progressBar.setVisibility(View.VISIBLE);
-        new Thread(new Runnable() {
+
+        items.clear();
+
+        final ArrayList<String> member=new ArrayList<>();
+        ParseQuery<ParseObject> query1=ParseQuery.getQuery("ValueUp_team");
+        query1.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
+        query1.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
+            public void done(List<ParseObject> list, ParseException e) {
+                if(!list.isEmpty()) {
+                    for (int i = 0; i < list.get(0).getList("member").size(); i++) {
+                        member.add(String.valueOf(list.get(0).getList("member").get(i)));
+                    }//end for
+                }//end if
+            }
+        });
+
+        ParseQuery<ParseObject> query2=ParseQuery.getQuery("ValueUp_team");
+        query2.whereNotEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+        query2.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if (!list.isEmpty()) {
+                    for (int i = 0; i < list.size(); i++) {
+                        for (int j = 0; j < list.get(i).getList("member").size(); j++) {
+                            completed.add("" + list.get(i).getList("member").get(j));
+                        }//end for
+                    }
+                }//end if
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.addAscendingOrder("name");
+                if (i.length() > 0)
+                    query.whereContains("name", i);
+                query.whereNotContainedIn("name", completed);
+                query.findInBackground(new FindCallback<ParseUser>() {
                     @Override
-                    public void run() {
-                        items.clear();
+                    public void done(List<ParseUser> list, ParseException e) {
+                        Log.d("aa", "" + list.size());
+                        if (list.isEmpty() || list.size() == 0)
+                            Toast.makeText(getApplicationContext(), "목록이 없습니다.", Toast.LENGTH_SHORT).show();
+                        for (ParseUser p : list) {
+                            for (int i = 0; i <member.size(); i++) {
+                                String s = member.get(i);
+                                Log.d("aaaS", ""+member.size());
+                                Log.d("aaaSS", ""+s);
+                                Log.d("aaaPP", ""+p.getString("name"));
 
-                        final ArrayList<String> member=new ArrayList<>();
-                        ParseQuery<ParseObject> query1=ParseQuery.getQuery("ValueUp_team");
-                        query1.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
-                        query1.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                if(!list.isEmpty()) {
-                                    for (int i = 0; i < list.get(0).getList("member").size(); i++) {
-                                        member.add(String.valueOf(list.get(0).getList("member").get(i)));
-                                    }//end for
-                                }//end if
+                                if (s.equals(p.getString("name"))) {
+                                    Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), true);
+                                    items.add(item);
+                                    break;
+                                } else {
+                                    Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), false);
+                                    items.add(item);
+                                    break;
+                                }
                             }
-                        });
-
-
-
-                        ParseQuery<ParseObject> query2=ParseQuery.getQuery("ValueUp_team");
-                        query2.whereNotEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
-                        query2.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                if (!list.isEmpty()) {
-                                    for (int i = 0; i < list.size(); i++) {
-                                        for (int j = 0; j < list.get(i).getList("member").size(); j++) {
-                                            completed.add("" + list.get(i).getList("member").get(j));
-                                        }//end for
-                                    }
-                                }//end if
-                                ParseQuery<ParseUser> query=ParseUser.getQuery();
-                                query.addAscendingOrder("name");
-                                if(i.length()>0)
-                                    query.whereContains("name", i);
-                                query.whereNotContainedIn("name", completed);
-                                query.findInBackground(new FindCallback<ParseUser>() {
-                                    @Override
-                                    public void done(List<ParseUser> list, ParseException e) {
-                                        Log.d("aa", "" + list.size());
-                                        if (list.isEmpty() || list.size() == 0)
-                                            Toast.makeText(getApplicationContext(), "목록이 없습니다.", Toast.LENGTH_SHORT).show();
-                                        for (ParseUser p : list) {
-                                            for (String s : member) {
-                                                if (s.equals(p.getString("name"))) {
-                                                    Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), true);
-                                                    items.add(item);
-                                                    break;
-                                                } else {
-                                                    Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), false);
-                                                    items.add(item);
-                                                }
-                                            }
-                                        }
-                                        progressBar.setVisibility(View.GONE);
-                                        adapter = new Team_Member_add_Adapter(getApplicationContext(), items);
-                                        recyclerview.setAdapter(adapter);
-                                    }
-                                });
-                            }
-                        });
-
-
+                            Log.d("aaa1P", ""+items.size());
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        Log.d("aaa2", ""+items.size());
+                        recyclerview.setAdapter(new Team_Member_add_Adapter(getApplicationContext(), items));
                     }
                 });
             }
-        }).start();
+        });
+
     }
 }
-
-
