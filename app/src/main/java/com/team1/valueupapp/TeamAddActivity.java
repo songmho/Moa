@@ -51,34 +51,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         detail=(EditText)findViewById(R.id.detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         ImageView add=(ImageView)findViewById(R.id.add);
-            title.setText(ParseUser.getCurrentUser().getString("info"));
-            detail.setText(ParseUser.getCurrentUser().getString("detail"));
-        byte[] bytes=null;
-        items=new ArrayList<>();
-        if(items.size()==0){
-        Teamadd_item item=new Teamadd_item(bytes,ParseUser.getCurrentUser().getString("name"));
-        items.add(item);}
-        else if(items.size()>0){
-            ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-            query.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> list, ParseException e) {
-                    if(list.isEmpty())
-                        return;
-                    else{
-                        for(int i=0;i<list.get(0).getList("member").size();i++){
-                        Teamadd_item item=new Teamadd_item(null,String.valueOf(list.get(0).getList("member").get(i)));
-                        items.add(item);}
-                    }
-                }
-            });
-        }
-        recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
 
-        recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +72,42 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
             }
         });
     }//onCreate
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        title.setText(ParseUser.getCurrentUser().getString("info"));
+        detail.setText(ParseUser.getCurrentUser().getString("detail"));
+        byte[] bytes=null;
+        items=new ArrayList<>();
+
+        if(items.size()==0){
+            Teamadd_item item=new Teamadd_item(bytes,ParseUser.getCurrentUser().getString("name"));
+            items.add(item);}
+        else if(items.size()>0){
+            ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+            query.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    if(list.isEmpty())
+                        return;
+                    else{
+                        for(int i=0;i<list.get(0).getList("member").size();i++){
+                            Teamadd_item item=new Teamadd_item(null,String.valueOf(list.get(0).getList("member").get(i)));
+                            items.add(item);}
+                    }
+                }
+            });
+        }
+        recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager=new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
