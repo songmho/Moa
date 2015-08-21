@@ -72,6 +72,7 @@ public class Team_Member_add_Adapter extends RecyclerView.Adapter {
                             list.get(0).saveInBackground();
                         }
                     });
+                    Toast.makeText(context.getApplicationContext(),item.getName(),Toast.LENGTH_SHORT).show();
                 }
             }
         });
