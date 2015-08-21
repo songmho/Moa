@@ -116,7 +116,6 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                                 if(!list.isEmpty()) {
                                     for (int i = 0; i < list.get(0).getList("member").size(); i++) {
                                         member.add(String.valueOf(list.get(0).getList("member").get(i)));
-                                        Log.d("dfdfdf", member.get(i));
                                     }//end for
                                 }//end if
                             }

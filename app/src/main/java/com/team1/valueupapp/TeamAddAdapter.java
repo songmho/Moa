@@ -2,6 +2,8 @@ package com.team1.valueupapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +35,14 @@ public class TeamAddAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Teamadd_item item=items.get(position);
-            if(item.getProfile()==null)
-                ((holder)holder).profile.setImageResource(R.drawable.ic_user);
-            ((holder) holder).name.setText(item.getName());
+        Teamadd_item item=items.get(position);
+        if(item.getProfile()==null)
+            ((holder)holder).profile.setImageResource(R.drawable.ic_user);
+        else{
+            Bitmap bitmap = BitmapFactory.decodeByteArray(item.getProfile(), 0, item.getProfile().length);
+            ((holder)holder).profile.setImageBitmap(bitmap);
+        }
+        ((holder) holder).name.setText(item.getName());
 
     }
 

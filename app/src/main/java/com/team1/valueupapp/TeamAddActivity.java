@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -121,16 +122,32 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                         query.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> list, ParseException e) {
+                                byte[] bytes=null;
+                                ParseFile file;
                                 if (list.isEmpty()) {
                                     title.setText(ParseUser.getCurrentUser().getString("info"));
                                     detail.setText(ParseUser.getCurrentUser().getString("detail"));
-                                    Teamadd_item item = new Teamadd_item(null, ParseUser.getCurrentUser().getString("name"));
+
+                                    try {
+                                        file=ParseUser.getCurrentUser().getParseFile("profile");
+                                        if(file==null){
+                                            bytes=null;
+                                        }
+                                        else{
+                                            bytes=file.getData();
+                                        }
+                                    } catch (ParseException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    Teamadd_item item = new Teamadd_item(bytes, ParseUser.getCurrentUser().getString("name"));
                                     items.add(item);
-                                } else {
+                                }
+
+                                else {
                                     title.setText(list.get(0).getString("idea"));
                                     detail.setText(list.get(0).getString("idea_info"));
                                     for (int i = 0; i < list.get(0).getList("member").size(); i++) {
-                                        Teamadd_item item = new Teamadd_item(null, String.valueOf(list.get(0).getList("member").get(i)));
+                                        Teamadd_item item = new Teamadd_item(bytes, String.valueOf(list.get(0).getList("member").get(i)));
                                         items.add(item);
                                     }
                                 }//end else
