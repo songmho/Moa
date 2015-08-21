@@ -11,8 +11,9 @@ public class Mentoring_item {
     String title;
     String mentor;
     String venue;
+    String detail;
 
-    Mentoring_item(String job, int year, int month, int day, String title, String mentor, String venue){
+    Mentoring_item(String job, int year, int month, int day, String title, String mentor, String venue,String detail){
         this.job=job;
         this.year=year;
         this.month=month;
@@ -20,6 +21,7 @@ public class Mentoring_item {
         this.title=title;
         this.mentor=mentor;
         this.venue=venue;
+        this.detail=detail;
     }
 
     String getJob(){return this.job;}
@@ -30,4 +32,7 @@ public class Mentoring_item {
     String getMentor(){return this.mentor;}
     String getVenue(){return this.venue;}
 
+    public String getDetail() {
+        return detail;
+    }
 }

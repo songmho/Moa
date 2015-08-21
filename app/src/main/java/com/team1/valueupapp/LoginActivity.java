@@ -36,6 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(ParseUser.getCurrentUser()!=null)
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+
         setContentView(R.layout.activity_login);
         id_text= (EditText) findViewById(R.id.id_text);
         pass_text= (EditText) findViewById(R.id.pass_text);

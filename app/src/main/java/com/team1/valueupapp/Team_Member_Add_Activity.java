@@ -100,13 +100,13 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
     }
 
     private void makeList(final String i) {
-        progressBar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar.setVisibility(View.VISIBLE);
                         final ArrayList<String> member=new ArrayList<>();
                         ParseQuery<ParseObject> query1=ParseQuery.getQuery("ValueUp_team");
                         query1.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
@@ -146,9 +146,9 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                                         }
                                     }
                                 }
-                                progressBar.setVisibility(View.GONE);
                                 adapter=new Team_Member_add_Adapter(getApplicationContext(), items);
                                 recyclerview.setAdapter(adapter);
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
                     }

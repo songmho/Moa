@@ -88,7 +88,6 @@ public class Mypage_edit_Activity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
                 MakingAlertDialog();
             }
         });
@@ -171,6 +170,10 @@ public class Mypage_edit_Activity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
             return true;
         }
+        if(id==android.R.id.home && getIntent().getIntExtra("signup",0)==1){
+            startActivity(new Intent(Mypage_edit_Activity.this,MainActivity.class));
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

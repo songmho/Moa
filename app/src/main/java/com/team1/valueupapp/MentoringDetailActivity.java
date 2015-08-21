@@ -53,7 +53,7 @@ public class MentoringDetailActivity extends AppCompatActivity {
         mentor.setText(intent.getStringExtra("mentor"));
         date.setText(intent.getStringExtra("date"));
         venue.setText(intent.getStringExtra("venue"));
-        mentoring_info.setText(intent.getStringExtra("title"));
+        mentoring_info.setText(intent.getStringExtra("detail"));
 
     }
 }//class

@@ -3,6 +3,7 @@ package com.team1.valueupapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.renderscript.Allocation;
@@ -19,13 +20,16 @@ import android.widget.TextView;
 
 import com.parse.ParseUser;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by eugene on 2015-08-08.
  */
 public class MypageActivity extends AppCompatActivity {
     ParseUser parseUser;
     String str_job;
-//    String str_info;
+    ImageView profile_blur;
+    CircleImageView profile;
 
     CollapsingToolbarLayout collapsing_toolbar;
     TextView myjob;
@@ -50,16 +54,22 @@ public class MypageActivity extends AppCompatActivity {
         mydetail=(TextView)findViewById(R.id.mydetail);
         imageView=(ImageView)findViewById(R.id.image);
         str_info=(TextView)findViewById(R.id.str_info);
-        ImageView profile=(ImageView)findViewById(R.id.profile);
+        profile_blur=(ImageView)findViewById(R.id.profile_blur);
+        profile=(CircleImageView)findViewById(R.id.profile);
 
-
-//        String tempPath="data/data/com.team1.valueupapp/files/profile.png";
- //       Bitmap bm= BitmapFactory.decodeFile(tempPath);
-  //      imageView.setImageBitmap(bm);
-
+        String tempPath="data/data/com.team1.valueupapp/files/profile.jpg";
+        Bitmap bm = BitmapFactory.decodeFile(tempPath);
+        if(bm!=null){
+            profile_blur.setImageBitmap(blur(getApplicationContext(), bm, 20));
+            profile.setImageBitmap(bm);}
+        else{
+            bm = BitmapFactory.decodeResource(getResources(), R.drawable.img_page);
+            profile_blur.setImageBitmap(blur(getApplicationContext(), bm, 20));
+            profile.setImageResource(R.drawable.ic_user);
+        }
     }
 
-    public static Bitmap blur(Context context, Bitmap sentBitmap, int radius) {
+    public Bitmap blur(Context context, Bitmap sentBitmap, int radius) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
             Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);

@@ -1,7 +1,15 @@
 package com.team1.valueupapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +29,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by songmho on 2015-07-04.
@@ -34,6 +45,9 @@ public class InfoActivity extends AppCompatActivity {
     TextView mymemo;
     TextView str_info;
     CollapsingToolbarLayout collapsing_toolbar;
+    ImageView profile_blur;
+    CircleImageView profile;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -62,8 +76,22 @@ public class InfoActivity extends AppCompatActivity {
         mydetail=(TextView)findViewById(R.id.mydetail);
         memobutton=(Button)findViewById(R.id.memobutton);
          str_info=(TextView)findViewById(R.id.str_info);
+        profile_blur=(ImageView)findViewById(R.id.profile_blur);
+        profile=(CircleImageView)findViewById(R.id.profile);
 
         fab=(FloatingActionButton)findViewById(R.id.fab);
+
+        Bitmap bitmap;
+        if(intent.getByteArrayExtra("profile")!=null) {
+            bitmap = BitmapFactory.decodeByteArray(intent.getByteArrayExtra("profile"), 0, intent.getByteArrayExtra("profile").length);
+            profile.setImageBitmap(bitmap);
+            profile_blur.setImageBitmap(blur(getApplicationContext(), bitmap, 20));
+        }
+        else{
+            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img_page);
+            profile_blur.setImageBitmap(blur(getApplicationContext(), bitmap, 20));
+            profile.setImageResource(R.drawable.ic_user);
+        }
 
 
     }
@@ -147,6 +175,26 @@ public class InfoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    public Bitmap blur(Context context, Bitmap sentBitmap, int radius) {
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
+
+            final RenderScript rs = RenderScript.create(context);
+            final Allocation input = Allocation.createFromBitmap(rs, sentBitmap, Allocation.MipmapControl.MIPMAP_NONE,
+                    Allocation.USAGE_SCRIPT);
+            final Allocation output = Allocation.createTyped(rs, input.getType());
+            final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            script.setRadius(radius); //0.0f ~ 25.0f
+            script.setInput(input);
+            script.forEach(output);
+            output.copyTo(bitmap);
+            return bitmap;
+        }
+        return null;
     }
 
     private void loadingData(Intent intent, final int action) {

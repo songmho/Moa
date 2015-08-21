@@ -157,7 +157,7 @@ public class SearchActivity extends AppCompatActivity {
                                     for (ParseObject o : list) {
                                         Mentoring_item item = new Mentoring_item(o.getString("job"),
                                                 o.getInt("year"), o.getInt("month"), o.getInt("day"),
-                                                o.getString("title"), o.getString("mentor"), o.getString("venue"));
+                                                o.getString("title"), o.getString("mentor"), o.getString("venue"),o.getString("detail"));
                                         items.add(item);
                                     }
                                     recyclerView.setAdapter(new Mentoring_adapter(getApplicationContext(), items, R.layout.activity_mentoring));

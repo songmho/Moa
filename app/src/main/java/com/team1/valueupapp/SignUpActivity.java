@@ -1,5 +1,6 @@
 package com.team1.valueupapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -119,12 +120,13 @@ public class SignUpActivity extends AppCompatActivity {
                                                 progressBar.setVisibility(View.GONE);
                                                 if (e == null) {
                                                     Toast.makeText(getApplicationContext(), "가입에 성공하였습니다.", Toast.LENGTH_SHORT).show();
-
-                                                    ParseUser currentUser = ParseUser.getCurrentUser();
-                                                    if (currentUser != null) {
-                                                        currentUser.logOut();
-                                                    }
-
+                                                    Intent intent=new Intent(SignUpActivity.this,Mypage_edit_Activity.class);
+                                                    intent.putExtra("name",String.valueOf(user_name.getText()));
+                                                    intent.putExtra("job",job);
+                                                    intent.putExtra("mydetail","");
+                                                    intent.putExtra("myinfo","");
+                                                    intent.putExtra("signup",1);
+                                                    startActivity(intent);
                                                     finish();
                                                 } else {
 //                                    Log.d("error", String.valueOf(e.getCode()));

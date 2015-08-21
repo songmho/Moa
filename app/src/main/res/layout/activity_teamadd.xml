@@ -134,10 +134,20 @@
                     android:layout_height="25dp"
                     android:background="@drawable/ic_add_circle_gray"/>
             </FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+                <ProgressBar
+                    android:visibility="gone"
+                    android:id="@+id/progressbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
     </LinearLayout>

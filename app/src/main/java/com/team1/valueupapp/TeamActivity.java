@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -97,7 +98,7 @@ public class TeamActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressBar.setVisibility(View.VISIBLE);
+                        Log.d("Dfdfdf","dfdfdfdfdfdfdf");
 
                         makeList();
                     }
@@ -107,6 +108,7 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     public void makeList() {
+        progressBar.setVisibility(View.VISIBLE);
         items.clear();
 
         final List<String> list_pick;
@@ -115,7 +117,7 @@ public class TeamActivity extends AppCompatActivity {
         else
             list_pick=null;
         ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
-        parseQuery.whereEqualTo("ismade",true);
+        parseQuery.whereEqualTo("ismade", true);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
@@ -123,19 +125,19 @@ public class TeamActivity extends AppCompatActivity {
                     String same_mem = "";
                     List<String> list_member = o.getList("member");
                     for (String s : list_member) {
-                        if (ParseUser.getCurrentUser()!=null && list_pick.contains(s))
+                        if (ParseUser.getCurrentUser() != null && list_pick.contains(s))
                             same_mem = same_mem + " " + s;
                         else
-                            same_mem="";
+                            same_mem = "";
                     }
                     Team_item item = new Team_item(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
                     items.add(item);
                 }
                 recyclerView.setAdapter(new Team_RecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
 
+                progressBar.setVisibility(View.GONE);
             }
         });
-        progressBar.setVisibility(View.GONE);
     }//makeList
 
 

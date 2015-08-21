@@ -49,6 +49,7 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
                 mentoring_info.putExtra("title", item.getTitle());
                 mentoring_info.putExtra("mentor", item.getMentor()+" 멘토님");
                 mentoring_info.putExtra("venue", item.getVenue());
+                mentoring_info.putExtra("detail",item.getDetail());
                 context.startActivity(mentoring_info);
             }
         });
