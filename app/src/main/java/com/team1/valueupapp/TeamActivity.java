@@ -69,10 +69,13 @@ public class TeamActivity extends AppCompatActivity {
                                         exist = true;
                                     }
                                 }//개설중인 방이 있는지 확인
+                                else if(list.get(i).getList("member").contains(ParseUser.getCurrentUser().getString("name"))) {
+                                    exist = true;
+                                }//참여중인 방이 있는지 확인
                             }//end for
 
                             if (exist == true) {
-                                Toast.makeText(getApplicationContext(), "이미 개설중인 방이 있습니다.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "이미 참여중인 방이 있습니다.", Toast.LENGTH_SHORT).show();
                             } else {
                                 Intent intent = new Intent(TeamActivity.this, TeamAddActivity.class);
                                 startActivity(intent);
