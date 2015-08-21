@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -174,8 +175,50 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        switch (id){
+            case android.R.id.home:
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                query.whereEqualTo("ismade",false);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+                        try {
+                            if(!list.isEmpty())
+                            list.get(0).delete();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+                break;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                query.whereEqualTo("ismade",false);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+                        try {
+                            if(!list.isEmpty())
+                            list.get(0).delete();
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                });
+                break;
+        }
+
+        return true;
     }
 
 }//class

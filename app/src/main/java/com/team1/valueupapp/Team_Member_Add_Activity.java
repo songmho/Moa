@@ -42,6 +42,7 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("팀원추가");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final EditText search_edit=(EditText)findViewById(R.id.search_edit);
         Button search=(Button)findViewById(R.id.search);
@@ -76,6 +77,11 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

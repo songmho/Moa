@@ -132,12 +132,15 @@
                 android:paddingLeft="60dp">
                 <TextView
                     android:id="@+id/detail"
-                    android:layout_width="300dp"
+                    android:layout_width="280dp"
                     android:layout_height="wrap_content"
                     android:text="dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfffffffffffffffffffffffffff"/>
             </LinearLayout>
 
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -167,8 +170,18 @@
                     android:layout_marginLeft="10dp"
                     android:textSize="16dp"
                     android:textColor="#747474"
-                    android:text="3"/>
-            </LinearLayout>
+                    android:text=""/>
+              </LinearLayout>
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/add"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center|right"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/ic_add_circle_gray"/>
+
+            </FrameLayout>
 
 
             <LinearLayout

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -65,6 +66,9 @@ public class TeamDetailActivity extends AppCompatActivity {
         TextView admin_name=(TextView)findViewById(R.id.admin_name);
         TextView detail=(TextView)findViewById(R.id.detail);
         CircleImageView admin_profile=(CircleImageView)findViewById(R.id.admin_profile);
+        ImageView add=(ImageView)findViewById(R.id.add);
+        if(ParseUser.getCurrentUser().getString("name").equals(intent.getStringExtra("name")));
+            add.setVisibility(View.VISIBLE);
 
         final TextView member_num=(TextView)findViewById(R.id.member_num);
         final LinearLayout[] member=new LinearLayout[6];
@@ -98,8 +102,8 @@ public class TeamDetailActivity extends AppCompatActivity {
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                if (!list.isEmpty()){
-                        Log.d("dfdfdf", list.get(0).getString("idea"));
+                if (!list.isEmpty()) {
+                    Log.d("dfdfdf", list.get(0).getString("idea"));
                     List<String> mem_name = list.get(0).getList("member");
                     member_num.setText("" + mem_name.size());
                     for (int i = 0; i < mem_name.size(); i++) {
@@ -113,5 +117,11 @@ public class TeamDetailActivity extends AppCompatActivity {
         });
 
 
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TeamDetailActivity.this,Team_Member_Add_Activity.class));
+            }
+        });
     }
 }

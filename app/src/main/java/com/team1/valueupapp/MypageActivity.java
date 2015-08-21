@@ -100,6 +100,7 @@ public class MypageActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
         MenuItem editItem = menu.findItem(R.id.action_edit);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -115,6 +116,11 @@ public class MypageActivity extends AppCompatActivity {
             intent.putExtra("mydetail",parseUser.getString("detail"));
             startActivity(intent);
             return true;
+        }
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

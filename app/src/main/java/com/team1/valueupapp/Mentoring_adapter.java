@@ -38,7 +38,7 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
         holder.job.setText(item.getJob());
         holder.date.setText(""+ item.getYear()+". "+item.getMonth()+". "+item.getDay());
         holder.title.setText(item.getTitle());
-        holder.mentor.setText(item.getMentor());
+        holder.mentor.setText(item.getMentor()+" 멘토님");
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +47,7 @@ public class Mentoring_adapter extends RecyclerView.Adapter<Mentoring_adapter.Vi
                 mentoring_info.putExtra("job", item.getJob());
                 mentoring_info.putExtra("date", item.getYear()+". "+item.getMonth()+". "+item.getDay());
                 mentoring_info.putExtra("title", item.getTitle());
-                mentoring_info.putExtra("mentor", item.getMentor());
+                mentoring_info.putExtra("mentor", item.getMentor()+" 멘토님");
                 mentoring_info.putExtra("venue", item.getVenue());
                 context.startActivity(mentoring_info);
             }
