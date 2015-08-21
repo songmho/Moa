@@ -36,7 +36,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<Teamadd_item> items;
-
+    byte[] bytes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +51,10 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         detail=(EditText)findViewById(R.id.detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         ImageView add=(ImageView)findViewById(R.id.add);
-
+        items=new ArrayList<>();
+        title.setText(ParseUser.getCurrentUser().getString("info"));
+        detail.setText(ParseUser.getCurrentUser().getString("detail"));
+        bytes=null;
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,11 +79,6 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
     @Override
     protected void onResume() {
         super.onResume();
-
-        title.setText(ParseUser.getCurrentUser().getString("info"));
-        detail.setText(ParseUser.getCurrentUser().getString("detail"));
-        byte[] bytes=null;
-        items=new ArrayList<>();
 
         if(items.size()==0){
             Teamadd_item item=new Teamadd_item(bytes,ParseUser.getCurrentUser().getString("name"));

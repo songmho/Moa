@@ -19,10 +19,12 @@ import java.util.List;
 /**
  * Created by hyemi on 2015-08-16.
  */
-public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdapter.ViewHolder>{
+public class Team_RecyclerAdapter extends RecyclerView.Adapter{
     Context context;
     List<Team_item> items_list;
     int itemLayout;
+    int HOLDER=0;
+    int FOOTER=1;
 
     Team_RecyclerAdapter(Context context, List<Team_item> items, int itemLayout) {
         this.context=context;
@@ -31,49 +33,69 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_team, parent, false);
-        return new ViewHolder(v);
+    public int getItemViewType(int position) {
+        if(position<items_list.size())
+            return HOLDER;
+        else if(position==items_list.size())
+            return FOOTER;
+        return -1;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final Team_item item=items_list.get(position);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType==HOLDER) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_team, parent, false);
+            return new holder(v);
+        }
+        else if(viewType==FOOTER){
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fab_footer, parent, false);
+            return new footer(v);
+        }
+        return null;
+    }
 
-        holder.title.setText(item.getTitle());
-        holder.name.setText(item.getName());
-        holder.detail.setText(item.getDetail());
-        holder.pick.setText(item.getPick() + " 소속");
-        holder.team.setText(item.getTeam() + " 명");
-        if(item.getPick().length()>0) {
-            holder.pick_icon.setVisibility(View.VISIBLE);
-            holder.pick.setVisibility(View.VISIBLE);
-        }
-        else {
-            holder.pick_icon.setVisibility(View.GONE);
-            holder.pick.setVisibility(View.GONE);
-        }
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(context.getApplicationContext(),TeamDetailActivity.class);
-                intent.putExtra("title",item.getTitle());
-                intent.putExtra("name",item.getName());
-                intent.putExtra("detail",item.getDetail());
-                intent.putExtra("pick",item.getPick());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if(holder instanceof holder) {
+            final Team_item item = items_list.get(position);
+
+            ((holder) holder).title.setText(item.getTitle());
+            ((holder) holder).name.setText(item.getName());
+            ((holder) holder).detail.setText(item.getDetail());
+            ((holder) holder).pick.setText(item.getPick() + " 소속");
+            ((holder) holder).team.setText(item.getTeam() + " 명");
+            if (item.getPick().length() > 0) {
+                ((holder) holder).pick_icon.setVisibility(View.VISIBLE);
+                ((holder) holder).pick.setVisibility(View.VISIBLE);
+            } else {
+                ((holder) holder).pick_icon.setVisibility(View.GONE);
+                ((holder) holder).pick.setVisibility(View.GONE);
             }
-        });
+            ((holder) holder).cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context.getApplicationContext(), TeamDetailActivity.class);
+                    intent.putExtra("title", item.getTitle());
+                    intent.putExtra("name", item.getName());
+                    intent.putExtra("detail", item.getDetail());
+                    intent.putExtra("pick", item.getPick());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            });
+        }
+        else if(holder instanceof footer){
+
+        }
     }
 
     @Override
     public int getItemCount() {
-        return items_list.size();
+        return items_list.size()+1;
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class holder extends RecyclerView.ViewHolder {
         TextView title;
         TextView name;
         TextView detail;
@@ -82,7 +104,7 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
         CardView cardView;
         ImageView pick_icon;
 
-        public ViewHolder(View itemView) {
+        public holder(View itemView) {
             super(itemView);
             title=(TextView)itemView.findViewById(R.id.title);
             name=(TextView)itemView.findViewById(R.id.name);
@@ -92,5 +114,12 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter<Team_RecyclerAdap
             pick_icon=(ImageView)itemView.findViewById(R.id.pick_icon);
             cardView=(CardView)itemView.findViewById(R.id.cardview);
         }//ViewHolder
+    }
+
+    public class footer extends RecyclerView.ViewHolder{
+
+        public footer(View itemView) {
+            super(itemView);
+        }
     }
 }
