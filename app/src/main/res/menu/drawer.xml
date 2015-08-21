@@ -10,7 +10,7 @@
             />
         <item
             android:id="@+id/introduce"
-            android:icon="@drawable/ic_intro"
+            android:icon="@drawable/ic_teambuilding"
             android:title="전체멤버 보기"
             />
         <item

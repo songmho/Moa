@@ -130,7 +130,6 @@
                                 android:gravity="center"
                                 android:textColor="@color/white"
                                 android:textSize="30dp"
-                                android:textStyle="bold"
                                 />
 
                         </LinearLayout>
@@ -181,7 +180,7 @@
                                 android:gravity="center"
                                 android:textColor="@color/white"
                                 android:textSize="30dp"
-                                android:textStyle="bold"/>
+                                />
                         </LinearLayout>
 
                     </FrameLayout>
@@ -250,7 +249,6 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:textSize="30dp"
-                            android:textStyle="bold"
                             />
 
                     </LinearLayout>
