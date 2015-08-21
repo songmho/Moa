@@ -103,7 +103,6 @@ public class TeamDetailActivity extends AppCompatActivity {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if (!list.isEmpty()) {
-                    Log.d("dfdfdf", list.get(0).getString("idea"));
                     List<String> mem_name = list.get(0).getList("member");
                     member_num.setText("" + mem_name.size());
                     for (int i = 0; i < mem_name.size(); i++) {

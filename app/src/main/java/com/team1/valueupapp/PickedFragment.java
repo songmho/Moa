@@ -78,8 +78,8 @@ public class PickedFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
-                if (list.isEmpty())
-                    Toast.makeText(getActivity().getApplicationContext(), "kll검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+      //          if (list.isEmpty())
+         //           Toast.makeText(getActivity().getApplicationContext(), "kll검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
 //                Log.d("dddd", "" + list.size());
 //                Log.d("sss", ""+ParseUser.getCurrentUser().getList("memo").size());
                 final List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");

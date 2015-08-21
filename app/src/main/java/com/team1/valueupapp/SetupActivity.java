@@ -1,6 +1,8 @@
 package com.team1.valueupapp;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseUser;
@@ -38,7 +41,17 @@ public class SetupActivity extends AppCompatActivity {
         logout = (Button) findViewById(R.id.logout);
         swc_notice = (Switch) findViewById(R.id.swc_notice);
         btn_aboutpage = (Button) findViewById(R.id.btn_aboutpage);
+        TextView last_ver=(TextView)findViewById(R.id.last_ver);
+        TextView cur_ver=(TextView)findViewById(R.id.cur_ver);
+        PackageInfo info = null;
+        try {
+            info = getPackageManager().getPackageInfo(getPackageName(), 0);
 
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        cur_ver.setText(info.versionName);
+        last_ver.setText(info.versionName);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

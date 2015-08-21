@@ -21,6 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout team = null;
     TextView name = null;
     TextView job = null;
+    int mem_count=0;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -200,9 +202,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(ParseUser.getCurrentUser()!=null) {
-                    Intent intent = new Intent(MainActivity.this, TeamDetailActivity.class);
-                    intent.putExtra("page", 2);
-                    startActivity(intent);
+                    if(mem_count>0) {
+                        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("ValueUp_team");
+                        parseQuery.whereEqualTo("member", ParseUser.getCurrentUser().getString("name"));
+                        parseQuery.whereEqualTo("ismade", true);
+                        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> list, ParseException e) {
+                                final Intent intent = new Intent(MainActivity.this, TeamDetailActivity.class);
+                                Log.d("dfdfdf",list.get(0).getString("admin_member"));
+                                intent.putExtra("name", list.get(0).getString("admin_member"));
+                                intent.putExtra("title", list.get(0).getString("idea"));
+                                intent.putExtra("detail", list.get(0).getString("idea_info"));
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    else if(mem_count==0){
+                        Intent intent = new Intent(MainActivity.this, TeamActivity.class);
+                        startActivity(intent);
+                    }
                 }
 
                 else{
@@ -268,19 +287,23 @@ public class MainActivity extends AppCompatActivity {
 
                 items = new ArrayList<>();
 
-                if (list.size() == 0)
-                    return;
-
-                List<String> member = list.get(0).getList("member");
-
-                current_int.setText("" + member.size());
-
-
-                for (int i = 0; i < member.size(); i++) {
-                    MainListitem item = new MainListitem(member.get(i));
+                if (list.size() == 0){
+                    mem_count=0;
+                    MainListitem item = new MainListitem("팀이 없어요.\n 팀빌딩을 해주세요.");
                     items.add(item);
                 }
+                else if(list.size()>0) {
+                    mem_count=list.size();
+                    List<String> member = list.get(0).getList("member");
 
+                    current_int.setText("" + member.size());
+
+
+                    for (int i = 0; i < member.size(); i++) {
+                        MainListitem item = new MainListitem(member.get(i));
+                        items.add(item);
+                    }
+                }
 
                 MainRecyclerAdapter adapter = new MainRecyclerAdapter(getApplicationContext(), items, R.layout.item_mainlist_name);
                 recyclerView.setAdapter(adapter);
@@ -486,6 +509,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if(id ==R.id.action_refresh){
+            if(ParseUser.getCurrentUser()!=null)
             setMain();
             return true;
         }

@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,9 +31,9 @@ import java.util.List;
  */
 public class TeamActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    ProgressBar progressBar;
     RecyclerView.LayoutManager layoutManager;
     List<Team_item> items;
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,13 +45,19 @@ public class TeamActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
-        progressBar=(ProgressBar)findViewById(R.id.progressbar);
-
+        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.refresh);
         recyclerView.setHasFixedSize(true);
         layoutManager=new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         items=new ArrayList<>();
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                makeList();
+                refreshLayout.setRefreshing(false);
+            }
+        });
 
         FloatingActionButton fab=(FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -95,15 +102,15 @@ public class TeamActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        refreshLayout.setRefreshing(true);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("Dfdfdf","dfdfdfdfdfdfdf");
-
                         makeList();
+                        refreshLayout.setRefreshing(false);
                     }
                 });
             }
@@ -111,7 +118,6 @@ public class TeamActivity extends AppCompatActivity {
     }
 
     public void makeList() {
-        progressBar.setVisibility(View.VISIBLE);
         items.clear();
 
         final List<String> list_pick;
@@ -138,7 +144,6 @@ public class TeamActivity extends AppCompatActivity {
                 }
                 recyclerView.setAdapter(new Team_RecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
 
-                progressBar.setVisibility(View.GONE);
             }
         });
     }//makeList
