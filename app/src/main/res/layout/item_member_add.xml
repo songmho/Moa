@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="9.9"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="10dp"/>
         <CheckBox
             android:id="@+id/check"
             android:layout_gravity="center"

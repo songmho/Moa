@@ -54,4 +54,10 @@
         <item name="android:bottomDark">@color/tab_color</item>
         <item name="android:bottomMedium">@color/tab_color</item>
     </style>
+
+    <style name="MyActionBar">
+        <item name="android:height">56dp</item>
+        <item name="height">56dp</item>
+    </style>
+
 </resources>
