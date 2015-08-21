@@ -139,9 +139,8 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                         for (ParseUser p : list) {
                             for (int i = 0; i <member.size(); i++) {
                                 String s = member.get(i);
-                                Log.d("aaaS", ""+member.size());
-                                Log.d("aaaSS", ""+s);
-                                Log.d("aaaPP", ""+p.getString("name"));
+//                                Log.d("aaaSS", ""+s);
+//                                Log.d("aaaPP", ""+p.getString("name"));
 
                                 if (s.equals(p.getString("name"))) {
                                     Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), true);
@@ -155,9 +154,13 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                             }
                             Log.d("aaa1P", ""+items.size());
                         }
-                        progressBar.setVisibility(View.GONE);
-                        Log.d("aaa2", ""+items.size());
-                        recyclerview.setAdapter(new Team_Member_add_Adapter(getApplicationContext(), items));
+                        if (items.size()>0) {
+                            progressBar.setVisibility(View.GONE);
+//                        Log.d("aaa2", ""+items.size());
+                            recyclerview.setAdapter(new Team_Member_add_Adapter(getApplicationContext(), items));
+                        } else {
+                            makeList("");
+                        }
                     }
                 });
             }
