@@ -33,6 +33,7 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
     RecyclerView recyclerview;
     Team_Member_add_Adapter adapter;
     ProgressBar progressBar;
+    List<String> completed;
 
     RecyclerView.LayoutManager layoutManager;
     @Override
@@ -49,6 +50,7 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
         progressBar=(ProgressBar)findViewById(R.id.progressbar);
         Button cancel=(Button)findViewById(R.id.cancel);
 
+        completed = new ArrayList<String>();
         items=new ArrayList<>();
         makeList("");
 
@@ -101,6 +103,8 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        items.clear();
+
                         final ArrayList<String> member=new ArrayList<>();
                         ParseQuery<ParseObject> query1=ParseQuery.getQuery("ValueUp_team");
                         query1.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
@@ -118,36 +122,55 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
 
 
 
-                        ParseQuery<ParseUser> query=ParseUser.getQuery();
-                        query.addAscendingOrder("name");
-                        if(i.length()>0)
-                            query.whereContains("name", i);
-                        query.findInBackground(new FindCallback<ParseUser>() {
+                        ParseQuery<ParseObject> query2=ParseQuery.getQuery("ValueUp_team");
+                        query2.whereNotEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                        query2.findInBackground(new FindCallback<ParseObject>() {
                             @Override
-                            public void done(List<ParseUser> list, ParseException e) {
-                                if (list.isEmpty() || list.size() == 0)
-                                    Toast.makeText(getApplicationContext(), "목록이 없습니다.", Toast.LENGTH_SHORT).show();
-                                for (ParseUser p : list) {
-                                    for(String s:member) {
-                                        if(s.equals(p.getString("name"))){
-                                            Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), true);
-                                            items.add(item);
-                                            break;
-                                        }
-                                        else{
-                                            Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), false);
-                                            items.add(item);
-                                        }
+                            public void done(List<ParseObject> list, ParseException e) {
+                                if (!list.isEmpty()) {
+                                    for (int i = 0; i < list.size(); i++) {
+                                        for (int j = 0; j < list.get(i).getList("member").size(); j++) {
+                                            completed.add("" + list.get(i).getList("member").get(j));
+                                        }//end for
                                     }
-                                }
-                                progressBar.setVisibility(View.GONE);
-                                adapter=new Team_Member_add_Adapter(getApplicationContext(), items);
-                                recyclerview.setAdapter(adapter);
+                                }//end if
+                                ParseQuery<ParseUser> query=ParseUser.getQuery();
+                                query.addAscendingOrder("name");
+                                if(i.length()>0)
+                                    query.whereContains("name", i);
+                                query.whereNotContainedIn("name", completed);
+                                query.findInBackground(new FindCallback<ParseUser>() {
+                                    @Override
+                                    public void done(List<ParseUser> list, ParseException e) {
+                                        Log.d("aa", "" + list.size());
+                                        if (list.isEmpty() || list.size() == 0)
+                                            Toast.makeText(getApplicationContext(), "목록이 없습니다.", Toast.LENGTH_SHORT).show();
+                                        for (ParseUser p : list) {
+                                            for (String s : member) {
+                                                if (s.equals(p.getString("name"))) {
+                                                    Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), true);
+                                                    items.add(item);
+                                                    break;
+                                                } else {
+                                                    Team_Member_add_item item = new Team_Member_add_item(null, p.getString("name"), false);
+                                                    items.add(item);
+                                                }
+                                            }
+                                        }
+                                        progressBar.setVisibility(View.GONE);
+                                        adapter = new Team_Member_add_Adapter(getApplicationContext(), items);
+                                        recyclerview.setAdapter(adapter);
+                                    }
+                                });
                             }
                         });
+
+
                     }
                 });
             }
         }).start();
     }
 }
+
+
