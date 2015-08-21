@@ -3,22 +3,17 @@ package com.team1.valueupapp;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -55,15 +50,37 @@ public class TeamActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         items=new ArrayList<>();
 
+
         FloatingActionButton fab=(FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(TeamActivity.this,TeamAddActivity.class);
-                startActivity(intent);
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+                        boolean exist=false;
+                        for (int i = 0; i < list.size(); i++) {
+                            if (list.get(i).getString("admin_member").equals(ParseUser.getCurrentUser().getString("name"))) {
+                                ParseObject parseObject = list.get(i);
+                                if (parseObject.getBoolean("ismade")==true) {
+                                    exist = true;
+                                }
+                            }//개설중인 방이 있는지 확인
+                        }//end for
+
+                        if(exist == true) {
+                            Toast.makeText(getApplicationContext(), "이미 개설중인 방이 있습니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(TeamActivity.this, TeamAddActivity.class);
+                            startActivity(intent);
+                        }//end else
+
+                    }
+                });//query.findInBackground
             }
-        });
-    }
+        });//fab.setOnClickListener
+    }//onCreate
 
     @Override
     public void onResume() {
@@ -74,34 +91,40 @@ public class TeamActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        items.clear();
-                        final List<String> list_pick= ParseUser.getCurrentUser().getList("pick");
-                        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
-                        parseQuery.whereEqualTo("ismade",true);
-                        parseQuery.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                for (ParseObject o : list) {
-                                    String same_mem="";
-                                    List<String> list_member=o.getList("member");
-                                    for(String s:list_member) {
-                                        if(list_pick.contains(s))
-                                            same_mem=same_mem+" "+s;
-                                    }
-                                    Team_item item = new Team_item(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
-                                    items.add(item);
-                                }
-                                recyclerView.setAdapter(new Team_RecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
+                        progressBar.setVisibility(View.VISIBLE);
 
-                            }
-                        });
-
-                        progressBar.setVisibility(View.GONE);
+                        makeList();
                     }
                 });
             }
         }).start();
     }
+
+    public void makeList() {
+        items.clear();
+
+        final List<String> list_pick= ParseUser.getCurrentUser().getList("pick");
+        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
+        parseQuery.whereEqualTo("ismade",true);
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                for (ParseObject o : list) {
+                    String same_mem = "";
+                    List<String> list_member = o.getList("member");
+                    for (String s : list_member) {
+                        if (list_pick.contains(s))
+                            same_mem = same_mem + " " + s;
+                    }
+                    Team_item item = new Team_item(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
+                    items.add(item);
+                }
+                recyclerView.setAdapter(new Team_RecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
+
+            }
+        });
+        progressBar.setVisibility(View.GONE);
+    }//makeList
 
 
 

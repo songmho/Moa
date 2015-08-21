@@ -36,7 +36,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<Teamadd_item> items;
-    byte[] bytes;
+    ArrayList<String> s;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,79 +52,116 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         detail=(EditText)findViewById(R.id.detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         ImageView add=(ImageView)findViewById(R.id.add);
-        items=new ArrayList<>();
-        title.setText(ParseUser.getCurrentUser().getString("info"));
-        detail.setText(ParseUser.getCurrentUser().getString("detail"));
-        bytes=null;
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> s=new ArrayList<>();
+                s=new ArrayList<>();
                 for(Teamadd_item i:items){
                     s.add(i.getName());
                 }
+
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+                        if (list.isEmpty()) {
+                            ParseObject object = new ParseObject("ValueUp_team");
+                            object.put("idea", String.valueOf(title.getText()));
+                            object.put("idea_info", String.valueOf(detail.getText()));
+                            object.put("ismade", false);
+                            object.put("admin_member", ParseUser.getCurrentUser().getString("name"));
+                            object.put("member", s);
+                            object.saveInBackground();
+                        } else {
+                            for (int i = 0; i < list.size(); i++) {
+                                list.get(i).deleteInBackground();
+                            }//end for
+                            ParseObject object = new ParseObject("ValueUp_team");
+                            object.put("idea", String.valueOf(title.getText()));
+                            object.put("idea_info", String.valueOf(detail.getText()));
+                            object.put("ismade", false);
+                            object.put("admin_member", ParseUser.getCurrentUser().getString("name"));
+                            object.put("member", s);
+                            object.saveInBackground();
+                        }
+                    }
+                });
+
                 Intent intent=new Intent(TeamAddActivity.this,Team_Member_Add_Activity.class);
                 startActivity(intent);
-                ParseObject object=new ParseObject("ValueUp_team");
-                object.put("idea",String.valueOf(title.getText()));
-                object.put("idea_info",String.valueOf(title.getText()));
-                object.put("ismade",false);
-                object.put("admin_member",ParseUser.getCurrentUser().getString("name"));
-                object.put("member", s);
-                object.saveInBackground();
+
             }
-        });
+        });//add.setOnClickListener
     }//onCreate
 
     @Override
     protected void onResume() {
         super.onResume();
+        items = new ArrayList<>();
 
-        if(items.size()==0){
-            Teamadd_item item=new Teamadd_item(bytes,ParseUser.getCurrentUser().getString("name"));
-            items.add(item);}
-        else if(items.size()>0){
-            ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-            query.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> list, ParseException e) {
-                    if(list.isEmpty())
-                        return;
-                    else{
-                        for(int i=0;i<list.get(0).getList("member").size();i++){
-                            Teamadd_item item=new Teamadd_item(null,String.valueOf(list.get(0).getList("member").get(i)));
-                            items.add(item);}
+        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+        query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if (list.isEmpty()) {
+                    title.setText(ParseUser.getCurrentUser().getString("info"));
+                    detail.setText(ParseUser.getCurrentUser().getString("detail"));
+                    Teamadd_item item = new Teamadd_item(null, ParseUser.getCurrentUser().getString("name"));
+                    items.add(item);
+                } else {
+                    title.setText(list.get(0).getString("idea"));
+                    detail.setText(list.get(0).getString("idea_info"));
+                    for (int i = 0; i < list.get(0).getList("member").size(); i++) {
+                        Teamadd_item item = new Teamadd_item(null, String.valueOf(list.get(0).getList("member").get(i)));
+                        items.add(item);
                     }
-                }
-            });
-        }
-        recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
+                }//end else
+                recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
 
-        recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
+
+            }
+        });
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_teamadd, menu);
-        MenuItem additem=menu.findItem(R.id.action_add);
+        MenuItem additem = menu.findItem(R.id.action_add);
         additem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                query.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> list, ParseException e) {
-                        ParseObject object=list.get(0);
-                        object.put("idea",String.valueOf(title.getText()));
-                        object.put("idea_info",String.valueOf(title.getText()));
-                        object.put("ismade",true);
-                        object.saveInBackground();
+                        if (!list.isEmpty()) {
+                            ParseObject object = list.get(0);
+//                            object.remove("idea");
+                            object.put("idea", String.valueOf(title.getText()));
+                            object.remove("idea_info");
+                            object.put("idea_info", String.valueOf(detail.getText()));
+                            object.remove("ismade");
+                            object.put("ismade", true);
+                            object.saveInBackground();
+                        } else {
+                            ParseObject object = new ParseObject("ValueUp_team");
+                            object.put("idea", String.valueOf(title.getText()));
+                            object.put("idea_info", String.valueOf(detail.getText()));
+                            object.put("ismade", true);
+                            object.put("admin_member", ParseUser.getCurrentUser().getString("name"));
+                            object.put("member", ParseUser.getCurrentUser().getString("name"));
+                            object.saveInBackground();
+                        }
                     }
                 });
                 finish();

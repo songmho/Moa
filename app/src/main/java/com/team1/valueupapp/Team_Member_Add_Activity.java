@@ -107,11 +107,16 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                         query1.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> list, ParseException e) {
-                                for(int i=0;i<list.get(0).getList("member").size();i++){
-                                member.add(String.valueOf(list.get(0).getList("member").get(i)));
-                                Log.d("dfdfdf",member.get(i));}
+                                if(!list.isEmpty()) {
+                                    for (int i = 0; i < list.get(0).getList("member").size(); i++) {
+                                        member.add(String.valueOf(list.get(0).getList("member").get(i)));
+                                        Log.d("dfdfdf", member.get(i));
+                                    }//end for
+                                }//end if
                             }
                         });
+
+
 
                         ParseQuery<ParseUser> query=ParseUser.getQuery();
                         query.addAscendingOrder("name");

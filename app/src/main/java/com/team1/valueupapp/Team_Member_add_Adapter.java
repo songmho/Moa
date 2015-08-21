@@ -56,14 +56,13 @@ public class Team_Member_add_Adapter extends RecyclerView.Adapter {
                         @Override
                         public void done(List<ParseObject> list, ParseException e) {
                             list.get(0).getList("member").add(item.getName());
-
                             list.get(0).saveInBackground();
                         }
                     });
                     Toast.makeText(context.getApplicationContext(),item.getName(),Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    pick_items.remove(item);
+//                    pick_items.remove(item);
                     ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
                     query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
                     query.findInBackground(new FindCallback<ParseObject>() {
