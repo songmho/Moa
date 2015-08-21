@@ -53,40 +53,36 @@ public class MentoringActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-        Makinglist();
-    }
-
-    private void Makinglist() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
-                        items.clear();
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_mentoring");
-                        query.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-
-                                for (ParseObject o : list) {
-                                    Mentoring_item item = new Mentoring_item(o.getString("job"),
-                                            o.getInt("year"), o.getInt("month"), o.getInt("day"),
-                                            o.getString("title"), o.getString("mentor"), o.getString("venue"));
-                                    items.add(item);
-                                }
-                                recyclerView.setAdapter(new Mentoring_adapter(getApplicationContext(), items, R.layout.activity_mentoring));
-                                progressBar.setVisibility(View.GONE);
-
-                            }
-                        });
-
+                        Makinglist();
                     }
                 });
             }
         }).start();
+    }
+
+    private void Makinglist() {
+
+        items.clear();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_mentoring");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                for (ParseObject o : list) {
+                    Mentoring_item item = new Mentoring_item(o.getString("job"),
+                            o.getInt("year"), o.getInt("month"), o.getInt("day"),
+                            o.getString("title"), o.getString("mentor"), o.getString("venue"));
+                    items.add(item);
+                }
+                recyclerView.setAdapter(new Mentoring_adapter(getApplicationContext(), items, R.layout.activity_mentoring));
+                progressBar.setVisibility(View.GONE);
+            }
+        });
 
     }
 
@@ -110,7 +106,7 @@ public class MentoringActivity extends AppCompatActivity {
                 public boolean onQueryTextSubmit(String query) {
                     Intent intent = new Intent(MentoringActivity.this, SearchActivity.class);
                     intent.putExtra("query", query);
-                    intent.putExtra("page", "main");
+                    intent.putExtra("page", "mentoring");
                     startActivity(intent);
                     return false;
                 }

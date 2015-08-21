@@ -50,6 +50,12 @@ public class BasketFragment extends Fragment {
         layoutManager=new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        return cur_container;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -63,9 +69,7 @@ public class BasketFragment extends Fragment {
             }
         }).start();
 
-        return cur_container;
     }
-
 
     private void makeList() {
         items.clear();

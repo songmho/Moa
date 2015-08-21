@@ -25,7 +25,7 @@ public class InterestActivity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("관심멤버");
+        getSupportActionBar().setTitle("찜한멤버");
 
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         TabLayout tabLayout=(TabLayout)findViewById(R.id.tablayout);
