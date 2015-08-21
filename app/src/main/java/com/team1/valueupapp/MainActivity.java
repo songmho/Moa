@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-                MakingAlertDialog();
+                Intent intent = new Intent(MainActivity.this, MypageActivity.class);
+                startActivity(intent);
             }
         });
 
