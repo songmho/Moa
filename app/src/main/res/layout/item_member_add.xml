@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_marginTop="4dp"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="15dp">
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile"
         android:layout_width="40dp"
@@ -15,13 +16,13 @@
         android:orientation="horizontal"
         android:weightSum="10">
     <TextView
-        android:layout_marginLeft="10dp"
         android:id="@+id/name"
         android:text="dddd"
         android:layout_gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="9.9"/>
+        android:layout_weight="9.9"
+        android:layout_marginLeft="15dp"/>
         <CheckBox
             android:id="@+id/check"
             android:layout_gravity="center"

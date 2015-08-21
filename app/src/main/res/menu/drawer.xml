@@ -5,7 +5,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/team"
-            android:icon="@drawable/ic_teambuilding"
+            android:icon="@drawable/ic_network"
             android:title="팀빌딩하기"
             />
         <item
