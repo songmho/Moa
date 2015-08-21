@@ -44,7 +44,7 @@ public class TeamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_team);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("팀빌딩");
+        getSupportActionBar().setTitle("팀빌딩하기");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);

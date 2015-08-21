@@ -25,7 +25,7 @@ public class MemberActivity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("참가자소개");
+        getSupportActionBar().setTitle("전체멤버");
         viewPager = (ViewPager)findViewById(R.id.viewPager);
         TabLayout tabLayout=(TabLayout)findViewById(R.id.tablayout);
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(getSupportFragmentManager());
