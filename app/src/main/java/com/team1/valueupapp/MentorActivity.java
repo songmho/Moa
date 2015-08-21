@@ -78,7 +78,7 @@ public class MentorActivity extends AppCompatActivity {
                 public boolean onQueryTextSubmit(String query) {
                     Intent intent = new Intent(MentorActivity.this, SearchActivity.class);
                     intent.putExtra("query", query);
-                    intent.putExtra("page", "main");
+                    intent.putExtra("page", "mentor");
                     startActivity(intent);
                     return false;
                 }

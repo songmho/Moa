@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -28,7 +29,6 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     int cur_job;
-    List<ListRecyclerItem> items;
     ProgressBar progressBar;
 
     @Override
@@ -42,13 +42,20 @@ public class SearchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent=getIntent();
-
+        String page_str=new String();
         int page = 0;
 
         if(intent.getStringExtra("page").equals("main"))
             page=0;
         else if(intent.getStringExtra("page").equals("interest"))
             page=1;
+
+        if(intent.getStringExtra("page").equals("mentor"))
+            page_str="ValueUp_mentor";
+        else if(intent.getStringExtra("page").equals("mentoring"))
+            page_str="ValueUp_mentoring";
+        else if(intent.getStringExtra("page").equals("team"))
+            page_str="ValueUp_team";
      /*   searchFragment.setArguments(bundle);
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.container, searchFragment);
@@ -62,9 +69,106 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         //search=bundle.getString("search");
         Log.d("search", intent.getStringExtra("query"));
+        switch (intent.getStringExtra("page")){
+            case "main":
+            case "interest":
+                makeList(intent.getStringExtra("query"), page);
+            break;
+            case "mentor":
+            case "mentoring":
+                makementorList(intent.getStringExtra("query"),page_str);
+                break;
+            case "team":
+                makeTeamList(intent.getStringExtra("query"));
+                break;
+        }
 
-        makeList(intent.getStringExtra("query"), page);
+    }
 
+    private void makeTeamList(final String query) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+                final ArrayList<Team_item> items=new ArrayList<>();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<String> list_pick= ParseUser.getCurrentUser().getList("pick");
+                        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
+                        parseQuery.whereContains("admin_member",query);
+                        parseQuery.whereEqualTo("ismade",true);
+                        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> list, ParseException e) {
+                                Log.d("dfdfdfdf",""+list.size());
+                                for (ParseObject o : list) {
+                                    String same_mem="";
+                                    List<String> list_member=o.getList("member");
+                                    for(String s:list_member) {
+                                        if(list_pick.contains(s))
+                                            same_mem=same_mem+" "+s;
+                                    }
+                                    Team_item item = new Team_item(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
+                                    items.add(item);
+                                }
+                                recyclerView.setAdapter(new Team_RecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
+
+                            }
+                        });
+
+                        progressBar.setVisibility(View.GONE);
+
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void makementorList(final String query, final String page_str) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.VISIBLE);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery(page_str);
+                        if(page_str.equals("ValueUp_mentor"))
+                            parseQuery.whereContains("mentor_name",query);
+                        else if(page_str.equals("ValueUp_mentoring"))
+                            parseQuery.whereContains("mentor",query);
+                        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> list, ParseException e) {
+                                if(page_str.equals("ValueUp_mentor")){
+                                    ArrayList<Mentor_item> items=new ArrayList<>();
+                                    for (int i = 0; i < list.size(); i++) {
+                                        Mentor_item mentor_item = new Mentor_item(list.get(i).getString("mentor_name"), list.get(i).getString("mentor_field"),
+                                                list.get(i).getString("company"), list.get(i).getString("email"));
+                                        items.add(mentor_item);
+                                    }
+                                    recyclerView.setAdapter(new Mentor_Adapter(getApplicationContext(), items, R.layout.activity_mentor));
+                                    progressBar.setVisibility(View.GONE);
+                                }
+
+                                else if(page_str.equals("ValueUp_mentoring")){
+                                    ArrayList<Mentoring_item> items=new ArrayList<>();
+                                    for (ParseObject o : list) {
+                                        Mentoring_item item = new Mentoring_item(o.getString("job"),
+                                                o.getInt("year"), o.getInt("month"), o.getInt("day"),
+                                                o.getString("title"), o.getString("mentor"), o.getString("venue"));
+                                        items.add(item);
+                                    }
+                                    recyclerView.setAdapter(new Mentoring_adapter(getApplicationContext(), items, R.layout.activity_mentoring));
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }).start();
     }
 
 
