@@ -17,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -148,44 +149,48 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     final ParseObject parseObject=list.get(i);
 
                     Snackbar snackbar;
+                    if(ParseUser.getCurrentUser()!=null) {
+                        if (ParseUser.getCurrentUser().getList("pick").contains(item_list.getName())) {
+                            item_list.setStar(false);
+                            viewHolder.star.setSelected(false);
+                            snackbar = Snackbar.make(item_list.getRecyclerView(), "관심멤버에서 제외합니다.", Snackbar.LENGTH_LONG);
+                            ParseUser.getCurrentUser().getList("pick").remove(item_list.getName());
+                            ParseUser.getCurrentUser().saveInBackground();
+                            Log.d("aa", "" + parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name")));
+                            snackbar.setAction("실행취소", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    item_list.setStar(true);
+                                    viewHolder.star.setSelected(true);
+                                    ParseUser.getCurrentUser().getList("pick").add(item_list.getName());
+                                    ParseUser.getCurrentUser().saveInBackground();
+                                }
+                            });
+                            snackbar.show();
 
-                    if(ParseUser.getCurrentUser().getList("pick").contains(item_list.getName())){
-                        item_list.setStar(false);
-                        viewHolder.star.setSelected(false);
-                        snackbar=Snackbar.make(item_list.getRecyclerView(),"관심멤버에서 제외합니다.",Snackbar.LENGTH_LONG);
-                        ParseUser.getCurrentUser().getList("pick").remove(item_list.getName());
-                        ParseUser.getCurrentUser().saveInBackground();
-                        Log.d("aa", "" + parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name")));
-                        snackbar.setAction("실행취소", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                item_list.setStar(true);
-                                viewHolder.star.setSelected(true);
-                                ParseUser.getCurrentUser().getList("pick").add(item_list.getName());
-                                ParseUser.getCurrentUser().saveInBackground();
-                            }
-                        });
-                        snackbar.show();
+                        } else {
+                            item_list.setStar(true);
+                            viewHolder.star.setSelected(true);
+                            snackbar = Snackbar.make(item_list.getRecyclerView(), "관심멤버에 추가합니다.", Snackbar.LENGTH_LONG);
+                            ParseUser.getCurrentUser().getList("pick").add(item_list.getName());
+                            ParseUser.getCurrentUser().saveInBackground();
+                            Log.d("aa", "" + parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name")));
+                            snackbar.setAction("실행취소", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    item_list.setStar(false);
+                                    viewHolder.star.setSelected(false);
+                                    ParseUser.getCurrentUser().getList("pick").remove(item_list.getName());
+                                    ParseUser.getCurrentUser().saveInBackground();
+                                }
+                            });
+                            snackbar.show();
 
+                        }
                     }
                     else{
-                        item_list.setStar(true);
-                        viewHolder.star.setSelected(true);
-                        snackbar=Snackbar.make(item_list.getRecyclerView(),"관심멤버에 추가합니다.",Snackbar.LENGTH_LONG);
-                        ParseUser.getCurrentUser().getList("pick").add(item_list.getName());
-                        ParseUser.getCurrentUser().saveInBackground();
-                        Log.d("aa", "" + parseObject.getList("pick").add(ParseUser.getCurrentUser().get("name")));
-                        snackbar.setAction("실행취소", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                item_list.setStar(false);
-                                viewHolder.star.setSelected(false);
-                                ParseUser.getCurrentUser().getList("pick").remove(item_list.getName());
-                                ParseUser.getCurrentUser().saveInBackground();
-                            }
-                        });
-                        snackbar.show();
-
+                        Toast.makeText(context.getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                        context.startActivity(new Intent(context.getApplicationContext(),LoginActivity.class));
                     }
                 }
             }

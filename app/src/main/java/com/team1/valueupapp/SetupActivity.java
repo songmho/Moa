@@ -57,8 +57,6 @@ public class SetupActivity extends AppCompatActivity {
                     }
                     Toast.makeText(getApplicationContext(), "로그아웃되었습니다", Toast.LENGTH_SHORT).show();
                     currentUser.logOut();
-                    startActivity(new Intent(SetupActivity.this, SplashActivity.class));
-                    finish();
                 } else {
                     Toast.makeText(getApplicationContext().getApplicationContext(), "로그인정보를 확인하세요", Toast.LENGTH_SHORT).show();
                 }//end else

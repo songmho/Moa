@@ -108,13 +108,19 @@ public class ListFragment extends Fragment {
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         }
-                        if (ParseUser.getCurrentUser().getList("pick").contains(parseObject.getString("name"))) {
-                            item = new ListRecyclerItem(bytes,
-                                    parseObject.getString("info"), parseObject.getString("name"), true, cur_job, recyclerView);
-                        } else {
+                        if(ParseUser.getCurrentUser()!=null) {
+                            if (ParseUser.getCurrentUser().getList("pick").contains(parseObject.getString("name"))) {
+                                item = new ListRecyclerItem(bytes,
+                                        parseObject.getString("info"), parseObject.getString("name"), true, cur_job, recyclerView);
+                            } else {
+                                item = new ListRecyclerItem(bytes,
+                                        parseObject.getString("info"), parseObject.getString("name"), false, cur_job, recyclerView);
+                            }
+                        }
+                        else
                             item = new ListRecyclerItem(bytes,
                                     parseObject.getString("info"), parseObject.getString("name"), false, cur_job, recyclerView);
-                        }
+
                         items.add(item);
                     }
                 recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));

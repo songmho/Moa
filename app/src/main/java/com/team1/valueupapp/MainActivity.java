@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,15 +53,14 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     Toolbar toolbar;
     CircleImageView profile;
+    CircleImageView profile_drawer;
 
     FragmentTransaction fragmentTransaction;
 
-    Boolean isvisible = true;
-
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
     Bitmap bm;
-    String tempPath = "data/data/com.team1.valueupapp/files/profile.png";
-    File profileimage = new File("data/data/com.team1.valueupapp/files/profile.png");
+    String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
+    File profileimage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
     File file_up_path = new File("data/data/com.team1.valueupapp/files/");
     ParseFile profile_parse;
     ParseUser user = ParseUser.getCurrentUser();
@@ -85,11 +85,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (ParseUser.getCurrentUser() == null) {
+        SharedPreferences shpref=getSharedPreferences("myPref",0);
+        int count=shpref.getInt("Count",-100);
+        if(count==-100) {
             startActivity(new Intent(MainActivity.this, SplashActivity.class));
-            finish();
+            count=1;
         }
+        else{
+            count++;
+        }
+        SharedPreferences.Editor editor=shpref.edit();
+        editor.putInt("Count",count);
+        editor.commit();
 
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -125,8 +132,14 @@ public class MainActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                startActivity(intent);
+                if (ParseUser.getCurrentUser() != null) {
+                    Intent intent = new Intent(MainActivity.this, MypageActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -134,34 +147,70 @@ public class MainActivity extends AppCompatActivity {
         if (ParseUser.getCurrentUser() != null)
             setMain();
 
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
         makeDrawerHeader();
-        profile.setOnClickListener(new View.OnClickListener() {
+
+        profile_drawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MakingAlertDialog();
+                if(ParseUser.getCurrentUser()!=null)
+                    MakingAlertDialog();
+                else{
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
         pick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, InterestActivity.class);
-                intent.putExtra("page", 1);
-                startActivity(intent);
+                if(ParseUser.getCurrentUser()!=null) {
+                    Intent intent = new Intent(MainActivity.this, InterestActivity.class);
+                    intent.putExtra("page", 1);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         picked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, InterestActivity.class);
-                intent.putExtra("page", 2);
-                startActivity(intent);
+                if(ParseUser.getCurrentUser()!=null) {
+                    Intent intent = new Intent(MainActivity.this, InterestActivity.class);
+                    intent.putExtra("page", 2);
+                    startActivity(intent);
+                }
+
+                else{
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         team.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "최에스더", Toast.LENGTH_SHORT).show();
+                if(ParseUser.getCurrentUser()!=null) {
+                    Intent intent = new Intent(MainActivity.this, TeamDetailActivity.class);
+                    intent.putExtra("page", 2);
+                    startActivity(intent);
+                }
+
+                else{
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -169,6 +218,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 return changeDrawerMenu(menuItem);
+            }
+        });
+    }
+
+    private void setUpNavDrawer() {
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("모아");
+        toolbar.setNavigationIcon(R.drawable.drawericon);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
     }
@@ -207,9 +268,8 @@ public class MainActivity extends AppCompatActivity {
 
                 items = new ArrayList<>();
 
-
                 if (list.size() == 0)
-                return;
+                    return;
 
                 List<String> member = list.get(0).getList("member");
 
@@ -219,7 +279,6 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < member.size(); i++) {
                     MainListitem item = new MainListitem(member.get(i));
                     items.add(item);
-
                 }
 
 
@@ -275,7 +334,12 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.basket:
                 drawerLayout.closeDrawers();
-                startActivity(new Intent(MainActivity.this, InterestActivity.class));
+                if(ParseUser.getCurrentUser()!=null)
+                    startActivity(new Intent(MainActivity.this, InterestActivity.class));
+                else{
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
                 return true;
 
             case R.id.mentor_info:
@@ -291,7 +355,12 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.mypage:
                 drawerLayout.closeDrawers();
-                startActivity(new Intent(MainActivity.this, MypageActivity.class));
+                if(ParseUser.getCurrentUser()!=null)
+                    startActivity(new Intent(MainActivity.this, MypageActivity.class));
+                else{
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
                 return true;
 
             case R.id.setup:
@@ -323,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
                     File[] files = file_up_path.listFiles();
                     for (int i = 0; i < files.length; i++) {
                         String fname = files[i].getName();
-                        if (fname.equals("profile.png"))
+                        if (fname.equals("profile.jpg"))
                             files[i].delete();
                     }
                     ParseUser.getCurrentUser().remove("profile");
@@ -337,18 +406,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void makeDrawerHeader() {
-        profile = (CircleImageView) navigationView.findViewById(R.id.profile);
+        profile_drawer = (CircleImageView) navigationView.findViewById(R.id.profile);
         TextView t = (TextView) navigationView.findViewById(R.id.name);
         if (ParseUser.getCurrentUser() != null)
             t.setText(ParseUser.getCurrentUser().getString("name"));
         else
-            t.setText("Hello");
+            t.setText("이름");
         if (profileimage.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(tempPath);
-            profile.setImageBitmap(bm);
+            profile_drawer.setImageBitmap(bm);
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
-            profile.setImageBitmap(b);
+            profile_drawer.setImageBitmap(b);
         }
     }
 
@@ -369,24 +438,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setUpNavDrawer() {
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("모아");
-        toolbar.setNavigationIcon(R.drawable.drawericon);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.setVisible(isvisible);
         SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(SEARCH_SERVICE);
         SearchView searchView = null;
         if (searchItem != null) {
@@ -440,6 +496,7 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             if (requestCode == CAMERA_REQUEST) {
                 thum = (Bitmap) data.getExtras().get("data");
+                profile_drawer.setImageBitmap(thum);
                 profile.setImageBitmap(thum);
                 imgSendParse(thum);
             } else if (requestCode == SELECT_FILE && data != null) {
@@ -449,6 +506,7 @@ public class MainActivity extends AppCompatActivity {
                     BitmapFactory.Options opt = new BitmapFactory.Options();
                     opt.inSampleSize = 4;
                     thum = BitmapFactory.decodeFileDescriptor(afd.getFileDescriptor(), null, opt);
+                    profile_drawer.setImageBitmap(thum);
                     profile.setImageBitmap(thum);
                     imgSendParse(thum);
                 } catch (IOException e) {
@@ -456,11 +514,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-            File file = new File("profile.png");
+            File file = new File("profile.jpg");
             FileOutputStream fos = null;
             try {
-                fos = openFileOutput("profile.png", 0);
-                thum.compress(Bitmap.CompressFormat.PNG, 50, fos);
+                fos = openFileOutput("profile.jpg", 0);
+                thum.compress(Bitmap.CompressFormat.JPEG, 50, fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -472,7 +530,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void imgSendParse(Bitmap thum) {
-        profile_parse = new ParseFile("profile.png", bitmapTobyte(thum));
+        profile_parse = new ParseFile("profile.jpg", bitmapTobyte(thum));
         if (user.get("profile") != null)
             user.remove("profile");
         user.put("profile", profile_parse);
@@ -481,7 +539,7 @@ public class MainActivity extends AppCompatActivity {
 
     private byte[] bitmapTobyte(Bitmap bm) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bytes = stream.toByteArray();
         return bytes;
     }

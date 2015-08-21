@@ -55,29 +55,35 @@ public class TeamActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-                        boolean exist=false;
-                        for (int i = 0; i < list.size(); i++) {
-                            if (list.get(i).getString("admin_member").equals(ParseUser.getCurrentUser().getString("name"))) {
-                                ParseObject parseObject = list.get(i);
-                                if (parseObject.getBoolean("ismade")==true) {
-                                    exist = true;
-                                }
-                            }//개설중인 방이 있는지 확인
-                        }//end for
+                if(ParseUser.getCurrentUser()!=null) {
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
+                    query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> list, ParseException e) {
+                            boolean exist = false;
+                            for (int i = 0; i < list.size(); i++) {
+                                if (list.get(i).getString("admin_member").equals(ParseUser.getCurrentUser().getString("name"))) {
+                                    ParseObject parseObject = list.get(i);
+                                    if (parseObject.getBoolean("ismade") == true) {
+                                        exist = true;
+                                    }
+                                }//개설중인 방이 있는지 확인
+                            }//end for
 
-                        if(exist == true) {
-                            Toast.makeText(getApplicationContext(), "이미 개설중인 방이 있습니다.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Intent intent = new Intent(TeamActivity.this, TeamAddActivity.class);
-                            startActivity(intent);
-                        }//end else
+                            if (exist == true) {
+                                Toast.makeText(getApplicationContext(), "이미 개설중인 방이 있습니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Intent intent = new Intent(TeamActivity.this, TeamAddActivity.class);
+                                startActivity(intent);
+                            }//end else
 
-                    }
-                });//query.findInBackground
+                        }
+                    });//query.findInBackground
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(TeamActivity.this,LoginActivity.class));
+                }
             }
         });//fab.setOnClickListener
     }//onCreate
@@ -103,7 +109,11 @@ public class TeamActivity extends AppCompatActivity {
     public void makeList() {
         items.clear();
 
-        final List<String> list_pick= ParseUser.getCurrentUser().getList("pick");
+        final List<String> list_pick;
+        if(ParseUser.getCurrentUser()!=null)
+            list_pick = ParseUser.getCurrentUser().getList("pick");
+        else
+            list_pick=null;
         ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
         parseQuery.whereEqualTo("ismade",true);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -113,8 +123,10 @@ public class TeamActivity extends AppCompatActivity {
                     String same_mem = "";
                     List<String> list_member = o.getList("member");
                     for (String s : list_member) {
-                        if (list_pick.contains(s))
+                        if (ParseUser.getCurrentUser()!=null && list_pick.contains(s))
                             same_mem = same_mem + " " + s;
+                        else
+                            same_mem="";
                     }
                     Team_item item = new Team_item(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
                     items.add(item);
