@@ -30,9 +30,9 @@ public class InterestViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch(position){
             case 0:
-                return "내가 등록한 관심멤버";
+                return "내가 찜한 멤버";
             case 1:
-                return "나를 관심 등록한 멤버";
+                return "나를 찜한 멤버";
         }
         return null;
     }

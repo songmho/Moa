@@ -63,7 +63,7 @@ public class InterestActivity extends AppCompatActivity {
                 public boolean onQueryTextSubmit(String query) {
                     Intent intent=new Intent(InterestActivity.this,SearchActivity.class);
                     intent.putExtra("query",query);
-                    intent.putExtra("page", "main");
+                    intent.putExtra("page", "interest");
                     startActivity(intent);
                     return false;
                 }
