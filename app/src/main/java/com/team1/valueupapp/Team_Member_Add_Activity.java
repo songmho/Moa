@@ -42,7 +42,6 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("팀원추가");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final EditText search_edit=(EditText)findViewById(R.id.search_edit);
         Button search=(Button)findViewById(R.id.search);
@@ -77,11 +76,6 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                break;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -100,13 +94,13 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
     }
 
     private void makeList(final String i) {
+        progressBar.setVisibility(View.VISIBLE);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressBar.setVisibility(View.VISIBLE);
                         final ArrayList<String> member=new ArrayList<>();
                         ParseQuery<ParseObject> query1=ParseQuery.getQuery("ValueUp_team");
                         query1.whereEqualTo("admin_member",ParseUser.getCurrentUser().getString("name"));
@@ -146,9 +140,9 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                                         }
                                     }
                                 }
+                                progressBar.setVisibility(View.GONE);
                                 adapter=new Team_Member_add_Adapter(getApplicationContext(), items);
                                 recyclerview.setAdapter(adapter);
-                                progressBar.setVisibility(View.GONE);
                             }
                         });
                     }

@@ -8,14 +8,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -38,7 +36,6 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<Teamadd_item> items;
-    ProgressBar progressBar;
     ArrayList<String> s;
 
     @Override
@@ -54,7 +51,6 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         title=(EditText)findViewById(R.id.title);
         detail=(EditText)findViewById(R.id.detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
-        progressBar=(ProgressBar)findViewById(R.id.progressbar);
         ImageView add=(ImageView)findViewById(R.id.add);
 
         recyclerView.setHasFixedSize(true);
@@ -109,41 +105,30 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
     protected void onResume() {
         super.onResume();
         items = new ArrayList<>();
-        new Thread(new Runnable() {
+
+        ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
+        query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+        query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setVisibility(View.VISIBLE);
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
-                        query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
-                        query.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                if (list.isEmpty()) {
-                                    title.setText(ParseUser.getCurrentUser().getString("info"));
-                                    detail.setText(ParseUser.getCurrentUser().getString("detail"));
-                                    Teamadd_item item = new Teamadd_item(null, ParseUser.getCurrentUser().getString("name"));
-                                    items.add(item);
-                                } else {
-                                    title.setText(list.get(0).getString("idea"));
-                                    detail.setText(list.get(0).getString("idea_info"));
-                                    for (int i = 0; i < list.get(0).getList("member").size(); i++) {
-                                        Teamadd_item item = new Teamadd_item(null, String.valueOf(list.get(0).getList("member").get(i)));
-                                        items.add(item);
-                                    }
-                                }//end else
-                                recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
-                                progressBar.setVisibility(View.GONE);
-
-                            }
-                        });
+            public void done(List<ParseObject> list, ParseException e) {
+                if (list.isEmpty()) {
+                    title.setText(ParseUser.getCurrentUser().getString("info"));
+                    detail.setText(ParseUser.getCurrentUser().getString("detail"));
+                    Teamadd_item item = new Teamadd_item(null, ParseUser.getCurrentUser().getString("name"));
+                    items.add(item);
+                } else {
+                    title.setText(list.get(0).getString("idea"));
+                    detail.setText(list.get(0).getString("idea_info"));
+                    for (int i = 0; i < list.get(0).getList("member").size(); i++) {
+                        Teamadd_item item = new Teamadd_item(null, String.valueOf(list.get(0).getList("member").get(i)));
+                        items.add(item);
                     }
-                });
-            }
-        }).start();
+                }//end else
+                recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
 
+
+            }
+        });
 
     }
 
@@ -189,50 +174,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
-            case android.R.id.home:
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
-                query.whereEqualTo("ismade",false);
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-                        try {
-                            if(!list.isEmpty())
-                            list.get(0).delete();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
-                break;
-        }
+
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
-                query.whereEqualTo("ismade",false);
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-                        try {
-                            if(!list.isEmpty())
-                            list.get(0).delete();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
-                break;
-        }
-
-        return true;
     }
 
 }//class
