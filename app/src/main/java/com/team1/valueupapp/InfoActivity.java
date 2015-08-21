@@ -117,8 +117,12 @@ public class InfoActivity extends AppCompatActivity {
 
         loadingData(intent, 0);     //detail 불러오기
 
-        List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
-        if(memo_owner.contains(intent.getStringExtra("name"))) {
+        List<String> memo_owner;
+        if(ParseUser.getCurrentUser()!=null)
+            memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
+        else
+            memo_owner=null;
+        if(memo_owner!=null && memo_owner.contains(intent.getStringExtra("name"))) {
             memobutton.setText("메모수정");
             List<String> memo_list = ParseUser.getCurrentUser().getList("memo");
             for (int i = 0; i < memo_owner.size(); i++) {
@@ -127,7 +131,6 @@ public class InfoActivity extends AppCompatActivity {
                 }//end if
             }//end for
         }//end if
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

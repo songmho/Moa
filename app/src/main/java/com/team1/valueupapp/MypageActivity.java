@@ -1,7 +1,14 @@
 package com.team1.valueupapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -43,11 +50,32 @@ public class MypageActivity extends AppCompatActivity {
         mydetail=(TextView)findViewById(R.id.mydetail);
         imageView=(ImageView)findViewById(R.id.image);
         str_info=(TextView)findViewById(R.id.str_info);
+        ImageView profile=(ImageView)findViewById(R.id.profile);
+
 
 //        String tempPath="data/data/com.team1.valueupapp/files/profile.png";
  //       Bitmap bm= BitmapFactory.decodeFile(tempPath);
   //      imageView.setImageBitmap(bm);
 
+    }
+
+    public static Bitmap blur(Context context, Bitmap sentBitmap, int radius) {
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
+
+            final RenderScript rs = RenderScript.create(context);
+            final Allocation input = Allocation.createFromBitmap(rs, sentBitmap, Allocation.MipmapControl.MIPMAP_NONE,
+                    Allocation.USAGE_SCRIPT);
+            final Allocation output = Allocation.createTyped(rs, input.getType());
+            final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            script.setRadius(radius); //0.0f ~ 25.0f
+            script.setInput(input);
+            script.forEach(output);
+            output.copyTo(bitmap);
+            return bitmap;
+        }
+        return null;
     }
 
     @Override
