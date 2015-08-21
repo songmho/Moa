@@ -35,7 +35,11 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/main_00"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:layout_marginLeft="5dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profile"
@@ -86,7 +90,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="#3F51B5">
+                        android:background="#3F51B5"
+                        android:layout_marginTop="2.5dp"
+                        android:layout_marginRight="2.5dp"
+                        android:layout_marginBottom="2.5dp"
+                        android:layout_marginLeft="5dp">
 
                         <ImageView
                             android:layout_width="100dp"
@@ -134,7 +142,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:background="#FF4081">
+                        android:background="#FF4081"
+                        android:layout_marginTop="2.5dp"
+                        android:layout_marginRight="2.5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp">
 
                         <ImageView
                             android:layout_width="70dp"
@@ -179,7 +191,11 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#009688">
+                    android:background="#009688"
+                    android:layout_marginTop="2.5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="2.5dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -242,7 +258,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/team"
-                        android:orientation="vertical"/>
+                        android:orientation="vertical"
+                        />
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>

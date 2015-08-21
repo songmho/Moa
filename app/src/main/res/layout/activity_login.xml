@@ -87,6 +87,7 @@
                 android:textSize="20dp"
                 android:text="Sign Up"
                 android:id="@+id/signup_btn"
+                android:textColor="#ffffff"
                 />
         </LinearLayout>
         <ProgressBar
