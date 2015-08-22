@@ -67,8 +67,11 @@ public class TeamDetailActivity extends AppCompatActivity {
         TextView detail=(TextView)findViewById(R.id.detail);
         CircleImageView admin_profile=(CircleImageView)findViewById(R.id.admin_profile);
         ImageView add=(ImageView)findViewById(R.id.add);
-        if(ParseUser.getCurrentUser().getString("name").equals(intent.getStringExtra("name")));
+
+        if(ParseUser.getCurrentUser()!=null && ParseUser.getCurrentUser().getString("name").equals(intent.getStringExtra("name")))
             add.setVisibility(View.VISIBLE);
+        else
+            add.setVisibility(View.GONE);
 
         final TextView member_num=(TextView)findViewById(R.id.member_num);
         final LinearLayout[] member=new LinearLayout[6];
