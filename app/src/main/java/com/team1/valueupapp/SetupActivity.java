@@ -90,7 +90,7 @@ public class SetupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://moa-tjdhksrb2.c9.io/"));
+                intent.setData(Uri.parse("http://tjdhksrb2.wix.com/essage"));
                 startActivity(intent);
             }
         });
