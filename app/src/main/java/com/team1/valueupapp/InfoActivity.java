@@ -169,9 +169,15 @@ public class InfoActivity extends AppCompatActivity {
         memobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent go_to = new Intent(InfoActivity.this, MemoActivity.class);
-                go_to.putExtra("name", intent.getStringExtra("name"));
-                startActivity(go_to);
+                if(ParseUser.getCurrentUser()!=null) {
+                    Intent go_to = new Intent(InfoActivity.this, MemoActivity.class);
+                    go_to.putExtra("name", intent.getStringExtra("name"));
+                    startActivity(go_to);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.", Toast.LENGTH_SHORT);
+                    startActivity(new Intent(InfoActivity.this,LoginActivity.class));
+                }
             }
         });
 

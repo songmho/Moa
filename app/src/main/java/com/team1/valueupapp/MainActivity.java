@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             count++;
         }
         SharedPreferences.Editor editor=shpref.edit();
-        editor.putInt("Count",count);
+   editor.putInt("Count", count);
         editor.commit();
 
         setContentView(R.layout.activity_main);

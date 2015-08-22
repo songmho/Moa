@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/tool_bar" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar" />
     <EditText
         android:id="@+id/memo_input"
         android:layout_width="match_parent"
@@ -22,6 +26,7 @@
         android:hint="메모를 입력하세요"
         />
 
+</LinearLayout>
     <Button
         android:id="@+id/input_button"
         android:layout_width="match_parent"
@@ -31,6 +36,5 @@
         android:textSize="20dp"
         android:textColor="@color/tab_color"
         android:background="@color/ColorPrimary"/>
-
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
