@@ -36,6 +36,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     TextView name = null;
     TextView job = null;
     int mem_count=0;
+    int size;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -266,7 +268,20 @@ public class MainActivity extends AppCompatActivity {
                 job.setText("디자이너");
                 break;
         }
-        pick_int.setText("" + ParseUser.getCurrentUser().getList("pick").size());
+
+        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+        relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                if (list.isEmpty()) {
+                    size = 0;
+                } else {
+                    size = list.size();
+                }//end else
+                Log.d("size", ""+size);
+            }
+        });
+        pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));

@@ -16,6 +16,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
@@ -34,6 +35,9 @@ public class ListFragment extends Fragment {
     int cur_job;
     List<ListRecyclerItem> items;
     ProgressBar progressBar;
+
+//    ListRecyclerItem item;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,43 +95,65 @@ public class ListFragment extends Fragment {
         parseQuery.whereContains("job", job);
         parseQuery.addAscendingOrder("name");
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> list, ParseException e) {
-                byte[] bytes = new byte[0];
-                if (list != null){
-                    for (int i = 0; i < list.size(); i++) {
+            final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
 
-                        ListRecyclerItem item;
-                        ParseObject parseObject = list.get(i);
-                        ParseFile parse_file=(ParseFile)list.get(i).get("profile");
-                        try {
-                            if(parse_file==null)
-                                bytes=null;
-                            else{
-                                bytes=parse_file.getData();}
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        }
-                        if(ParseUser.getCurrentUser()!=null) {
-                            if (ParseUser.getCurrentUser().getList("pick").contains(parseObject.getString("name"))) {
+            @Override
+            public void done(final List<ParseUser> list, ParseException e) {
+//                if (list != null){
+                for (int i = 0; i < list.size(); i++) {
+
+                    final ParseUser user = list.get(i);
+//                        Log.d("dd", "" + list.size());
+
+                    ParseQuery<ParseUser> query = relation.getQuery();
+                    query.whereContains("objectId", user.getObjectId());
+                    query.findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(List<ParseUser> list1, ParseException e) {
+                            byte[] bytes = new byte[0];
+                            ListRecyclerItem item;
+                            Log.d("if", list1.size() + "");
+
+                            ParseFile parse_file = (ParseFile) user.get("profile");
+                            try {
+                                if (parse_file == null)
+                                    bytes = null;
+                                else {
+                                    bytes = parse_file.getData();
+                                }//end else
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }//end catch
+
+                            if (!list1.isEmpty()) {
                                 item = new ListRecyclerItem(bytes,
-                                        parseObject.getString("info"), parseObject.getString("name"), true, cur_job, recyclerView);
+                                        user.getString("info"), user.getString("name"), true, cur_job, recyclerView);
                             } else {
                                 item = new ListRecyclerItem(bytes,
-                                        parseObject.getString("info"), parseObject.getString("name"), false, cur_job, recyclerView);
-                            }
-                        }
-                        else
-                            item = new ListRecyclerItem(bytes,
-                                    parseObject.getString("info"), parseObject.getString("name"), false, cur_job, recyclerView);
+                                        user.getString("info"), user.getString("name"), false, cur_job, recyclerView);
+                            }//end else
 
-                        items.add(item);
-                    }
-                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
-                progressBar.setVisibility(View.GONE);
-                }
+                            items.add(item);
+                            Log.d("cc1", "" + items.size());
+
+                            if (items.size() >= list.size()) {
+                                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
+                            }//수정 필요
+
+                        }
+                    });
+                    Log.d("cc", "" + items.size()); //items list size가 0으로 초기화됨...
+
+                }//end for
+
+
+                Log.d("cccc", "" + items.size());
+//                    recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
+                    progressBar.setVisibility(View.GONE);
+//                }//end if
             }
         });
+
     }
 
 

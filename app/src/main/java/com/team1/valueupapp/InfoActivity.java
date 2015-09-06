@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -47,6 +49,10 @@ public class InfoActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsing_toolbar;
     ImageView profile_blur;
     CircleImageView profile;
+    ParseUser user;
+
+
+
 
 
     @Override
@@ -80,6 +86,23 @@ public class InfoActivity extends AppCompatActivity {
         profile=(CircleImageView)findViewById(R.id.profile);
 
         fab=(FloatingActionButton)findViewById(R.id.fab);
+
+
+        //
+        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+        parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
+        parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                for (int i = 0; i < list.size(); i++) {
+                    user = list.get(i);
+                }
+            }
+        });
+
+
+
 
         Bitmap bitmap;
         if(intent.getByteArrayExtra("profile")!=null) {
@@ -198,41 +221,40 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     private void loadingData(Intent intent, final int action) {
-        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
-        parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
-        parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
-        parseQuery.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> list, ParseException e) {
-                for (int i=0;i<list.size();i++) {
-                    final ParseObject parseObject = list.get(i);
-                    if(action==0) {
-                        mydetail.setText(parseObject.getString("detail"));
-                    } else {
-                        fab_clicked(parseObject);
-                    }
-                }
-            }
-        });
-    }
+
+        if(action==0) {
+            mydetail.setText(user.getString("detail"));
+        } else {
+            fab_clicked(user);
+        }//end else
+
+    }//loadingData
 
 
 
     private void fab_clicked(final ParseObject parseObject) {
-        View container=findViewById(R.id.container);
+        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+        ParseQuery<ParseUser> query = relation.getQuery();
+        query.whereContains("objectId", user.getObjectId());
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                if(!list.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "관심멤버에서 제외합니다.", Toast.LENGTH_SHORT).show();
+                    fab.setImageResource(R.drawable.add);
 
-        if (ParseUser.getCurrentUser().getList("pick").contains(intent.getStringExtra("name"))) {
-            Toast.makeText(getApplicationContext(), "관심멤버에서 제외합니다.", Toast.LENGTH_SHORT).show();
+                    relation.remove(user);
+                    ParseUser.getCurrentUser().saveInBackground();
+                } else {
+                    Toast.makeText(getApplicationContext(),"관심멤버에서 추가합니다.",Toast.LENGTH_SHORT).show();
+                    fab.setImageResource(R.drawable.ic_check_white);
 
-            ParseUser.getCurrentUser().getList("pick").remove(intent.getStringExtra("name"));
-            ParseUser.getCurrentUser().saveInBackground();
-            fab.setImageResource(R.drawable.add);
+                    relation.add(user);
+                    ParseUser.getCurrentUser().saveInBackground();
+                }//end else
+            }
+        }); //query
 
-        } else {
-            Toast.makeText(getApplicationContext(),"관심멤버에서 추가합니다.",Toast.LENGTH_SHORT).show();
-            ParseUser.getCurrentUser().getList("pick").add(intent.getStringExtra("name"));
-            ParseUser.getCurrentUser().saveInBackground();
-            fab.setImageResource(R.drawable.ic_check_white);
-        }
-    }
-}
+    }//fab_clicked
+
+}//class
