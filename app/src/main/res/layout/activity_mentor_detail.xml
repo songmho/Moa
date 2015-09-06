@@ -23,12 +23,17 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#558B2F"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_user"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
