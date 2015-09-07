@@ -30,6 +30,7 @@ public class MemoActivity extends AppCompatActivity{
     Button input_button;
     boolean flag=false;
     int flag_num=0;
+    ParseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,23 @@ public class MemoActivity extends AppCompatActivity{
         memo_input = (EditText) findViewById(R.id.memo_input);
         input_button = (Button) findViewById(R.id.input_button);
 
+        Log.d("iff", intent.getStringExtra("name"));
+        Log.d("iff", intent.getStringExtra("idea"));
+
+        final ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+        parseQuery.whereEqualTo("name", intent.getStringExtra("name"));
+        parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, com.parse.ParseException e) {
+                for (int i = 0; i < list.size(); i++) {
+                    user = list.get(i);
+                }//end for
+            }
+        });
+
+        Log.d("iff", "ffffffffffffffffff");
+
         final List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
         final List<String> memo_list = ParseUser.getCurrentUser().getList("memo");
 
@@ -60,52 +78,49 @@ public class MemoActivity extends AppCompatActivity{
         input_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
-                parseQuery.whereEqualTo("name", intent.getStringExtra("name"));
-                parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
-                parseQuery.findInBackground(new FindCallback<ParseUser>() {
+                String value = memo_input.getText().toString().trim();
+
+                if (flag == true) {
+                    ParseUser.getCurrentUser().getList("memo_owner").remove(intent.getStringExtra("name"));
+                    ParseUser.getCurrentUser().getList("memo").remove(memo_list.get(flag_num));
+                    ParseUser.getCurrentUser().saveInBackground();
+                }//이미 memo가 있다면 메모 삭제
+
+                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+                ParseQuery<ParseUser> query = relation.getQuery();
+                query.whereContains("objectId", user.getObjectId());
+                query.findInBackground(new FindCallback<ParseUser>() {
                     @Override
                     public void done(List<ParseUser> list, com.parse.ParseException e) {
-                        for (int i = 0; i < list.size(); i++) {
-                            final ParseUser user = list.get(i);
-
-                            String value = memo_input.getText().toString().trim();
-
-                            if (flag == true) {
-                                ParseUser.getCurrentUser().getList("memo_owner").remove(intent.getStringExtra("name"));
-                                ParseUser.getCurrentUser().getList("memo").remove(memo_list.get(flag_num));
-                                ParseUser.getCurrentUser().saveInBackground();
-                            }//이미 memo가 있다면 메모 삭제
-
-                            Log.d("iff", "" + user);
-
-                            final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
-                            ParseQuery<ParseUser> query = relation.getQuery();
-                            query.whereContains("objectId", user.getObjectId());
-                            query.findInBackground(new FindCallback<ParseUser>() {
-                                @Override
-                                public void done(List<ParseUser> list, com.parse.ParseException e) {
-                                    if (list.isEmpty()) {
-                                        relation.add(user);
-                                        ParseUser.getCurrentUser().saveInBackground();
-                                    }
-                                }
-                            });
-
-                            ParseUser.getCurrentUser().getList("memo_owner").add(intent.getStringExtra("name"));
-                            ParseUser.getCurrentUser().getList("memo").add(value);
+                        if (list.isEmpty()) {
+                            relation.add(user);
                             ParseUser.getCurrentUser().saveInBackground();
-
-                            Toast.makeText(getApplicationContext(), "관심멤버에 추가되었습니다..", Toast.LENGTH_SHORT).show();
-
-                        }//end for
+                        }
                     }
                 });
-                finish();
 
+                ParseUser.getCurrentUser().getList("memo_owner").add(intent.getStringExtra("name"));
+                ParseUser.getCurrentUser().getList("memo").add(value);
+                ParseUser.getCurrentUser().saveInBackground();
+
+                Toast.makeText(getApplicationContext(), "관심멤버에 추가되었습니다..", Toast.LENGTH_SHORT).show();
+
+                finish();
             }
         });//input_button.setOnClickListener
 
     }
 
 }//class
+//final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+//                            ParseQuery<ParseUser> query = relation.getQuery();
+//                            query.whereContains("objectId", user.getObjectId());
+//                            query.findInBackground(new FindCallback<ParseUser>() {
+//                                @Override
+//                                public void done(List<ParseUser> list, com.parse.ParseException e) {
+//                                    if (list.isEmpty()) {
+//                                        relation.add(user);
+//                                        ParseUser.getCurrentUser().saveInBackground();
+//                                    }
+//                                }
+//                            });

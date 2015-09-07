@@ -199,7 +199,7 @@ public class InfoActivity extends AppCompatActivity {
                 if(ParseUser.getCurrentUser()!=null) {
                     Intent go_to = new Intent(InfoActivity.this, MemoActivity.class);
                     go_to.putExtra("name", intent.getStringExtra("name"));
-                    go_to.putExtra("info", intent.getStringExtra("idea"));
+                    go_to.putExtra("idea", intent.getStringExtra("idea"));
                     startActivity(go_to);
                 }
                 else{

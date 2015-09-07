@@ -177,7 +177,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="55dp"
                         android:layout_marginRight="16dp"
-                        android:text="dd"
                         android:textSize="17dp" />
 
                 </LinearLayout>
