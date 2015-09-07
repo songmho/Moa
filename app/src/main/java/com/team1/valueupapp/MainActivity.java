@@ -278,10 +278,11 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     size = list.size();
                 }//end else
-                Log.d("size", ""+size);
+                pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
+//                Log.d("size", ""+size);
             }
         });
-        pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
+//        pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
@@ -354,7 +355,6 @@ public class MainActivity extends AppCompatActivity {
             navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
             navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
             navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
-
         }
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();

@@ -50,6 +50,7 @@ public class InfoActivity extends AppCompatActivity {
     ImageView profile_blur;
     CircleImageView profile;
     ParseUser user;
+    ParseObject parseObject;
 
 
 
@@ -89,7 +90,7 @@ public class InfoActivity extends AppCompatActivity {
 
 
         //
-        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+        final ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
         parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
         parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -97,6 +98,7 @@ public class InfoActivity extends AppCompatActivity {
             public void done(List<ParseUser> list, ParseException e) {
                 for (int i = 0; i < list.size(); i++) {
                     user = list.get(i);
+                    parseObject = list.get(i);
                 }
             }
         });
@@ -167,6 +169,8 @@ public class InfoActivity extends AppCompatActivity {
 //        mymemo.setText(memo);
 
         loadingData(intent, 0);     //detail 불러오기
+//        mydetail.setText(user.getString("detail"));
+
 
         List<String> memo_owner;
         if(ParseUser.getCurrentUser()!=null)
@@ -195,6 +199,7 @@ public class InfoActivity extends AppCompatActivity {
                 if(ParseUser.getCurrentUser()!=null) {
                     Intent go_to = new Intent(InfoActivity.this, MemoActivity.class);
                     go_to.putExtra("name", intent.getStringExtra("name"));
+                    go_to.putExtra("info", intent.getStringExtra("idea"));
                     startActivity(go_to);
                 }
                 else{
@@ -227,12 +232,23 @@ public class InfoActivity extends AppCompatActivity {
     }
 
     private void loadingData(Intent intent, final int action) {
-
-        if(action==0) {
-            mydetail.setText(user.getString("detail"));
-        } else {
-            fab_clicked(user);
-        }//end else
+        //
+        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+        parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
+        parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                for (int i=0;i<list.size();i++) {
+                    final ParseObject parseObject = list.get(i);
+                    if(action==0) {
+                        mydetail.setText(parseObject.getString("detail"));
+                    } else {
+                        fab_clicked(parseObject);
+                    }// end else
+                }//end for
+            }
+        });
 
     }//loadingData
 
