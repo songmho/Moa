@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +20,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
@@ -27,6 +32,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by songmho on 15. 8. 8.
@@ -45,6 +51,7 @@ public class Mypage_edit_Activity extends AppCompatActivity {
     int job_int;
     String tempPath="data/data/com.team1.valueupapp/files/profile.jpg";
     File profileimage=new File("data/data/com.team1.valueupapp/files/profile.jpg");
+    ParseObject object;
 
 
     ParseFile profile_parse;
@@ -165,6 +172,20 @@ public class Mypage_edit_Activity extends AppCompatActivity {
                     user.put("job","dis");
                     break;
             }
+
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Picked");
+            query.whereEqualTo("user", user);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    ParseUser.getCurrentUser().put("picked", list.get(0));
+                    ParseUser.getCurrentUser().saveInBackground();
+                }
+            });
+
+
+//            user.put("picked", object);
+
             user.saveInBackground();
             finish();
             Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();

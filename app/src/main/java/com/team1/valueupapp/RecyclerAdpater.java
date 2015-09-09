@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -139,7 +140,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
             parseQuery.whereEqualTo("name", item_list.getName());
             parseQuery.whereEqualTo("info", item_list.getApp_name());
             parseQuery.findInBackground(new FindCallback<ParseUser>() {
-                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
 
                 @Override
                 public void done(List<ParseUser> list, ParseException e) {
@@ -159,6 +160,21 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                                     snackbar = Snackbar.make(item_list.getRecyclerView(), "관심멤버에서 제외합니다.", Snackbar.LENGTH_LONG);
                                     relation.remove(user);
                                     ParseUser.getCurrentUser().saveInBackground();
+
+                                    ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+                                    picked_query.whereEqualTo("user", user);
+                                    picked_query.findInBackground(new FindCallback<ParseObject>() {
+                                        @Override
+                                        public void done(List<ParseObject> list, ParseException e) {
+                                            if (!list.isEmpty()) {
+//                                Log.d("sss",list.size()+"");
+                                                ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                                                picked_relation.remove(ParseUser.getCurrentUser());
+                                                list.get(0).saveInBackground();
+                                            }
+                                        }
+                                    });
+
                                     snackbar.setAction("실행취소", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -166,6 +182,20 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                                             viewHolder.star.setSelected(true);
                                             relation.add(user);
                                             ParseUser.getCurrentUser().saveInBackground();
+
+                                            ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+                                            picked_query.whereEqualTo("user", user);
+                                            picked_query.findInBackground(new FindCallback<ParseObject>() {
+                                                @Override
+                                                public void done(List<ParseObject> list, ParseException e) {
+                                                    if (!list.isEmpty()) {
+//                                Log.d("sss",list.size()+"");
+                                                        ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                                                        picked_relation.add(ParseUser.getCurrentUser());
+                                                        list.get(0).saveInBackground();
+                                                    }
+                                                }
+                                            });
                                         }
                                     });
                                     snackbar.show();
@@ -176,6 +206,21 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                                     snackbar = Snackbar.make(item_list.getRecyclerView(), "관심멤버에 추가합니다.", Snackbar.LENGTH_LONG);
                                     relation.add(user);
                                     ParseUser.getCurrentUser().saveInBackground();
+                                    ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+
+                                    picked_query.whereEqualTo("user", user);
+                                    picked_query.findInBackground(new FindCallback<ParseObject>() {
+                                        @Override
+                                        public void done(List<ParseObject> list, ParseException e) {
+                                            if (!list.isEmpty()) {
+//                                Log.d("sss",list.size()+"");
+                                                ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                                                picked_relation.add(ParseUser.getCurrentUser());
+                                                list.get(0).saveInBackground();
+                                            }
+                                        }
+                                    });
+
                                     snackbar.setAction("실행취소", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -183,6 +228,19 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                                             viewHolder.star.setSelected(false);
                                             relation.remove(user);
                                             ParseUser.getCurrentUser().saveInBackground();
+                                            ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+                                            picked_query.whereEqualTo("user", user);
+                                            picked_query.findInBackground(new FindCallback<ParseObject>() {
+                                                @Override
+                                                public void done(List<ParseObject> list, ParseException e) {
+                                                    if (!list.isEmpty()) {
+//                                Log.d("sss",list.size()+"");
+                                                        ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                                                        picked_relation.remove(ParseUser.getCurrentUser());
+                                                        list.get(0).saveInBackground();
+                                                    }
+                                                }
+                                            });
                                         }
                                     });
                                     snackbar.show();

@@ -75,7 +75,7 @@ public class BasketFragment extends Fragment {
     private void makeList() {
         items.clear();
 
-        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
         ParseQuery<ParseUser> query = relation.getQuery();
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override

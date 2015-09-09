@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -14,9 +15,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by songmho on 2015-07-04.
@@ -89,9 +96,31 @@ public class SetupActivity extends AppCompatActivity {
         btn_aboutpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("http://tjdhksrb2.wix.com/essage"));
-                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setData(Uri.parse("http://tjdhksrb2.wix.com/essage"));
+//                startActivity(intent);
+                ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+                picked_query.whereEqualTo("user", ParseUser.getCurrentUser());
+                picked_query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+//                        Log.d("set", list.size()+"");
+                        ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                        picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                            @Override
+                            public void done(List<ParseUser> list, ParseException e) {
+                                int size;
+                                if (list.isEmpty()) {
+                                    size = 0;
+                                } else {
+                                    size = list.size();
+                                }//end else
+                                Log.d("set", size+"");
+                            }
+                        });
+                    }
+                });
+
             }
         });
     }

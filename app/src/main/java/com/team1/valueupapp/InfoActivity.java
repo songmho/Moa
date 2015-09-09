@@ -255,7 +255,7 @@ public class InfoActivity extends AppCompatActivity {
 
 
     private void fab_clicked(final ParseObject parseObject) {
-        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
         ParseQuery<ParseUser> query = relation.getQuery();
         query.whereContains("objectId", user.getObjectId());
         query.findInBackground(new FindCallback<ParseUser>() {
@@ -267,12 +267,40 @@ public class InfoActivity extends AppCompatActivity {
 
                     relation.remove(user);
                     ParseUser.getCurrentUser().saveInBackground();
+
+                    ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+                    picked_query.whereEqualTo("user", user);
+                    picked_query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> list, ParseException e) {
+                            if (!list.isEmpty()) {
+//                                Log.d("sss",list.size()+"");
+                                ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                                picked_relation.remove(ParseUser.getCurrentUser());
+                                list.get(0).saveInBackground();
+                            }
+                        }
+                    });
                 } else {
-                    Toast.makeText(getApplicationContext(),"관심멤버에서 추가합니다.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "관심멤버에서 추가합니다.", Toast.LENGTH_SHORT).show();
                     fab.setImageResource(R.drawable.ic_check_white);
 
                     relation.add(user);
                     ParseUser.getCurrentUser().saveInBackground();
+
+                    ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+                    picked_query.whereEqualTo("user", user);
+                    picked_query.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> list, ParseException e) {
+                            if (!list.isEmpty()) {
+//                                Log.d("sss",list.size()+"");
+                                ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                                picked_relation.add(ParseUser.getCurrentUser());
+                                list.get(0).saveInBackground();
+                            }
+                        }
+                    });
                 }//end else
             }
         }); //query

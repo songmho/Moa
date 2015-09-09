@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     TextView name = null;
     TextView job = null;
     int mem_count=0;
-    int size;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -99,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             count++;
         }
         SharedPreferences.Editor editor=shpref.edit();
-   editor.putInt("Count", count);
+        editor.putInt("Count", count);
         editor.commit();
 
         setContentView(R.layout.activity_main);
@@ -269,29 +268,46 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
         relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
+                int size;
                 if (list.isEmpty()) {
                     size = 0;
                 } else {
                     size = list.size();
                 }//end else
                 pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
-//                Log.d("size", ""+size);
             }
         });
 //        pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
 
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
-        query.findInBackground(new FindCallback<ParseUser>() {
+        ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+        picked_query.whereEqualTo("user", ParseUser.getCurrentUser());
+        picked_query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseUser> list, ParseException e) {
-                picked_int.setText("" + list.size());
+            public void done(List<ParseObject> list, ParseException e) {
+//                        Log.d("set", list.size()+"");
+                ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> list, ParseException e) {
+                        int picked_size;
+                        if (list.isEmpty()) {
+                            picked_size = 0;
+                        } else {
+                            picked_size = list.size();
+                        }//end else
+                        picked_int.setText(picked_size+"");
+                    }
+                });
             }
         });
+
+
+
+
 
 
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("ValueUp_team");

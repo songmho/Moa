@@ -86,7 +86,7 @@ public class MemoActivity extends AppCompatActivity{
                     ParseUser.getCurrentUser().saveInBackground();
                 }//이미 memo가 있다면 메모 삭제
 
-                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
                 ParseQuery<ParseUser> query = relation.getQuery();
                 query.whereContains("objectId", user.getObjectId());
                 query.findInBackground(new FindCallback<ParseUser>() {
@@ -112,7 +112,7 @@ public class MemoActivity extends AppCompatActivity{
     }
 
 }//class
-//final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("test");
+//final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
 //                            ParseQuery<ParseUser> query = relation.getQuery();
 //                            query.whereContains("objectId", user.getObjectId());
 //                            query.findInBackground(new FindCallback<ParseUser>() {

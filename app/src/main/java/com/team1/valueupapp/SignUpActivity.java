@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -101,7 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     if (String.valueOf(pass.getText()).equals(String.valueOf(pass_check.getText()))) {
 
                                         progressBar.setVisibility(View.VISIBLE);
-                                        ParseUser user = new ParseUser();
+                                        final ParseUser user = new ParseUser();
 
                                         user.setUsername(String.valueOf(mail.getText()));
                                         user.setPassword(String.valueOf(pass.getText()));
@@ -112,7 +114,9 @@ public class SignUpActivity extends AppCompatActivity {
                                         user.put("memo_owner", new ArrayList<>());
                                         user.put("memo", new ArrayList<>());
                                         user.put("detail", "");
-                                        user.put("info","");
+                                        user.put("info", "");
+
+
 
                                         user.signUpInBackground(new SignUpCallback() {
                                             @Override
@@ -120,12 +124,18 @@ public class SignUpActivity extends AppCompatActivity {
                                                 progressBar.setVisibility(View.GONE);
                                                 if (e == null) {
                                                     Toast.makeText(getApplicationContext(), "가입에 성공하였습니다.", Toast.LENGTH_SHORT).show();
-                                                    Intent intent=new Intent(SignUpActivity.this,Mypage_edit_Activity.class);
-                                                    intent.putExtra("name",String.valueOf(user_name.getText()));
-                                                    intent.putExtra("job",job);
-                                                    intent.putExtra("mydetail","");
-                                                    intent.putExtra("myinfo","");
-                                                    intent.putExtra("signup",1);
+                                                    Intent intent = new Intent(SignUpActivity.this, Mypage_edit_Activity.class);
+                                                    intent.putExtra("name", String.valueOf(user_name.getText()));
+                                                    intent.putExtra("job", job);
+                                                    intent.putExtra("mydetail", "");
+                                                    intent.putExtra("myinfo", "");
+                                                    intent.putExtra("signup", 1);
+
+                                                    ParseObject object = new ParseObject("Picked");
+                                                    object.put("user", ParseUser.getCurrentUser());
+                                                    object.saveInBackground();
+
+
                                                     startActivity(intent);
                                                     finish();
                                                 } else {
