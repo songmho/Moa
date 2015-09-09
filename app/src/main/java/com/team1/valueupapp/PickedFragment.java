@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,9 @@ import android.widget.Toast;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -72,51 +75,56 @@ public class PickedFragment extends Fragment {
     private void makeList() {
         items.clear();
 
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("pick", ParseUser.getCurrentUser().getString("name"));
-        query.addAscendingOrder("name");
-        query.findInBackground(new FindCallback<ParseUser>() {
+        ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+        picked_query.whereEqualTo("user", ParseUser.getCurrentUser());
+        picked_query.findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void done(List<ParseUser> list, ParseException e) {
-      //          if (list.isEmpty())
-         //           Toast.makeText(getActivity().getApplicationContext(), "kll검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
-//                Log.d("dddd", "" + list.size());
-//                Log.d("sss", ""+ParseUser.getCurrentUser().getList("memo").size());
+            public void done(List<ParseObject> list, ParseException e) {
+//                        Log.d("set", list.size()+"");
                 final List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
                 final List<String> memo_list = ParseUser.getCurrentUser().getList("memo");
-
-                for (int i = 0; i < list.size(); i++) {
-                    String memo = "";
+                ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> list, ParseException e) {
+                        for (int i = 0; i < list.size(); i++) {
+                            String memo = "";
 //                    Log.d("ddd", "" + list.get(i).getList("memo_owner").size());
-                    for(int j = 0; j < memo_owner.size(); j++) {
-                        if(list.get(i).getString("name").equals(memo_owner.get(j))) {
+                            for(int j = 0; j < memo_owner.size(); j++) {
+                                if(list.get(i).getString("name").equals(memo_owner.get(j))) {
 
-                            memo = memo_list.get(j);
-                        }//관심멤버의 이름이 memo_owner에 있으면 memo_owner번째 메모 memo변수에 저장
+                                    memo = memo_list.get(j);
+                                }//관심멤버의 이름이 memo_owner에 있으면 memo_owner번째 메모 memo변수에 저장
+                            }//end for
+                            if (list.get(i).getString("job").equals("plan"))
+                                cur_job = 0;
+                            else if (list.get(i).getString("job").equals("dev"))
+                                cur_job = 1;
+                            else
+                                cur_job = 2;
+                            ParseFile parse_file = (ParseFile) list.get(i).get("profile");
+                            try {
+                                byte[] bytes;
+                                if (parse_file != null)
+                                    bytes = parse_file.getData();
+                                else
+                                    bytes = null;
+                                ListRecyclerItem item = new ListRecyclerItem(bytes, list.get(i).getString("info"),
+                                        list.get(i).getString("name"), true, cur_job, memo, recyclerView);
+                                items.add(item);
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+
+                        }
+                        Log.d("list", ""+items.size());
+                        recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_interest, 0));
+                        progressBar.setVisibility(View.GONE);
                     }
-                    if (list.get(i).getString("job").equals("plan"))
-                        cur_job = 0;
-                    else if (list.get(i).getString("job").equals("dev"))
-                        cur_job = 1;
-                    else
-                        cur_job = 2;
-                    ParseFile parse_file = (ParseFile) list.get(i).get("profile");
-                    try {
-                        byte[] bytes;
-                        if (parse_file != null)
-                            bytes = parse_file.getData();
-                        else
-                            bytes = null;
-                        ListRecyclerItem item = new ListRecyclerItem(bytes, list.get(i).getString("info"),
-                                list.get(i).getString("name"), true, cur_job, memo, recyclerView);
-                        items.add(item);
-                    } catch (ParseException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_interest, 0));
-                progressBar.setVisibility(View.GONE);
+                });
             }
         });
+
     }
+
 }//class
