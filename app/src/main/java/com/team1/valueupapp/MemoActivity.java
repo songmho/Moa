@@ -127,15 +127,3 @@ public class MemoActivity extends AppCompatActivity{
     }
 
 }//class
-//final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
-//                            ParseQuery<ParseUser> query = relation.getQuery();
-//                            query.whereContains("objectId", user.getObjectId());
-//                            query.findInBackground(new FindCallback<ParseUser>() {
-//                                @Override
-//                                public void done(List<ParseUser> list, com.parse.ParseException e) {
-//                                    if (list.isEmpty()) {
-//                                        relation.add(user);
-//                                        ParseUser.getCurrentUser().saveInBackground();
-//                                    }
-//                                }
-//                            });
