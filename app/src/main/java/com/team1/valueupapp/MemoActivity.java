@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -102,6 +103,20 @@ public class MemoActivity extends AppCompatActivity{
                 ParseUser.getCurrentUser().getList("memo_owner").add(intent.getStringExtra("name"));
                 ParseUser.getCurrentUser().getList("memo").add(value);
                 ParseUser.getCurrentUser().saveInBackground();
+
+                ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+                picked_query.whereEqualTo("user", user);
+                picked_query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, com.parse.ParseException e) {
+                        if (!list.isEmpty()) {
+//                                Log.d("sss",list.size()+"");
+                            ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                            picked_relation.add(ParseUser.getCurrentUser());
+                            list.get(0).saveInBackground();
+                        }
+                    }
+                });
 
                 Toast.makeText(getApplicationContext(), "관심멤버에 추가되었습니다..", Toast.LENGTH_SHORT).show();
 
