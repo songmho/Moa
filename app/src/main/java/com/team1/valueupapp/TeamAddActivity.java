@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
     RecyclerView.LayoutManager layoutManager;
     ArrayList<Teamadd_item> items;
     ProgressBar progressBar;
-    ArrayList<String> s;
+    ArrayList<ParseUser> s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,42 +67,56 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                s=new ArrayList<>();
+                s=new ArrayList<ParseUser>();
                 for(Teamadd_item i:items){
-                    s.add(i.getName());
+                    ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+                    parseQuery.whereEqualTo("objectId", i.getName());
+                    parseQuery.findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(final List<ParseUser> list, ParseException e) {
+                            s.add(list.get(0));
+                        }
+                    });
                 }
 
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> list, ParseException e) {
                         if (list.isEmpty()) {
-                            ParseObject object = new ParseObject("ValueUp_team");
+                            ParseObject object = new ParseObject("Team");
                             object.put("idea", String.valueOf(title.getText()));
                             object.put("idea_info", String.valueOf(detail.getText()));
                             object.put("ismade", false);
-                            object.put("admin_member", ParseUser.getCurrentUser().getString("name"));
-                            object.put("member", s);
+                            object.put("admin_member", ParseUser.getCurrentUser());
                             object.saveInBackground();
+
+                            for(ParseUser user : s) {
+                                object.getRelation("member").add(user);
+                                object.saveInBackground();
+                            }
                         } else {
                             for (int i = 0; i < list.size(); i++) {
                                 list.get(i).deleteInBackground();
                             }//end for
-                            ParseObject object = new ParseObject("ValueUp_team");
+                            ParseObject object = new ParseObject("Team");
                             object.put("idea", String.valueOf(title.getText()));
                             object.put("idea_info", String.valueOf(detail.getText()));
                             object.put("ismade", false);
-                            object.put("admin_member", ParseUser.getCurrentUser().getString("name"));
-                            object.put("member", s);
+                            object.put("admin_member", ParseUser.getCurrentUser());
                             object.saveInBackground();
+
+                            for(ParseUser user : s) {
+                                object.getRelation("member").add(user);
+                                object.saveInBackground();
+                            }
                         }
                     }
                 });
 
                 Intent intent=new Intent(TeamAddActivity.this,Team_Member_Add_Activity.class);
                 startActivity(intent);
-
             }
         });//add.setOnClickListener
     }//onCreate
@@ -117,23 +132,29 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.VISIBLE);
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
-                        query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+                        query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
                         query.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> list, ParseException e) {
                                 if (list.isEmpty()) {
                                     title.setText(ParseUser.getCurrentUser().getString("info"));
                                     detail.setText(ParseUser.getCurrentUser().getString("detail"));
-                                    Teamadd_item item = new Teamadd_item(null, ParseUser.getCurrentUser().getString("name"));
+                                    Teamadd_item item = new Teamadd_item(null, ParseUser.getCurrentUser().getObjectId());
                                     items.add(item);
                                 } else {
                                     title.setText(list.get(0).getString("idea"));
                                     detail.setText(list.get(0).getString("idea_info"));
-                                    for (int i = 0; i < list.get(0).getList("member").size(); i++) {
-                                        Teamadd_item item = new Teamadd_item(null, String.valueOf(list.get(0).getList("member").get(i)));
-                                        items.add(item);
-                                    }
+                                    ParseRelation<ParseUser> relation = list.get(0).getRelation("member");
+                                    relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                                        @Override
+                                        public void done(List<ParseUser> list, ParseException e) {
+                                            for (int i = 0; i < list.size(); i++) {
+                                                Teamadd_item item = new Teamadd_item(null, list.get(i).getObjectId());
+                                                items.add(item);
+                                            }
+                                        }
+                                    });
                                 }//end else
                                 recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
                                 progressBar.setVisibility(View.GONE);
@@ -155,8 +176,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         additem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> list, ParseException e) {
@@ -170,12 +191,13 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                             object.put("ismade", true);
                             object.saveInBackground();
                         } else {
-                            ParseObject object = new ParseObject("ValueUp_team");
+                            ParseObject object = new ParseObject("Team");
                             object.put("idea", String.valueOf(title.getText()));
                             object.put("idea_info", String.valueOf(detail.getText()));
                             object.put("ismade", true);
-                            object.put("admin_member", ParseUser.getCurrentUser().getString("name"));
-                            object.put("member", ParseUser.getCurrentUser().getString("name"));
+                            object.put("admin_member", ParseUser.getCurrentUser());
+
+                            object.getRelation("member").add(ParseUser.getCurrentUser());
                             object.saveInBackground();
                         }
                     }
@@ -192,8 +214,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         int id = item.getItemId();
         switch (id){
             case android.R.id.home:
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
                 query.whereEqualTo("ismade",false);
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -216,8 +238,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
 
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
                 query.whereEqualTo("ismade",false);
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override

@@ -21,6 +21,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class TeamActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     List<Team_item> items;
     SwipeRefreshLayout refreshLayout;
+    List<ParseUser> list_pick;
+    String same_mem="";
+    int member_num;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,32 +68,32 @@ public class TeamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(ParseUser.getCurrentUser()!=null) {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
-                    query.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> list, ParseException e) {
-                            boolean exist = false;
-                            for (int i = 0; i < list.size(); i++) {
-                                if (list.get(i).getString("admin_member").equals(ParseUser.getCurrentUser().getString("name"))) {
-                                    ParseObject parseObject = list.get(i);
-                                    if (parseObject.getBoolean("ismade") == true) {
-                                        exist = true;
-                                    }
-                                }//개설중인 방이 있는지 확인
-                                else if(list.get(i).getList("member").contains(ParseUser.getCurrentUser().getString("name"))) {
-                                    exist = true;
-                                }//참여중인 방이 있는지 확인
-                            }//end for
-
-                            if (exist == true) {
-                                Toast.makeText(getApplicationContext(), "이미 참여중인 방이 있습니다.", Toast.LENGTH_SHORT).show();
-                            } else {
+//                    ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
+//                    query.findInBackground(new FindCallback<ParseObject>() {
+//                        @Override
+//                        public void done(List<ParseObject> list, ParseException e) {
+//                            boolean exist = false;
+//                            for (int i = 0; i < list.size(); i++) {
+//                                if (list.get(i).getString("admin_member").equals(ParseUser.getCurrentUser().getString("name"))) {
+//                                    ParseObject parseObject = list.get(i);
+//                                    if (parseObject.getBoolean("ismade") == true) {
+//                                        exist = true;
+//                                    }
+//                                }//개설중인 방이 있는지 확인
+//                                else if(list.get(i).getList("member").contains(ParseUser.getCurrentUser().getString("name"))) {
+//                                    exist = true;
+//                                }//참여중인 방이 있는지 확인
+//                            }//end for
+//
+//                            if (exist == true) {
+//                                Toast.makeText(getApplicationContext(), "이미 참여중인 방이 있습니다.", Toast.LENGTH_SHORT).show();
+//                            } else {
                                 Intent intent = new Intent(TeamActivity.this, TeamAddActivity.class);
                                 startActivity(intent);
-                            }//end else
-
-                        }
-                    });//query.findInBackground
+//                            }//end else
+//
+//                        }
+//                    });//query.findInBackground
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
@@ -120,27 +124,56 @@ public class TeamActivity extends AppCompatActivity {
     public void makeList() {
         items.clear();
 
-        final List<String> list_pick;
-        if(ParseUser.getCurrentUser()!=null)
-            list_pick = ParseUser.getCurrentUser().getList("pick");
-        else
-            list_pick=null;
-        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
+        if(ParseUser.getCurrentUser()!=null) {
+//            list_pick = ParseUser.getCurrentUser().getList("pick");
+            list_pick = new ArrayList<ParseUser>();
+            ParseRelation<ParseUser> pick_relation = ParseUser.getCurrentUser().getRelation("my_pick");
+            pick_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                @Override
+                public void done(List<ParseUser> list, ParseException e) {
+                    Log.d("list", list.get(0)+"");
+
+                    if (!list.isEmpty()) {
+                        for (int i = 0; i < list.size(); i++) {
+                            list_pick.add(list.get(i));
+                        }//end for
+                    } else {
+                        list_pick = null;
+                    }
+                }
+            });
+
+        } else {
+            list_pick = null;
+        }
+        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("Team");
         parseQuery.whereEqualTo("ismade", true);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 for (ParseObject o : list) {
-                    String same_mem = "";
-                    List<String> list_member = o.getList("member");
-                    for (String s : list_member) {
-                        if (ParseUser.getCurrentUser() != null && list_pick.contains(s))
-                            same_mem = same_mem + " " + s;
-                        else
-                            same_mem = "";
+                    ParseRelation<ParseUser> member_relatrion = o.getRelation("member");
+                    member_relatrion.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(List<ParseUser> list, ParseException e) {
+                            member_num = list.size();
+                            for (int i = 0; i < list.size(); i++) {
+                                if (ParseUser.getCurrentUser() != null && list_pick.contains(list.get(i)))
+                                    same_mem = same_mem + " " + list.get(i).getString("name");
+                                else
+                                    same_mem = "";
+                            }
+                        }
+                    });
+                    ParseUser user = o.getParseUser("admin_member");
+                    try {
+                        user.fetchIfNeeded();
+                        Team_item item = new Team_item(o.getString("idea"), user.getString("name"), o.getString("idea_info"), same_mem, member_num);
+                        items.add(item);
+                    }catch (ParseException e1) {
+                        e1.printStackTrace();
                     }
-                    Team_item item = new Team_item(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
-                    items.add(item);
+
                 }
                 recyclerView.setAdapter(new Team_RecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
 

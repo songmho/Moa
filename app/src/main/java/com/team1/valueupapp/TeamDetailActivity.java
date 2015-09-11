@@ -23,6 +23,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.List;
@@ -99,22 +100,27 @@ public class TeamDetailActivity extends AppCompatActivity {
         admin_name.setText(intent.getStringExtra("name"));
         detail.setText(intent.getStringExtra("detail"));
 
-        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("ValueUp_team");
+        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("Team");
+        Log.d("title", intent.getStringExtra("title"));
+        Log.d("detail", intent.getStringExtra("detail"));
         parseQuery.whereEqualTo("idea", intent.getStringExtra("title"));
-        parseQuery.whereEqualTo("admin_member", intent.getStringExtra("name"));
+        parseQuery.whereEqualTo("idea_info", intent.getStringExtra("detail"));
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if (!list.isEmpty()) {
-                    List<String> mem_name = list.get(0).getList("member");
-                    member_num.setText("" + mem_name.size());
-                    for (int i = 0; i < mem_name.size(); i++) {
-                        member[i].setVisibility(View.VISIBLE);
-                    }
-                    for (int i = 0; i < mem_name.size(); i++) {
-                        member_name[i].setText(mem_name.get(i));
-                    }
-                }
+                    ParseRelation<ParseUser> relation = list.get(0).getRelation("member");
+                    relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(List<ParseUser> list, ParseException e) {
+                            member_num.setText("" + list.size());
+                            for (int i = 0; i < list.size(); i++) {
+                                member[i].setVisibility(View.VISIBLE);
+                                member_name[i].setText(list.get(i).getString("name"));
+                            }//end for
+                        }
+                    });
+                }//end if
             }
         });
 
@@ -122,7 +128,7 @@ public class TeamDetailActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TeamDetailActivity.this,Team_Member_Add_Activity.class));
+                startActivity(new Intent(TeamDetailActivity.this, Team_Member_Add_Activity.class));
             }
         });
     }

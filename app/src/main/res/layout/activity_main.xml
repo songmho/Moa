@@ -41,32 +41,22 @@
                     android:layout_marginBottom="2.5dp"
                     android:layout_marginLeft="5dp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/profile"
+                    <ImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:gravity="center"
-                        android:src="@drawable/ic_user" />
+                        android:src="@drawable/main_clock" />
 
                     <TextView
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="이름"
+                        android:text="팀 빌딩 하는 시간입니다"
                         android:textColor="@color/white"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/job"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="sans-serif-light"
-                        android:text="직군"
-                        android:textColor="@color/white"
-                        android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -78,12 +68,64 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
+                <FrameLayout
+                    android:id="@+id/team"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#009688"
+                    android:layout_marginTop="2.5dp"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingTop="15dp">
+
+                        <ImageView
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:background="@drawable/main_all"
+                            android:layout_marginBottom="65dp"
+                            android:layout_marginTop="15dp"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_gravity="bottom"
+                        android:background="#004d40"
+                        android:gravity="center">
+
+                        <TextView
+                            android:text="전체 멤버 보기"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="8dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="16dp"
+                            android:layout_marginLeft="12dp"/>
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:weightSum="2">
+
+
 
                     <FrameLayout
                         android:id="@+id/pick"
@@ -92,9 +134,9 @@
                         android:layout_weight="1"
                         android:background="#3F51B5"
                         android:layout_marginTop="2.5dp"
-                        android:layout_marginRight="2.5dp"
+                        android:layout_marginRight="5dp"
                         android:layout_marginBottom="2.5dp"
-                        android:layout_marginLeft="5dp">
+                        android:layout_marginLeft="2.5dp">
 
                         <ImageView
                             android:layout_width="100dp"
@@ -143,9 +185,9 @@
                         android:layout_weight="1"
                         android:background="#FF4081"
                         android:layout_marginTop="2.5dp"
-                        android:layout_marginRight="2.5dp"
+                        android:layout_marginRight="5dp"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="5dp">
+                        android:layout_marginLeft="2.5dp">
 
                         <ImageView
                             android:layout_width="70dp"
@@ -186,79 +228,8 @@
                     </FrameLayout>
                 </LinearLayout>
 
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#009688"
-                    android:layout_marginTop="2.5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="2.5dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingTop="15dp">
-
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/main_03"
-                            android:layout_marginBottom="15dp"
-                            android:layout_marginTop="15dp"
-                             />
 
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerview"
-                            android:layout_width="80dp"
-                            android:layout_height="150dp"
-                            android:layout_gravity="center"
-                            />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_gravity="bottom"
-                        android:background="#004d40"
-                        android:gravity="center">
-
-                        <TextView
-                            android:text="우리팀 인원 "
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="8dp"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:textColor="@color/white"
-                            android:textSize="16dp"
-                            android:layout_marginLeft="12dp"/>
-
-                        <TextView
-                            android:id="@+id/current_int"
-                            android:background="#212121"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:textColor="@color/white"
-                            android:layout_width="50dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textSize="20dp"
-                            />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/team"
-                        android:orientation="vertical"
-                        />
-                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

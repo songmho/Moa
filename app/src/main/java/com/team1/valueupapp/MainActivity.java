@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     TextView picked_int = null;
     TextView current_int = null;
 
-    LinearLayout team = null;
+    FrameLayout team = null;
     TextView name = null;
     TextView job = null;
     int mem_count=0;
@@ -117,41 +117,14 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout picked = (FrameLayout) findViewById(R.id.picked);
         pick_int = (TextView) findViewById(R.id.pick_int);
         picked_int = (TextView) findViewById(R.id.picked_int);
-        current_int = (TextView) findViewById(R.id.current_int);
-        team = (LinearLayout) findViewById(R.id.team);
+        team = (FrameLayout) findViewById(R.id.team);
         name = (TextView) findViewById(R.id.name);
-        job = (TextView) findViewById(R.id.job);
-
-        profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.profile);
-
-        if (profileimage.exists()) {
-            Bitmap bm = BitmapFactory.decodeFile(tempPath);
-            profile.setImageBitmap(bm);
-        } else {
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
-            profile.setImageBitmap(b);
-        }
-
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ParseUser.getCurrentUser() != null) {
-                    Intent intent = new Intent(MainActivity.this, MypageActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
 
         if (ParseUser.getCurrentUser() != null)
             setMain();
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(layoutManager);
         makeDrawerHeader();
 
         profile_drawer.setOnClickListener(new View.OnClickListener() {
@@ -202,35 +175,9 @@ public class MainActivity extends AppCompatActivity {
         team.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ParseUser.getCurrentUser()!=null) {
-                    if(mem_count>0) {
-                        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("ValueUp_team");
-                        parseQuery.whereEqualTo("member", ParseUser.getCurrentUser().getString("name"));
-                        parseQuery.whereEqualTo("ismade", true);
-                        parseQuery.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                final Intent intent = new Intent(MainActivity.this, TeamDetailActivity.class);
-                                Log.d("dfdfdf",list.get(0).getString("admin_member"));
-                                intent.putExtra("name", list.get(0).getString("admin_member"));
-                                intent.putExtra("title", list.get(0).getString("idea"));
-                                intent.putExtra("detail", list.get(0).getString("idea_info"));
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                    else if(mem_count==0){
-                        Intent intent = new Intent(MainActivity.this, TeamActivity.class);
-                        startActivity(intent);
-                    }
-                }
-
-                else{
-                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-
+//
+                Intent intent = new Intent(MainActivity.this, MemberActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -255,18 +202,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setMain() {
-        name.setText(ParseUser.getCurrentUser().getString("name"));
-        switch (ParseUser.getCurrentUser().getString("job")) {
-            case "plan":
-                job.setText("기획자");
-                break;
-            case "dev":
-                job.setText("개발자");
-                break;
-            case "dis":
-                job.setText("디자이너");
-                break;
-        }
+//        name.setText(ParseUser.getCurrentUser().getString("name"));
 
         final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
         relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
@@ -305,46 +241,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("ValueUp_team");
-        parseQuery.whereEqualTo("member", ParseUser.getCurrentUser().getString("name"));
-        parseQuery.whereEqualTo("ismade", true);
-        parseQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-
-                items = new ArrayList<>();
-
-                if (list.size() == 0){
-                    mem_count=0;
-                    MainListitem item = new MainListitem("팀이 없어요.\n 팀빌딩을 해주세요.");
-                    items.add(item);
-                }
-                else if(list.size()>0) {
-                    mem_count=list.size();
-                    List<String> member = list.get(0).getList("member");
-
-                    current_int.setText("" + member.size());
-
-
-                    for (int i = 0; i < member.size(); i++) {
-                        MainListitem item = new MainListitem(member.get(i));
-                        items.add(item);
-                    }
-                }
-
-                MainRecyclerAdapter adapter = new MainRecyclerAdapter(getApplicationContext(), items, R.layout.item_mainlist_name);
-                recyclerView.setAdapter(adapter);
-            }
-
-
-        });
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
     }
 
     private boolean changeDrawerMenu(MenuItem menuItem) {

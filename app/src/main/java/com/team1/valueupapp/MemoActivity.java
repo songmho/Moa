@@ -118,7 +118,7 @@ public class MemoActivity extends AppCompatActivity{
                     }
                 });
 
-                Toast.makeText(getApplicationContext(), "관심멤버에 추가되었습니다..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "관심멤버에 추가되었습니다.", Toast.LENGTH_SHORT).show();
 
                 finish();
             }

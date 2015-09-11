@@ -62,15 +62,7 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter{
             ((holder) holder).title.setText(item.getTitle());
             ((holder) holder).name.setText(item.getName());
             ((holder) holder).detail.setText(item.getDetail());
-            ((holder) holder).pick.setText(item.getPick() + " 소속");
-            ((holder) holder).team.setText(item.getTeam() + " 명");
-            if (item.getPick().length() > 0) {
-                ((holder) holder).pick_icon.setVisibility(View.VISIBLE);
-                ((holder) holder).pick.setVisibility(View.VISIBLE);
-            } else {
-                ((holder) holder).pick_icon.setVisibility(View.GONE);
-                ((holder) holder).pick.setVisibility(View.GONE);
-            }
+
             ((holder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,7 +70,6 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter{
                     intent.putExtra("title", item.getTitle());
                     intent.putExtra("name", item.getName());
                     intent.putExtra("detail", item.getDetail());
-                    intent.putExtra("pick", item.getPick());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
@@ -99,19 +90,15 @@ public class Team_RecyclerAdapter extends RecyclerView.Adapter{
         TextView title;
         TextView name;
         TextView detail;
-        TextView pick;
         TextView team;
         CardView cardView;
-        ImageView pick_icon;
 
         public holder(View itemView) {
             super(itemView);
             title=(TextView)itemView.findViewById(R.id.title);
             name=(TextView)itemView.findViewById(R.id.name);
             detail=(TextView)itemView.findViewById(R.id.detail);
-            pick=(TextView)itemView.findViewById(R.id.pick);
             team=(TextView)itemView.findViewById(R.id.team);
-            pick_icon=(ImageView)itemView.findViewById(R.id.pick_icon);
             cardView=(CardView)itemView.findViewById(R.id.cardview);
         }//ViewHolder
     }
