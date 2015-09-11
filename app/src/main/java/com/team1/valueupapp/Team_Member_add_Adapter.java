@@ -11,14 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,27 +50,51 @@ public class Team_Member_add_Adapter extends RecyclerView.Adapter {
         ((holder)holder).checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                    query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                if(!isChecked) {
+                    final ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
                     query.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> list, ParseException e) {
-                            list.get(0).getList("member").add(item.getName());
-                            list.get(0).saveInBackground();
+                            for(final ParseObject o: list){
+                                ParseUser user=o.getParseUser("admin_member");
+                                if(user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
+                                    final ParseRelation<ParseUser> parseUsers=o.getRelation("member");
+                                    ParseQuery<ParseUser> q=ParseUser.getQuery();
+                                    q.whereEqualTo("objectId", item.getObjId());
+                                    q.getFirstInBackground(new GetCallback<ParseUser>() {
+                                        @Override
+                                        public void done(ParseUser parseUser, ParseException e) {
+                                            parseUsers.remove(parseUser);
+                                            o.saveInBackground();
+                                        }
+                                    });
+                                }
+                            }
                         }
                     });
                     Toast.makeText(context.getApplicationContext(),item.getName(),Toast.LENGTH_SHORT).show();
                 }
                 else{
 //                    pick_items.remove(item);
-                    ParseQuery<ParseObject> query=ParseQuery.getQuery("ValueUp_team");
-                    query.whereEqualTo("admin_member", ParseUser.getCurrentUser().getString("name"));
+                    ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
                     query.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> list, ParseException e) {
-                            list.get(0).getList("member").remove(item.getName());
-                            list.get(0).saveInBackground();
+                            for(final ParseObject o : list){
+                                ParseUser user=o.getParseUser("admin_member");
+                                if(user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())){
+                                    final ParseRelation<ParseUser> parseUsers=o.getRelation("member");
+                                    ParseQuery<ParseUser> q=ParseUser.getQuery();
+                                    q.whereEqualTo("objectId", item.getObjId());
+                                    q.getFirstInBackground(new GetCallback<ParseUser>() {
+                                        @Override
+                                        public void done(ParseUser parseUser, ParseException e) {
+                                            parseUsers.add(parseUser);
+                                            o.saveInBackground();
+                                        }
+                                    });
+                                }
+                            }
                         }
                     });
                     Toast.makeText(context.getApplicationContext(),item.getName(),Toast.LENGTH_SHORT).show();

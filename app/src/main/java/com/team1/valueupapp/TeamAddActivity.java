@@ -3,31 +3,25 @@ package com.team1.valueupapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -90,6 +84,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                             object.put("idea_info", String.valueOf(detail.getText()));
                             object.put("ismade", false);
                             object.put("admin_member", ParseUser.getCurrentUser());
+                            ParseRelation<ParseUser> parseUsers=object.getRelation("member");
+                            parseUsers.add(ParseUser.getCurrentUser());
                             object.saveInBackground();
 
                             for(ParseUser user : s) {
@@ -105,6 +101,8 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                             object.put("idea_info", String.valueOf(detail.getText()));
                             object.put("ismade", false);
                             object.put("admin_member", ParseUser.getCurrentUser());
+                            ParseRelation<ParseUser> parseUsers=object.getRelation("member");
+                            parseUsers.add(ParseUser.getCurrentUser());
                             object.saveInBackground();
 
                             for(ParseUser user : s) {
@@ -150,7 +148,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                                         @Override
                                         public void done(List<ParseUser> list, ParseException e) {
                                             for (int i = 0; i < list.size(); i++) {
-                                                Teamadd_item item = new Teamadd_item(null, list.get(i).getString("name"),list.get(i).getObjectId());
+                                                Teamadd_item item = new Teamadd_item(null, list.get(i).getString("name"), list.get(i).getObjectId());
                                                 items.add(item);
                                             }
                                         }
@@ -187,14 +185,13 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                             object.put("idea", String.valueOf(title.getText()));
                             object.remove("idea_info");
                             object.put("idea_info", String.valueOf(detail.getText()));
-                            object.remove("ismade");
-                            object.put("ismade", true);
+                            object.put("ismade", false);
                             object.saveInBackground();
                         } else {
                             ParseObject object = new ParseObject("Team");
                             object.put("idea", String.valueOf(title.getText()));
                             object.put("idea_info", String.valueOf(detail.getText()));
-                            object.put("ismade", true);
+                            object.put("ismade", false);
                             object.put("admin_member", ParseUser.getCurrentUser());
 
                             object.getRelation("member").add(ParseUser.getCurrentUser());
