@@ -63,6 +63,13 @@
                 android:value=".MainActivity"/>
         </activity>
 
+        <activity android:name=".TeamEditActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TeamDetailActivity"/>
+        </activity>
+
         <activity android:name=".TeamAddActivity"
             android:screenOrientation="portrait">
             <meta-data

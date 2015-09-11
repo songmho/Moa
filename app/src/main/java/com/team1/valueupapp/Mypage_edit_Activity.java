@@ -173,15 +173,15 @@ public class Mypage_edit_Activity extends AppCompatActivity {
                     break;
             }
 
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Picked");
-            query.whereEqualTo("user", user);
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> list, ParseException e) {
-                    ParseUser.getCurrentUser().put("picked", list.get(0));
-                    ParseUser.getCurrentUser().saveInBackground();
-                }
-            });
+//            ParseQuery<ParseObject> query = ParseQuery.getQuery("Picked");
+//            query.whereEqualTo("user", user);
+//            query.findInBackground(new FindCallback<ParseObject>() {
+//                @Override
+//                public void done(List<ParseObject> list, ParseException e) {
+//                    ParseUser.getCurrentUser().put("picked", list.get(0));
+//                    ParseUser.getCurrentUser().saveInBackground();
+//                }
+//            });
 
 
 //            user.put("picked", object);
