@@ -197,7 +197,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setMain() {
-//        name.setText(ParseUser.getCurrentUser().getString("name"));
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Admin");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                name.setText(list.get(0).getString("title"));
+            }
+        });
+
+//        name.setText(admin.getString("title"));
 
         final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
         relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
