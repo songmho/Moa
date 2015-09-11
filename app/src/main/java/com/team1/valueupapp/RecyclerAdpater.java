@@ -140,7 +140,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
             parseQuery.whereEqualTo("name", item_list.getName());
             parseQuery.whereEqualTo("info", item_list.getApp_name());
             parseQuery.findInBackground(new FindCallback<ParseUser>() {
-                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
+                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
 
                 @Override
                 public void done(List<ParseUser> list, ParseException e) {

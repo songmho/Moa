@@ -2,8 +2,6 @@ package com.team1.valueupapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,13 +11,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -87,7 +83,7 @@ public class MemoActivity extends AppCompatActivity{
                     ParseUser.getCurrentUser().saveInBackground();
                 }//이미 memo가 있다면 메모 삭제
 
-                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
+                final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
                 ParseQuery<ParseUser> query = relation.getQuery();
                 query.whereContains("objectId", user.getObjectId());
                 query.findInBackground(new FindCallback<ParseUser>() {

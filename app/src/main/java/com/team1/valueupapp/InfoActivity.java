@@ -12,10 +12,8 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -255,7 +253,7 @@ public class InfoActivity extends AppCompatActivity {
 
 
     private void fab_clicked(final ParseObject parseObject) {
-        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
+        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
         ParseQuery<ParseUser> query = relation.getQuery();
         query.whereContains("objectId", user.getObjectId());
         query.findInBackground(new FindCallback<ParseUser>() {
