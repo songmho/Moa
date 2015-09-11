@@ -7,6 +7,7 @@ public class Team_Member_add_item {
     byte[] profile;
     String name;
     boolean check;
+    String objId;
 
     public byte[] getProfile() {
         return profile;
@@ -20,9 +21,14 @@ public class Team_Member_add_item {
         return check;
     }
 
-    public Team_Member_add_item(byte[] profile, String name,boolean check){
+    public String getObjId() {
+        return objId;
+    }
+
+    public Team_Member_add_item(byte[] profile, String name, boolean check, String objectId){
         this.profile=profile;
         this.name=name;
         this.check=check;
+        this.objId=objectId;
     }
 }

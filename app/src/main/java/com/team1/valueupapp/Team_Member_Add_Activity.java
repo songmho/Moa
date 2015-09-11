@@ -5,21 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -50,7 +45,7 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
         progressBar=(ProgressBar)findViewById(R.id.progressbar);
         Button cancel=(Button)findViewById(R.id.cancel);
 
-        completed = new ArrayList<String>();
+        completed = new ArrayList<>();
         items=new ArrayList<>();
         makeList("");
 
@@ -108,10 +103,10 @@ public class Team_Member_Add_Activity extends AppCompatActivity {
                 for (int i = 0; i < list.size(); i++) {
                     final ParseUser user = list.get(i);
                     if (user.getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
-                        Team_Member_add_item item = new Team_Member_add_item(null, user.getString("name"), true);
+                        Team_Member_add_item item = new Team_Member_add_item(null, user.getString("name"), true,user.getObjectId());
                         items.add(item);
                     }else {
-                        Team_Member_add_item item = new Team_Member_add_item(null, user.getString("name"), false);
+                        Team_Member_add_item item = new Team_Member_add_item(null, user.getString("name"), false,user.getObjectId());
                         items.add(item);
                     }
 
