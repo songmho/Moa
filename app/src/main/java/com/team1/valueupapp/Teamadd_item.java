@@ -6,6 +6,11 @@ package com.team1.valueupapp;
 public class Teamadd_item {
     byte[] profile;
     String name;
+    String objectId;
+
+    public String getObjectId() {
+        return objectId;
+    }
 
     public String getName() {
         return name;
@@ -14,8 +19,9 @@ public class Teamadd_item {
     public byte[] getProfile() {
         return profile;
     }
-    public Teamadd_item(byte[] profile,String name){
+    public Teamadd_item(byte[] profile,String name, String objectId){
         this.profile=profile;
         this.name=name;
+        this.objectId = objectId;
     }
 }

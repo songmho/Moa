@@ -70,7 +70,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                 s=new ArrayList<ParseUser>();
                 for(Teamadd_item i:items){
                     ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
-                    parseQuery.whereEqualTo("objectId", i.getName());
+                    parseQuery.whereEqualTo("objectId", i.getObjectId());
                     parseQuery.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(final List<ParseUser> list, ParseException e) {
@@ -140,7 +140,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                                 if (list.isEmpty()) {
                                     title.setText(ParseUser.getCurrentUser().getString("info"));
                                     detail.setText(ParseUser.getCurrentUser().getString("detail"));
-                                    Teamadd_item item = new Teamadd_item(null, ParseUser.getCurrentUser().getObjectId());
+                                    Teamadd_item item = new Teamadd_item(null, ParseUser.getCurrentUser().getString("name"),ParseUser.getCurrentUser().getObjectId());
                                     items.add(item);
                                 } else {
                                     title.setText(list.get(0).getString("idea"));
@@ -150,7 +150,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                                         @Override
                                         public void done(List<ParseUser> list, ParseException e) {
                                             for (int i = 0; i < list.size(); i++) {
-                                                Teamadd_item item = new Teamadd_item(null, list.get(i).getObjectId());
+                                                Teamadd_item item = new Teamadd_item(null, list.get(i).getString("name"),list.get(i).getObjectId());
                                                 items.add(item);
                                             }
                                         }
