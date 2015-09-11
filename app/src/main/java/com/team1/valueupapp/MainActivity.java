@@ -220,6 +220,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
 //                        Log.d("set", list.size()+"");
+                if(list.size()==0){
+                    picked_int.setText(0+"");
+                    return;
+                }
+
                 ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
                 picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
                     @Override
