@@ -160,7 +160,7 @@ public class InfoActivity extends AppCompatActivity {
         }
         String idea=intent.getStringExtra("idea");
         if(intent.getIntExtra("cur_job",0)!=0) {
-            idea = intent.getStringExtra("idea").replaceAll(", ", "\n ");
+            idea = intent.getStringExtra("idea");
             idea = " " + idea;
         }
         myinfo.setText(idea);
