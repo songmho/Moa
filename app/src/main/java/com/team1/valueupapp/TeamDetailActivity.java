@@ -1,5 +1,6 @@
 package com.team1.valueupapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -8,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -39,16 +41,7 @@ public class TeamDetailActivity extends AppCompatActivity {
     ProgressBar progressBar;
     FrameLayout container_prog;
     ImageButton people_add;
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    private MenuItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,11 +62,14 @@ public class TeamDetailActivity extends AppCompatActivity {
         CircleImageView admin_profile=(CircleImageView)findViewById(R.id.admin_profile);
         ImageView add=(ImageView)findViewById(R.id.add);
 
-        if(ParseUser.getCurrentUser()!=null && ParseUser.getCurrentUser().getString("name").equals(intent.getStringExtra("name")))
-            add.setVisibility(View.VISIBLE);
-        else
-            add.setVisibility(View.GONE);
+        Log.d("intent", intent.getStringExtra("name"));
 
+
+//        if(ParseUser.getCurrentUser()!=null && ParseUser.getCurrentUser().getString("name").equals(intent.getStringExtra("name"))) {
+//            add.setVisibility(View.VISIBLE);
+//        } else {
+            add.setVisibility(View.GONE);
+//        }
         final TextView member_num=(TextView)findViewById(R.id.member_num);
         final LinearLayout[] member=new LinearLayout[6];
         CircleImageView [] member_profile=new CircleImageView[6];
@@ -101,8 +97,6 @@ public class TeamDetailActivity extends AppCompatActivity {
         detail.setText(intent.getStringExtra("detail"));
 
         ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("Team");
-        Log.d("title", intent.getStringExtra("title"));
-        Log.d("detail", intent.getStringExtra("detail"));
         parseQuery.whereEqualTo("idea", intent.getStringExtra("title"));
         parseQuery.whereEqualTo("idea_info", intent.getStringExtra("detail"));
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -131,5 +125,38 @@ public class TeamDetailActivity extends AppCompatActivity {
                 startActivity(new Intent(TeamDetailActivity.this, Team_Member_Add_Activity.class));
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_team_edit, menu);
+        MenuItem editItem = menu.findItem(R.id.action_team_edit);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent=getIntent();
+        int id = item.getItemId();
+        if (id == R.id.action_team_edit) {
+            if (ParseUser.getCurrentUser().getString("name").equals(intent.getStringExtra("name"))) {
+                Intent go_to = new Intent(TeamDetailActivity.this, TeamEditActivity.class);
+                go_to.putExtra("title", intent.getStringExtra("title"));
+//            intent.putExtra("info",str_info);
+                go_to.putExtra("detail", intent.getStringExtra("detail"));
+                go_to.putExtra("name", intent.getStringExtra("name"));
+                startActivity(go_to);
+                return true;
+            } else {
+                Toast.makeText(TeamDetailActivity.this, "권한이 없습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
