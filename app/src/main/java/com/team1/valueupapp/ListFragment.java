@@ -14,12 +14,10 @@ import android.widget.ProgressBar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,7 +101,7 @@ public class ListFragment extends Fragment {
 
                     final ParseUser user = list.get(i);
 //                        Log.d("dd", "" + list.size());
-                    final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
+                    final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
 
 
                     ParseQuery<ParseUser> query = relation.getQuery();

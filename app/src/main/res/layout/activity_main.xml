@@ -86,7 +86,7 @@
                         android:paddingTop="15dp">
 
                         <ImageView
-                            android:layout_width="70dp"
+                            android:layout_width="60dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:background="@drawable/main_all"

@@ -11,8 +11,8 @@ import io.fabric.sdk.android.Fabric;
  * Created by songmho on 2015-07-04.
  */
 public class Moa extends Application {
-    String APPLICATION_ID="1meD1nBM07SCIDJ5cGdIWLXT4ASzvtF4QFprTbuD";
-    String CLIENT_KEY="tLtCFKlQ4SZKmCwOgrkUdAhmkZvCyLe7h5tCvl7E";
+    String APPLICATION_ID="QhNYKsnuxfRGUBqPE3wc8rzawO7c7ZcooEYmOlul";
+    String CLIENT_KEY="cZEeKJw9XfZBlfrsHnAUg2tT9IYTGCRGVUNfsT9U";
 
     @Override
     public void onCreate() {

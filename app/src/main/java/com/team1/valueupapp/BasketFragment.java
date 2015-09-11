@@ -5,18 +5,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -75,7 +72,7 @@ public class BasketFragment extends Fragment {
     private void makeList() {
         items.clear();
 
-        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
+        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
         ParseQuery<ParseUser> query = relation.getQuery();
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override

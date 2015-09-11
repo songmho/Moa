@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,7 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                         user.put("name", String.valueOf(user_name.getText()));
                                         user.put("job", job);
-                                        user.put("pick", new ArrayList<>());
+//                                        user.put("pick", new ArrayList<>());
                                         user.put("memo_owner", new ArrayList<>());
                                         user.put("memo", new ArrayList<>());
                                         user.put("detail", "");

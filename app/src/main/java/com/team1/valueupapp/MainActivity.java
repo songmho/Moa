@@ -17,17 +17,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +40,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -69,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
     int CAMERA_REQUEST = 1000;
     int SELECT_FILE = 2000;
 
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
+//    RecyclerView recyclerView;
+//    RecyclerView.LayoutManager layoutManager;
     List<MainListitem> items;
 
     int cur_fragment_int = 0;
 
     TextView pick_int = null;
     TextView picked_int = null;
-    TextView current_int = null;
+//    TextView current_int = null;
 
     FrameLayout team = null;
     TextView name = null;
@@ -110,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
 
-        layoutManager = new LinearLayoutManager(getApplicationContext());
+//        layoutManager = new LinearLayoutManager(getApplicationContext());
         FrameLayout pick = (FrameLayout) findViewById(R.id.pick);
         FrameLayout picked = (FrameLayout) findViewById(R.id.picked);
         pick_int = (TextView) findViewById(R.id.pick_int);
@@ -204,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     private void setMain() {
 //        name.setText(ParseUser.getCurrentUser().getString("name"));
 
-        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("my_pick");
+        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
         relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {

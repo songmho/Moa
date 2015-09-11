@@ -13,8 +13,8 @@ import android.view.MenuItem;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +39,13 @@ public class MentorActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
 
         items = new ArrayList<>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_mentor");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
+        parseQuery.whereNotEqualTo("field", null);
+        parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> list, ParseException e) {
+            public void done(List<ParseUser> list, ParseException e) {
                 for (int i = 0; i < list.size(); i++) {
-                    Mentor_item item = new Mentor_item(list.get(i).getString("mentor_name"), list.get(i).getString("mentor_field"),
+                    Mentor_item item = new Mentor_item(list.get(i).getString("name"), list.get(i).getString("field"),
                             list.get(i).getString("company"), list.get(i).getString("email"));
                     items.add(item);
                 }
