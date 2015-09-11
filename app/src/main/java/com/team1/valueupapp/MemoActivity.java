@@ -44,8 +44,8 @@ public class MemoActivity extends AppCompatActivity{
         memo_input = (EditText) findViewById(R.id.memo_input);
         input_button = (Button) findViewById(R.id.input_button);
 
-        Log.d("iff", intent.getStringExtra("name"));
-        Log.d("iff", intent.getStringExtra("idea"));
+//        Log.d("iff", intent.getStringExtra("name"));
+//        Log.d("iff", intent.getStringExtra("idea"));
 
         final ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
         parseQuery.whereEqualTo("name", intent.getStringExtra("name"));
