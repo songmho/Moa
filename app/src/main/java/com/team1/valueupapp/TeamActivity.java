@@ -124,28 +124,6 @@ public class TeamActivity extends AppCompatActivity {
     public void makeList() {
         items.clear();
 
-        if(ParseUser.getCurrentUser()!=null) {
-//            list_pick = ParseUser.getCurrentUser().getList("pick");
-            list_pick = new ArrayList<ParseUser>();
-            ParseRelation<ParseUser> pick_relation = ParseUser.getCurrentUser().getRelation("my_pick");
-            pick_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
-                @Override
-                public void done(List<ParseUser> list, ParseException e) {
-                    Log.d("list", list.get(0)+"");
-
-                    if (!list.isEmpty()) {
-                        for (int i = 0; i < list.size(); i++) {
-                            list_pick.add(list.get(i));
-                        }//end for
-                    } else {
-                        list_pick = null;
-                    }
-                }
-            });
-
-        } else {
-            list_pick = null;
-        }
         ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("Team");
         parseQuery.whereEqualTo("ismade", true);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
@@ -153,18 +131,6 @@ public class TeamActivity extends AppCompatActivity {
             public void done(List<ParseObject> list, ParseException e) {
                 for (ParseObject o : list) {
                     ParseRelation<ParseUser> member_relatrion = o.getRelation("member");
-                    member_relatrion.getQuery().findInBackground(new FindCallback<ParseUser>() {
-                        @Override
-                        public void done(List<ParseUser> list, ParseException e) {
-                            member_num = list.size();
-                            for (int i = 0; i < list.size(); i++) {
-                                if (ParseUser.getCurrentUser() != null && list_pick.contains(list.get(i)))
-                                    same_mem = same_mem + " " + list.get(i).getString("name");
-                                else
-                                    same_mem = "";
-                            }
-                        }
-                    });
                     ParseUser user = o.getParseUser("admin_member");
                     try {
                         user.fetchIfNeeded();
