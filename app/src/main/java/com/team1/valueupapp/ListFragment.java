@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -96,60 +94,36 @@ public class ListFragment extends Fragment {
 
             @Override
             public void done(final List<ParseUser> list, ParseException e) {
-//                if (list != null){
-                for (int i = 0; i < list.size(); i++) {
+                if (list != null){
+                for(ParseUser user: list){
+                    byte[] bytes = new byte[0];
+                    ListRecyclerItem item;
 
-                    final ParseUser user = list.get(i);
-//                        Log.d("dd", "" + list.size());
-                    final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
+                    ParseFile parse_file = (ParseFile)user.get("profile");
+                    try {
+                        if (parse_file == null)
+                            bytes = null;
+                        else {
+                            bytes = parse_file.getData();
+                        }//end else
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }//end catch
 
+                    if (!list.isEmpty()) {
+                        item = new ListRecyclerItem(bytes,
+                                user.getString("info"), user.getString("name"), cur_job, recyclerView);
+                    } else {
+                        item = new ListRecyclerItem(bytes,
+                                user.getString("info"), user.getString("name"), cur_job, recyclerView);
+                    }//end else
 
-                    ParseQuery<ParseUser> query = relation.getQuery();
-                    query.whereContains("objectId", user.getObjectId());
-                    query.findInBackground(new FindCallback<ParseUser>() {
-                        @Override
-                        public void done(List<ParseUser> list1, ParseException e) {
-                            byte[] bytes = new byte[0];
-                            ListRecyclerItem item;
-                            Log.d("if", list1.size() + "");
+                    items.add(item);
+                    recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
 
-                            ParseFile parse_file = (ParseFile) user.get("profile");
-                            try {
-                                if (parse_file == null)
-                                    bytes = null;
-                                else {
-                                    bytes = parse_file.getData();
-                                }//end else
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            }//end catch
-
-                            if (!list1.isEmpty()) {
-                                item = new ListRecyclerItem(bytes,
-                                        user.getString("info"), user.getString("name"), true, cur_job, recyclerView);
-                            } else {
-                                item = new ListRecyclerItem(bytes,
-                                        user.getString("info"), user.getString("name"), false, cur_job, recyclerView);
-                            }//end else
-
-                            items.add(item);
-                            Log.d("cc1", "" + items.size());
-
-                            if (items.size() >= list.size()) {
-                                recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
-                            }//수정 필요
-
-                        }
-                    });
-                    Log.d("cc", "" + items.size()); //items list size가 0으로 초기화됨...
-
-                }//end for
-
-
-                Log.d("cccc", "" + items.size());
-//                    recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_listrecycler, 0));
-                progressBar.setVisibility(View.GONE);
-//                }//end if
+                }
+                  progressBar.setVisibility(View.GONE);
+                }//end if
             }
         });
 

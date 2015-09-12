@@ -211,13 +211,18 @@ public class MainActivity extends AppCompatActivity {
         relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
-                int size;
-                if (list.isEmpty()) {
-                    size = 0;
-                } else {
-                    size = list.size();
-                }//end else
-                pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
+                if(e==null) {
+                    int size;
+                    if (list.isEmpty()) {
+                        size = 0;
+                    } else {
+                        size = list.size();
+                    }//end else
+                    pick_int.setText("" + size);  //ListFragment와 같음.. 수정해야함
+                }
+                else{
+                    pick_int.setText("0");
+                }
             }
         });
 //        pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
@@ -228,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
 //                        Log.d("set", list.size()+"");
-                if(list.size()==0){
+                if(list.size()==0 && list==null){
                     picked_int.setText(0+"");
                     return;
                 }

@@ -78,7 +78,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                 viewHolder.itemView.setTag(item_list);
                 viewHolder.name.setText(item_list.getName());
                 viewHolder.app_name.setText(item_list.getApp_name());
-                viewHolder.star.setSelected(item_list.getStar());
 
                 viewHolder.container.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -88,15 +87,7 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                         goto_info.putExtra("name", item_list.getName());
                         goto_info.putExtra("profile", item_list.getProfile());
                         goto_info.putExtra("idea", item_list.getApp_name());
-                        goto_info.putExtra("star", item_list.getStar());
                         context.startActivity(goto_info);
-                    }
-                });
-
-                viewHolder.star.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        checkStar(item_list, viewHolder);
                     }
                 });
                 break;
@@ -155,7 +146,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                                 Snackbar snackbar;
 
                                 if (!list.isEmpty()) {
-                                    item_list.setStar(false);
                                     viewHolder.star.setSelected(false);
                                     snackbar = Snackbar.make(item_list.getRecyclerView(), "관심멤버에서 제외합니다.", Snackbar.LENGTH_LONG);
                                     relation.remove(user);
@@ -178,7 +168,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                                     snackbar.setAction("실행취소", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            item_list.setStar(true);
                                             viewHolder.star.setSelected(true);
                                             relation.add(user);
                                             ParseUser.getCurrentUser().saveInBackground();
@@ -201,7 +190,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                                     snackbar.show();
 
                                 } else {
-                                    item_list.setStar(true);
                                     viewHolder.star.setSelected(true);
                                     snackbar = Snackbar.make(item_list.getRecyclerView(), "관심멤버에 추가합니다.", Snackbar.LENGTH_LONG);
                                     relation.add(user);
@@ -224,7 +212,6 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                                     snackbar.setAction("실행취소", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            item_list.setStar(false);
                                             viewHolder.star.setSelected(false);
                                             relation.remove(user);
                                             ParseUser.getCurrentUser().saveInBackground();
@@ -294,10 +281,8 @@ public class RecyclerAdpater extends RecyclerView.Adapter<RecyclerAdpater.ViewHo
                     profile=(CircleImageView)itemView.findViewById(R.id.profile);
                     app_name = (TextView) itemView.findViewById(R.id.app_name);
                     name = (TextView) itemView.findViewById(R.id.name);
-                    star = (ImageButton) itemView.findViewById(R.id.star);
                     detail = (TextView) itemView.findViewById(R.id.detail);
                     container =(LinearLayout)itemView.findViewById(R.id.container);
-                    star.setSelected(false);
                     break;
                 case R.layout.item_interest:                                //관심멤버페이지의 경우
                     profile=(CircleImageView)itemView.findViewById(R.id.profile);

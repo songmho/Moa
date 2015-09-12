@@ -206,7 +206,7 @@ public class SearchActivity extends AppCompatActivity {
                                         else
                                             bytes = null;
                                         ListRecyclerItem item = new ListRecyclerItem(bytes, list.get(i).getString("info"),
-                                                list.get(i).getString("name"), true, cur_job, recyclerView);
+                                                list.get(i).getString("name"), cur_job, recyclerView);
                                         items.add(item);
                                     } catch (ParseException e1) {
                                         e1.printStackTrace();

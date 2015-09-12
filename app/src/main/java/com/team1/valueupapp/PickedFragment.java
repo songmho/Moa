@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -65,6 +64,7 @@ public class PickedFragment extends Fragment {
                     public void run() {
                         progressBar.setVisibility(View.VISIBLE);
                         makeList();
+
                     }
                 });
             }
@@ -87,11 +87,12 @@ public class PickedFragment extends Fragment {
                 picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
                     @Override
                     public void done(List<ParseUser> list, ParseException e) {
+                        if(list!=null || list.size()>0){
                         for (int i = 0; i < list.size(); i++) {
                             String memo = "";
 //                    Log.d("ddd", "" + list.get(i).getList("memo_owner").size());
-                            for(int j = 0; j < memo_owner.size(); j++) {
-                                if(list.get(i).getString("name").equals(memo_owner.get(j))) {
+                            for (int j = 0; j < memo_owner.size(); j++) {
+                                if (list.get(i).getString("name").equals(memo_owner.get(j))) {
 
                                     memo = memo_list.get(j);
                                 }//관심멤버의 이름이 memo_owner에 있으면 memo_owner번째 메모 memo변수에 저장
@@ -110,15 +111,17 @@ public class PickedFragment extends Fragment {
                                 else
                                     bytes = null;
                                 ListRecyclerItem item = new ListRecyclerItem(bytes, list.get(i).getString("info"),
-                                        list.get(i).getString("name"), true, cur_job, memo, recyclerView);
+                                        list.get(i).getString("name"), cur_job, memo, recyclerView);
                                 items.add(item);
                             } catch (ParseException e1) {
                                 e1.printStackTrace();
                             }
 
                         }
-                        Log.d("list", ""+items.size());
+                        }
+                        Log.d("list", "" + items.size());
                         recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_interest, 0));
+
                         progressBar.setVisibility(View.GONE);
                     }
                 });

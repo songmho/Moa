@@ -80,7 +80,7 @@ public class BasketFragment extends Fragment {
                 final List<String> memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
                 final List<String> memo_list = ParseUser.getCurrentUser().getList("memo");
 
-                if (!list.isEmpty()) {
+                if (!list.isEmpty() && list.size()>0) {
                     for(int i = 0; i < list.size(); i++) {
                         String memo = "";
 //                          Log.d("ddd", "" + list.get(i).getList("memo_owner").size());
@@ -105,16 +105,17 @@ public class BasketFragment extends Fragment {
                             else
                                 bytes = null;
                             ListRecyclerItem item = new ListRecyclerItem(bytes, list.get(i).getString("info"),
-                                    list.get(i).getString("name"), true, cur_job, memo, recyclerView);
+                                    list.get(i).getString("name"), cur_job, memo, recyclerView);
                             items.add(item);
                         } catch (ParseException e1) {
                             e1.printStackTrace();
                         }//end catch
                     }//end for
                     recyclerView.setAdapter(new RecyclerAdpater(getActivity(), items, R.layout.item_interest, 0));
-                    progressBar.setVisibility(View.GONE);
+
 
                 }//end if
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
