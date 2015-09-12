@@ -1,5 +1,5 @@
 ext {
-    verCode = 8
+    verCode = 9
 
     // Jenkins로 빌드하는 경우 BUILD_NUMBER를 Version Code로 사용한다.
     buildNumber = "$System.env.BUILD_NUMBER"
