@@ -1,4 +1,4 @@
-package com.team1.valueupapp;
+package com.team1.valueupapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +27,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.team1.valueupapp.LoginActivity;
+import com.team1.valueupapp.MemoActivity;
+import com.team1.valueupapp.R;
 
 import java.util.List;
 
