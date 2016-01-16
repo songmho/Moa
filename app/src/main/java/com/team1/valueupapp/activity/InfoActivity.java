@@ -27,8 +27,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.team1.valueupapp.LoginActivity;
-import com.team1.valueupapp.MemoActivity;
 import com.team1.valueupapp.R;
 
 import java.util.List;
@@ -54,9 +52,6 @@ public class InfoActivity extends AppCompatActivity {
     ParseObject parseObject;
 
 
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -71,28 +66,29 @@ public class InfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-        intent=getIntent();
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        intent = getIntent();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-         collapsing_toolbar=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
-         myjob=(TextView)findViewById(R.id.myjob);
+        collapsing_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        myjob = (TextView) findViewById(R.id.myjob);
 //        TextView title=(TextView)findViewById(R.id.info);
-         myinfo=(TextView)findViewById(R.id.myinfo);
-         mymemo=(TextView)findViewById(R.id.mymemo);
-        mydetail=(TextView)findViewById(R.id.mydetail);
-        memobutton=(Button)findViewById(R.id.memobutton);
-         str_info=(TextView)findViewById(R.id.str_info);
-        profile_blur=(ImageView)findViewById(R.id.profile_blur);
-        profile=(CircleImageView)findViewById(R.id.profile);
+        myinfo = (TextView) findViewById(R.id.myinfo);
+        mymemo = (TextView) findViewById(R.id.mymemo);
+        mydetail = (TextView) findViewById(R.id.mydetail);
+        memobutton = (Button) findViewById(R.id.memobutton);
+        str_info = (TextView) findViewById(R.id.str_info);
+        profile_blur = (ImageView) findViewById(R.id.profile_blur);
+        profile = (CircleImageView) findViewById(R.id.profile);
 
-        fab=(FloatingActionButton)findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
 
         //
-        final ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
-        parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
+        final ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.whereEqualTo("name", intent.getStringExtra("name"));
         parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
@@ -105,15 +101,12 @@ public class InfoActivity extends AppCompatActivity {
         });
 
 
-
-
         Bitmap bitmap;
-        if(intent.getByteArrayExtra("profile")!=null) {
+        if (intent.getByteArrayExtra("profile") != null) {
             bitmap = BitmapFactory.decodeByteArray(intent.getByteArrayExtra("profile"), 0, intent.getByteArrayExtra("profile").length);
             profile.setImageBitmap(bitmap);
             profile_blur.setImageBitmap(blur(getApplicationContext(), bitmap, 20));
-        }
-        else{
+        } else {
             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img_page);
             profile_blur.setImageBitmap(blur(getApplicationContext(), bitmap, 20));
             profile.setImageResource(R.drawable.ic_user);
@@ -125,8 +118,7 @@ public class InfoActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        if(intent.getBooleanExtra("star",true ))
+        if (intent.getBooleanExtra("star", true))
             fab.setImageResource(R.drawable.ic_check_white);
         else
             fab.setImageResource(R.drawable.add);
@@ -134,7 +126,7 @@ public class InfoActivity extends AppCompatActivity {
 
         collapsing_toolbar.setTitle(intent.getStringExtra("name"));
 
-        switch (intent.getIntExtra("cur_job",0)){      //직종과 아이디어 및 스킬 텍스트 설정
+        switch (intent.getIntExtra("cur_job", 0)) {      //직종과 아이디어 및 스킬 텍스트 설정
             case 0:
                 myjob.setText("기획자");
                 str_info.setText("아이디어");
@@ -161,8 +153,8 @@ public class InfoActivity extends AppCompatActivity {
 //                title.setText("스킬");
                 break;
         }
-        String idea=intent.getStringExtra("idea");
-        if(intent.getIntExtra("cur_job",0)!=0) {
+        String idea = intent.getStringExtra("idea");
+        if (intent.getIntExtra("cur_job", 0) != 0) {
             idea = intent.getStringExtra("idea");
             idea = " " + idea;
         }
@@ -174,11 +166,11 @@ public class InfoActivity extends AppCompatActivity {
 
 
         List<String> memo_owner;
-        if(ParseUser.getCurrentUser()!=null)
+        if (ParseUser.getCurrentUser() != null)
             memo_owner = ParseUser.getCurrentUser().getList("memo_owner");
         else
-            memo_owner=null;
-        if(memo_owner!=null && memo_owner.contains(intent.getStringExtra("name"))) {
+            memo_owner = null;
+        if (memo_owner != null && memo_owner.contains(intent.getStringExtra("name"))) {
             memobutton.setText("메모수정");
             List<String> memo_list = ParseUser.getCurrentUser().getList("memo");
             for (int i = 0; i < memo_owner.size(); i++) {
@@ -197,15 +189,14 @@ public class InfoActivity extends AppCompatActivity {
         memobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ParseUser.getCurrentUser()!=null) {
+                if (ParseUser.getCurrentUser() != null) {
                     Intent go_to = new Intent(InfoActivity.this, MemoActivity.class);
                     go_to.putExtra("name", intent.getStringExtra("name"));
                     go_to.putExtra("idea", intent.getStringExtra("idea"));
                     startActivity(go_to);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.", Toast.LENGTH_SHORT);
-                    startActivity(new Intent(InfoActivity.this,LoginActivity.class));
+                } else {
+                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT);
+                    startActivity(new Intent(InfoActivity.this, LoginActivity.class));
                 }
             }
         });
@@ -234,15 +225,15 @@ public class InfoActivity extends AppCompatActivity {
 
     private void loadingData(Intent intent, final int action) {
         //
-        ParseQuery<ParseUser> parseQuery=ParseUser.getQuery();
-        parseQuery.whereEqualTo("name",intent.getStringExtra("name"));
+        ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.whereEqualTo("name", intent.getStringExtra("name"));
         parseQuery.whereEqualTo("info", intent.getStringExtra("idea"));
         parseQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
-                for (int i=0;i<list.size();i++) {
+                for (int i = 0; i < list.size(); i++) {
                     final ParseObject parseObject = list.get(i);
-                    if(action==0) {
+                    if (action == 0) {
                         mydetail.setText(parseObject.getString("detail"));
                     } else {
                         fab_clicked(parseObject);
@@ -254,7 +245,6 @@ public class InfoActivity extends AppCompatActivity {
     }//loadingData
 
 
-
     private void fab_clicked(final ParseObject parseObject) {
         final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
         ParseQuery<ParseUser> query = relation.getQuery();
@@ -262,7 +252,7 @@ public class InfoActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
-                if(!list.isEmpty()) {
+                if (!list.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "관심멤버에서 제외합니다.", Toast.LENGTH_SHORT).show();
                     fab.setImageResource(R.drawable.add);
 
