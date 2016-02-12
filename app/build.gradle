@@ -110,4 +110,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.4.0@aar') {
         transitive = true;
     }
+    compile 'com.getbase:floatingactionbutton:1.10.1'
 }

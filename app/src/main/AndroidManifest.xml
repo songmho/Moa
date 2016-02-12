@@ -1,175 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.team1.valueupapp" >
+    package="com.team1.valueupapp">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
     <application
         android:name=".Moa"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".activity.LoginActivity"
+        <activity
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
 
         </activity>
-
-
         <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/app_name"
+            android:name=".activity.FrontPageActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MainActivity" />
 
         </activity>
 
 
-        <activity android:name=".activity.InfoActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activity.MainActivity"/>
-        </activity>
-
-        <activity android:name=".activity.MemoActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".activity.InfoActivity"/>
-        </activity>
-
-        <activity android:name=".activity.TeamDetailActivity"
+        <activity
+            android:name=".activity.InfoActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MainActivity" />
         </activity>
 
-        <activity android:name=".activity.TeamEditActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.TeamDetailActivity"/>
-        </activity>
-
-        <activity android:name=".activity.TeamAddActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.TeamAddActivity"/>
-        </activity>
-
-        <activity android:name=".activity.SignUpActivity"
+        <activity
+            android:name=".activity.MemoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.SignUpActivity"/>
+                android:value=".activity.InfoActivity" />
         </activity>
 
-        <activity android:name=".activity.MentoringDetailActivity"
+        <activity
+            android:name=".activity.TeamDetailActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MentoringActivity"/>
+                android:value=".activity.MainActivity" />
         </activity>
 
-        <activity android:name=".activity.MentorDetailActivity"
+        <activity
+            android:name=".activity.TeamEditActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MentorActivity"/>
+                android:value=".activity.TeamDetailActivity" />
         </activity>
 
-        <activity android:name=".activity.MypageActivity"
+        <activity
+            android:name=".activity.TeamAddActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.TeamAddActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.SignUpActivity"
             android:screenOrientation="portrait"
-            >
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.SignUpActivity" />
         </activity>
 
-        <activity android:name=".activity.InterestActivity"
-            android:screenOrientation="portrait"
-            >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
-        </activity>
-
-        <activity android:name=".activity.MyPageEditActivity"
+        <activity
+            android:name=".activity.MentoringDetailActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MypageActivity"/>
-        </activity>
-        <activity android:name=".activity.SetupActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
-        </activity>
-        <activity android:name=".activity.MentoringActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
-        </activity>
-        <activity android:name=".activity.MentorActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MentoringActivity" />
         </activity>
 
-        <activity android:name=".activity.MemberActivity"
+        <activity
+            android:name=".activity.MentorDetailActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MentorActivity" />
         </activity>
 
-        <activity android:name=".activity.SearchActivity"
+        <activity
+            android:name=".activity.MypageActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MainActivity" />
         </activity>
 
-        <activity android:name=".activity.TeamActivity"
+        <activity
+            android:name=".activity.InterestActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.MainActivity" />
         </activity>
 
-        <activity android:name=".activity.MemberAddActivity"
+        <activity
+            android:name=".activity.MyPageEditActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MypageActivity" />
+        </activity>
+        <activity
+            android:name=".activity.SetupActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.MentoringActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.MentorActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.MemberActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.TeamActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.MemberAddActivity"
             android:screenOrientation="portrait">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MemberActivity"/>
+                android:value=".activity.MemberActivity" />
         </activity>
 
-        <activity android:name=".activity.TeamMemberAddActivity"
+        <activity
+            android:name=".activity.TeamMemberAddActivity"
             android:screenOrientation="portrait">
 
         </activity>

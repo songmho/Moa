@@ -56,9 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FragmentTransaction fragmentTransaction;
 
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
-    Bitmap bm;
     String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
-    File profileimage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
+    File profileImage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
     File file_up_path = new File("data/data/com.team1.valueupapp/files/");
     ParseFile profile_parse;
     ParseUser user = ParseUser.getCurrentUser();
@@ -71,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     int cur_fragment_int = 0;
 
-    TextView pick_int = null;
-    TextView picked_int = null;
 //    TextView current_int = null;
 
     TextView name = null;
@@ -102,26 +99,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
 
         navigationView = (NavigationView) findViewById(R.id.navigationView);
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-
-//        layoutManager = new LinearLayoutManager(getApplicationContext());
-        findViewById(R.id.pick);
-        findViewById(R.id.picked);
-        pick_int = (TextView) findViewById(R.id.pick_int);
-        picked_int = (TextView) findViewById(R.id.picked_int);
         name = (TextView) findViewById(R.id.name);
 
-        if (ParseUser.getCurrentUser() != null)
+        if (user != null) {
             setMain();
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);    //로그인시 락모드 해제
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);   //비로그인시 드로어 락모드
+        }
 
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(layoutManager);
         makeDrawerHeader();
 
         profile_drawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ParseUser.getCurrentUser() != null)
+                if (user != null)
                     MakingAlertDialog();
                 else {
                     Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
@@ -139,17 +131,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return changeDrawerMenu(menuItem);
             }
         });
+
+        findViewById(R.id.action_find_person).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MemberActivity.class));
+            }
+        });
+
+        findViewById(R.id.action_find_team).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, TeamActivity.class));
+            }
+        });
     }
 
     private void setUpNavDrawer() {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         toolbar.setTitle("모아");
-        toolbar.setNavigationIcon(R.drawable.drawericon);
+        //로그인 한 상태에서만 햄버거 아이콘을 보여준다.
+        if (user != null) {
+            toolbar.setNavigationIcon(R.drawable.drawericon);
+        //로그아웃 상태에서는 백버튼 아이콘을 보여준다.
+        } else {
+            toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        }
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
+                if(user != null) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                } else {
+                    startActivity(new Intent(MainActivity.this, FrontPageActivity.class));
+                    finish();
+                }
             }
         });
     }
@@ -163,9 +180,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-//        name.setText(admin.getString("title"));
 
-        final ParseRelation<ParseUser> relation = ParseUser.getCurrentUser().getRelation("pick");
+        final ParseRelation<ParseUser> relation = user.getRelation("pick");
         relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
@@ -176,22 +192,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     } else {
                         size = list.size();
                     }//end else
-                    pick_int.setText("" + size);  //ListFragment와 같음.. 수정해야함
                 } else {
-                    pick_int.setText("0");
                 }
             }
         });
 //        pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
 
         ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
-        picked_query.whereEqualTo("user", ParseUser.getCurrentUser());
+        picked_query.whereEqualTo("user", user);
         picked_query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
 //                        Log.d("set", list.size()+"");
                 if (list == null || list.size() == 0) {
-                    picked_int.setText(0 + "");
                     return;
                 }
 
@@ -205,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } else {
                             picked_size = list.size();
                         }//end else
-                        picked_int.setText(picked_size + "");
                     }
                 });
             }
@@ -214,47 +226,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean changeDrawerMenu(MenuItem menuItem) {
-        //현재 클릭된 그룹 알아내서 클릭 설정하는 코드
-        if (menuItem.getGroupId() == R.id.group_mentor) {       //멘토 관련 그룹 클릭 됬을 때
-            navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_mentor, true, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
-
-        } else if (menuItem.getGroupId() == R.id.group_team) {        //팀 관련 그룹 클릭 됬을 때
-            navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_team, true, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
-
-        } else if (menuItem.getGroupId() == R.id.group_mypage) {
-            navigationView.getMenu().setGroupCheckable(R.id.group_setup, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_mypage, true, true);
-        } else {                                                   //설정 그룹 클릭 됬을 때
-            navigationView.getMenu().setGroupCheckable(R.id.group_setup, true, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_team, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_mentor, false, true);
-            navigationView.getMenu().setGroupCheckable(R.id.group_mypage, false, true);
-        }
 
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        menuItem.setChecked(true);
+
         switch (menuItem.getItemId()) {
             case R.id.team:
-                drawerLayout.closeDrawers();
-                startActivity(new Intent(MainActivity.this, TeamActivity.class));
+                startActivity(new Intent(MainActivity.this, TeamAddActivity.class));
                 return true;
 
-            case R.id.introduce:
+           /* case R.id.introduce:
                 drawerLayout.closeDrawers();
                 startActivity(new Intent(MainActivity.this, MemberActivity.class));
-                return true;
+                return true;*/
 
-            case R.id.basket:
+       /*     case R.id.basket:
                 drawerLayout.closeDrawers();
-                if (ParseUser.getCurrentUser() != null)
+                if (user != null)
                     startActivity(new Intent(MainActivity.this, InterestActivity.class));
                 else {
                     Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
@@ -262,29 +249,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 return true;
 
-            case R.id.mentor_info:
-                drawerLayout.closeDrawers();
-                startActivity(new Intent(MainActivity.this, MentorActivity.class));
-                return true;
-
-
-            case R.id.mentoring:
-                drawerLayout.closeDrawers();
-                startActivity(new Intent(MainActivity.this, MentoringActivity.class));
-                return true;
 
             case R.id.mypage:
                 drawerLayout.closeDrawers();
-                if (ParseUser.getCurrentUser() != null)
+                if (user != null)
                     startActivity(new Intent(MainActivity.this, MypageActivity.class));
                 else {
                     Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }
-                return true;
+                return true;*/
 
             case R.id.setup:
-                drawerLayout.closeDrawers();
                 startActivity(new Intent(MainActivity.this, SetupActivity.class));
                 return true;
         }
@@ -315,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (fname.equals("profile.jpg"))
                             files[i].delete();
                     }
-                    ParseUser.getCurrentUser().remove("profile");
+                    user.remove("profile");
                     Toast.makeText(getApplicationContext(), "삭제하였습니다.", Toast.LENGTH_SHORT).show();
                     Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
                     profile.setImageBitmap(b);
@@ -327,12 +303,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void makeDrawerHeader() {
         profile_drawer = (CircleImageView) navigationView.findViewById(R.id.profile);
+        navigationView.findViewById(R.id.header).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MypageActivity.class));
+            }
+        });
         TextView t = (TextView) navigationView.findViewById(R.id.name);
-        if (ParseUser.getCurrentUser() != null)
-            t.setText(ParseUser.getCurrentUser().getString("name"));
+        if (user != null)
+            t.setText(user.getString("name"));
         else
             t.setText("이름");
-        if (profileimage.exists()) {
+        if (profileImage.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(tempPath);
             profile_drawer.setImageBitmap(bm);
         } else {
@@ -350,6 +332,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     drawerLayout.closeDrawers();
                 else {
                     moveTaskToBack(true);
+                    //로그인 되지 않은 상태에서는 백버튼 누르면 프런트 페이지로 돌아간다.
+                    if(user == null) {
+                        startActivity(new Intent(MainActivity.this, FrontPageActivity.class));
+                    }
                     finish();
                 }
                 break;
@@ -405,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.action_search) {
             return true;
         } else if (id == R.id.action_refresh) {
-            if (ParseUser.getCurrentUser() != null)
+            if (user != null)
                 setMain();
             return true;
         }
@@ -470,29 +456,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.pick:
-                if (ParseUser.getCurrentUser() != null) {
-                    Intent intent = new Intent(MainActivity.this, InterestActivity.class);
-                    intent.putExtra("page", 1);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
-
-            case R.id.picked:
-                if (ParseUser.getCurrentUser() != null) {
-                    Intent intent = new Intent(MainActivity.this, InterestActivity.class);
-                    intent.putExtra("page", 2);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-                break;
             case R.id.team:
                 startActivity(new Intent(MainActivity.this, MemberActivity.class));
                 break;

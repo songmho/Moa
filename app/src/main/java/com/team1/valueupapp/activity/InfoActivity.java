@@ -51,7 +51,6 @@ public class InfoActivity extends AppCompatActivity {
     ParseUser user;
     ParseObject parseObject;
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

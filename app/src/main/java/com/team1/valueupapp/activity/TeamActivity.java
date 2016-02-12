@@ -37,24 +37,25 @@ public class TeamActivity extends AppCompatActivity {
     List<TeamItem> items;
     SwipeRefreshLayout refreshLayout;
     List<ParseUser> list_pick;
-    String same_mem="";
+    String same_mem = "";
     int member_num;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("팀빌딩하기");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("그룹 만들기");
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
-        refreshLayout=(SwipeRefreshLayout)findViewById(R.id.refresh);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh);
         recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(getApplicationContext());
+        layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        items=new ArrayList<>();
+        items = new ArrayList<>();
 
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -64,42 +65,18 @@ public class TeamActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab=(FloatingActionButton)findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ParseUser.getCurrentUser()!=null) {
-//                    ParseQuery<ParseObject> query = ParseQuery.getQuery("ValueUp_team");
-//                    query.findInBackground(new FindCallback<ParseObject>() {
-//                        @Override
-//                        public void done(List<ParseObject> list, ParseException e) {
-//                            boolean exist = false;
-//                            for (int i = 0; i < list.size(); i++) {
-//                                if (list.get(i).getString("admin_member").equals(ParseUser.getCurrentUser().getString("name"))) {
-//                                    ParseObject parseObject = list.get(i);
-//                                    if (parseObject.getBoolean("ismade") == true) {
-//                                        exist = true;
-//                                    }
-//                                }//개설중인 방이 있는지 확인
-//                                else if(list.get(i).getList("member").contains(ParseUser.getCurrentUser().getString("name"))) {
-//                                    exist = true;
-//                                }//참여중인 방이 있는지 확인
-//                            }//end for
-//
-//                            if (exist == true) {
-//                                Toast.makeText(getApplicationContext(), "이미 참여중인 방이 있습니다.", Toast.LENGTH_SHORT).show();
-//                            } else {
-                                Intent intent = new Intent(TeamActivity.this, TeamAddActivity.class);
-                                startActivity(intent);
-//                            }//end else
-//
-//                        }
-//                    });//query.findInBackground
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(TeamActivity.this,LoginActivity.class));
-                }
+
+               /* if (ParseUser.getCurrentUser() != null) {
+                    Intent intent = new Intent(TeamActivity.this, TeamAddActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(TeamActivity.this, LoginActivity.class));
+                }*/
             }
         });//fab.setOnClickListener
     }//onCreate
@@ -125,7 +102,7 @@ public class TeamActivity extends AppCompatActivity {
     public void makeList() {
         items.clear();
 
-        ParseQuery<ParseObject> parseQuery=ParseQuery.getQuery("Team");
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Team");
         parseQuery.whereEqualTo("ismade", true);
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -137,7 +114,7 @@ public class TeamActivity extends AppCompatActivity {
                         user.fetchIfNeeded();
                         TeamItem item = new TeamItem(o.getString("idea"), user.getString("name"), o.getString("idea_info"), same_mem, member_num);
                         items.add(item);
-                    }catch (ParseException e1) {
+                    } catch (ParseException e1) {
                         e1.printStackTrace();
                     }
 
@@ -147,7 +124,6 @@ public class TeamActivity extends AppCompatActivity {
             }
         });
     }//makeList
-
 
 
     @Override

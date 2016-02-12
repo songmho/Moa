@@ -1,45 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<group
-    android:id="@+id/group_team"
+    <group
+        android:id="@+id/group_team"
         android:checkableBehavior="single">
         <item
             android:id="@+id/team"
             android:icon="@drawable/ic_network"
-            android:title="팀빌딩하기"
-            />
-        <item
-            android:id="@+id/introduce"
-            android:icon="@drawable/ic_teambuilding"
-            android:title="전체멤버 보기"
-            />
-        <item
-            android:id="@+id/basket"
-            android:icon="@drawable/ic_basket"
-            android:title="찜한멤버 보기"
-            />
+            android:title="@string/menu_team_making" />
 
-    </group>
-    <group
-        android:id="@+id/group_mentor"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/mentor_info"
-            android:icon="@drawable/ic_introduce"
-            android:title="멘토소개"
-            />
-        <item
-            android:id="@+id/mentoring"
-            android:icon="@drawable/ic_event_black"
-            android:title="멘토링 일정"/>
-    </group>
-    <group
-        android:id="@+id/group_mypage"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/mypage"
-            android:icon="@drawable/ic_mypage"
-            android:title="마이페이지"/>
     </group>
     <group
         android:id="@+id/group_setup"
@@ -48,7 +16,6 @@
         <item
             android:id="@+id/setup"
             android:icon="@drawable/ic_setting"
-            android:title="설정"
-            />
+            android:title="@string/menu_settings" />
     </group>
 </menu>

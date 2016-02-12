@@ -5,4 +5,15 @@
     <string name="action_settings">Settings</string>
     <string name="open">open</string>
     <string name="close">close</string>
+
+    <!-- main drawer -->
+    <string name="menu_team_making">그룹 만들기</string>
+    <string name="menu_settings">설정</string>
+
+    <!-- TeamAddActivity 팀개설 -->
+    <string name="team_add_intro_title">그룹 간략 소개</string>
+    <string name="team_add_intro_hint">그룹 성격을 15자 이내로...</string>
+    <string name="team_add_detail_title">그룹 상세 설명</string>
+    <string name="team_add_detail_hint">상세 설명을 입력하세요</string>
+    <string name="team_add_btn">그룹 만들기</string>
 </resources>

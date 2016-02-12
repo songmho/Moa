@@ -85,15 +85,6 @@ public class SetupActivity extends AppCompatActivity {
             }
         });//OnClickListener
 
-        swc_notice.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton cb, boolean isChecking) {
-
-                if (isChecking)
-                    Toast.makeText(getApplicationContext(), "교육일정알림 설정", Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getApplicationContext(), "교육일정알림 해제", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         btn_aboutpage.setOnClickListener(new View.OnClickListener() {
             @Override
