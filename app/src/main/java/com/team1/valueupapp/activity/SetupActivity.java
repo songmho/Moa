@@ -48,7 +48,7 @@ public class SetupActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         logout = (Button) findViewById(R.id.logout);
-        swc_notice = (Switch) findViewById(R.id.swc_notice);
+  //      swc_notice = (Switch) findViewById(R.id.swc_notice);
         btn_aboutpage = (Button) findViewById(R.id.btn_aboutpage);
         TextView last_ver = (TextView) findViewById(R.id.last_ver);
         TextView cur_ver = (TextView) findViewById(R.id.cur_ver);
