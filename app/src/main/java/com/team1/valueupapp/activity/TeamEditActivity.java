@@ -48,7 +48,7 @@ public class TeamEditActivity extends AppCompatActivity {            //동명이
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("팀 정보 수정");
+        getSupportActionBar().setTitle("그룹 정보 수정");
 
         Intent intent = getIntent();
 
@@ -129,8 +129,6 @@ public class TeamEditActivity extends AppCompatActivity {            //동명이
                             object.put("idea", String.valueOf(title.getText()));
                             object.remove("idea_info");
                             object.put("idea_info", String.valueOf(detail.getText()));
-                            object.remove("ismade");
-                            object.put("ismade", true);
                             object.saveInBackground();
                         }
                     }
@@ -149,7 +147,6 @@ public class TeamEditActivity extends AppCompatActivity {            //동명이
             case android.R.id.home:
                 ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
                 query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
-                query.whereEqualTo("ismade",false);
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> list, ParseException e) {
@@ -173,7 +170,6 @@ public class TeamEditActivity extends AppCompatActivity {            //동명이
             case KeyEvent.KEYCODE_BACK:
                 ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
                 query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
-                query.whereEqualTo("ismade",false);
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> list, ParseException e) {

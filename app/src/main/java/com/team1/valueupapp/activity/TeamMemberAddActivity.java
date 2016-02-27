@@ -40,7 +40,7 @@ public class TeamMemberAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_member_add);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("팀원추가");
+        toolbar.setTitle("그룹원 추가");
         setSupportActionBar(toolbar);
 
         final EditText search_edit = (EditText) findViewById(R.id.search_edit);

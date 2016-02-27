@@ -26,7 +26,7 @@
     </style>
 
     <style name="FabTheme">
-        <item name="colorAccent">@color/accentColor</item>
+        <item name="colorAccent">@color/ColorPrimaryDark</item>
     </style>
 
     <style name="dialog" parent="Theme.AppCompat.Light.Dialog.Alert">

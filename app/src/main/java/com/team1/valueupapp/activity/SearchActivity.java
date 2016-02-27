@@ -105,7 +105,6 @@ public class SearchActivity extends AppCompatActivity {
                         final List<String> list_pick = ParseUser.getCurrentUser().getList("pick");
                         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("ValueUp_team");
                         parseQuery.whereContains("admin_member", query);
-                        parseQuery.whereEqualTo("ismade", true);
                         parseQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> list, ParseException e) {

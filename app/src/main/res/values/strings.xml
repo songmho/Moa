@@ -7,8 +7,8 @@
     <string name="close">close</string>
 
     <!-- main drawer -->
-    <string name="menu_team_making">그룹 만들기</string>
     <string name="menu_settings">설정</string>
+    <string name="menu_about">About</string>
 
     <!-- TeamAddActivity 팀개설 -->
     <string name="team_add_intro_title">그룹 간략 소개</string>

@@ -46,7 +46,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         mContext = this;
         setContentView(R.layout.activity_teamadd);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("팀개설");
+        toolbar.setTitle("그룹 만들기");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,6 +64,31 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         findViewById(R.id.btn_make_team).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+                        if (!list.isEmpty()) {
+                            ParseObject object = list.get(0);
+//                          object.remove("idea");
+                            object.put("idea", String.valueOf(editTitle.getText()));
+                            object.remove("idea_info");
+                            object.put("idea_info", String.valueOf(editDetail.getText()));
+                            object.saveInBackground();
+                        } else {
+                            ParseObject object = new ParseObject("Team");
+                            object.put("idea", String.valueOf(editTitle.getText()));
+                            object.put("idea_info", String.valueOf(editDetail.getText()));
+                            object.put("admin_member", ParseUser.getCurrentUser());
+
+                            object.getRelation("member").add(ParseUser.getCurrentUser());
+                            object.saveInBackground();
+                        }
+                    }
+                });
+                startActivity(new Intent(TeamAddActivity.this, TeamActivity.class));
+                finish();
 
                 /*s = new ArrayList<>();
                 for (TeamAddItem i : items) {
@@ -75,14 +100,14 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                             s.add(list.get(0));
                         }
                     });
-                }*/
+                }
 
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
                 query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> list, ParseException e) {
-                        /*if (list.isEmpty()) {*/
+                        if (list.isEmpty()) {
                         ParseObject object = new ParseObject("Team");
                         object.put("idea", String.valueOf(editTitle.getText()));
                         object.put("idea_info", String.valueOf(editDetail.getText()));
@@ -91,11 +116,11 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                         parseUsers.add(ParseUser.getCurrentUser());
                         object.saveInBackground();
 
-                          /*  for (ParseUser user : s) {
+                            for (ParseUser user : s) {
                                 object.getRelation("member").add(user);
                                 object.saveInBackground();
-                            }*/
-                       /* } else {
+                            }
+                        } else {
                             for (int i = 0; i < list.size(); i++) {
                                 list.get(i).deleteInBackground();
                             }//end for
@@ -112,14 +137,12 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                                 object.saveInBackground();
                             }
                         }*/
-                    }
-                });
-
-                Intent intent = new Intent(TeamAddActivity.this, TeamMemberAddActivity.class);
-                startActivity(intent);
             }
         });
-    }//onCreate
+
+        Intent intent = new Intent(TeamAddActivity.this, TeamMemberAddActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     protected void onResume() {

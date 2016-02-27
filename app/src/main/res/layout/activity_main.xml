@@ -71,36 +71,15 @@
                     android:layout_height="match_parent" />
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
- 
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            fab:fab_addButtonColorNormal="@color/ColorPrimary"
-            fab:fab_addButtonColorPressed="@color/ColorPrimaryDark"
-            fab:fab_labelStyle="@style/menu_labels_style"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp">
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_find_person"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_title="사람 찾기"
-                fab:fab_colorPressed="@color/white_pressed"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_find_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_title="팀 둘러보기"
-                fab:fab_colorPressed="@color/white_pressed"/>
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+            android:layout_margin="16dp"
+            android:src="@drawable/add"
+            android:theme="@style/FabTheme"
+            android:layout_gravity="right|bottom"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

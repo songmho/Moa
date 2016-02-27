@@ -88,7 +88,6 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
         TextView title;
         TextView name;
         TextView detail;
-        TextView team;
         CardView cardView;
 
         public holder(View itemView) {
@@ -96,7 +95,6 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
             title = (TextView) itemView.findViewById(R.id.title);
             name = (TextView) itemView.findViewById(R.id.name);
             detail = (TextView) itemView.findViewById(R.id.detail);
-            team = (TextView) itemView.findViewById(R.id.team);
             cardView = (CardView) itemView.findViewById(R.id.cardview);
         }//ViewHolder
     }
