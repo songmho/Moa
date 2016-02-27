@@ -158,59 +158,6 @@
                     android:textSize="10dp" />
 
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/ic_signup_job"/>
-                    <RadioGroup
-                        android:layout_width="250dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical"
-                        android:weightSum="3"
-                        android:id="@+id/fieldgroup">
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginTop="3dp"
-                            android:textSize="15dp"
-                            android:text="기획자"
-                            android:textColor="@color/ColorPrimary"
-                            android:id="@+id/field1"/>
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginTop="3dp"
-                            android:textSize="15dp"
-                            android:text="개발자"
-                            android:textColor="@color/ColorPrimary"
-                            android:id="@+id/field2"/>
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginTop="3dp"
-                            android:textSize="15dp"
-                            android:text="디자이너"
-                            android:textColor="@color/ColorPrimary"
-                            android:id="@+id/field3"/>
-                    </RadioGroup>
-                </LinearLayout>
-
-
-
-
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -225,16 +172,12 @@
                     android:background="@color/ColorPrimary"
                     android:textColor="#ffffff"
                     android:textSize="20dp"
-                    android:text="Sign Up"
-                    android:id="@+id/signup_btn"
+                    android:text="다음"
+                    android:id="@+id/btn_next"
                     android:layout_gravity="bottom"
                     />
             </LinearLayout>
             </LinearLayout>
-
-
-
-
 
             <ProgressBar
                 android:id="@+id/progressbar"

@@ -86,7 +86,7 @@
                 android:background="#f9b323"
                 android:textSize="20dp"
                 android:text="Sign Up"
-                android:id="@+id/signup_btn"
+                android:id="@+id/btn_next"
                 android:textColor="#ffffff"
                 />
         </LinearLayout>
