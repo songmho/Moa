@@ -31,6 +31,7 @@ import java.util.List;
  */
 public class SetupActivity extends AppCompatActivity {
     Button logout;
+    Switch swc_notice;
     Button btn_aboutpage;
 
 
