@@ -111,7 +111,7 @@ public class TeamActivity extends AppCompatActivity {
                     ParseUser user = o.getParseUser("admin_member");
                     try {
                         user.fetchIfNeeded();
-                        TeamItem item = new TeamItem(o.getString("idea"), user.getString("name"), o.getString("idea_info"), same_mem, member_num);
+                        TeamItem item = new TeamItem(o.getString("idea"), /*user.getString("name") TODO: 16. 3. 19. 뻗어서 임시로 이메일로 함*/ user.getString("email") , o.getString("idea_info"), same_mem, member_num);
                         items.add(item);
                     } catch (ParseException e1) {
                         e1.printStackTrace();

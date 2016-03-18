@@ -15,6 +15,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -33,9 +35,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
+import com.team1.valueupapp.adapter.TeamRecyclerAdapter;
 import com.team1.valueupapp.item.MainListitem;
+import com.team1.valueupapp.item.TeamItem;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ParseFile profile_parse;
     ParseUser user = ParseUser.getCurrentUser();
 
-    List<MainListitem> items;
+    ArrayList<TeamItem> mainTeamItems;
 
 
     public static final String TAG = "MainActivity";
@@ -66,12 +71,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.drawerlayout) DrawerLayout drawerLayout;
     @Bind(R.id.navigationView) NavigationView navigationView;
     @Bind(R.id.name) TextView name;
+    @Bind(R.id.main_recyclerview) RecyclerView mainRecyclerView;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+
+
         SharedPreferences shpref = getSharedPreferences("myPref", 0);
         int count = shpref.getInt("Count", -100);
         if (count == -100) {
@@ -84,8 +92,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.putInt("Count", count).apply();
 
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
+
+
+        mainRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        mainRecyclerView.setLayoutManager(layoutManager);
+
         fab.setOnClickListener(this);
         setSupportActionBar(toolbar);
 
@@ -104,6 +117,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return changeDrawerMenu(menuItem);
             }
         });
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        makeList();
+                    }
+                });
+            }
+        }).start();
     }
 
     private void setUpNavDrawer() {
@@ -178,31 +202,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         switch (menuItem.getItemId()) {
-            case R.id.about: {
-                ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
-                picked_query.whereEqualTo("user", ParseUser.getCurrentUser());
-                picked_query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-//                        Log.d("set", list.size()+"");
-                        ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
-                        picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
-                            @Override
-                            public void done(List<ParseUser> list, ParseException e) {
-                                int size;
-                                if (list.isEmpty()) {
-                                    size = 0;
-                                } else {
-                                    size = list.size();
-                                }//end else
-                                Log.d("set", size + "");
-                            }
-                        });
-                    }
-                });
-            }
-            Toast.makeText(mContext, "우리는 모무 ㅎㅎ 곧 만들거야", Toast.LENGTH_SHORT).show();
-            return true;
+            case R.id.about:
+//            {
+//                ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+//                picked_query.whereEqualTo("user", ParseUser.getCurrentUser());
+//                picked_query.findInBackground(new FindCallback<ParseObject>() {
+//                    @Override
+//                    public void done(List<ParseObject> list, ParseException e) {
+////                        Log.d("set", list.size()+"");
+//                        ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+//                        picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+//                            @Override
+//                            public void done(List<ParseUser> list, ParseException e) {
+//                                int size;
+//                                if (list.isEmpty()) {
+//                                    size = 0;
+//                                } else {
+//                                    size = list.size();
+//                                }//end else
+//                                Log.d("set", size + "");
+//                            }
+//                        });
+//                    }
+//                });
+//            } // TODO: 16. 3. 19. 뻗음
+                Toast.makeText(mContext, "우리는 모무 ㅎㅎ 곧 만들거야", Toast.LENGTH_SHORT).show();
+                return true;
 
            /* case R.id.introduce:
                 drawerLayout.closeDrawers();
@@ -250,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user != null) {
             Log.e(TAG, "name : " + user.getString("name"));
             Log.e(TAG, "email : " + user.getString("email"));
-//            t.setText(user.getString("name")); // TODO: 16. 3. 19. 임시로 이메일 지정
+//            t.setText(user.getString("name")); // TODO: 16. 3. 19. name이 null로 리턴되므로 임시로 이메일 지정
             t.setText(user.getString("email"));
         } else {
             t.setText("이름");
@@ -347,4 +372,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+    public void makeList() {
+        if (mainTeamItems != null)
+            mainTeamItems.clear();
+        else
+            mainTeamItems = new ArrayList<>();
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Team");
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                for (ParseObject parseObject : list) {
+                    ParseRelation<ParseUser> member_relatrion = parseObject.getRelation("member");
+                    ParseUser user = parseObject.getParseUser("admin_member");
+                    try {
+                        user.fetchIfNeeded();
+                        TeamItem item = new TeamItem(parseObject.getString("idea"), /*user.getString("name") TODO: 16. 3. 19. 뻗어서 임시로 이메일로 함*/ user.getString("email"), parseObject.getString("idea_info"), "", 0);
+                        mainTeamItems.add(item);
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
+
+                }
+                mainRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team));
+
+            }
+        });
+    }//makeList
 }

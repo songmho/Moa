@@ -1,12 +1,13 @@
-<android.support.v4.widget.DrawerLayout android:id="@+id/drawerlayout"
-                                        xmlns:android="http://schemas.android.com/apk/res/android"
-                                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                                        xmlns:fab="http://schemas.android.com/apk/res-auto"
-                                        xmlns:tools="http://schemas.android.com/tools"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:fitsSystemWindows="true"
-                                        tools:context=".MainActivity">
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawerlayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -65,12 +66,20 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                <!--        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>-->
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/main_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"/>
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -89,20 +98,22 @@
         android:orientation="vertical">
 
 
-        <LinearLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="3">
+        <!--<LinearLayout-->
+        <!--android:id="@+id/container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical"-->
+        <!-->-->
 
 
-            <!--   <android.support.v7.widget.RecyclerView
-                   android:id="@+id/mainRecyclerView"
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"/>-->
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:layout_marginTop="?attr/actionBarSize"-->
+        <!--android:id="@+id/main_recyclerview"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_width="match_parent"/>-->
 
-        </LinearLayout>
+
+        <!--</LinearLayout>-->
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

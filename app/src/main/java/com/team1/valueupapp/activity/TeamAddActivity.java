@@ -139,9 +139,9 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
                         }*/
             }
         });
-
-        Intent intent = new Intent(TeamAddActivity.this, TeamMemberAddActivity.class);
-        startActivity(intent);
+//
+//        Intent intent = new Intent(TeamAddActivity.this, TeamMemberAddActivity.class);
+//        startActivity(intent);
     }
 
     @Override
@@ -269,6 +269,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         return true;
     }
 
+    //백버튼 누르면 종료 여부를 묻는 다이얼로그
     public void quitAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Dialog");

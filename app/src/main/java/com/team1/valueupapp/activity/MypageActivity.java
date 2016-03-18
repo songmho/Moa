@@ -97,7 +97,6 @@ public class MypageActivity extends AppCompatActivity {
         collapsing_toolbar.setTitle(parseUser.getString("name"));
 
         switch (parseUser.getString("job")) {
-
             case "plan":
                 str_job = "기획자";
                 str_info.setText("아이디어");
