@@ -32,7 +32,6 @@ import butterknife.ButterKnife;
 public class SetupActivity extends AppCompatActivity {
 
     @Bind(R.id.logout) Button logOut;
-    @Bind(R.id.btn_aboutpage) Button btnAboutPage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,6 @@ public class SetupActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btnAboutPage = (Button) findViewById(R.id.btn_aboutpage);
         TextView last_ver = (TextView) findViewById(R.id.last_ver);
         TextView cur_ver = (TextView) findViewById(R.id.cur_ver);
 

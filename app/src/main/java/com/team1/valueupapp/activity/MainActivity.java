@@ -44,8 +44,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
     CircleImageView profile;
     CircleImageView profile_drawer;
     Context mContext;
@@ -59,14 +57,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     List<MainListitem> items;
 
-//    TextView current_int = null;
 
-    TextView name = null;
-    int mem_count = 0;
+    public static final String TAG = "MainActivity";
 
 
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.drawerlayout) DrawerLayout drawerLayout;
+    @Bind(R.id.navigationView) NavigationView navigationView;
+    @Bind(R.id.name) TextView name;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -88,15 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         ButterKnife.bind(this);
         fab.setOnClickListener(this);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         setUpNavDrawer();
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
-
-        navigationView = (NavigationView) findViewById(R.id.navigationView);
-        name = (TextView) findViewById(R.id.name);
 
         if (user != null) {
             setMain();
@@ -253,10 +247,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         TextView t = (TextView) navigationView.findViewById(R.id.name);
-        if (user != null)
-            t.setText(user.getString("name"));
-        else
+        if (user != null) {
+            Log.e(TAG, "name : " + user.getString("name"));
+            Log.e(TAG, "email : " + user.getString("email"));
+//            t.setText(user.getString("name")); // TODO: 16. 3. 19. 임시로 이메일 지정
+            t.setText(user.getString("email"));
+        } else {
             t.setText("이름");
+        }
         if (profileImage.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(tempPath);
             profile_drawer.setImageBitmap(bm);

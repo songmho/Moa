@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,45 +17,39 @@ import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.team1.valueupapp.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by songmho on 16. 2. 27.
  */
-public class SignUp_2_Activity extends AppCompatActivity implements View.OnClickListener {
-
+public class SignUp2Activity extends AppCompatActivity implements View.OnClickListener {
     private List<String> arr_inter = new ArrayList<>();
     private ParseUser signUp_User = new ParseUser();
 
-    ImageView profile;
-    EditText edit_info;
-    Button bt_inter_1;
-    Button bt_inter_2;
-    Button bt_inter_3;
-    EditText edit_inter;
-    Button bt_signUp;
+    @Bind(R.id.profile) ImageView profile;
+    @Bind(R.id.edit_info) EditText edit_info;
+    @Bind(R.id.bt_inter_1) Button bt_inter_1;
+    @Bind(R.id.bt_inter_2) Button bt_inter_2;
+    @Bind(R.id.bt_inter_3) Button bt_inter_3;
+    @Bind(R.id.bt_signUp) Button bt_signUp;
+    @Bind(R.id.edit_inter) EditText edit_inter;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_2);
 
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("회원가입");
-
-        profile=(ImageView)findViewById(R.id.profile);
-        edit_info = (EditText)findViewById(R.id.edit_info);
-        bt_inter_1 = (Button)findViewById(R.id.bt_inter_1);
-        bt_inter_2 = (Button)findViewById(R.id.bt_inter_2);
-        bt_inter_3 = (Button)findViewById(R.id.bt_inter_3);
-        edit_inter = (EditText)findViewById(R.id.edit_inter);
-        bt_signUp = (Button)findViewById(R.id.bt_signUp);
+        toolbar.setTitle("회원가입");
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Glide.with(getApplicationContext()).load(R.drawable.ic_user).placeholder(R.drawable.ic_user).
                 bitmapTransform(new CropCircleTransformation(getApplicationContext())).into(profile);    //profile 이미지 씌우기. ic_user가 placeholder
@@ -71,24 +64,23 @@ public class SignUp_2_Activity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.profile:          //profile을 클릭했을 때
-
                 break;
             case R.id.bt_inter_1:                                               //관심사 태그에서 1번째
-                if(!arr_inter.contains(bt_inter_1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
+                if (!arr_inter.contains(bt_inter_1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
                     arr_inter.add(bt_inter_1.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_1.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
             case R.id.bt_inter_2:                                               //관심사 태그에서 2번째
-                if(!arr_inter.contains(bt_inter_2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
+                if (!arr_inter.contains(bt_inter_2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
                     arr_inter.add(bt_inter_2.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_2.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
             case R.id.bt_inter_3:                                               //관심사 태그에서 3번째
-                if(!arr_inter.contains(bt_inter_3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
+                if (!arr_inter.contains(bt_inter_3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
                     arr_inter.add(bt_inter_3.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_3.getText().toString() + " ");   //edittext에 이어서 씀
                 }
@@ -96,20 +88,20 @@ public class SignUp_2_Activity extends AppCompatActivity implements View.OnClick
             case R.id.bt_signUp:                            //회원가입 버튼 눌렀을 때
                 arr_inter.clear();
                 String[] arr_s = edit_inter.getText().toString().split("#");
-                for(String s:arr_s)
+                for (String s : arr_s)
                     arr_inter.add(s);
                 signUp_User.setUsername(getIntent().getStringExtra("name"));
                 signUp_User.setEmail(getIntent().getStringExtra("email"));
                 signUp_User.setPassword(getIntent().getStringExtra("password"));
-                signUp_User.put("info",edit_info.getText().toString());
-                signUp_User.put("tag",arr_inter);
+                signUp_User.put("info", edit_info.getText().toString());
+                signUp_User.put("tag", arr_inter);
                 signUp_User.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if(e==null){
-                            Toast.makeText(SignUp_2_Activity.this, "SignUp!", Toast.LENGTH_SHORT).show();
+                        if (e == null) {
+                            Toast.makeText(SignUp2Activity.this, "가입 완료!", Toast.LENGTH_SHORT).show();
                             finish();
-                            startActivity(new Intent(SignUp_2_Activity.this,MainActivity.class));
+                            startActivity(new Intent(SignUp2Activity.this, MainActivity.class));
                         }       //endif
                     }       //done method
                 });

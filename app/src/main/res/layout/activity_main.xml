@@ -1,12 +1,12 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+<android.support.v4.widget.DrawerLayout android:id="@+id/drawerlayout"
+                                        xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                                        xmlns:fab="http://schemas.android.com/apk/res-auto"
+                                        xmlns:tools="http://schemas.android.com/tools"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:fitsSystemWindows="true"
+                                        tools:context=".MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/tool_bar" />
+                layout="@layout/tool_bar"/>
 
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/refresh"
@@ -50,7 +50,7 @@
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:gravity="center"
-                            android:src="@drawable/main_clock" />
+                            android:src="@drawable/main_clock"/>
 
                         <TextView
                             android:id="@+id/name"
@@ -60,7 +60,7 @@
                             android:text="팀 빌딩 하는 시간입니다"
                             android:textColor="@color/white"
                             android:textSize="20dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -68,7 +68,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
 
@@ -76,10 +76,10 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
             android:layout_margin="16dp"
             android:src="@drawable/add"
-            android:theme="@style/FabTheme"
-            android:layout_gravity="right|bottom"/>
+            android:theme="@style/FabTheme"/>
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -112,6 +112,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
-        app:menu="@menu/drawer" />
+        app:menu="@menu/drawer"/>
 
 </android.support.v4.widget.DrawerLayout>
