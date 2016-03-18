@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:fitsSystemWindows="true"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="#FFFFFF"
+                                                 android:fitsSystemWindows="true"
+                                                 android:focusable="true"
+                                                 android:focusableInTouchMode="true">
 
 
     <FrameLayout
@@ -20,17 +20,16 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/tool_bar" />
+                layout="@layout/tool_bar"/>
 
 
-    
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:text="버전정보"
                 android:textColor="@color/ColorPrimary"
-                android:textSize="15dp" />
+                android:textSize="15dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -43,7 +42,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:text="최신버전"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
                 <TextView
                     android:id="@+id/last_ver"
@@ -51,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
             </LinearLayout>
 
@@ -67,7 +66,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:text="현재버전"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
                 <TextView
                     android:id="@+id/cur_ver"
@@ -75,14 +74,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"/>
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1.5dp"
-                android:background="@color/Listdivider" />
+                android:background="@color/Listdivider"/>
 
 
         </LinearLayout>
@@ -102,18 +101,8 @@
                 android:background="@color/ColorPrimary"
                 android:text="Log out"
                 android:textColor="#ffffff"
-                android:textSize="20dp" />
+                android:textSize="20dp"/>
 
-
-            <Button
-                android:id="@+id/btn_aboutpage"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#f9b323"
-                android:text="About"
-                android:textColor="#ffffff"
-                android:textSize="20dp" />
 
         </LinearLayout>
 

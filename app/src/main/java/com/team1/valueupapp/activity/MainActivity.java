@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +33,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
-import com.team1.valueupapp.item.MainListItem;
+import com.team1.valueupapp.item.MainListitem;
 
 import java.io.File;
 import java.util.List;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ParseFile profile_parse;
     ParseUser user = ParseUser.getCurrentUser();
 
-    List<MainListItem> items;
+    List<MainListitem> items;
 
 //    TextView current_int = null;
 
@@ -183,9 +184,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         switch (menuItem.getItemId()) {
-            case R.id.about:
-                Toast.makeText(mContext, "우리는 모무 ㅎㅎ 곧 만들거야", Toast.LENGTH_SHORT).show();
-                return true;
+            case R.id.about: {
+                ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
+                picked_query.whereEqualTo("user", ParseUser.getCurrentUser());
+                picked_query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+//                        Log.d("set", list.size()+"");
+                        ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
+                        picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                            @Override
+                            public void done(List<ParseUser> list, ParseException e) {
+                                int size;
+                                if (list.isEmpty()) {
+                                    size = 0;
+                                } else {
+                                    size = list.size();
+                                }//end else
+                                Log.d("set", size + "");
+                            }
+                        });
+                    }
+                });
+            }
+            Toast.makeText(mContext, "우리는 모무 ㅎㅎ 곧 만들거야", Toast.LENGTH_SHORT).show();
+            return true;
 
            /* case R.id.introduce:
                 drawerLayout.closeDrawers();

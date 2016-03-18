@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.team1.valueupapp.item.MainListItem;
+import com.team1.valueupapp.item.MainListitem;
 import com.team1.valueupapp.R;
 
 import java.util.List;
@@ -17,11 +17,11 @@ import java.util.List;
  */
 public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    List<MainListItem> items;
+    List<MainListitem> items;
     int layout;
 
 
-    public MainRecyclerAdapter(Context context, List<MainListItem> items, int layout) {
+    public MainRecyclerAdapter(Context context, List<MainListitem> items, int layout) {
         this.context=context;
         this.items=items;
         this.layout=layout;
@@ -37,7 +37,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof holder) {
             //cast holder to VHItem and set data
-            MainListItem item=items.get(position);
+            MainListitem item=items.get(position);
             ((holder) holder).name.setText(item.getName());
 
         }

@@ -1,16 +1,13 @@
 package com.team1.valueupapp.activity;
 
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,20 +23,22 @@ import com.team1.valueupapp.R;
 import java.io.File;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by songmho on 2015-07-04.
  */
 public class SetupActivity extends AppCompatActivity {
-    Button logout;
-    Switch swc_notice;
-    Button btn_aboutpage;
 
+    @Bind(R.id.logout) Button logOut;
+    @Bind(R.id.btn_aboutpage) Button btnAboutPage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
-
+        ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("설정");
@@ -47,11 +46,10 @@ public class SetupActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        logout = (Button) findViewById(R.id.logout);
-        btn_aboutpage = (Button) findViewById(R.id.btn_aboutpage);
+        btnAboutPage = (Button) findViewById(R.id.btn_aboutpage);
         TextView last_ver = (TextView) findViewById(R.id.last_ver);
         TextView cur_ver = (TextView) findViewById(R.id.cur_ver);
-        
+
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), 0);
             cur_ver.setText(info.versionName);
@@ -61,7 +59,7 @@ public class SetupActivity extends AppCompatActivity {
         }
 
 
-        logout.setOnClickListener(new View.OnClickListener() {
+        logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
@@ -84,37 +82,6 @@ public class SetupActivity extends AppCompatActivity {
             }
         });//OnClickListener
 
-
-        btn_aboutpage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                intent.setData(Uri.parse("http://tjdhksrb2.wix.com/essage"));
-//                startActivity(intent);
-                ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
-                picked_query.whereEqualTo("user", ParseUser.getCurrentUser());
-                picked_query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-//                        Log.d("set", list.size()+"");
-                        ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
-                        picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
-                            @Override
-                            public void done(List<ParseUser> list, ParseException e) {
-                                int size;
-                                if (list.isEmpty()) {
-                                    size = 0;
-                                } else {
-                                    size = list.size();
-                                }//end else
-                                Log.d("set", size + "");
-                            }
-                        });
-                    }
-                });
-
-            }
-        });
     }
 
 }//class
