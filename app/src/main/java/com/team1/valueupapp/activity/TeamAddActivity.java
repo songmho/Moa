@@ -13,13 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 
@@ -28,7 +26,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by hyemi on 2015-07-26.
@@ -38,13 +35,12 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
     EditText editTitle;
     EditText editDetail;
     Context mContext;
-
     /*RecyclerView recyclerView;*/
     /*RecyclerView.LayoutManager layoutManager;*/
 //    ArrayList<TeamAddItem> items;
 //    ProgressBar progressBar;
 //    ArrayList<ParseUser> s;
-    private List<String> arr_inter = new ArrayList<>();
+    private List<String> arrTags = new ArrayList<>();
 
     @Bind(R.id.bt_inter_1) Button bt_inter_1;
     @Bind(R.id.bt_inter_2) Button bt_inter_2;
@@ -66,21 +62,23 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
 
         editTitle = (EditText) findViewById(R.id.title);
         editDetail = (EditText) findViewById(R.id.detail);
-//        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-//        progressBar = (ProgressBar) findViewById(R.id.progressbar);
-
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager = new LinearLayoutManager(getApplicationContext());
-//        recyclerView.setLayoutManager(layoutManager);
 
         findViewById(R.id.btn_make_team).setOnClickListener(new View.OnClickListener() {        //팀생성버튼 클릭 시
             @Override
             public void onClick(View v) {
-                ParseObject input_team =new ParseObject("Team");
                 ParseObject object = new ParseObject("Team");
                 object.put("intro", String.valueOf(editTitle.getText()));
                 object.put("intro_detail", String.valueOf(editDetail.getText()));
                 object.put("admin_member", ParseUser.getCurrentUser());
+                if(arrTags != null) {
+                    arrTags.clear();
+                }
+                String[] arr_s = edit_inter.getText().toString().split("#");
+                for (String s : arr_s) {
+                    if(!s.equals(""))
+                        arrTags.add(s.trim());
+                }
+                object.put("tag", arrTags);
                 object.getRelation("member").add(ParseUser.getCurrentUser());
                 object.saveInBackground();
 
@@ -293,20 +291,20 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.bt_inter_1:                                               //관심사 태그에서 1번째
-                if (!arr_inter.contains(bt_inter_1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
-                    arr_inter.add(bt_inter_1.getText().toString());             //리스트에 관심사 추가
+                if (!arrTags.contains(bt_inter_1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
+                    arrTags.add(bt_inter_1.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_1.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
             case R.id.bt_inter_2:                                               //관심사 태그에서 2번째
-                if (!arr_inter.contains(bt_inter_2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
-                    arr_inter.add(bt_inter_2.getText().toString());             //리스트에 관심사 추가
+                if (!arrTags.contains(bt_inter_2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
+                    arrTags.add(bt_inter_2.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_2.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
             case R.id.bt_inter_3:                                               //관심사 태그에서 3번째
-                if (!arr_inter.contains(bt_inter_3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
-                    arr_inter.add(bt_inter_3.getText().toString());             //리스트에 관심사 추가
+                if (!arrTags.contains(bt_inter_3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
+                    arrTags.add(bt_inter_3.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_3.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
