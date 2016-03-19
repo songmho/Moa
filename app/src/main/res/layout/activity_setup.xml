@@ -99,7 +99,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/ColorPrimary"
-                android:text="Log out"
+                android:text="로그아웃"
                 android:textColor="#ffffff"
                 android:textSize="20dp"/>
 

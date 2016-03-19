@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
     int itemLayout;
     int HOLDER = 0;
     int FOOTER = 1;
+
+    public static final String TAG = "TeamRecyclerAdapter";
 
     public TeamRecyclerAdapter(Context context, List<TeamItem> items, int itemLayout) {
         this.context = context;
@@ -67,7 +70,7 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
                     Intent intent = new Intent(context.getApplicationContext(), TeamDetailActivity.class);
                     intent.putExtra("title", item.getTitle());
                     intent.putExtra("name", item.getName());
-                    intent.putExtra("username",item.getUsername());
+                    intent.putExtra("username", item.getUsername());
                     intent.putExtra("detail", item.getDetail());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

@@ -218,12 +218,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         TextView t = (TextView) navigationView.findViewById(R.id.name);
         if (user != null) {
-            Log.e(TAG, "name : " + user.getString("name"));
-            Log.e(TAG, "email : " + user.getString("email"));
-//            t.setText(user.getString("name")); // TODO: 16. 3. 19. name이 null로 리턴되므로 임시로 이메일 지정
             t.setText(user.getString("name"));
         } else {
-            t.setText("로그인을 해주세요.");
+            t.setText("로그인을 해 주세요.");
         }
         if (profileImage.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(tempPath);
@@ -345,7 +342,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
                 mainRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team));
-
             }
         });
     }//makeList
