@@ -68,6 +68,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         intent.putExtra("password", String.valueOf(pass.getText()));
                         intent.putExtra("name", String.valueOf(userName.getText()));
                         startActivity(intent);              // SignUp_2_Activity로 이동
+                        finish();
                     }           //endif
                     else {      //비밀번호와 확인이 다를 경우
                         Toast.makeText(SignUpActivity.this, "비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show(); //비밀번호 확인 관련 토스트
