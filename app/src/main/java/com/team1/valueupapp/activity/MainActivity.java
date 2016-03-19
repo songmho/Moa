@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.e(TAG, "name : " + user.getString("name"));
             Log.e(TAG, "email : " + user.getString("email"));
 //            t.setText(user.getString("name")); // TODO: 16. 3. 19. name이 null로 리턴되므로 임시로 이메일 지정
-            t.setText(user.getString("email"));
+            t.setText(user.getString("name"));
         } else {
             t.setText("로그인을 해주세요.");
         }

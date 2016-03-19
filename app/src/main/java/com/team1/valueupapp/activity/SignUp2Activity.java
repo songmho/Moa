@@ -93,6 +93,7 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                 signUp_User.setUsername(getIntent().getStringExtra("username"));
                 signUp_User.put("name", getIntent().getStringExtra("name"));
                 signUp_User.setPassword(getIntent().getStringExtra("password"));
+                signUp_User.setEmail(getIntent().getStringExtra("username"));
                 signUp_User.put("info", edit_info.getText().toString());
                 signUp_User.put("tag", arr_inter);
                 signUp_User.signUpInBackground(new SignUpCallback() {
