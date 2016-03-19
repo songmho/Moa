@@ -22,17 +22,12 @@ import butterknife.ButterKnife;
  */
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.tool_bar) Toolbar toolbar;
     @Bind(R.id.user_name) EditText userName;
     @Bind(R.id.mail) EditText mail;
     @Bind(R.id.pass) EditText pass;
     @Bind(R.id.pass_check) EditText pass_check;
-    @Bind(R.id.user_name_null) TextView user_name_null;
-    @Bind(R.id.mail_null) TextView mail_null;
-    @Bind(R.id.pass_null) TextView pass_null;
-    @Bind(R.id.pass_check_null) TextView pass_check_null;
     @Bind(R.id.btn_next) Button btn_next;
-    @Bind(R.id.progressbar) ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
