@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.findViewById(R.id.header).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(user != null) {
+                if (user != null) {
                     startActivity(new Intent(MainActivity.this, MypageActivity.class));
                 } else {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_2, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+       /* MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(SEARCH_SERVICE);
         SearchView searchView = null;
         if (searchItem != null) {
@@ -288,13 +288,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return false;
                 }
             });
-        }
+        }*/
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_search) {
+//            startActivity(new Intent(mContext, SearchActivity.class));
+//            overridePendingTransition(0, 0);
+            Toast.makeText(mContext, "준비중입니다 '-'", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -328,13 +331,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                if(list == null || list.size() == 0) return;
+                if (list == null || list.size() == 0) return;
                 for (ParseObject parseObject : list) {
                     ParseRelation<ParseUser> member_relatrion = parseObject.getRelation("member");
                     ParseUser user = parseObject.getParseUser("admin_member");
                     try {
                         user.fetchIfNeeded();
-                        TeamItem item = new TeamItem(parseObject.getString("intro"), user.getString("name"),user.getUsername(), parseObject.getString("intro_detail"));
+                        TeamItem item = new TeamItem(parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
                         mainTeamItems.add(item);
                     } catch (ParseException e1) {
                         e1.printStackTrace();
