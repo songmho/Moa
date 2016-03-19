@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -33,6 +34,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by songmho on 2015-07-21.
@@ -48,6 +50,10 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Bind(R.id.bt_join) Button bt_join;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.admin_name) TextView admin_name;
+    @Bind(R.id.detail) TextView detail;
+    @Bind(R.id.admin_profile) ImageView admin_profile;
+    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsing_toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,15 +65,15 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        CollapsingToolbarLayout collapsing_toolbar=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
         collapsing_toolbar.setTitle(intent.getStringExtra("title"));
-
-        TextView admin_name=(TextView)findViewById(R.id.admin_name);
-        TextView detail=(TextView)findViewById(R.id.detail);
-        CircleImageView admin_profile=(CircleImageView)findViewById(R.id.admin_profile);
-
         admin_name.setText(intent.getStringExtra("name"));
         detail.setText(intent.getStringExtra("detail"));
+        Glide.with(getApplicationContext()).load(R.drawable.ic_user).placeholder(R.drawable.ic_user).
+                bitmapTransform(new CropCircleTransformation(getApplicationContext())).into(admin_profile);
+
+        if(intent.getStringExtra("username").equals(ParseUser.getCurrentUser().getUsername())){         //현재 유저가 팀장일 때
+            bt_join.setVisibility(View.GONE);           //참여하기 버튼 보이지 않게 함.
+        }
 
         bt_join.setOnClickListener(this);
     }
