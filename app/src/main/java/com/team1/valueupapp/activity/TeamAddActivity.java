@@ -42,10 +42,10 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
 //    ArrayList<ParseUser> s;
     private List<String> arrTags = new ArrayList<>();
 
-    @Bind(R.id.bt_inter_1) Button bt_inter_1;
-    @Bind(R.id.bt_inter_2) Button bt_inter_2;
-    @Bind(R.id.bt_inter_3) Button bt_inter_3;
-    @Bind(R.id.edit_inter) EditText edit_inter;
+    @Bind(R.id.btn_tag_1) Button btnTag1;
+    @Bind(R.id.btn_tag_2) Button btnTag2;
+    @Bind(R.id.btn_tag_3) Button btnTag3;
+    @Bind(R.id.edit_tag) EditText editTag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +73,7 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
                 if(arrTags != null) {
                     arrTags.clear();
                 }
-                String[] arr_s = edit_inter.getText().toString().split("#");
+                String[] arr_s = editTag.getText().toString().split("#");
                 for (String s : arr_s) {
                     if(!s.equals(""))
                         arrTags.add(s.trim());
@@ -137,9 +137,9 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
 //
 //        Intent intent = new Intent(TeamAddActivity.this, TeamMemberAddActivity.class);
 //        startActivity(intent);
-        bt_inter_1.setOnClickListener(this);
-        bt_inter_2.setOnClickListener(this);
-        bt_inter_3.setOnClickListener(this);
+        btnTag1.setOnClickListener(this);
+        btnTag2.setOnClickListener(this);
+        btnTag3.setOnClickListener(this);
     }
 
     @Override
@@ -290,22 +290,22 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.bt_inter_1:                                               //관심사 태그에서 1번째
-                if (!arrTags.contains(bt_inter_1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
-                    arrTags.add(bt_inter_1.getText().toString());             //리스트에 관심사 추가
-                    edit_inter.append(bt_inter_1.getText().toString() + " ");   //edittext에 이어서 씀
+            case R.id.btn_tag_1:                                               //관심사 태그에서 1번째
+                if (!arrTags.contains(btnTag1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
+                    arrTags.add(btnTag1.getText().toString());             //리스트에 관심사 추가
+                    editTag.append(btnTag1.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
-            case R.id.bt_inter_2:                                               //관심사 태그에서 2번째
-                if (!arrTags.contains(bt_inter_2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
-                    arrTags.add(bt_inter_2.getText().toString());             //리스트에 관심사 추가
-                    edit_inter.append(bt_inter_2.getText().toString() + " ");   //edittext에 이어서 씀
+            case R.id.btn_tag_2:                                               //관심사 태그에서 2번째
+                if (!arrTags.contains(btnTag2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
+                    arrTags.add(btnTag2.getText().toString());             //리스트에 관심사 추가
+                    editTag.append(btnTag2.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
-            case R.id.bt_inter_3:                                               //관심사 태그에서 3번째
-                if (!arrTags.contains(bt_inter_3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
-                    arrTags.add(bt_inter_3.getText().toString());             //리스트에 관심사 추가
-                    edit_inter.append(bt_inter_3.getText().toString() + " ");   //edittext에 이어서 씀
+            case R.id.btn_tag_3:                                               //관심사 태그에서 3번째
+                if (!arrTags.contains(btnTag3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
+                    arrTags.add(btnTag3.getText().toString());             //리스트에 관심사 추가
+                    editTag.append(btnTag3.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
         }

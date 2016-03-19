@@ -34,13 +34,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MypageActivity extends AppCompatActivity {
     ParseUser parseUser;
     String str_job;
-    ImageView profile_blur;
+    ImageView profileBlur;
     CircleImageView profile;
 
     CollapsingToolbarLayout collapsing_toolbar;
 
     ImageView imageView;
-    TextView str_info;
 
     @Bind(R.id.txt_info) TextView txtInfo;
     @Bind(R.id.txt_name) TextView txtName;
@@ -57,18 +56,17 @@ public class MypageActivity extends AppCompatActivity {
 
         collapsing_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         imageView = (ImageView) findViewById(R.id.image);
-        str_info = (TextView) findViewById(R.id.str_info);
-        profile_blur = (ImageView) findViewById(R.id.profile_blur);
+        profileBlur = (ImageView) findViewById(R.id.profile_blur);
         profile = (CircleImageView) findViewById(R.id.profile);
 
         String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
         Bitmap bm = BitmapFactory.decodeFile(tempPath);
         if (bm != null) {
-            profile_blur.setImageBitmap(blur(getApplicationContext(), bm, 20));
+            profileBlur.setImageBitmap(blur(getApplicationContext(), bm, 20));
             profile.setImageBitmap(bm);
         } else {
             bm = BitmapFactory.decodeResource(getResources(), R.drawable.img_page);
-            profile_blur.setImageBitmap(blur(getApplicationContext(), bm, 20));
+            profileBlur.setImageBitmap(blur(getApplicationContext(), bm, 20));
             profile.setImageResource(R.drawable.ic_user);
         }
     }
@@ -129,7 +127,7 @@ public class MypageActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_edit) {
             Intent intent = new Intent(MypageActivity.this, MyPageEditActivity.class);
             intent.putExtra("name", txtName.getText().toString());
-            intent.putExtra("myinfo", txtInfo.getText().toString());
+            intent.putExtra("myInfo", txtInfo.getText().toString());
             intent.putExtra("tag", txtTag.getText().toString());
             startActivity(intent);
             return true;

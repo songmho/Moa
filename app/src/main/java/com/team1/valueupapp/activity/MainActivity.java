@@ -36,7 +36,6 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 import com.team1.valueupapp.adapter.TeamRecyclerAdapter;
-import com.team1.valueupapp.item.MainListitem;
 import com.team1.valueupapp.item.TeamItem;
 
 import java.io.File;
