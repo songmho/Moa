@@ -8,11 +8,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/tool_bar" />
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:local="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            local:theme="@style/ThemeOverlay.AppCompat.Dark"
+            local:popupTheme="@style/ThemeOverlay.AppCompat.Dark">
+            <ImageView
+                android:src="@drawable/signup_2"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"/>
+        </android.support.v7.widget.Toolbar>
 
-    <ImageView
+
+        <ImageView
         android:id="@+id/profile"
         android:layout_width="100dp"
         android:layout_height="100dp"

@@ -38,7 +38,7 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
     @Bind(R.id.btn_tag_3) Button btnTag3;
     @Bind(R.id.bt_signUp) Button btnSignUp;
     @Bind(R.id.edit_tag) EditText editTags;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.tool_bar) Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
