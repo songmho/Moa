@@ -90,8 +90,8 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                 String[] arr_s = edit_inter.getText().toString().split("#");
                 for (String s : arr_s)
                     arr_inter.add(s);
-                signUp_User.setUsername(getIntent().getStringExtra("name"));
-                signUp_User.setEmail(getIntent().getStringExtra("email"));
+                signUp_User.setUsername(getIntent().getStringExtra("username"));
+                signUp_User.put("name", getIntent().getStringExtra("name"));
                 signUp_User.setPassword(getIntent().getStringExtra("password"));
                 signUp_User.put("info", edit_info.getText().toString());
                 signUp_User.put("tag", arr_inter);

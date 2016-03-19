@@ -105,10 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setUpNavDrawer();
 
 
-        if (user != null) {
-            setMain();
-        }
-
         makeDrawerHeader();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -141,60 +137,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
-    }
-
-    private void setMain() {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Admin");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                name.setText(list.get(0).getString("title"));
-            }
-        });
-
-
-        final ParseRelation<ParseUser> relation = user.getRelation("pick");
-        relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> list, ParseException e) {
-                if (e == null) {
-                    int size;
-                    if (list.isEmpty()) {
-                        size = 0;
-                    } else {
-                        size = list.size();
-                    }//end else
-                } else {
-                }
-            }
-        });
-//        pick_int.setText(""+size);  //ListFragment와 같음.. 수정해야함
-
-        ParseQuery<ParseObject> picked_query = ParseQuery.getQuery("Picked");
-        picked_query.whereEqualTo("user", user);
-        picked_query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-//                        Log.d("set", list.size()+"");
-                if (list == null || list.size() == 0) {
-                    return;
-                }
-
-                ParseRelation<ParseUser> picked_relation = list.get(0).getRelation("picked");
-                picked_relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
-                    @Override
-                    public void done(List<ParseUser> list, ParseException e) {
-                        int picked_size;
-                        if (list.isEmpty()) {
-                            picked_size = 0;
-                        } else {
-                            picked_size = list.size();
-                        }//end else
-                    }
-                });
-            }
-        });
-
     }
 
     private boolean changeDrawerMenu(MenuItem menuItem) {
@@ -377,6 +319,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //팀 리스트 불러옴
     public void makeList() {
         if (mainTeamItems != null)
             mainTeamItems.clear();
@@ -386,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
+                if(list == null || list.size() == 0) return;
                 for (ParseObject parseObject : list) {
                     ParseRelation<ParseUser> member_relatrion = parseObject.getRelation("member");
                     ParseUser user = parseObject.getParseUser("admin_member");

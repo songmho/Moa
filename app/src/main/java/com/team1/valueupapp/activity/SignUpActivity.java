@@ -64,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 else {
                     if (String.valueOf(pass.getText()).equals(String.valueOf(pass_check.getText()))) {   //비밀번호와 확인이 같을 경우
                         Intent intent = new Intent(SignUpActivity.this, SignUp2Activity.class);
-                        intent.putExtra("email", String.valueOf(mail.getText()));      //이름, email, 비밀번호 SignUp_2_Activity로 전달
+                        intent.putExtra("username", String.valueOf(mail.getText()));      //이름, email, 비밀번호 SignUp_2_Activity로 전달
                         intent.putExtra("password", String.valueOf(pass.getText()));
                         intent.putExtra("name", String.valueOf(userName.getText()));
                         startActivity(intent);              // SignUp_2_Activity로 이동

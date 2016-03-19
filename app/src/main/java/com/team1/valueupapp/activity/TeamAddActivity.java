@@ -49,7 +49,6 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
     @Bind(R.id.bt_inter_1) Button bt_inter_1;
     @Bind(R.id.bt_inter_2) Button bt_inter_2;
     @Bind(R.id.bt_inter_3) Button bt_inter_3;
-    @Bind(R.id.bt_signUp) Button bt_signUp;
     @Bind(R.id.edit_inter) EditText edit_inter;
 
     @Override
@@ -159,7 +158,6 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
         bt_inter_1.setOnClickListener(this);
         bt_inter_2.setOnClickListener(this);
         bt_inter_3.setOnClickListener(this);
-        bt_signUp.setOnClickListener(this);
     }
 
     @Override
