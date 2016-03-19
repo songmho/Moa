@@ -268,7 +268,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationView.findViewById(R.id.header).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MypageActivity.class));
+                if(user != null) {
+                    startActivity(new Intent(MainActivity.this, MypageActivity.class));
+                } else {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
             }
         });
         TextView t = (TextView) navigationView.findViewById(R.id.name);
@@ -278,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            t.setText(user.getString("name")); // TODO: 16. 3. 19. name이 null로 리턴되므로 임시로 이메일 지정
             t.setText(user.getString("email"));
         } else {
-            t.setText("이름");
+            t.setText("로그인을 해주세요.");
         }
         if (profileImage.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(tempPath);

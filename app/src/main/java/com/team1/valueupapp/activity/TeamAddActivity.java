@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,12 +23,17 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by hyemi on 2015-07-26.
  */
-public class TeamAddActivity extends AppCompatActivity {            //동명이인 처리가능하게 변경해야 됨.
+public class TeamAddActivity extends AppCompatActivity implements View.OnClickListener{            //동명이인 처리가능하게 변경해야 됨.
 
     EditText editTitle;
     EditText editDetail;
@@ -38,6 +44,13 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
 //    ArrayList<TeamAddItem> items;
 //    ProgressBar progressBar;
 //    ArrayList<ParseUser> s;
+    private List<String> arr_inter = new ArrayList<>();
+
+    @Bind(R.id.bt_inter_1) Button bt_inter_1;
+    @Bind(R.id.bt_inter_2) Button bt_inter_2;
+    @Bind(R.id.bt_inter_3) Button bt_inter_3;
+    @Bind(R.id.bt_signUp) Button bt_signUp;
+    @Bind(R.id.edit_inter) EditText edit_inter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,7 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
 
         mContext = this;
         setContentView(R.layout.activity_teamadd);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("그룹 만들기");
         setSupportActionBar(toolbar);
@@ -142,6 +156,10 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
 //
 //        Intent intent = new Intent(TeamAddActivity.this, TeamMemberAddActivity.class);
 //        startActivity(intent);
+        bt_inter_1.setOnClickListener(this);
+        bt_inter_2.setOnClickListener(this);
+        bt_inter_3.setOnClickListener(this);
+        bt_signUp.setOnClickListener(this);
     }
 
     @Override
@@ -289,4 +307,27 @@ public class TeamAddActivity extends AppCompatActivity {            //동명이�
         builder.show();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.bt_inter_1:                                               //관심사 태그에서 1번째
+                if (!arr_inter.contains(bt_inter_1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
+                    arr_inter.add(bt_inter_1.getText().toString());             //리스트에 관심사 추가
+                    edit_inter.append(bt_inter_1.getText().toString() + " ");   //edittext에 이어서 씀
+                }
+                break;
+            case R.id.bt_inter_2:                                               //관심사 태그에서 2번째
+                if (!arr_inter.contains(bt_inter_2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
+                    arr_inter.add(bt_inter_2.getText().toString());             //리스트에 관심사 추가
+                    edit_inter.append(bt_inter_2.getText().toString() + " ");   //edittext에 이어서 씀
+                }
+                break;
+            case R.id.bt_inter_3:                                               //관심사 태그에서 3번째
+                if (!arr_inter.contains(bt_inter_3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
+                    arr_inter.add(bt_inter_3.getText().toString());             //리스트에 관심사 추가
+                    edit_inter.append(bt_inter_3.getText().toString() + " ");   //edittext에 이어서 씀
+                }
+                break;
+        }
+    }
 }//class
