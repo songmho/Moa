@@ -28,7 +28,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  * Created by songmho on 16. 2. 27.
  */
 public class SignUp2Activity extends AppCompatActivity implements View.OnClickListener {
-    private List<String> arr_inter = new ArrayList<>();
+    private List<String> arrTags = new ArrayList<>();
     private ParseUser signUp_User = new ParseUser();
 
     @Bind(R.id.profile) ImageView profile;
@@ -68,34 +68,36 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
             case R.id.profile:          //profile을 클릭했을 때
                 break;
             case R.id.bt_inter_1:                                               //관심사 태그에서 1번째
-                if (!arr_inter.contains(bt_inter_1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
-                    arr_inter.add(bt_inter_1.getText().toString());             //리스트에 관심사 추가
+                if (!arrTags.contains(bt_inter_1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
+                    arrTags.add(bt_inter_1.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_1.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
             case R.id.bt_inter_2:                                               //관심사 태그에서 2번째
-                if (!arr_inter.contains(bt_inter_2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
-                    arr_inter.add(bt_inter_2.getText().toString());             //리스트에 관심사 추가
+                if (!arrTags.contains(bt_inter_2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
+                    arrTags.add(bt_inter_2.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_2.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
             case R.id.bt_inter_3:                                               //관심사 태그에서 3번째
-                if (!arr_inter.contains(bt_inter_3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
-                    arr_inter.add(bt_inter_3.getText().toString());             //리스트에 관심사 추가
+                if (!arrTags.contains(bt_inter_3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
+                    arrTags.add(bt_inter_3.getText().toString());             //리스트에 관심사 추가
                     edit_inter.append(bt_inter_3.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
             case R.id.bt_signUp:                            //회원가입 버튼 눌렀을 때
-                arr_inter.clear();
+                arrTags.clear();
                 String[] arr_s = edit_inter.getText().toString().split("#");
-                for (String s : arr_s)
-                    arr_inter.add(s);
+                for (String s : arr_s) {
+                    if(!s.equals(""))
+                    arrTags.add(s);
+                }
                 signUp_User.setUsername(getIntent().getStringExtra("username"));
                 signUp_User.put("name", getIntent().getStringExtra("name"));
                 signUp_User.setPassword(getIntent().getStringExtra("password"));
                 signUp_User.setEmail(getIntent().getStringExtra("username"));
                 signUp_User.put("info", edit_info.getText().toString());
-                signUp_User.put("tag", arr_inter);
+                signUp_User.put("tag", arrTags);
                 signUp_User.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {

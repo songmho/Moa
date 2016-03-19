@@ -21,6 +21,11 @@ import android.widget.TextView;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -33,27 +38,24 @@ public class MypageActivity extends AppCompatActivity {
     CircleImageView profile;
 
     CollapsingToolbarLayout collapsing_toolbar;
-    TextView myjob;
-    TextView title;
-    TextView myinfo;
-    TextView mydetail;
+
     ImageView imageView;
     TextView str_info;
+
+    @Bind(R.id.txt_info) TextView txtInfo;
+    @Bind(R.id.txt_name) TextView txtName;
+    @Bind(R.id.txt_tag) TextView txtTag;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
-
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         collapsing_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        myjob = (TextView) findViewById(R.id.myjob);
-        title = (TextView) findViewById(R.id.info);
-        myinfo = (TextView) findViewById(R.id.myinfo);
-        mydetail = (TextView) findViewById(R.id.mydetail);
         imageView = (ImageView) findViewById(R.id.image);
         str_info = (TextView) findViewById(R.id.str_info);
         profile_blur = (ImageView) findViewById(R.id.profile_blur);
@@ -94,44 +96,23 @@ public class MypageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         parseUser = ParseUser.getCurrentUser();
-        collapsing_toolbar.setTitle(parseUser.getString("name"));
-
-        switch (parseUser.getString("job")) {
-            case "plan":
-                str_job = "기획자";
-                str_info.setText("아이디어");
-
-                myjob.setText("기획자");
-                myjob.setTextColor(getResources().getColor(R.color.tab_color));
-                myjob.setBackgroundColor(getResources().getColor(R.color.planner));
-                myjob.setPadding(30, 15, 30, 15);
-
-
-//                title.setText("아이디어");
-                break;
-            case "dev":
-                str_job = "개발자";
-                str_info.setText("스킬");
-                myjob.setText("개발자");
-                myjob.setTextColor(getResources().getColor(R.color.tab_color));
-                myjob.setBackgroundColor(getResources().getColor(R.color.developer));
-                myjob.setPadding(30, 15, 30, 15);
-
-//                title.setText("스킬");
-                break;
-            case "dis":
-                str_job = "디자이너";
-                str_info.setText("스킬");
-                myjob.setText("디자이너");
-                myjob.setTextColor(getResources().getColor(R.color.tab_color));
-                myjob.setBackgroundColor(getResources().getColor(R.color.designer));
-                myjob.setPadding(30, 15, 30, 15);
-//                title.setText("스킬");
-                break;
+        txtName.setText(parseUser.getString("name"));
+        txtInfo.setText(parseUser.getString("info"));
+        try {
+            String strTag = "";
+            JSONArray tagArray = parseUser.getJSONArray("tag");
+            for (int i = 0; i < tagArray.length(); i++) {
+                if (!tagArray.getString(i).equals(""))
+                    strTag += "#" + tagArray.getString(i) + " ";
+            }
+            txtTag.setText(strTag);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            e.printStackTrace();
         }
-
-        myinfo.setText(parseUser.getString("info"));
-        mydetail.setText(parseUser.getString("detail"));
 
     }
 
@@ -147,11 +128,9 @@ public class MypageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_edit) {
             Intent intent = new Intent(MypageActivity.this, MyPageEditActivity.class);
-            intent.putExtra("name", parseUser.getString("name"));
-//            intent.putExtra("info",str_info);
-            intent.putExtra("job", str_job);
-            intent.putExtra("myinfo", parseUser.getString("info"));
-            intent.putExtra("mydetail", parseUser.getString("detail"));
+            intent.putExtra("name", txtName.getText().toString());
+            intent.putExtra("myinfo", txtInfo.getText().toString());
+            intent.putExtra("tag", txtTag.getText().toString());
             startActivity(intent);
             return true;
         }

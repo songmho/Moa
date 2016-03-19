@@ -45,45 +45,48 @@ public class MyPageEditActivity extends AppCompatActivity {
     EditText detail;
     de.hdodenhof.circleimageview.CircleImageView profile;
     int job_int;
-    String tempPath="data/data/com.team1.valueupapp/files/profile.jpg";
-    File profileimage=new File("data/data/com.team1.valueupapp/files/profile.jpg");
+    String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
+    File profileimage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
     ParseObject object;
 
 
     ParseFile profile_parse;
-    ParseUser user=ParseUser.getCurrentUser();
-    int CAMERA_REQUEST=1000;
-    int SELECT_FILE=2000;
-    CharSequence[] item={"카메라","갤러리에서 사진 가져오기","삭제"};
-    File file_up_path=new File("data/data/com.team1.valueupapp/files/");
+    ParseUser user = ParseUser.getCurrentUser();
+    int CAMERA_REQUEST = 1000;
+    int SELECT_FILE = 2000;
+    CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
+    File file_up_path = new File("data/data/com.team1.valueupapp/files/");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage_edit);
 
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("내정보 수정");
+        toolbar.setTitle("내정보 수정");
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        name=(EditText)findViewById(R.id.name);
-        fieldgroup=(RadioGroup)findViewById(R.id.fieldgroup);
-        field1=(RadioButton)findViewById(R.id.field1);
-        field2=(RadioButton)findViewById(R.id.field2);
-        field3=(RadioButton)findViewById(R.id.field3);
-        info=(TextView)findViewById(R.id.info);
-        myinfo=(EditText)findViewById(R.id.myinfo);
-        detail=(EditText)findViewById(R.id.detail);
 
-        profile =(de.hdodenhof.circleimageview.CircleImageView)findViewById(R.id.my_image);
-        if(profileimage.exists()){
-            Bitmap bm=BitmapFactory.decodeFile(tempPath);
-            profile.setImageBitmap(bm);}
-        else{
-            Bitmap b=BitmapFactory.decodeResource(getResources(),R.drawable.ic_user);
+        name = (EditText) findViewById(R.id.name);
+        fieldgroup = (RadioGroup) findViewById(R.id.fieldgroup);
+        field1 = (RadioButton) findViewById(R.id.field1);
+        field2 = (RadioButton) findViewById(R.id.field2);
+        field3 = (RadioButton) findViewById(R.id.field3);
+        info = (TextView) findViewById(R.id.info);
+        myinfo = (EditText) findViewById(R.id.myinfo);
+        detail = (EditText) findViewById(R.id.detail);
+
+        profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.my_image);
+        if (profileimage.exists()) {
+            Bitmap bm = BitmapFactory.decodeFile(tempPath);
+            profile.setImageBitmap(bm);
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
             profile.setImageBitmap(b);
         }
-        Intent getIntent=getIntent();
+        Intent getIntent = getIntent();
         name.setText(getIntent.getStringExtra("name"));
         myinfo.setText(getIntent.getStringExtra("myinfo"));
         detail.setText(getIntent.getStringExtra("mydetail"));
@@ -95,7 +98,7 @@ public class MyPageEditActivity extends AppCompatActivity {
             }
         });
 
-        switch (getIntent.getStringExtra("job")){
+        switch (getIntent.getStringExtra("job")) {
             case "기획자":
                 field1.setChecked(true);
                 info.setText("아이디어");
@@ -114,26 +117,26 @@ public class MyPageEditActivity extends AppCompatActivity {
 
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.field1:
                         field1.setChecked(true);
                         field2.setChecked(false);
                         field3.setChecked(false);
                         info.setText("아이디어");
-                        job_int=0;
+                        job_int = 0;
                         break;
                     case R.id.field2:
                         field1.setChecked(false);
                         field2.setChecked(true);
                         field3.setChecked(false);
                         info.setText("스킬");
-                        job_int=1;
+                        job_int = 1;
                         break;
                     case R.id.field3:
                         field1.setChecked(false);
                         field2.setChecked(false);
                         field3.setChecked(true);
-                        job_int=2;
+                        job_int = 2;
                         info.setText("스킬");
                         break;
                 }
@@ -153,19 +156,19 @@ public class MyPageEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_check) {
-            ParseUser user=ParseUser.getCurrentUser();
+            ParseUser user = ParseUser.getCurrentUser();
             user.put("name", String.valueOf(name.getText()));
-            user.put("detail",String.valueOf(detail.getText()));
-            user.put("info",String.valueOf(myinfo.getText()));
-            switch (job_int){
+            user.put("detail", String.valueOf(detail.getText()));
+            user.put("info", String.valueOf(myinfo.getText()));
+            switch (job_int) {
                 case 0:
-                    user.put("job","plan");
+                    user.put("job", "plan");
                     break;
                 case 1:
-                    user.put("job","dev");
+                    user.put("job", "dev");
                     break;
                 case 2:
-                    user.put("job","dis");
+                    user.put("job", "dis");
                     break;
             }
 
@@ -184,11 +187,11 @@ public class MyPageEditActivity extends AppCompatActivity {
 
             user.saveInBackground();
             finish();
-            Toast.makeText(getApplicationContext(),"저장되었습니다.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show();
             return true;
         }
-        if(id==android.R.id.home && getIntent().getIntExtra("signup",0)==1){
-            startActivity(new Intent(MyPageEditActivity.this,MainActivity.class));
+        if (id == android.R.id.home && getIntent().getIntExtra("signup", 0) == 1) {
+            startActivity(new Intent(MyPageEditActivity.this, MainActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -230,16 +233,15 @@ public class MyPageEditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap thum = null;
-        if(resultCode==RESULT_OK && data!=null){
-            if(requestCode==CAMERA_REQUEST){
-                thum=(Bitmap)data.getExtras().get("data");
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == CAMERA_REQUEST) {
+                thum = (Bitmap) data.getExtras().get("data");
                 profile.setImageBitmap(thum);
                 imgSendParse(thum);
-            }
-            else if(requestCode==SELECT_FILE){
-                Uri uri=data.getData();
+            } else if (requestCode == SELECT_FILE) {
+                Uri uri = data.getData();
                 try {
-                    thum = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+                    thum = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                     profile.setImageBitmap(thum);
                     imgSendParse(thum);
                 } catch (IOException e) {
@@ -247,11 +249,11 @@ public class MyPageEditActivity extends AppCompatActivity {
                 }
             }
 
-            File file=new File("profile.jpg");
-            FileOutputStream fos= null;
+            File file = new File("profile.jpg");
+            FileOutputStream fos = null;
             try {
-                fos = openFileOutput("profile.jpg",0);
-                thum.compress(Bitmap.CompressFormat.JPEG,50,fos);
+                fos = openFileOutput("profile.jpg", 0);
+                thum.compress(Bitmap.CompressFormat.JPEG, 50, fos);
                 fos.flush();
                 fos.close();
             } catch (FileNotFoundException e) {
@@ -263,17 +265,17 @@ public class MyPageEditActivity extends AppCompatActivity {
     }
 
     private void imgSendParse(Bitmap thum) {
-        profile_parse=new ParseFile("profile.jpg",bitmapTobyte(thum));
-        if(user.get("profile")!=null)
+        profile_parse = new ParseFile("profile.jpg", bitmapTobyte(thum));
+        if (user.get("profile") != null)
             user.remove("profile");
         user.put("profile", profile_parse);
         user.saveInBackground();
     }
 
     private byte[] bitmapTobyte(Bitmap bm) {
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-        byte[] bytes=stream.toByteArray();
+        byte[] bytes = stream.toByteArray();
         return bytes;
     }
 }
