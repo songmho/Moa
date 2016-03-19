@@ -56,7 +56,7 @@ public class TeamEditActivity extends AppCompatActivity {            //동명이
         detail=(EditText)findViewById(R.id.detail);
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         progressBar=(ProgressBar)findViewById(R.id.progressbar);
-        ImageView add=(ImageView)findViewById(R.id.add);
+     //   ImageView add=(ImageView)findViewById(R.id.add);
 
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -64,7 +64,7 @@ public class TeamEditActivity extends AppCompatActivity {            //동명이
 
 //        title.setText(intent.getStringExtra("title"));
 //        detail.setText(intent.getStringExtra("detail"));
-        add.setVisibility(View.GONE);
+ //       add.setVisibility(View.GONE);
     }//onCreate
 
     @Override

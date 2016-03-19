@@ -50,7 +50,6 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
     @Bind(R.id.bt_inter_2) Button bt_inter_2;
     @Bind(R.id.bt_inter_3) Button bt_inter_3;
     @Bind(R.id.edit_inter) EditText edit_inter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +78,8 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 ParseObject input_team =new ParseObject("Team");
                 ParseObject object = new ParseObject("Team");
-                object.put("idea", String.valueOf(editTitle.getText()));
-                object.put("idea_info", String.valueOf(editDetail.getText()));
+                object.put("intro", String.valueOf(editTitle.getText()));
+                object.put("intro_detail", String.valueOf(editDetail.getText()));
                 object.put("admin_member", ParseUser.getCurrentUser());
                 object.getRelation("member").add(ParseUser.getCurrentUser());
                 object.saveInBackground();

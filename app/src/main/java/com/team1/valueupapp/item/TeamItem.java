@@ -7,8 +7,7 @@ public class TeamItem {
     String title;
     String name;
     String detail;
-    String pick;
-    int team;
+    String username;
 
     public String getName() {
         return name;
@@ -18,24 +17,18 @@ public class TeamItem {
         return detail;
     }
 
-    public String getPick() {
-        return pick;
-    }
-
-    public int getTeam() {
-        return team;
-    }
-
     public String getTitle() {
         return title;
     }
 
-    public TeamItem(String title, String name, String detail, String pick, int team) {
+    public String getUsername() {
+        return username;
+    }
+
+    public TeamItem(String title, String name, String username , String detail) {
         this.title = title;
         this.name = name;
         this.detail = detail;
-        this.pick = pick;
-        this.team = team;
-
+        this.username = username;
     }
 }

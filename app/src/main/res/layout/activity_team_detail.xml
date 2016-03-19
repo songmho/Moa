@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -34,7 +32,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -62,42 +60,32 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/ic_mento_company" />
+                    android:background="@drawable/ic_intro_idea" />
 
                 <TextView
-                    android:text="팀장"
-                    android:textColor="@color/mypageColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:textStyle="bold"
-                    android:textSize="16dp" />
-
+                    android:text="소개"
+                    android:textColor="@color/mypageColor"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
                 android:paddingLeft="60dp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/admin_profile"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_user"/>
 
                 <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/admin_name"
-                    android:text="dddd"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:id="@+id/detail"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:text="" />
             </LinearLayout>
-
-
 
 
             <LinearLayout
@@ -111,43 +99,49 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/ic_intro_idea" />
+                    android:background="@drawable/ic_mento_company" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:text="아이디어"
+                    android:text="팀장"
                     android:textColor="@color/mypageColor"
                     android:textSize="16dp"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
                 android:paddingLeft="60dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/admin_profile"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_user" />
+
                 <TextView
-                    android:id="@+id/detail"
-                    android:layout_width="280dp"
+                    android:id="@+id/admin_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdfffffffffffffffffffffffffff"/>
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="dddd" />
             </LinearLayout>
 
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="12dp">
-
 
                 <ImageView
                     android:layout_width="32dp"
@@ -168,168 +162,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:textSize="16dp"
+                    android:text=""
                     android:textColor="#747474"
-                    android:text=""/>
-              </LinearLayout>
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/add"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center|right"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/ic_add_circle_gray"/>
-
-            </FrameLayout>
-
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/member1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="60dp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/member_profile_1"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_user"/>
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/member_name_1"
-                    android:text="dddd"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
 
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/member2"
+            <Button
+                android:id="@+id/bt_join"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="60dp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/member_profile_2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_user"/>
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/member_name_2"
-                    android:text="dddd"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/member3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="60dp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/member_profile_3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_user"/>
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/member_name_3"
-                    android:text="dddd"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/member4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="60dp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/member_profile_4"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_user"/>
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/member_name_4"
-                    android:text="dddd"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/member5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="60dp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/member_profile_5"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_user"/>
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/member_name_5"
-                    android:text="dddd"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/member6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:paddingLeft="60dp">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/member_profile_6"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/ic_user"/>
-
-                <TextView
-                    android:layout_marginLeft="10dp"
-                    android:id="@+id/member_name_6"
-                    android:text="dddd"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="80dp"/>
-
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="@color/ColorPrimary"
+                android:text="참여하기"
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

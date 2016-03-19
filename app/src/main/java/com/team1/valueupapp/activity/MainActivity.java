@@ -335,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ParseUser user = parseObject.getParseUser("admin_member");
                     try {
                         user.fetchIfNeeded();
-                        TeamItem item = new TeamItem(parseObject.getString("idea"), /*user.getString("name") TODO: 16. 3. 19. 뻗어서 임시로 이메일로 함*/ user.getString("email"), parseObject.getString("idea_info"), "", 0);
+                        TeamItem item = new TeamItem(parseObject.getString("intro"), user.getString("name"),user.getUsername(), parseObject.getString("intro_detail"));
                         mainTeamItems.add(item);
                     } catch (ParseException e1) {
                         e1.printStackTrace();

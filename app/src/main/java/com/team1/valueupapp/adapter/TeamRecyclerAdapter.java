@@ -59,7 +59,6 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
             final TeamItem item = items_list.get(position);
 
             ((holder) holder).title.setText(item.getTitle());
-            ((holder) holder).name.setText(item.getName());
             ((holder) holder).detail.setText(item.getDetail());
 
             ((holder) holder).cardView.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +67,7 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
                     Intent intent = new Intent(context.getApplicationContext(), TeamDetailActivity.class);
                     intent.putExtra("title", item.getTitle());
                     intent.putExtra("name", item.getName());
+                    intent.putExtra("username",item.getUsername());
                     intent.putExtra("detail", item.getDetail());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

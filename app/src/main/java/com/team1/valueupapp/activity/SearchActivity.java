@@ -116,9 +116,9 @@ public class SearchActivity extends AppCompatActivity {
                                         if (list_pick.contains(s))
                                             same_mem = same_mem + " " + s;
                                     }
-                                    TeamItem item = new TeamItem(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
+                                /*    TeamItem item = new TeamItem(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
                                     items.add(item);
-                                }
+                                */}
                                 recyclerView.setAdapter(new TeamRecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
 
                             }
