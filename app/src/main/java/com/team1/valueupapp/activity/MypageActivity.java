@@ -95,41 +95,6 @@ public class MypageActivity extends AppCompatActivity {
         super.onResume();
         parseUser = ParseUser.getCurrentUser();
         collapsing_toolbar.setTitle(parseUser.getString("name"));
-
-        switch (parseUser.getString("job")) {
-            case "plan":
-                str_job = "기획자";
-                str_info.setText("아이디어");
-
-                myjob.setText("기획자");
-                myjob.setTextColor(getResources().getColor(R.color.tab_color));
-                myjob.setBackgroundColor(getResources().getColor(R.color.planner));
-                myjob.setPadding(30, 15, 30, 15);
-
-
-//                title.setText("아이디어");
-                break;
-            case "dev":
-                str_job = "개발자";
-                str_info.setText("스킬");
-                myjob.setText("개발자");
-                myjob.setTextColor(getResources().getColor(R.color.tab_color));
-                myjob.setBackgroundColor(getResources().getColor(R.color.developer));
-                myjob.setPadding(30, 15, 30, 15);
-
-//                title.setText("스킬");
-                break;
-            case "dis":
-                str_job = "디자이너";
-                str_info.setText("스킬");
-                myjob.setText("디자이너");
-                myjob.setTextColor(getResources().getColor(R.color.tab_color));
-                myjob.setBackgroundColor(getResources().getColor(R.color.designer));
-                myjob.setPadding(30, 15, 30, 15);
-//                title.setText("스킬");
-                break;
-        }
-
         myinfo.setText(parseUser.getString("info"));
         mydetail.setText(parseUser.getString("detail"));
 
