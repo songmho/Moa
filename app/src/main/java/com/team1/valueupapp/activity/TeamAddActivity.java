@@ -74,30 +74,20 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
 //        layoutManager = new LinearLayoutManager(getApplicationContext());
 //        recyclerView.setLayoutManager(layoutManager);
 
-        findViewById(R.id.btn_make_team).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_make_team).setOnClickListener(new View.OnClickListener() {        //팀생성버튼 클릭 시
             @Override
             public void onClick(View v) {
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> list, ParseException e) {
-                        if (!list.isEmpty()) {
-                            ParseObject object = list.get(0);
-//                          object.remove("idea");
-                            object.put("idea", String.valueOf(editTitle.getText()));
-                            object.remove("idea_info");
-                            object.put("idea_info", String.valueOf(editDetail.getText()));
-                            object.saveInBackground();
-                        } else {
-                            ParseObject object = new ParseObject("Team");
-                            object.put("idea", String.valueOf(editTitle.getText()));
-                            object.put("idea_info", String.valueOf(editDetail.getText()));
-                            object.put("admin_member", ParseUser.getCurrentUser());
+                        ParseObject object = new ParseObject("Team");
+                        object.put("idea", String.valueOf(editTitle.getText()));
+                        object.put("idea_info", String.valueOf(editDetail.getText()));
+                        object.put("admin_member", ParseUser.getCurrentUser());
 
-                            object.getRelation("member").add(ParseUser.getCurrentUser());
-                            object.saveInBackground();
-                        }
+                        object.getRelation("member").add(ParseUser.getCurrentUser());
+                        object.saveInBackground();
                     }
                 });
                 startActivity(new Intent(TeamAddActivity.this, TeamActivity.class));
