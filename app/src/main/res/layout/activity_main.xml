@@ -29,42 +29,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:layout_marginBottom="2.5dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@drawable/main_00"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:gravity="center"
-                            android:src="@drawable/main_clock"/>
-
-                        <TextView
-                            android:id="@+id/name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:text="팀 빌딩 하는 시간입니다"
-                            android:textColor="@color/white"
-                            android:textSize="20dp"
-                            android:textStyle="bold"/>
-
-                    </LinearLayout>
-                </LinearLayout>
 
                 <!--        <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerview"
@@ -79,7 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="?attr/actionBarSize"/>
-
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            style="@style/CircularProgress"
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -124,5 +95,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer"/>
+
 
 </android.support.v4.widget.DrawerLayout>

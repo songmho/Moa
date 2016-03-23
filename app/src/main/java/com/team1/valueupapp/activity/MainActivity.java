@@ -1,7 +1,6 @@
 package com.team1.valueupapp.activity;
 
 import android.annotation.TargetApi;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,13 +16,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +30,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 import com.team1.valueupapp.adapter.TeamRecyclerAdapter;
@@ -61,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ArrayList<TeamItem> mainTeamItems;
 
-
+    public static final int RESULT_MAKE_TEAM = 11;
     public static final String TAG = "MainActivity";
 
 
@@ -71,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.navigationView) NavigationView navigationView;
     @Bind(R.id.name) TextView name;
     @Bind(R.id.main_recyclerview) RecyclerView mainRecyclerView;
+    @Bind(R.id.progressbar) ProgressBar progressBar;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -216,11 +214,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        TextView t = (TextView) navigationView.findViewById(R.id.name);
+        TextView txtName = (TextView) navigationView.findViewById(R.id.name);
         if (user != null) {
-            t.setText(user.getString("name"));
+            txtName.setText(user.getString("name"));
         } else {
-            t.setText("로그인을 해 주세요.");
+            txtName.setText("로그인을 해 주세요.");
         }
         if (profileImage.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(tempPath);
@@ -235,17 +233,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
+            case KeyEvent.KEYCODE_BACK: {
                 if (drawerLayout.isDrawerOpen(navigationView))
                     drawerLayout.closeDrawers();
                 else {
-                    moveTaskToBack(true);
-                    finish();
+                    backKeyPressed();
                 }
-                break;
+                return true;
+            }
         }
 
-        return true;
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private long timeBackKeyPressed = 0;
+
+    public void backKeyPressed() {
+        if (System.currentTimeMillis() <= timeBackKeyPressed + 2000) {
+            finish();
+        } else {
+            timeBackKeyPressed = System.currentTimeMillis();
+            Toast.makeText(this, "뒤로 가기 버튼을 한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -307,11 +316,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fab:
                 //비로그인 시 로그인 화면으로 이동
                 if (user == null) {
+                    Toast.makeText(mContext, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     overridePendingTransition(0, 0);
                     //로그인 시 팀만들기 화면으로 이동
                 } else {
-                    startActivity(new Intent(MainActivity.this, TeamAddActivity.class));
+                    startActivityForResult(new Intent(MainActivity.this, TeamAddActivity.class), RESULT_MAKE_TEAM);
                 }
                 break;
         }
@@ -324,13 +334,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mainTeamItems.clear();
         else
             mainTeamItems = new ArrayList<>();
+        progressBar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Team");
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
+                if (!isFinishing())
+                    progressBar.setVisibility(View.GONE);
                 if (list == null || list.size() == 0) return;
                 for (ParseObject parseObject : list) {
-                    ParseRelation<ParseUser> member_relatrion = parseObject.getRelation("member");
                     ParseUser user = parseObject.getParseUser("admin_member");
                     try {
                         user.fetchIfNeeded();
@@ -345,4 +357,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }//makeList
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == RESULT_MAKE_TEAM && resultCode == RESULT_OK) {
+            makeList();     //팀 생성 성공 후 리스트 새로 불러오기.
+        }
+    }
 }
