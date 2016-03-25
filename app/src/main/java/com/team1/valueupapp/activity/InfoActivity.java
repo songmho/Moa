@@ -194,7 +194,7 @@ public class InfoActivity extends AppCompatActivity {
                     go_to.putExtra("idea", intent.getStringExtra("idea"));
                     startActivity(go_to);
                 } else {
-                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(InfoActivity.this, LoginActivity.class));
                 }
             }

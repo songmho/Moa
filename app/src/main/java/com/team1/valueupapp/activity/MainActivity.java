@@ -13,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +44,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     CircleImageView profile;
     CircleImageView profile_drawer;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
     String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
     File profileImage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
-    ParseFile profile_parse;
+    boolean isRefreshing = false;
     ParseUser user = ParseUser.getCurrentUser();
 
     ArrayList<TeamItem> mainTeamItems;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.name) TextView name;
     @Bind(R.id.main_recyclerview) RecyclerView mainRecyclerView;
     @Bind(R.id.progressbar) ProgressBar progressBar;
+    @Bind(R.id.layout_refresh) SwipeRefreshLayout swipeRefreshLayout;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         mainRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -100,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         setUpNavDrawer();
-
 
         makeDrawerHeader();
 
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        makeList();
+                        getListData();
                     }
                 });
             }
@@ -329,18 +331,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //팀 리스트 불러옴
-    public void makeList() {
+    public void getListData() {
         if (mainTeamItems != null)
             mainTeamItems.clear();
         else
             mainTeamItems = new ArrayList<>();
-        progressBar.setVisibility(View.VISIBLE);
+        if (!swipeRefreshLayout.isRefreshing())
+            progressBar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Team");
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 if (!isFinishing())
                     progressBar.setVisibility(View.GONE);
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
                 if (list == null || list.size() == 0) return;
                 for (ParseObject parseObject : list) {
                     ParseUser user = parseObject.getParseUser("admin_member");
@@ -356,13 +361,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mainRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team));
             }
         });
-    }//makeList
+    }//getListData
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode == RESULT_MAKE_TEAM && resultCode == RESULT_OK) {
-            makeList();     //팀 생성 성공 후 리스트 새로 불러오기.
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_MAKE_TEAM && resultCode == RESULT_OK) {
+            //팀 생성 성공 후 리스트 새로 불러오기.
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getListData();
+                        }
+                    });
+                }
+            }).start();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getListData();
+                    }
+                });
+            }
+        }).start();
     }
 }
