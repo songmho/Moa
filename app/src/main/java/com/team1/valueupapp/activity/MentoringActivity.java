@@ -113,7 +113,7 @@ public class MentoringActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Intent intent = new Intent(MentoringActivity.this, SearchActivity.class);
+                    Intent intent = new Intent(MentoringActivity.this, SearchActivity_Legacy.class);
                     intent.putExtra("query", query);
                     intent.putExtra("page", "mentoring");
                     startActivity(intent);

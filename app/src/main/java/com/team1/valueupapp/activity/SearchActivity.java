@@ -1,230 +1,167 @@
 package com.team1.valueupapp.activity;
 
-import android.content.Intent;
+import android.app.SearchManager;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseFile;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.team1.valueupapp.item.ListRecyclerItem;
-import com.team1.valueupapp.adapter.MentorAdapter;
-import com.team1.valueupapp.item.MentorItem;
-import com.team1.valueupapp.adapter.MentoringAdapter;
-import com.team1.valueupapp.item.MentoringItem;
 import com.team1.valueupapp.R;
-import com.team1.valueupapp.adapter.RecyclerAdpater;
-import com.team1.valueupapp.adapter.TeamRecyclerAdapter;
-import com.team1.valueupapp.item.TeamItem;
+import com.team1.valueupapp.fragment.PersonSearchFragment;
+import com.team1.valueupapp.fragment.TeamSearchFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
- * Created by songmho on 15. 8. 19.
+ * Created by knulps on 16. 3. 26..
  */
 public class SearchActivity extends AppCompatActivity {
 
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.viewPager) ViewPager viewPager;
+    @Bind(R.id.tabs) TabLayout tabLayout;
 
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    int cur_job;
-    ProgressBar progressBar;
+    TeamSearchFragment groupSearchFragment;
+    PersonSearchFragment personSearchFragment;
+    private static final String TAG = "SearchActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.l_activity_new_search);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("검색결과");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
+        setupViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+    }
 
-     /*   searchFragment.setArguments(bundle);
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.container, searchFragment);
-        fragmentTransaction.commit();*/
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        groupSearchFragment = new TeamSearchFragment();
+        personSearchFragment = new PersonSearchFragment();
+        adapter.addFragment(groupSearchFragment, "그룹");
+        adapter.addFragment(personSearchFragment, "사람");
+        viewPager.setAdapter(adapter);
+    }
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        //search=bundle.getString("search");
-        Log.d("search", intent.getStringExtra("query"));
-        String page_str = "";
-        int page = 0;
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        switch(intent.getStringExtra("page")) {
-            case "main":
-                page = 0;
-                makeList(intent.getStringExtra("query"), page);
-                break;
-            case "interest":
-                page = 1;
-                makeList(intent.getStringExtra("query"), page);
-                break;
-            case "mentor":
-                page_str = "ValueUp_mentor";
-                makeMentorList(intent.getStringExtra("query"), page_str);
-                break;
-            case "mentoring":
-                page_str = "ValueUp_mentoring";
-                makeMentorList(intent.getStringExtra("query"), page_str);
-                break;
-            case "team":
-                page_str = "ValueUp_team";
-                makeTeamList(intent.getStringExtra("query"));
-                break;
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
         }
     }
 
-    public void makeTeamList(final String query) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.VISIBLE);
-                final ArrayList<TeamItem> items = new ArrayList<>();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final List<String> list_pick = ParseUser.getCurrentUser().getList("pick");
-                        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("ValueUp_team");
-                        parseQuery.whereContains("admin_member", query);
-                        parseQuery.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                Log.d("dfdfdfdf", "" + list.size());
-                                for (ParseObject o : list) {
-                                    String same_mem = "";
-                                    List<String> list_member = o.getList("member");
-                                    for (String s : list_member) {
-                                        if (list_pick.contains(s))
-                                            same_mem = same_mem + " " + s;
-                                    }
-                                /*    TeamItem item = new TeamItem(o.getString("idea"), o.getString("admin_member"), o.getString("idea_info"), same_mem, o.getList("member").size());
-                                    items.add(item);
-                                */}
-                                recyclerView.setAdapter(new TeamRecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchManager searchManager = (SearchManager) SearchActivity.this.getSystemService(SEARCH_SERVICE);
+        SearchView searchView = null;
+        if (searchItem != null) {
+            searchView = (SearchView) searchItem.getActionView();
+        }
+        if (searchView != null) {
+            searchView.setIconifiedByDefault(false);
+            searchView.requestFocus();
+            searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+            searchView.setQueryHint("검색어를 입력해주세요.");
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(SearchActivity.this.getComponentName()));
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-                            }
-                        });
-
-                        progressBar.setVisibility(View.GONE);
-
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    switch (viewPager.getCurrentItem()) {
+                        case 0:
+                            groupSearchFragment.search(query);
+                            break;
+                        case 1:
+                            personSearchFragment.search(query);
+                            break;
                     }
-                });
-            }
-        }).start();
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+
+            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                @Override
+                public boolean onClose() {
+                    return false;
+                }
+            });
+        }
+        return true;
     }
 
-    private void makeMentorList(final String query, final String page_str) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.VISIBLE);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery(page_str);
-                        if (page_str.equals("ValueUp_mentor"))
-                            parseQuery.whereContains("mentor_name", query);
-                        else if (page_str.equals("ValueUp_mentoring"))
-                            parseQuery.whereContains("mentor", query);
-                        parseQuery.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                if (page_str.equals("ValueUp_mentor")) {
-                                    ArrayList<MentorItem> items = new ArrayList<>();
-                                    for (int i = 0; i < list.size(); i++) {
-                                        MentorItem mentor_item = new MentorItem(list.get(i).getString("mentor_name"), list.get(i).getString("mentor_field"),
-                                                list.get(i).getString("company"), list.get(i).getString("email"));
-                                        items.add(mentor_item);
-                                    }
-                                    recyclerView.setAdapter(new MentorAdapter(getApplicationContext(), items, R.layout.activity_mentor));
-                                    progressBar.setVisibility(View.GONE);
-                                } else if (page_str.equals("ValueUp_mentoring")) {
-                                    ArrayList<MentoringItem> items = new ArrayList<>();
-                                    for (ParseObject o : list) {
-                                        MentoringItem item = new MentoringItem(o.getString("job"),
-                                                o.getInt("year"), o.getInt("month"), o.getInt("day"),
-                                                o.getString("title"), o.getString("mentor"), o.getString("venue"), o.getString("detail"));
-                                        items.add(item);
-                                    }
-                                    recyclerView.setAdapter(new MentoringAdapter(getApplicationContext(), items, R.layout.activity_mentoring));
-                                    progressBar.setVisibility(View.GONE);
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        }).start();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+            return true;
+        } else if (item.getItemId() == R.id.home) {
+            Log.e(TAG, "home pressed");
+            finish();
+            overridePendingTransition(0, 0);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-    public void makeList(final String search, final int frag) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                progressBar.setVisibility(View.VISIBLE);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ParseQuery<ParseUser> query = ParseUser.getQuery();
-                        query.whereContains("name", search);
-                        if (frag == 1)
-                            query.whereContainedIn("name", ParseUser.getCurrentUser().getList("pick"));
-                        query.addAscendingOrder("name");
-                        final List<ListRecyclerItem> items = new ArrayList<>();
-                        query.findInBackground(new FindCallback<ParseUser>() {
-                            @Override
-                            public void done(List<ParseUser> list, ParseException e) {
-                                Log.d("dddd", "" + list.size());
-                                for (int i = 0; i < list.size(); i++) {
-                                    if (list.get(i).getString("job").equals("plan"))
-                                        cur_job = 0;
-                                    else if (list.get(i).getString("job").equals("dev"))
-                                        cur_job = 1;
-                                    else
-                                        cur_job = 2;
-
-                                    ParseFile parse_file = (ParseFile) list.get(i).get("profile");
-                                    try {
-                                        byte[] bytes;
-                                        if (parse_file != null)
-                                            bytes = parse_file.getData();
-                                        else
-                                            bytes = null;
-                                        ListRecyclerItem item = new ListRecyclerItem(bytes, list.get(i).getString("info"),
-                                                list.get(i).getString("name"), cur_job, recyclerView);
-                                        items.add(item);
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                }
-                                recyclerView.setAdapter(new RecyclerAdpater(getApplicationContext(), items, R.layout.item_listrecycler, 0));
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                });
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK: {
+                finish();
+                overridePendingTransition(0, 0);
+                return true;
             }
-        }).start();
+        }
 
+        return super.onKeyDown(keyCode, event);
     }
 }

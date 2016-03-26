@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/header"
-    android:layout_width="match_parent"
-    android:layout_height="192dp"
-    android:orientation="vertical"
-    android:background="@drawable/drawer_pattern"
-    >
+<FrameLayout android:id="@+id/header"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="192dp"
+             android:background="@drawable/drawer_pattern"
+             android:orientation="vertical">
+
     <LinearLayout
-        android:layout_gravity="bottom"
-        android:orientation="vertical"
-        android:layout_marginLeft="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="15dp"
+        android:orientation="vertical"
         >
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/ic_user"
-                />
-    <TextView
-        android:id="@+id/name"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="12dp"
-        android:textSize="20dp"
-        android:textColor="#FFFFFF"
-        android:text="null" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_user"
+            />
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="24dp"
+            android:text="null"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp"/>
     </LinearLayout>
 </FrameLayout>

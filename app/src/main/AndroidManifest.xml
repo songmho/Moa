@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.team1.valueupapp"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="com.team1.valueupapp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -55,6 +56,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.InfoActivity"/>
         </activity>
+
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity
             android:name=".activity.TeamDetailActivity"
@@ -120,6 +126,13 @@
         </activity>
 
         <activity
+            android:name=".activity.UserDetailActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
+        </activity>
+        <activity
             android:name=".activity.InterestActivity"
             android:screenOrientation="portrait">
             <meta-data
@@ -165,7 +178,7 @@
         </activity>
 
         <activity
-            android:name=".activity.SearchActivity"
+            android:name=".activity.SearchActivity_Legacy"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

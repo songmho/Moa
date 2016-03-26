@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -143,7 +142,7 @@ public class TeamActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Intent intent = new Intent(TeamActivity.this, SearchActivity.class);
+                    Intent intent = new Intent(TeamActivity.this, SearchActivity_Legacy.class);
                     intent.putExtra("query", query);
                     intent.putExtra("page", "team");
                     startActivity(intent);

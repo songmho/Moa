@@ -13,16 +13,27 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
+import com.team1.valueupapp.adapter.TeamRecyclerAdapter;
+import com.team1.valueupapp.item.TeamItem;
+import com.team1.valueupapp.item.UserItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,17 +42,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by eugene on 2015-08-08.
  */
-public class MypageActivity extends AppCompatActivity {
-    ParseUser parseUser;
-    String str_job;
-    ImageView profileBlur;
-    CircleImageView profile;
-
-    CollapsingToolbarLayout collapsing_toolbar;
-
+public class UserDetailActivity extends AppCompatActivity {
     @Bind(R.id.txt_info) TextView txtInfo;
     @Bind(R.id.txt_name) TextView txtName;
     @Bind(R.id.txt_tag) TextView txtTag;
+    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsing_toolbar;
+    @Bind(R.id.profile_blur) ImageView profileBlur;
+    @Bind(R.id.profile) CircleImageView profile;
+
+    ParseUser parseUser;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,20 +61,42 @@ public class MypageActivity extends AppCompatActivity {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        collapsing_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        profileBlur = (ImageView) findViewById(R.id.profile_blur);
-        profile = (CircleImageView) findViewById(R.id.profile);
+        String name = getIntent().getStringExtra("name");       //이름
+        String info = getIntent().getStringExtra("info");       //소개
+        final String username = getIntent().getStringExtra("username");     //유저네임(이메일)
+        txtName.setText(name);
+        txtInfo.setText(info);
 
-        String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
-        Bitmap bm = BitmapFactory.decodeFile(tempPath);
-        if (bm != null) {
-            profileBlur.setImageBitmap(blur(getApplicationContext(), bm, 20));
-            profile.setImageBitmap(bm);
-        } else {
-            bm = BitmapFactory.decodeResource(getResources(), R.drawable.img_page);
-            profileBlur.setImageBitmap(blur(getApplicationContext(), bm, 20));
-            profile.setImageResource(R.drawable.ic_user);
-        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+                parseQuery.whereEqualTo("username", username);
+                parseQuery.findInBackground(new FindCallback<ParseUser>() {
+                    @Override
+                    public void done(List<ParseUser> list, ParseException e) {
+                        if (!list.isEmpty()) {
+                            if (list.get(0).getJSONArray("tag") != null) {  //태그가 존재할 때
+                                String strTag = "";
+                                JSONArray tagArray = list.get(0).getJSONArray("tag");       //태그를 JsonArray형식으로 가져옴
+                                for (int i = 0; i < tagArray.length(); i++) {
+                                    try {
+                                        if (!tagArray.getString(i).equals(""))
+                                            strTag += "#" + tagArray.getString(i) + " ";
+                                    } catch (JSONException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                                txtTag.setText(strTag);
+                            } else        //리스트가 비어있거나(리스트가 비어있을 경우에 대한 예외처리 필요) 태그가 등록 되어 있지 않으면
+                                txtTag.setText("");
+                        }
+
+                    }
+                });
+            }
+        });
+
     }
 
     public Bitmap blur(Context context, Bitmap sentBitmap, int radius) {
@@ -88,41 +119,14 @@ public class MypageActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        parseUser = ParseUser.getCurrentUser();
-        txtName.setText(parseUser.getString("name"));
-        txtInfo.setText(parseUser.getString("info"));
-        try {
-            String strTag = "";
-            JSONArray tagArray = parseUser.getJSONArray("tag");
-            for (int i = 0; i < tagArray.length(); i++) {
-                if (!tagArray.getString(i).equals(""))
-                    strTag += "#" + tagArray.getString(i) + " ";
-            }
-            txtTag.setText(strTag);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit, menu);
-        MenuItem editItem = menu.findItem(R.id.action_edit);
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_edit) {
-            Intent intent = new Intent(MypageActivity.this, MyPageEditActivity.class);
+            Intent intent = new Intent(UserDetailActivity.this, MyPageEditActivity.class);
             intent.putExtra("name", txtName.getText().toString());
             intent.putExtra("myInfo", txtInfo.getText().toString());
             intent.putExtra("tag", txtTag.getText().toString());

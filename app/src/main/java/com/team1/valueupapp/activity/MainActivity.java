@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
     String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
     File profileImage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
-    boolean isRefreshing = false;
     ParseUser user = ParseUser.getCurrentUser();
 
     ArrayList<TeamItem> mainTeamItems;
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawerlayout) DrawerLayout drawerLayout;
     @Bind(R.id.navigationView) NavigationView navigationView;
-    @Bind(R.id.name) TextView name;
     @Bind(R.id.main_recyclerview) RecyclerView mainRecyclerView;
     @Bind(R.id.progressbar) ProgressBar progressBar;
     @Bind(R.id.layout_refresh) SwipeRefreshLayout swipeRefreshLayout;
@@ -205,8 +202,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void makeDrawerHeader() {
-        profile_drawer = (CircleImageView) navigationView.findViewById(R.id.profile);
-        navigationView.findViewById(R.id.header).setOnClickListener(new View.OnClickListener() {
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.drawer_header);
+        headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (user != null) {
@@ -216,12 +214,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        TextView txtName = (TextView) navigationView.findViewById(R.id.name);
+        TextView txtName = (TextView) headerLayout.findViewById(R.id.name);
         if (user != null) {
             txtName.setText(user.getString("name"));
         } else {
             txtName.setText("로그인을 해 주세요.");
         }
+        profile_drawer = (CircleImageView) headerLayout.findViewById(R.id.profile);
         if (profileImage.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(tempPath);
             profile_drawer.setImageBitmap(bm);
@@ -277,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    Intent intent = new Intent(MainActivity.this, SearchActivity_Legacy.class);
                     intent.putExtra("query", query);
                     intent.putExtra("page", "main");
                     startActivity(intent);
@@ -303,9 +302,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_search) {
-//            startActivity(new Intent(mContext, SearchActivity.class));
-//            overridePendingTransition(0, 0);
-            Toast.makeText(mContext, "준비중입니다 '-'", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(mContext, SearchActivity.class));
+            overridePendingTransition(0, 0);
+//            Toast.makeText(mContext, "준비중입니다 '-'", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -342,8 +341,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                if (!isFinishing())
-                    progressBar.setVisibility(View.GONE);
+
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
                 if (list == null || list.size() == 0) return;
@@ -358,6 +356,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                 }
+                if (!isFinishing())
+                    progressBar.setVisibility(View.GONE);
                 mainRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team));
             }
         });

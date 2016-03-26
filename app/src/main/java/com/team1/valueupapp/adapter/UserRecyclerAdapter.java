@@ -4,15 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.team1.valueupapp.R;
-import com.team1.valueupapp.item.TeamItem;
+import com.team1.valueupapp.activity.MypageActivity;
 import com.team1.valueupapp.activity.TeamDetailActivity;
+import com.team1.valueupapp.activity.UserDetailActivity;
+import com.team1.valueupapp.item.TeamItem;
+import com.team1.valueupapp.item.UserItem;
 
 import java.util.List;
 
@@ -20,26 +22,26 @@ import java.util.List;
 /**
  * Created by hyemi on 2015-08-16.
  */
-public class TeamRecyclerAdapter extends RecyclerView.Adapter {
+public class UserRecyclerAdapter extends RecyclerView.Adapter {
     Context context;
-    List<TeamItem> items_list;
+    List<UserItem> itemList;
     int itemLayout;
     int HOLDER = 0;
     int FOOTER = 1;
 
-    public static final String TAG = "TeamRecyclerAdapter";
+    public static final String TAG = "UserRecyclerAdapter";
 
-    public TeamRecyclerAdapter(Context context, List<TeamItem> items, int itemLayout) {
+    public UserRecyclerAdapter(Context context, List<UserItem> items, int itemLayout) {
         this.context = context;
-        this.items_list = items;
+        this.itemList = items;
         this.itemLayout = itemLayout;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position < items_list.size())
+        if (position < itemList.size())
             return HOLDER;
-        else if (position == items_list.size())
+        else if (position == itemList.size())
             return FOOTER;
         return -1;
     }
@@ -47,7 +49,7 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == HOLDER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_team, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_person, parent, false);
             return new holder(v);
         } else if (viewType == FOOTER) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fab_footer, parent, false);
@@ -59,19 +61,16 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof holder) {
-            final TeamItem item = items_list.get(position);
-
-            ((holder) holder).title.setText(item.getTitle());
-            ((holder) holder).detail.setText(item.getDetail());
-
+            final UserItem item = itemList.get(position);
+            ((holder) holder).name.setText(item.getName());
+            ((holder) holder).info.setText(item.getInfo());
             ((holder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.getApplicationContext(), TeamDetailActivity.class);
-                    intent.putExtra("title", item.getTitle());
+                    Intent intent = new Intent(context.getApplicationContext(), UserDetailActivity.class);
+                    intent.putExtra("info", item.getInfo());
                     intent.putExtra("name", item.getName());
-                    intent.putExtra("username", item.getUsername());
-                    intent.putExtra("detail", item.getDetail());
+                    intent.putExtra("username", item.getUserName());
                     context.startActivity(intent);
                 }
             });
@@ -82,21 +81,19 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return items_list.size() + 1;
+        return itemList.size() + 1;
     }
 
 
     public class holder extends RecyclerView.ViewHolder {
-        TextView title;
+        TextView info;
         TextView name;
-        TextView detail;
         CardView cardView;
 
         public holder(View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
+            info = (TextView) itemView.findViewById(R.id.info);
             name = (TextView) itemView.findViewById(R.id.name);
-            detail = (TextView) itemView.findViewById(R.id.detail);
             cardView = (CardView) itemView.findViewById(R.id.cardview);
         }//ViewHolder
     }
