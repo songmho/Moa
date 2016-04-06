@@ -56,6 +56,10 @@ public class MypageActivity extends AppCompatActivity {
         profileBlur = (ImageView) findViewById(R.id.profile_blur);
         profile = (CircleImageView) findViewById(R.id.profile);
 
+        load_profile();
+    }
+
+    private void load_profile() {
         String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
         Bitmap bm = BitmapFactory.decodeFile(tempPath);
         if (bm != null) {
@@ -90,6 +94,7 @@ public class MypageActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        load_profile();
         parseUser = ParseUser.getCurrentUser();
         txtName.setText(parseUser.getString("name"));
         txtInfo.setText(parseUser.getString("info"));

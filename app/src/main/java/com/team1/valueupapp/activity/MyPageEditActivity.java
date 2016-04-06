@@ -214,7 +214,7 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             //프로필 사진 설정
-            case R.id.profile:
+            case R.id.my_image:
                 MakingAlertDialog();
                 break;
             //태그 1

@@ -39,18 +39,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_mypage_camera"/>
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:src="#00FFFFFF"
-                            app:border_color="@color/ColorPrimary"
-                            app:border_width="2dp"/>
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/my_image"

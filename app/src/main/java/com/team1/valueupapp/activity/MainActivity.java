@@ -221,6 +221,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtName.setText("로그인을 해 주세요.");
         }
         profile_drawer = (CircleImageView) headerLayout.findViewById(R.id.profile);
+
+        load_profile();
+    }
+
+    private void load_profile() {
         if (profileImage.exists()) {
             Bitmap bm = BitmapFactory.decodeFile(tempPath);
             profile_drawer.setImageBitmap(bm);
@@ -380,6 +385,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }).start();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        load_profile();
     }
 
     @Override
