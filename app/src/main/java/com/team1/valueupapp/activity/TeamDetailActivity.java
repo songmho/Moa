@@ -7,6 +7,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,7 +19,9 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.team1.valueupapp.R;
 
 import org.json.JSONArray;
@@ -35,6 +38,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class TeamDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Intent intent;
     @Bind(R.id.bt_join) Button btnJoin;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.admin_name) TextView txtAdminName;
@@ -49,7 +53,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_team_detail);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
+        intent = getIntent();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
@@ -67,9 +71,36 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
             btnJoin.setVisibility(View.GONE);           //참여하기 버튼 보이지 않게 함.
         }
 
+        changeBtnText();        //팀에 참여중일 시 버튼에 글 내용 바꾸는 메소드
+
         getTag(intent);     //태그 가져오는 메소드
         btnJoin.setOnClickListener(this);
     }
+
+    private void changeBtnText() {        //팀에 참여중일 시 버튼에 글 내용 바꾸는 메소드
+        if(ParseUser.getCurrentUser()!=null) {      //현재 로그인이 되어 있을 때만 실행
+            ParseQuery<ParseObject> query = new ParseQuery<>("Team");     //ParseQuery
+            query.whereEqualTo("intro", intent.getStringExtra("title")); //그룹 소개와 parse에 있는 intro를 매칭 시켜 같은거 찾음
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> list, ParseException e) {
+                    ParseObject o = list.get(0);      //조건에 맞는 오브젝트 찾음
+                    ParseRelation<ParseUser> input_user = o.getRelation("member_doing");        // 신청자 현황 릴레이션 불러옴
+                    ParseQuery<ParseUser> user = input_user.getQuery();             //릴레이션을 가지고 쿼리문 돌림
+                    user.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());        //현재 유저 id와 릴레이션 안에 있는 유저들의 id 비교
+                    user.findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(List<ParseUser> list, ParseException e) {
+                            if (!list.isEmpty()) {            //member_doing에 존재할 때
+                                btnJoin.setText("그룹에 참여 중입니다.");       //텍스트 변경
+                                btnJoin.setClickable(false);        //터치 불가능하게 변경
+                            }       //end if
+                        }       //end done method
+                    });
+                }       //end done method
+            });
+        }       //end if
+    }       //end method
 
     private void getTag(Intent intent) {                    //태그가져오는 메소드
         ParseQuery<ParseObject> query = new ParseQuery<>("Team");
@@ -112,13 +143,34 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
 
                         }
                     });
-                    builder.setPositiveButton("취소", new DialogInterface.OnClickListener() {     //취소버튼 클릭 시
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {     //확인버튼 클릭 시
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            ParseQuery<ParseObject> query=new ParseQuery<>("Team");     //ParseQuery
+                            query.whereEqualTo("intro", intent.getStringExtra("title")); //그룹 소개와 parse에 있는 intro를 매칭 시켜 같은거 찾음
+                            query.findInBackground(new FindCallback<ParseObject>() {
+                                @Override
+                                public void done(List<ParseObject> list, ParseException e) {
+                                    if(!list.isEmpty()){        //리스트가 비어있지 않을 때
+                                        ParseObject o=list.get(0);      //조건에 맞는 오브젝트 찾음
+                                        ParseRelation<ParseUser> input_user = o.getRelation("member_doing");        // 신청자 현황 릴레이션 불러옴
+                                        input_user.add(ParseUser.getCurrentUser());     //현재 로그인된 유저를 릴레이션에 추가
+                                        o.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                if(e==null)     //저장이 오류 없이 되었을 경우
+                                                    Toast.makeText(TeamDetailActivity.this, "신청완료되었습니다.", Toast.LENGTH_SHORT).show();
+                                                else        //저장이 제대로 되지 않은 경우
+                                                    Toast.makeText(TeamDetailActivity.this, "오류발생!", Toast.LENGTH_SHORT).show();
+                                            }   //end done method
+                                        });     //end method
+                                    }   //end if
+                                }   //end done method
+                            }); //end Query
+                        }   //endOnClick
+                    }); //endSetter
 
-                        }
-                    });
-                    builder.setNegativeButton("확인", new DialogInterface.OnClickListener() {     //확인버튼 클릭 시
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {     //취소버튼 클릭 시
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 

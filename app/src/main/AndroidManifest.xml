@@ -60,7 +60,11 @@
         <activity
             android:name=".activity.SearchActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
+        </activity>
 
         <activity
             android:name=".activity.TeamDetailActivity"
