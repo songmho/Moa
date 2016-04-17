@@ -14,24 +14,30 @@ import android.view.MenuItem;
 import com.team1.valueupapp.adapter.MyViewPagerAdapter;
 import com.team1.valueupapp.R;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by songmho on 2015-07-03.
  */
 public class MemberActivity extends AppCompatActivity {
-    ViewPager viewPager;
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.viewPager) ViewPager viewPager;
+    @Bind(R.id.tablayout) TabLayout tabLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
+        toolbar.setTitle("전체멤버");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("전체멤버");
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+
         MyViewPagerAdapter adapter = new MyViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

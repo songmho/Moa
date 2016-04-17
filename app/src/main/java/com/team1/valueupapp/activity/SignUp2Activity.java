@@ -43,14 +43,11 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
     private List<String> arrTags = new ArrayList<>();
     private ParseUser signUp_User = new ParseUser();
 
-    String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
-    File profileimage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
     int CAMERA_REQUEST = 1000;
     int SELECT_FILE = 2000;
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
-    File file_up_path = new File("data/data/com.team1.valueupapp/files/");
     ParseFile profileParse;
-    Bitmap thum=null;
+    Bitmap thum = null;
 
     @Bind(R.id.profile) ImageView profile;
     @Bind(R.id.edit_info) EditText editInfo;
@@ -87,7 +84,7 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.profile:          //profile을 클릭했을 때
-              //  MakingAlertDialog();
+                //  MakingAlertDialog();
                 Toast.makeText(SignUp2Activity.this, "아직 기능이 완벽히 구현이 안됐으니 이쁜사진을 골라두자!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_tag_1:                                               //관심사 태그에서 1번째
@@ -112,8 +109,8 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                 arrTags.clear();
                 String[] arr_s = editTags.getText().toString().split("#");
                 for (String s : arr_s) {
-                    if(!s.equals(""))
-                    arrTags.add(s);
+                    if (!s.equals(""))
+                        arrTags.add(s);
                 }
                 signUp_User.setUsername(getIntent().getStringExtra("username"));
                 signUp_User.put("name", getIntent().getStringExtra("name"));
@@ -123,7 +120,8 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                 signUp_User.put("tag", arrTags);
             /*    if(thum!=null)
                     imgSendParse(thum);
-            */   signUp_User.signUpInBackground(new SignUpCallback() {
+            */
+                signUp_User.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
@@ -153,12 +151,6 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                     gallery.setType("image/*");
                     startActivityForResult(Intent.createChooser(gallery, "갤러리 선택"), SELECT_FILE);
                 } else if (item[position].equals("삭제")) {
-                    File[] files = file_up_path.listFiles();
-                    for (int i = 0; i < files.length; i++) {
-                        String fname = files[i].getName();
-                        if (fname.equals("profile.jpg"))
-                            files[i].delete();
-                    }
                     ParseUser.getCurrentUser().remove("profile");
                     Toast.makeText(getApplicationContext(), "삭제하였습니다.", Toast.LENGTH_SHORT).show();
                     Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);

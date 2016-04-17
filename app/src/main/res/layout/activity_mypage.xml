@@ -21,7 +21,9 @@
             android:background="#00FFFFFF"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
+            app:title=""
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
 
             <ImageView
                 android:id="@+id/profile_blur"
@@ -181,10 +183,19 @@
                     android:layout_marginLeft="55dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
-                    android:text="#태그1 #태그2 #태그3"
+                    android:text=""
                     android:textSize="17dp"/>
             </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="@style/CircularProgress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        />
+
 </android.support.design.widget.CoordinatorLayout>

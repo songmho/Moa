@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,8 +24,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -35,7 +36,6 @@ import com.team1.valueupapp.R;
 import com.team1.valueupapp.adapter.TeamRecyclerAdapter;
 import com.team1.valueupapp.item.TeamItem;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FragmentTransaction fragmentTransaction;
 
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
-    String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
-    File profileImage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
     ParseUser user = ParseUser.getCurrentUser();
 
     ArrayList<TeamItem> mainTeamItems;
@@ -221,17 +219,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtName.setText("로그인을 해 주세요.");
         }
         profile_drawer = (CircleImageView) headerLayout.findViewById(R.id.profile);
-
-        load_profile();
     }
 
-    private void load_profile() {
-        if (profileImage.exists()) {
-            Bitmap bm = BitmapFactory.decodeFile(tempPath);
-            profile_drawer.setImageBitmap(bm);
-        } else {
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
-            profile_drawer.setImageBitmap(b);
+    //드로어 프로필 사진 설정
+    private void loadProfile() {
+        boolean isProfileExists = false;
+        if (user != null) {
+            ParseFile parseFile = user.getParseFile("profile");
+            if (parseFile != null) {
+                isProfileExists = true;
+                Glide.with(mContext).load(parseFile.getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile_drawer);
+            }
+        }
+        if (!isProfileExists) {
+            profile_drawer.setImageResource(R.drawable.ic_user);
         }
     }
 
@@ -390,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        load_profile();
+        loadProfile();
     }
 
     @Override

@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
@@ -32,22 +34,19 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by songmho on 15. 8. 8.
  */
 public class MyPageEditActivity extends AppCompatActivity implements View.OnClickListener {
-    de.hdodenhof.circleimageview.CircleImageView profile;
-    String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
-    File profileimage = new File("data/data/com.team1.valueupapp/files/profile.jpg");
-
 
     ParseFile profileParse;
     ParseUser user = ParseUser.getCurrentUser();
+    String profileUrl = null;
     int CAMERA_REQUEST = 1000;
     int SELECT_FILE = 2000;
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
-    File file_up_path = new File("data/data/com.team1.valueupapp/files/");
     private List<String> arrTags;
     Context mContext;
 
@@ -58,6 +57,7 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
     @Bind(R.id.btn_tag_1) Button btnTag1;
     @Bind(R.id.btn_tag_2) Button btnTag2;
     @Bind(R.id.btn_tag_3) Button btnTag3;
+    @Bind(R.id.my_image) CircleImageView profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,29 +67,30 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_mypage_edit);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
         toolbar.setTitle("내정보 수정");
+        setSupportActionBar(toolbar);
+
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.my_image);
-        if (profileimage.exists()) {
-            Bitmap bm = BitmapFactory.decodeFile(tempPath);
-            profile.setImageBitmap(bm);
-        } else {
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
-            profile.setImageBitmap(b);
-        }
         Intent getIntent = getIntent();
         editName.setText(getIntent.getStringExtra("name"));
         editInfo.setText(getIntent.getStringExtra("myInfo"));
+        profileUrl = getIntent.getStringExtra("profileUrl");
 
         profile.setOnClickListener(this);
         btnTag1.setOnClickListener(this);
         btnTag2.setOnClickListener(this);
         btnTag3.setOnClickListener(this);
 
+        setProfileImage();
+    }
+
+    //프로필 사진 보여준다.
+    public void setProfileImage() {
+        if (profileUrl != null) {
+            Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
+        }
     }
 
     @Override
@@ -103,11 +104,11 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
         int id = item.getItemId();
         if (id == R.id.action_check) {
             if (editName.getText().toString().trim().equals("")) {
-                Toast.makeText(mContext, "이름을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.warn_name_short), Toast.LENGTH_SHORT).show();
             } else if (editInfo.getText().toString().trim().equals("")) {
-                Toast.makeText(mContext, "자기 소개를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.warn_intro_short), Toast.LENGTH_SHORT).show();
             } else if (editTags.getText().toString().trim().equals("")) {
-                Toast.makeText(mContext, "관심사 태그를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.warn_tag_short), Toast.LENGTH_SHORT).show();
             } else {    //모두 입력 되었을 때 서버로 전송한다.
                 ParseUser user = ParseUser.getCurrentUser();
                 user.put("name", String.valueOf(editName.getText()));
@@ -115,7 +116,7 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
                 user.put("tag", makeTagArray());
                 user.saveInBackground();
                 finish();
-                Toast.makeText(mContext, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.alert_saved), Toast.LENGTH_SHORT).show();
             }
             return true;
         }
@@ -142,12 +143,6 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
                     gallery.setType("image/*");
                     startActivityForResult(Intent.createChooser(gallery, "갤러리 선택"), SELECT_FILE);
                 } else if (item[position].equals("삭제")) {
-                    File[] files = file_up_path.listFiles();
-                    for (int i = 0; i < files.length; i++) {
-                        String fname = files[i].getName();
-                        if (fname.equals("profile.jpg"))
-                            files[i].delete();
-                    }
                     ParseUser.getCurrentUser().remove("profile");
                     Toast.makeText(mContext, "삭제하였습니다.", Toast.LENGTH_SHORT).show();
                     Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);

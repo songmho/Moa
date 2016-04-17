@@ -2,22 +2,21 @@ package com.team1.valueupapp.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 
@@ -33,69 +32,79 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class MypageActivity extends AppCompatActivity {
     ParseUser parseUser;
-    String str_job;
-    ImageView profileBlur;
-    CircleImageView profile;
+    String profileUrl = null;
 
-    CollapsingToolbarLayout collapsing_toolbar;
-
+    @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.app_bar) AppBarLayout appBarLayout;
     @Bind(R.id.txt_info) TextView txtInfo;
     @Bind(R.id.txt_name) TextView txtName;
     @Bind(R.id.txt_tag) TextView txtTag;
+    @Bind(R.id.profile) CircleImageView profile;
+    @Bind(R.id.profile_blur) ImageView profileBlur;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+
+    Context mContext;
+    private static final String TAG = "MypageActivity";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_mypage);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        collapsing_toolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        profileBlur = (ImageView) findViewById(R.id.profile_blur);
-        profile = (CircleImageView) findViewById(R.id.profile);
-
-        load_profile();
+        parseUser = ParseUser.getCurrentUser();
+        initAppBarLayout();
+        loadProfile();
     }
 
-    private void load_profile() {
-        String tempPath = "data/data/com.team1.valueupapp/files/profile.jpg";
-        Bitmap bm = BitmapFactory.decodeFile(tempPath);
-        if (bm != null) {
-            profileBlur.setImageBitmap(blur(getApplicationContext(), bm, 20));
-            profile.setImageBitmap(bm);
-        } else {
-            bm = BitmapFactory.decodeResource(getResources(), R.drawable.img_page);
-            profileBlur.setImageBitmap(blur(getApplicationContext(), bm, 20));
-            profile.setImageResource(R.drawable.ic_user);
-        }
+    //앱바 레이아웃 설정
+    private void initAppBarLayout() {
+        collapsingToolbarLayout.setTitle("");
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                Log.e(TAG, "verticallOffset : " + verticalOffset + " , scrollRange + verticalOffset : " + (scrollRange + verticalOffset));
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle("마이페이지");
+                    profile.setVisibility(View.GONE);
+                    isShow = true;
+                } else if (isShow) {
+                    collapsingToolbarLayout.setTitle("");
+                    profile.setVisibility(View.VISIBLE);
+                    isShow = false;
+                }
+            }
+        });
     }
 
-    public Bitmap blur(Context context, Bitmap sentBitmap, int radius) {
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
-            Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
-
-            final RenderScript rs = RenderScript.create(context);
-            final Allocation input = Allocation.createFromBitmap(rs, sentBitmap, Allocation.MipmapControl.MIPMAP_NONE,
-                    Allocation.USAGE_SCRIPT);
-            final Allocation output = Allocation.createTyped(rs, input.getType());
-            final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-            script.setRadius(radius); //0.0f ~ 25.0f
-            script.setInput(input);
-            script.forEach(output);
-            output.copyTo(bitmap);
-            return bitmap;
+    //프로필 파일을 url로부터 로딩한다.
+    private void loadProfile() {
+        if (parseUser != null) {
+            ParseFile parseFile = (ParseFile) parseUser.get("profile");
+            if (parseFile != null) {
+                profileUrl = parseFile.getUrl();
+                Log.e(TAG, "parse file url : " + profileUrl);
+                Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
+            }
         }
-        return null;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        load_profile();
-        parseUser = ParseUser.getCurrentUser();
+        loadProfile();
+        if (parseUser == null)
+            parseUser = ParseUser.getCurrentUser();
         txtName.setText(parseUser.getString("name"));
         txtInfo.setText(parseUser.getString("info"));
         try {
@@ -119,8 +128,6 @@ public class MypageActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
-        MenuItem editItem = menu.findItem(R.id.action_edit);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -131,6 +138,8 @@ public class MypageActivity extends AppCompatActivity {
             intent.putExtra("name", txtName.getText().toString());
             intent.putExtra("myInfo", txtInfo.getText().toString());
             intent.putExtra("tag", txtTag.getText().toString());
+            intent.putExtra("profileUrl", profileUrl);
+
             startActivity(intent);
             return true;
         }

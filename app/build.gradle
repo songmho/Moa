@@ -8,6 +8,8 @@ ext {
 
 buildscript {
     repositories {
+        jcenter()
+        mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
     }
 
@@ -17,6 +19,8 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+
+
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -33,6 +37,8 @@ android {
         targetSdkVersion 23
         versionCode verCode
         versionName "1.20"
+        renderscriptTargetApi 20
+        renderscriptSupportModeEnabled true
     }
 
     if (project.hasProperty("store_file")) {
