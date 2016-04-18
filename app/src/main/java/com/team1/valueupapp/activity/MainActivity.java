@@ -228,7 +228,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ParseFile parseFile = user.getParseFile("profile");
             if (parseFile != null) {
                 isProfileExists = true;
-                Glide.with(mContext).load(parseFile.getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile_drawer);
+                if (!isFinishing())
+                    Glide.with(mContext).load(parseFile.getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile_drawer);
             }
         }
         if (!isProfileExists) {

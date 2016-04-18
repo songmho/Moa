@@ -76,6 +76,7 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
         Intent getIntent = getIntent();
         editName.setText(getIntent.getStringExtra("name"));
         editInfo.setText(getIntent.getStringExtra("myInfo"));
+        editTags.setText(getIntent.getStringExtra("tag"));
         profileUrl = getIntent.getStringExtra("profileUrl");
 
         profile.setOnClickListener(this);
@@ -89,7 +90,8 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
     //프로필 사진 보여준다.
     public void setProfileImage() {
         if (profileUrl != null) {
-            Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
+            if (!isFinishing())
+                Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
         }
     }
 

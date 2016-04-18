@@ -84,7 +84,8 @@ public class UserDetailActivity extends AppCompatActivity {
                             if (parseFile != null) {
                                 String url = parseFile.getUrl();
                                 Log.e(TAG, "parse file url : " + url);
-                                Glide.with(mContext).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
+                                if (!isFinishing())
+                                    Glide.with(mContext).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
                             }
 
                             if (user.getJSONArray("tag") != null) {  //태그가 존재할 때
@@ -111,7 +112,7 @@ public class UserDetailActivity extends AppCompatActivity {
 
     //앱바 레이아웃 설정
     private void initAppBarLayout() {
-        collapsingToolbarLayout.setTitle("");
+        collapsingToolbarLayout.setTitle("멤버 정보");
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -123,11 +124,9 @@ public class UserDetailActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.setTitle("멤버 정보");
                     profile.setVisibility(View.GONE);
                     isShow = true;
                 } else if (isShow) {
-                    collapsingToolbarLayout.setTitle("");
                     profile.setVisibility(View.VISIBLE);
                     isShow = false;
                 }

@@ -5,6 +5,7 @@
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
+                                                 app:title=""
                                                  tools:context=".activity.MypageActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -21,7 +22,6 @@
             android:background="#00FFFFFF"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:title=""
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
@@ -38,6 +38,7 @@
                 android:layout_width="95dp"
                 android:layout_height="95dp"
                 android:layout_gravity="center"
+                android:layout_marginBottom="25dp"
                 android:src="@drawable/ic_user"/>
 
             <android.support.v7.widget.Toolbar
