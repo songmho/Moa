@@ -56,7 +56,6 @@ public class MemberAddThumbnailAdapter extends RecyclerView.Adapter {
         ((holder) holder).layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //// TODO: 16. 4. 20. 클릭시 멤버 상세 페이지로 이동
                 Intent intent = new Intent(context.getApplicationContext(), UserDetailActivity.class);
                 intent.putExtra("name", item.getName());
                 intent.putExtra("username", item.getUserName());

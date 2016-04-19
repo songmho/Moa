@@ -51,6 +51,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
     @Bind(R.id.bt_join) Button btnJoin;     //팀 참여하기 버튼
     @Bind(R.id.layout_waiting) RelativeLayout layoutWaiting;    //참여 신청 중 버튼 레이아웃
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.layout_admin) LinearLayout layoutAdmin;
     @Bind(R.id.admin_name) TextView txtAdminName;
     @Bind(R.id.detail) TextView txtDetail;
     @Bind(R.id.admin_profile) ImageView imgAdminProfile;
@@ -77,8 +78,9 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
     ParseQuery<ParseObject> teamQuery;
     boolean isMyOwnTeam = false;    //내가 팀장인지 여부 저장
 
-    String teamName;
+    String teamName, adminName, adminUsername;
     Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,13 +102,15 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getApplicationContext());
         listMemberWaiting.setLayoutManager(layoutManager2);
 
-        txtAdminName.setText(intent.getStringExtra("name"));
+        adminName = intent.getStringExtra("name");
+        adminUsername = intent.getStringExtra("username");
+        txtAdminName.setText(adminName);
         txtDetail.setText(intent.getStringExtra("detail"));
 
         imgAdminProfile.setImageResource(R.drawable.ic_user); //todo 팀장 얼굴 가져오는 것으로 변경이 필요.
 
         currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null && intent.getStringExtra("username").equals(currentUser.getUsername())) {         //로그인이 되어 있고 현재 유저가 팀장일 때
+        if (currentUser != null && adminUsername.equals(currentUser.getUsername())) {         //로그인이 되어 있고 현재 유저가 팀장일 때
             isMyOwnTeam = true;     //내가 팀장
         }
 
@@ -114,6 +118,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         initDataAndView();
         btnJoin.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
+        layoutAdmin.setOnClickListener(this);
     }
 
     //데이터 및 뷰 초기화
@@ -326,7 +331,13 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                     }
                 });
                 builder.show();
-
+                break;
+            //팀장 프로필 조회
+            case R.id.layout_admin:
+                Intent intent = new Intent(mContext, UserDetailActivity.class);
+                intent.putExtra("name", adminName);
+                intent.putExtra("username", adminUsername);
+                startActivity(intent);
                 break;
         }
     }
