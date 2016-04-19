@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/apply_condition"
+        android:icon="@drawable/ic_setting"
+        android:title="@string/menu_apply_condition" />
+
     <group
         android:id="@+id/group_setup"
         android:checkableBehavior="single">

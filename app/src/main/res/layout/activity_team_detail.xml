@@ -43,6 +43,8 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/layout_all"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -202,6 +204,55 @@
                     android:textSize="16dp"/>
             </LinearLayout>
 
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/list_member"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="15dp"/>
+
+            <LinearLayout
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:id="@+id/header_member_applied"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_introduce"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:text="신청 중"
+                    android:textColor="@color/mypageColor"
+                    android:textSize="16dp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/member_applied_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text=""
+                    android:textColor="#747474"
+                    android:textSize="16dp"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/list_member_applied"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="15dp"/>
 
             <Button
                 android:id="@+id/bt_join"
@@ -222,23 +273,24 @@
                 >
 
                 <Button
-                    android:layout_centerVertical="true"
                     android:id="@+id/btn_waiting"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
                     android:clickable="false"
                     android:text="참여 신청 중입니다."
                     android:textColor="@color/half_black"
                     />
+
                 <Button
                     android:id="@+id/btn_cancel"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="30dp"
-                    android:layout_alignParentRight="true"
                     android:background="@drawable/out"/>
 
 

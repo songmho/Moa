@@ -1,22 +1,25 @@
 package com.team1.valueupapp.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -25,15 +28,18 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.team1.valueupapp.R;
+import com.team1.valueupapp.adapter.MemberAddThumbnailAdapter;
+import com.team1.valueupapp.adapter.MemberThumbnailAdapter;
+import com.team1.valueupapp.item.UserItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by songmho on 2015-07-21.
@@ -41,6 +47,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class TeamDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     Intent intent;
+    @Bind(R.id.layout_all) LinearLayout layoutAll;   //전체 레이아웃
     @Bind(R.id.bt_join) Button btnJoin;     //팀 참여하기 버튼
     @Bind(R.id.layout_waiting) RelativeLayout layoutWaiting;    //참여 신청 중 버튼 레이아웃
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -51,23 +58,48 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
     @Bind(R.id.tag) TextView tag;
     @Bind(R.id.progressbar) ProgressBar progressBar;
     @Bind(R.id.btn_cancel) Button btnCancel;    //팀 참여 신청 취소
+    @Bind(R.id.member_num) TextView txtNumMember;  //팀원 수
+    @Bind(R.id.header_member_applied) LinearLayout headerMemberApplied;  //참여 신청자 헤더
+    @Bind(R.id.member_applied_num) TextView txtNumMemberWaiting;    //신청자 수
+    @Bind(R.id.list_member) RecyclerView listMember;    //팀원 리스트
+    @Bind(R.id.list_member_applied) RecyclerView listMemberWaiting;     //신청자 리스트
 
+    ArrayList<UserItem> memberArrayList = new ArrayList<>();
+    ArrayList<UserItem> memberWaitingArrayList = new ArrayList<>();
+
+    private static final int TYPE_OWNER = 0;
+    private static final int TYPE_MEMBER = 1;
+    private static final int TYPE_MEMBER_WAITING = 2;
+    private static final int TYPE_NONE = 3;
+
+    private static final String TAG = "TeamDetailActivity";
     ParseUser currentUser;
+    ParseQuery<ParseObject> teamQuery;
     boolean isMyOwnTeam = false;    //내가 팀장인지 여부 저장
 
+    String teamName;
+    Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_team_detail);
         ButterKnife.bind(this);
 
         intent = getIntent();
-
+        teamQuery = new ParseQuery<>("Team");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         collapsingToolbarLayout.setTitle(intent.getStringExtra("title"));
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        listMember.setHasFixedSize(true);
+        listMember.setLayoutManager(layoutManager);
+        listMemberWaiting.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getApplicationContext());
+        listMemberWaiting.setLayoutManager(layoutManager2);
+
         txtAdminName.setText(intent.getStringExtra("name"));
         txtDetail.setText(intent.getStringExtra("detail"));
 
@@ -76,60 +108,97 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         currentUser = ParseUser.getCurrentUser();
         if (currentUser != null && intent.getStringExtra("username").equals(currentUser.getUsername())) {         //로그인이 되어 있고 현재 유저가 팀장일 때
             isMyOwnTeam = true;     //내가 팀장
-            btnJoin.setVisibility(View.GONE);           //참여하기 버튼 보이지 않게 함.
         }
 
-        getTag(intent);     //태그 가져오는 메소드
+        teamName = intent.getStringExtra("title");
+        initDataAndView();
         btnJoin.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
     }
 
-    private void getTag(Intent intent) {                    //태그가져오는 메소드
+    //데이터 및 뷰 초기화
+    public void initDataAndView() {
         progressBar.setVisibility(View.VISIBLE);
-        ParseQuery<ParseObject> query = new ParseQuery<>("Team");
-        query.whereEqualTo("intro", intent.getStringExtra("title")); //그룹 소개와 parse에 있는 intro를 매칭 시켜 같은거 찾음
-        query.findInBackground(new FindCallback<ParseObject>() {
+        teamQuery.whereEqualTo("intro", intent.getStringExtra("title")); //그룹 소개와 parse에 있는 intro를 매칭 시켜 같은거 찾음
+        teamQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
-                progressBar.setVisibility(View.GONE);
                 if (!list.isEmpty()) {
                     final ParseObject teamObject = list.get(0);
-                    //내가 만든 팀이 아닐 경우 하단 버튼을 변경한다.
-                    if (!isMyOwnTeam) {
-                        //버튼 설정
-                        ParseRelation<ParseUser> member = teamObject.getRelation("member");        // 멤버 현황 릴레이션 불러옴
-                        ParseQuery<ParseUser> user = member.getQuery();             //릴레이션을 가지고 쿼리문 돌림
-                        user.whereEqualTo("objectId", currentUser.getObjectId());        //현재 유저 id와 릴레이션 안에 있는 유저들의 id 비교
+                    ParseRelation<ParseUser> member = teamObject.getRelation("member");        // 멤버 현황 릴레이션 불러옴
+                    final ParseQuery<ParseUser> user = member.getQuery();             //릴레이션을 가지고 쿼리문 돌림
+
+                    if (isMyOwnTeam) {      //내가 만든 팀일 경우
+                        setMemberListForOwner(user);        //팀원 리스트 초기화
+                        ParseRelation<ParseUser> memberWaiting = teamObject.getRelation("member_doing");
+                        ParseQuery<ParseUser> userParseQuery = memberWaiting.getQuery();
+                        userParseQuery.findInBackground(new FindCallback<ParseUser>() {
+                            @Override
+                            public void done(List<ParseUser> list, ParseException e) {
+                                memberWaitingArrayList.clear();
+                                if (list != null && list.size() > 0) {
+                                    txtNumMemberWaiting.setText(list.size() + "명");
+                                    for (int i = 0; i < list.size(); i++) {
+                                        Log.e(TAG, i + "번째 대기 멤버 : " + list.get(i).getUsername());
+                                        ParseUser user = list.get(i);
+                                        UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
+                                        memberWaitingArrayList.add(userItem);
+                                    }
+                                    listMemberWaiting.setAdapter(new MemberAddThumbnailAdapter(mContext, memberWaitingArrayList));
+                                    listMemberWaiting.setVisibility(View.VISIBLE);
+                                } else {
+                                    listMemberWaiting.setAdapter(new MemberAddThumbnailAdapter(mContext, memberWaitingArrayList));
+                                    listMemberWaiting.setVisibility(View.GONE);
+                                    txtNumMemberWaiting.setText("0명");
+                                }
+                                headerMemberApplied.setVisibility(View.VISIBLE);
+                                txtNumMemberWaiting.setVisibility(View.VISIBLE);
+
+                                setBottomButtonLayout(TYPE_OWNER);
+                            }
+                        });
+                    } else {        //내가 만든 팀이 아닐 경우 버튼 설정한다.
                         user.findInBackground(new FindCallback<ParseUser>() {
                             @Override
                             public void done(List<ParseUser> list, ParseException e) {
-                                if (!list.isEmpty()) {            //member에 존재할 때
-                                    progressBar.setVisibility(View.GONE);
-                                    btnJoin.setText("그룹에 참여중입니다.");       //텍스트 변경
-                                    btnJoin.setClickable(false);        //터치 불가능하게 변경
-                                    btnJoin.setVisibility(View.VISIBLE);
+                                if (list != null && list.size() > 1) {
+                                    memberArrayList.clear();
+                                    txtNumMember.setText(list.size() + "명");
+                                    for (int i = 1; i < list.size(); i++) {
+                                        Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
+                                        ParseUser user = list.get(i);
+                                        UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
+                                        memberArrayList.add(userItem);
+                                    }
+                                    listMember.setAdapter(new MemberThumbnailAdapter(mContext, memberArrayList));
+                                    listMember.setVisibility(View.VISIBLE);
                                 } else {
-                                    ParseRelation<ParseUser> appliedUser = teamObject.getRelation("member_doing");        // 신청자 현황 릴레이션 불러옴
-                                    ParseQuery<ParseUser> memberDoing = appliedUser.getQuery();             //릴레이션을 가지고 쿼리문 돌림
-                                    memberDoing.whereEqualTo("objectId", currentUser.getObjectId());        //현재 유저 id와 릴레이션 안에 있는 유저들의 id 비교
-                                    memberDoing.findInBackground(new FindCallback<ParseUser>() {
-                                        @Override
-                                        public void done(List<ParseUser> list, ParseException e) {
-                                            progressBar.setVisibility(View.GONE);
-                                            if (!list.isEmpty()) {            //member_doing에 존재할 때
-                                                btnJoin.setText("참여 신청 중입니다.");       //텍스트 변경
-                                                btnJoin.setClickable(false);        //터치 불가능하게 변경
-                                                layoutWaiting.setVisibility(View.VISIBLE);
-                                            } else {
-                                                btnJoin.setText("그룹 참여하기");       //텍스트 변경
-                                                btnJoin.setClickable(true);
-                                                btnJoin.setVisibility(View.VISIBLE);
-                                            }
-                                        }       //end done method
-                                    });
+                                    txtNumMember.setText("0명");
                                 }
-
-                            }       //end done method
+                                user.whereEqualTo("objectId", currentUser.getObjectId());        //현재 유저 id와 릴레이션 안에 있는 유저들의 id 비교
+                                user.findInBackground(new FindCallback<ParseUser>() {
+                                    @Override
+                                    public void done(List<ParseUser> list, ParseException e) {
+                                        if (!list.isEmpty()) {            //member에 존재할 때
+                                            setBottomButtonLayout(TYPE_MEMBER);
+                                        } else {
+                                            ParseRelation<ParseUser> appliedUser = teamObject.getRelation("member_doing");        // 신청자 현황 릴레이션 불러옴
+                                            ParseQuery<ParseUser> memberDoing = appliedUser.getQuery();             //릴레이션을 가지고 쿼리문 돌림
+                                            memberDoing.whereEqualTo("objectId", currentUser.getObjectId());        //현재 유저 id와 릴레이션 안에 있는 유저들의 id 비교
+                                            memberDoing.findInBackground(new FindCallback<ParseUser>() {
+                                                @Override
+                                                public void done(List<ParseUser> list, ParseException e) {
+                                                    if (!list.isEmpty()) {                  //1. member_doing에 존재할 때
+                                                        setBottomButtonLayout(TYPE_MEMBER_WAITING);
+                                                    } else {                                //2. member_doing에 존재하지 않을 때
+                                                        setBottomButtonLayout(TYPE_NONE);
+                                                    }
+                                                }       //end done method
+                                            });
+                                        }
+                                    }       //end done method
+                                });
+                            }
                         });
                     }
                     //태그 설정
@@ -253,12 +322,69 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {     //취소버튼 클릭 시
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
                 builder.show();
 
                 break;
         }
+    }
+
+    //하단 버튼 레이아웃 설정
+    public void setBottomButtonLayout(int type) {
+        switch (type) {
+            //1. 팀장
+            case TYPE_OWNER:
+                break;
+            //2. 멤버
+            case TYPE_MEMBER:
+                btnJoin.setClickable(false);        //터치 불가능하게 변경
+                btnJoin.setText("그룹에 참여중입니다.");
+                btnJoin.setVisibility(View.VISIBLE);
+                break;
+            //3. 신청 대기중 멤버
+            case TYPE_MEMBER_WAITING:
+                btnJoin.setClickable(false);
+                btnJoin.setText("참여 신청 중입니다.");
+                layoutWaiting.setVisibility(View.VISIBLE);
+                break;
+            //4. 아무것도 아닌 제3자
+            case TYPE_NONE:
+                btnJoin.setClickable(true);
+                btnJoin.setText("그룹 참여하기");
+                btnJoin.setVisibility(View.VISIBLE);
+                break;
+        }
+        progressBar.setVisibility(View.GONE);
+        layoutAll.setVisibility(View.VISIBLE);
+    }
+
+    //참여완료된 팀원 리스트 설정
+    public void setMemberListForOwner(ParseQuery<ParseUser> user) {
+        user.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+                if (list != null && list.size() > 1) {
+                    memberArrayList.clear();
+                    txtNumMember.setText(list.size() + "명");
+                    for (int i = 1; i < list.size(); i++) {
+                        Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
+                        ParseUser user = list.get(i);
+                        UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
+                        memberArrayList.add(userItem);
+                    }
+                    listMember.setAdapter(new MemberThumbnailAdapter(mContext, memberArrayList));
+                    listMember.setVisibility(View.VISIBLE);
+                } else {
+                    txtNumMember.setText("0명");
+                }
+            }
+        });
+    }
+
+    //팀명 리턴
+    public String getTeamName() {
+        return teamName;
     }
 }
