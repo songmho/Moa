@@ -55,9 +55,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     ArrayList<TeamItem> mainTeamItems;
 
-    public static final int RESULT_MAKE_TEAM = 11;
-    public static final String TAG = "MainActivity";
+    public static final int RESULT_LOGIN = 11;
+    public static final int RESULT_LOGIN_MAKE_TEAM = 12;
+    public static final int RESULT_MAKE_TEAM = 13;
 
+    public static final String TAG = "MainActivity";
 
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -138,35 +140,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         switch (menuItem.getItemId()) {
+            //어바웃
             case R.id.about:
                 Toast.makeText(mContext, "우리는 모무 ㅎㅎ 곧 만들거야", Toast.LENGTH_SHORT).show();
                 return true;
-
-           /* case R.id.introduce:
-                drawerLayout.closeDrawers();
-                startActivity(new Intent(MainActivity.this, MemberActivity.class));
-                return true;*/
-
-       /*     case R.id.basket:
-                drawerLayout.closeDrawers();
-                if (user != null)
-                    startActivity(new Intent(MainActivity.this, InterestActivity.class));
-                else {
-                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                }
-                return true;
-
-
-            case R.id.mypage:
-                drawerLayout.closeDrawers();
-                if (user != null)
-                    startActivity(new Intent(MainActivity.this, MypageActivity.class));
-                else {
-                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                }
-                return true;*/
 
             //설정
             case R.id.setup:
@@ -181,9 +158,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-
+    //드로어 헤더 설정
     private void makeDrawerHeader() {
-
         View headerLayout = navigationView.inflateHeaderView(R.layout.drawer_header);
         headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +167,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (user != null) {
                     startActivity(new Intent(MainActivity.this, MypageActivity.class));
                 } else {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                    loginIntent.putExtra("goBackPreviousPage", true);
+                    startActivityForResult(loginIntent, RESULT_LOGIN);
+                    overridePendingTransition(0, 0);
                 }
             }
         });
@@ -252,40 +231,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_2, menu);
-       /* MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(SEARCH_SERVICE);
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.clearFocus();
-            searchView.setQueryHint("이름 검색");
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    Intent intent = new Intent(MainActivity.this, SearchActivity_Legacy.class);
-                    intent.putExtra("query", query);
-                    intent.putExtra("page", "main");
-                    startActivity(intent);
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    return false;
-                }
-            });
-
-            searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                @Override
-                public boolean onClose() {
-                    return false;
-                }
-            });
-        }*/
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -307,8 +252,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fab:
                 //비로그인 시 로그인 화면으로 이동
                 if (user == null) {
-                    Toast.makeText(mContext, "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    Toast.makeText(mContext, "팀을 생성하시려면 로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                    loginIntent.putExtra("goBackPreviousPage", true);
+                    startActivityForResult(loginIntent, RESULT_LOGIN_MAKE_TEAM);
                     overridePendingTransition(0, 0);
                     //로그인 시 팀만들기 화면으로 이동
                 } else {
@@ -369,6 +316,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
                 }
             }).start();
+        } else if (requestCode == RESULT_LOGIN && resultCode == RESULT_OK) {
+            //로그인 후 화면 변화
+            user = ParseUser.getCurrentUser();
+            if (drawerLayout.isDrawerOpen(navigationView)) {
+                drawerLayout.closeDrawers();
+            }
+            navigationView.removeHeaderView(navigationView.getHeaderView(0));        //기존 드로어 헤더뷰 삭제
+            makeDrawerHeader();
+            loadProfile();
+        } else if (requestCode == RESULT_LOGIN_MAKE_TEAM && resultCode == RESULT_OK) {
+            //로그인 후 화면 변화
+            user = ParseUser.getCurrentUser();
+            navigationView.removeHeaderView(navigationView.getHeaderView(0));        //기존 드로어 헤더뷰 삭제
+            makeDrawerHeader();
+            loadProfile();
+            fab.performClick();
         }
     }
 

@@ -61,11 +61,18 @@ public class LoginActivity extends AppCompatActivity {
                                     ParseUser.logInInBackground(String.valueOf(txtId.getText()), String.valueOf(txtPassword.getText()), new LogInCallback() {
                                         @Override
                                         public void done(ParseUser user, ParseException e) {
-                                            if (user != null) {
+                                            if (user != null) {     //로그인 성공
                                                 progressBar.setVisibility(View.GONE);
-                                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                                finish();
-                                            } else {
+                                                //이전 페이지로 돌아갈 경우
+                                                if (getIntent().hasExtra("goBackPreviousPage") && getIntent().getBooleanExtra("goBackPreviousPage", false)) {
+                                                    setResult(RESULT_OK);
+                                                    finish();
+                                                } else {
+                                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                                    finish();
+                                                }
+
+                                            } else {    //로그인 실패
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(getApplicationContext(), "잘못된 이메일 혹은 비밀번호입니다.", Toast.LENGTH_SHORT).show();
                                             }

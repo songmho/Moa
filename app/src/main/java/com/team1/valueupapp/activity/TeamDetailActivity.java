@@ -73,13 +73,16 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
     private static final int TYPE_MEMBER_WAITING = 2;
     private static final int TYPE_NONE = 3;
 
-    private static final String TAG = "TeamDetailActivity";
+    private static final int RESULT_LOGIN = 11;
+
     ParseUser currentUser;
     ParseQuery<ParseObject> teamQuery;
     boolean isMyOwnTeam = false;    //내가 팀장인지 여부 저장
 
     String teamName, adminName, adminUsername;
     Context mContext;
+
+    private static final String TAG = "TeamDetailActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +136,29 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                     ParseRelation<ParseUser> member = teamObject.getRelation("member");        // 멤버 현황 릴레이션 불러옴
                     final ParseQuery<ParseUser> user = member.getQuery();             //릴레이션을 가지고 쿼리문 돌림
 
-                    if (isMyOwnTeam) {      //내가 만든 팀일 경우
+
+                    if (currentUser == null) {   //1. 로그인 하지 않은 상태인 경우
+                        user.findInBackground(new FindCallback<ParseUser>() {
+                            @Override
+                            public void done(List<ParseUser> list, ParseException e) {
+                                if (list != null && list.size() > 1) {
+                                    memberArrayList.clear();
+                                    txtNumMember.setText(list.size() + "명");
+                                    for (int i = 1; i < list.size(); i++) {
+                                        Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
+                                        ParseUser user = list.get(i);
+                                        UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
+                                        memberArrayList.add(userItem);
+                                    }
+                                    listMember.setAdapter(new MemberThumbnailAdapter(mContext, memberArrayList));
+                                    listMember.setVisibility(View.VISIBLE);
+                                } else {
+                                    txtNumMember.setText("0명");
+                                }
+                                setBottomButtonLayout(TYPE_NONE);   //하단 버튼 설정
+                            }
+                        });
+                    } else if (isMyOwnTeam) {      //2. 내가 만든 팀일 경우
                         setMemberListForOwner(user);        //팀원 리스트 초기화
                         ParseRelation<ParseUser> memberWaiting = teamObject.getRelation("member_doing");
                         ParseQuery<ParseUser> userParseQuery = memberWaiting.getQuery();
@@ -162,7 +187,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                                 setBottomButtonLayout(TYPE_OWNER);
                             }
                         });
-                    } else {        //내가 만든 팀이 아닐 경우 버튼 설정한다.
+                    } else {        //3. 내가 만든 팀이 아닐 경우 버튼 설정한다.
                         user.findInBackground(new FindCallback<ParseUser>() {
                             @Override
                             public void done(List<ParseUser> list, ParseException e) {
@@ -219,8 +244,9 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                             }
                         }
                         tag.setText(strTag);
-                    } else        //리스트가 비어있거나(리스트가 비어있을 경우에 대한 예외처리 필요) 태그가 등록 되어 있지 않으면
+                    } else {        //리스트가 비어있거나(리스트가 비어있을 경우에 대한 예외처리 필요) 태그가 등록 되어 있지 않으면
                         tag.setText("");
+                    }
                 }
             }
         });
@@ -233,7 +259,9 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
             case R.id.bt_join: {
                 if (currentUser == null) {           //로그인을 하지 않은 경우
                     Toast.makeText(TeamDetailActivity.this, "팀에 들어가시려면 로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(TeamDetailActivity.this, LoginActivity.class));
+                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                    loginIntent.putExtra("goBackPreviousPage", true);
+                    startActivityForResult(loginIntent, RESULT_LOGIN);
                 } else {      //로그인이 되어 있을 경우 (팀에 참여되어있을 경우와 팀에 참여되지 않은 경우 나눠야 됨)
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
                     builder.setTitle("참여 신청");          //AlertDialog Title
@@ -397,5 +425,15 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
     //팀명 리턴
     public String getTeamName() {
         return teamName;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //로그인 후
+        if (requestCode == RESULT_LOGIN && resultCode == RESULT_OK) {
+            initDataAndView();
+            //팀장, 혹은 이미 참여한 팀, 차단(?) 당한 팀일 수도 있으므로 자동으로 버튼 다시 클릭하게는 하지 않았다.
+        }
     }
 }
