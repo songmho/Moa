@@ -49,6 +49,7 @@ public class UserDetailActivity extends AppCompatActivity {
     Context mContext;
 
     private static final String TAG = "UserDetailActivity";
+    String info = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +62,14 @@ public class UserDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String name = getIntent().getStringExtra("name");       //이름
-        String info = getIntent().getStringExtra("info");       //소개
+
+        if (getIntent().hasExtra("info")) {
+            info = getIntent().getStringExtra("info");       //소개
+        }
         final String username = getIntent().getStringExtra("username");     //유저네임(이메일)
         txtName.setText(name);
-        txtInfo.setText(info);
+        if (info != null)
+            txtInfo.setText(info);
 
         initAppBarLayout(); //앱바 초기화
         runOnUiThread(new Runnable() {
@@ -87,7 +92,11 @@ public class UserDetailActivity extends AppCompatActivity {
                                 if (!isFinishing())
                                     Glide.with(mContext).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
                             }
-
+                            if (info == null) {
+                                info = user.getString("info");
+                                if (info != null)
+                                    txtInfo.setText(info);
+                            }
                             if (user.getJSONArray("tag") != null) {  //태그가 존재할 때
                                 String strTag = "";
                                 JSONArray tagArray = list.get(0).getJSONArray("tag");       //태그를 JsonArray형식으로 가져옴

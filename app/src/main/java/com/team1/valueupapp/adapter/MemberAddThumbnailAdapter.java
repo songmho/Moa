@@ -59,6 +59,7 @@ public class MemberAddThumbnailAdapter extends RecyclerView.Adapter {
                 Intent intent = new Intent(context.getApplicationContext(), UserDetailActivity.class);
                 intent.putExtra("name", item.getName());
                 intent.putExtra("username", item.getUserName());
+                intent.putExtra("info", item.getInfo());
                 context.startActivity(intent);
             }
         });

@@ -37,11 +37,11 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position < items_list.size())
+//        if (position < items_list.size())
             return HOLDER;
-        else if (position == items_list.size())
-            return FOOTER;
-        return -1;
+//        else if (position == items_list.size())
+//            return FOOTER;
+//        return -1;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return items_list.size() + 1;
+        return items_list.size() /*+ 1*/;
     }
 
 

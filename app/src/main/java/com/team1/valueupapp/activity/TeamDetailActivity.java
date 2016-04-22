@@ -143,10 +143,11 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                             public void done(List<ParseUser> list, ParseException e) {
                                 if (list != null && list.size() > 1) {
                                     memberArrayList.clear();
-                                    txtNumMember.setText(list.size() + "명");
-                                    for (int i = 1; i < list.size(); i++) {
+                                    txtNumMember.setText(list.size() - 1 + "명");
+                                    for (int i = 0; i < list.size(); i++) {
                                         Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
                                         ParseUser user = list.get(i);
+                                        if (user.getUsername().equals(adminUsername)) continue;     //팀장 제외
                                         UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
                                         memberArrayList.add(userItem);
                                     }
@@ -159,7 +160,9 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                             }
                         });
                     } else if (isMyOwnTeam) {      //2. 내가 만든 팀일 경우
-                        setMemberListForOwner(user);        //팀원 리스트 초기화
+                        setMemberListForOwner(user);        //팀원 리스트 설정
+
+                        //대기중인 팀원 리스트 설정
                         ParseRelation<ParseUser> memberWaiting = teamObject.getRelation("member_doing");
                         ParseQuery<ParseUser> userParseQuery = memberWaiting.getQuery();
                         userParseQuery.findInBackground(new FindCallback<ParseUser>() {
@@ -191,12 +194,16 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                         user.findInBackground(new FindCallback<ParseUser>() {
                             @Override
                             public void done(List<ParseUser> list, ParseException e) {
+                                //팀원 리스트 설정
                                 if (list != null && list.size() > 1) {
                                     memberArrayList.clear();
-                                    txtNumMember.setText(list.size() + "명");
-                                    for (int i = 1; i < list.size(); i++) {
+                                    txtNumMember.setText(list.size() - 1 + "명");
+                                    for (int i = 0; i < list.size(); i++) {
                                         Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
                                         ParseUser user = list.get(i);
+                                        if (user.getUsername().equals(adminUsername)) {     //팀장은 팀원에서 제외해서 보여준다.
+                                            continue;
+                                        }
                                         UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
                                         memberArrayList.add(userItem);
                                     }
@@ -406,10 +413,13 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
             public void done(List<ParseUser> list, ParseException e) {
                 if (list != null && list.size() > 1) {
                     memberArrayList.clear();
-                    txtNumMember.setText(list.size() + "명");
-                    for (int i = 1; i < list.size(); i++) {
+                    txtNumMember.setText(list.size() - 1 + "명");
+                    for (int i = 0; i < list.size(); i++) {
                         Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
                         ParseUser user = list.get(i);
+                        if (user.getUsername().equals(adminUsername)) {
+                            continue;
+                        }
                         UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
                         memberArrayList.add(userItem);
                     }

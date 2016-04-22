@@ -136,7 +136,7 @@
                     android:layout_marginLeft="55dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
-                    android:text="dd"
+                    android:text=""
                     android:textSize="17dp"/>
             </LinearLayout>
 
