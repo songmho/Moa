@@ -34,7 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:minHeight="1dp"
         android:minWidth="1dp"
         android:text="거절"
         android:textSize="10sp"/>
@@ -45,7 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/deny"
-        android:minHeight="1dp"
         android:minWidth="1dp"
         android:text="참여 완료"
         android:textSize="10sp"/>

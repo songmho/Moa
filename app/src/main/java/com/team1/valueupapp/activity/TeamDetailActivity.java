@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,7 +29,7 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.team1.valueupapp.R;
-import com.team1.valueupapp.adapter.MemberAddThumbnailAdapter;
+import com.team1.valueupapp.adapter.MemberWaitingThumbnailAdapter;
 import com.team1.valueupapp.adapter.MemberThumbnailAdapter;
 import com.team1.valueupapp.item.UserItem;
 
@@ -67,6 +68,9 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
 
     ArrayList<UserItem> memberArrayList = new ArrayList<>();
     ArrayList<UserItem> memberWaitingArrayList = new ArrayList<>();
+
+    MemberThumbnailAdapter memberThumbnailAdapter;
+    MemberWaitingThumbnailAdapter memberWaitingThumbnailAdapter;
 
     private static final int TYPE_OWNER = 0;
     private static final int TYPE_MEMBER = 1;
@@ -141,19 +145,27 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                         user.findInBackground(new FindCallback<ParseUser>() {
                             @Override
                             public void done(List<ParseUser> list, ParseException e) {
+                                memberArrayList.clear();
                                 if (list != null && list.size() > 1) {
-                                    memberArrayList.clear();
                                     txtNumMember.setText(list.size() - 1 + "명");
                                     for (int i = 0; i < list.size(); i++) {
                                         Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
                                         ParseUser user = list.get(i);
-                                        if (user.getUsername().equals(adminUsername)) continue;     //팀장 제외
+                                        if (user.getUsername().equals(adminUsername))
+                                            continue;     //팀장 제외
                                         UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
                                         memberArrayList.add(userItem);
                                     }
-                                    listMember.setAdapter(new MemberThumbnailAdapter(mContext, memberArrayList));
+                                    if (memberThumbnailAdapter == null)
+                                        memberThumbnailAdapter = new MemberThumbnailAdapter(mContext, memberArrayList);
+                                    listMember.setAdapter(memberThumbnailAdapter);
+                                    memberThumbnailAdapter.notifyDataSetChanged();
                                     listMember.setVisibility(View.VISIBLE);
                                 } else {
+                                    if (memberThumbnailAdapter == null)
+                                        memberThumbnailAdapter = new MemberThumbnailAdapter(mContext, memberArrayList);
+                                    listMember.setAdapter(memberThumbnailAdapter);
+                                    memberThumbnailAdapter.notifyDataSetChanged();
                                     txtNumMember.setText("0명");
                                 }
                                 setBottomButtonLayout(TYPE_NONE);   //하단 버튼 설정
@@ -177,10 +189,18 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                                         UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
                                         memberWaitingArrayList.add(userItem);
                                     }
-                                    listMemberWaiting.setAdapter(new MemberAddThumbnailAdapter(mContext, memberWaitingArrayList));
+                                    if (memberWaitingThumbnailAdapter == null) {
+                                        memberWaitingThumbnailAdapter = new MemberWaitingThumbnailAdapter(mContext, memberWaitingArrayList);
+                                    }
+                                    listMemberWaiting.setAdapter(memberWaitingThumbnailAdapter);
+                                    memberWaitingThumbnailAdapter.notifyDataSetChanged();
                                     listMemberWaiting.setVisibility(View.VISIBLE);
                                 } else {
-                                    listMemberWaiting.setAdapter(new MemberAddThumbnailAdapter(mContext, memberWaitingArrayList));
+                                    if (memberWaitingThumbnailAdapter == null) {
+                                        memberWaitingThumbnailAdapter = new MemberWaitingThumbnailAdapter(mContext, memberWaitingArrayList);
+                                    }
+                                    listMemberWaiting.setAdapter(memberWaitingThumbnailAdapter);
+                                    memberWaitingThumbnailAdapter.notifyDataSetChanged();
                                     listMemberWaiting.setVisibility(View.GONE);
                                     txtNumMemberWaiting.setText("0명");
                                 }
@@ -195,8 +215,8 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                             @Override
                             public void done(List<ParseUser> list, ParseException e) {
                                 //팀원 리스트 설정
+                                memberArrayList.clear();
                                 if (list != null && list.size() > 1) {
-                                    memberArrayList.clear();
                                     txtNumMember.setText(list.size() - 1 + "명");
                                     for (int i = 0; i < list.size(); i++) {
                                         Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
@@ -207,9 +227,16 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                                         UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
                                         memberArrayList.add(userItem);
                                     }
-                                    listMember.setAdapter(new MemberThumbnailAdapter(mContext, memberArrayList));
+                                    if (memberThumbnailAdapter == null)
+                                        memberThumbnailAdapter = new MemberThumbnailAdapter(mContext, memberArrayList);
+                                    listMember.setAdapter(memberThumbnailAdapter);
+                                    memberThumbnailAdapter.notifyDataSetChanged();
                                     listMember.setVisibility(View.VISIBLE);
                                 } else {
+                                    if (memberThumbnailAdapter == null)
+                                        memberThumbnailAdapter = new MemberThumbnailAdapter(mContext, memberArrayList);
+                                    listMember.setAdapter(memberThumbnailAdapter);
+                                    memberThumbnailAdapter.notifyDataSetChanged();
                                     txtNumMember.setText("0명");
                                 }
                                 user.whereEqualTo("objectId", currentUser.getObjectId());        //현재 유저 id와 릴레이션 안에 있는 유저들의 id 비교
@@ -382,21 +409,77 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         switch (type) {
             //1. 팀장
             case TYPE_OWNER:
+                toolbar.getMenu().clear();
                 break;
             //2. 멤버
             case TYPE_MEMBER:
                 btnJoin.setClickable(false);        //터치 불가능하게 변경
                 btnJoin.setText("그룹에 참여중입니다.");
+                toolbar.inflateMenu(R.menu.menu_team_detail);
+                toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.action_out) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                            builder.setTitle("그룹 나가기");          //AlertDialog Title
+                            builder.setMessage("그룹에서 나가시겠습니까?");     //AlertDialog Message
+                            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {        //Back key입력 시
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                }
+                            });
+                            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {     //확인버튼 클릭 시
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ParseQuery<ParseObject> query = new ParseQuery<>("Team");     //ParseQuery
+                                    query.whereEqualTo("intro", intent.getStringExtra("title")); //그룹 소개와 parse에 있는 intro를 매칭 시켜 같은거 찾음
+                                    query.findInBackground(new FindCallback<ParseObject>() {
+                                        @Override
+                                        public void done(List<ParseObject> list, ParseException e) {
+                                            if (!list.isEmpty()) {        //리스트가 비어있지 않을 때
+                                                ParseObject o = list.get(0);      //조건에 맞는 오브젝트 찾음
+                                                ParseRelation<ParseUser> member = o.getRelation("member");        // 신청자 현황 릴레이션 불러옴
+                                                member.remove(currentUser);     //현재 로그인된 유저를 멤버에서 제거
+                                                o.saveInBackground(new SaveCallback() {
+                                                    @Override
+                                                    public void done(ParseException e) {
+                                                        if (e == null) {    //저장이 오류 없이 되었을 경우
+                                                            Toast.makeText(TeamDetailActivity.this, "그룹에서 탈퇴하였습니다.", Toast.LENGTH_SHORT).show();
+                                                            initDataAndView();
+                                                        } else        //저장이 제대로 되지 않은 경우
+                                                            Toast.makeText(TeamDetailActivity.this, "오류발생!", Toast.LENGTH_SHORT).show();
+                                                    }   //end done method
+                                                });     //end method
+                                            }   //end if
+                                        }   //end done method
+                                    }); //end Query
+                                }   //endOnClick
+                            }); //endSetter
+
+                            builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {     //취소버튼 클릭 시
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            builder.show();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
                 btnJoin.setVisibility(View.VISIBLE);
                 break;
             //3. 신청 대기중 멤버
             case TYPE_MEMBER_WAITING:
+                toolbar.getMenu().clear();
                 btnJoin.setClickable(false);
                 btnJoin.setText("참여 신청 중입니다.");
                 layoutWaiting.setVisibility(View.VISIBLE);
                 break;
             //4. 아무것도 아닌 제3자
             case TYPE_NONE:
+                toolbar.getMenu().clear();
                 btnJoin.setClickable(true);
                 btnJoin.setText("그룹 참여하기");
                 btnJoin.setVisibility(View.VISIBLE);
@@ -411,8 +494,8 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         user.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> list, ParseException e) {
+                memberArrayList.clear();
                 if (list != null && list.size() > 1) {
-                    memberArrayList.clear();
                     txtNumMember.setText(list.size() - 1 + "명");
                     for (int i = 0; i < list.size(); i++) {
                         Log.e(TAG, i + "번째 멤버 : " + list.get(i).getUsername());
@@ -423,9 +506,16 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                         UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
                         memberArrayList.add(userItem);
                     }
-                    listMember.setAdapter(new MemberThumbnailAdapter(mContext, memberArrayList));
+                    if (memberThumbnailAdapter == null)
+                        memberThumbnailAdapter = new MemberThumbnailAdapter(mContext, memberArrayList);
+                    listMember.setAdapter(memberThumbnailAdapter);
+                    memberThumbnailAdapter.notifyDataSetChanged();
                     listMember.setVisibility(View.VISIBLE);
                 } else {
+                    if (memberThumbnailAdapter == null)
+                        memberThumbnailAdapter = new MemberThumbnailAdapter(mContext, memberArrayList);
+                    listMember.setAdapter(memberThumbnailAdapter);
+                    memberThumbnailAdapter.notifyDataSetChanged();
                     txtNumMember.setText("0명");
                 }
             }

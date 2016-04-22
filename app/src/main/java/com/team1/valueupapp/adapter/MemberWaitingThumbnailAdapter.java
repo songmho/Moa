@@ -31,13 +31,13 @@ import java.util.List;
 /**
  * Created by knulps on 16. 4. 20..
  */
-public class MemberAddThumbnailAdapter extends RecyclerView.Adapter {
+public class MemberWaitingThumbnailAdapter extends RecyclerView.Adapter {
     Context context;
     List<UserItem> itemList;
 
     public static final String TAG = "MemberThumbnailAdapter";
 
-    public MemberAddThumbnailAdapter(Context context, List<UserItem> items) {
+    public MemberWaitingThumbnailAdapter(Context context, List<UserItem> items) {
         this.context = context;
         this.itemList = items;
     }
