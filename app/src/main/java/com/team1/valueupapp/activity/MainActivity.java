@@ -304,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     } catch (ParseException e1) {
                                         e1.printStackTrace();
                                     }
-                    /*1. 로그아웃 상태일 때 */
+                                    /*1. 로그아웃 상태일 때 */
                                     if (MainActivity.this.user == null) {
                                         if (!isFinishing())
                                             progressBar.setVisibility(View.GONE);
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         if (swipeRefreshLayout.getVisibility() == View.GONE) {
                                             swipeRefreshLayout.setVisibility(View.VISIBLE);
                                         }
-                    /*2. 로그인 상태일 때 */
+                                        /*2. 로그인 상태일 때 */
                                     } else {
                                         ParseRelation<ParseUser> memberRelation = parseObject.getRelation("member");
                                         final ParseQuery<ParseUser> memberQuery = memberRelation.getQuery();             //릴레이션을 가지고 쿼리문 돌림

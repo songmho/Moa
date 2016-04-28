@@ -121,7 +121,7 @@ public class UserDetailActivity extends AppCompatActivity {
 
     //앱바 레이아웃 설정
     private void initAppBarLayout() {
-        collapsingToolbarLayout.setTitle("멤버 정보");
+        collapsingToolbarLayout.setTitle("");
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -133,9 +133,11 @@ public class UserDetailActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle("멤버 정보");
                     profile.setVisibility(View.GONE);
                     isShow = true;
                 } else if (isShow) {
+                    collapsingToolbarLayout.setTitle("");
                     profile.setVisibility(View.VISIBLE);
                     isShow = false;
                 }

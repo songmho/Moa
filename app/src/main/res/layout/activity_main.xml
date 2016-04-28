@@ -42,11 +42,11 @@
                             android:id="@+id/header_my_team"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginLeft="16dp"
                             android:layout_marginBottom="10dp"
-                            android:textSize="16sp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="16dp"
                             android:text="내 그룹"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             />
 
@@ -60,19 +60,19 @@
                             android:id="@+id/header_all_team"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginLeft="16dp"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="16dp"
+                            android:text="추천 그룹"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:text="추천 그룹"
                             />
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/main_recyclerview"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="50dp"
+                            android:layout_marginBottom="100dp"
                             />
                     </LinearLayout>
 

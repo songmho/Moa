@@ -26,6 +26,7 @@ import org.json.JSONException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * Created by eugene on 2015-08-08.
@@ -64,7 +65,7 @@ public class MypageActivity extends AppCompatActivity {
 
     //앱바 레이아웃 설정
     private void initAppBarLayout() {
-        collapsingToolbarLayout.setTitle("마이페이지");
+        collapsingToolbarLayout.setTitle("");
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
@@ -76,9 +77,11 @@ public class MypageActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle("마이페이지");
                     profile.setVisibility(View.GONE);
                     isShow = true;
                 } else if (isShow) {
+                    collapsingToolbarLayout.setTitle("");
                     profile.setVisibility(View.VISIBLE);
                     isShow = false;
                 }
@@ -93,8 +96,10 @@ public class MypageActivity extends AppCompatActivity {
             if (parseFile != null) {
                 profileUrl = parseFile.getUrl();
                 Log.e(TAG, "parse file url : " + profileUrl);
-                if (!isFinishing())
+                if (!isFinishing()) {
                     Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
+                    Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.RESULT).bitmapTransform(new BlurTransformation(mContext)).into(profileBlur);
+                }
             }
         }
     }
