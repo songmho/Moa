@@ -306,11 +306,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_search) {
-            startActivity(new Intent(mContext, SearchActivity.class));
-            overridePendingTransition(0, 0);
+        switch(item.getItemId()){
+            case R.id.action_search:    //서치버튼 클릭 시
+                startActivity(new Intent(mContext, SearchActivity.class));
+                overridePendingTransition(0, 0);
 //            Toast.makeText(mContext, "준비중입니다 '-'", Toast.LENGTH_SHORT).show();
-            return true;
+                return true;
+            case R.id.action_alert:     //알림 버튼 클릭 시
+                startActivity(new Intent(mContext,AlertActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
