@@ -115,7 +115,6 @@ public class TeamActivity extends AppCompatActivity {
                     } catch (ParseException e1) {
                         e1.printStackTrace();
                     }
-
                 }
                 recyclerView.setAdapter(new TeamRecyclerAdapter(getApplicationContext(), items, R.layout.activity_team));
 

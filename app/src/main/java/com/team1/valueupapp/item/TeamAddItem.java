@@ -19,9 +19,10 @@ public class TeamAddItem {
     public byte[] getProfile() {
         return profile;
     }
-    public TeamAddItem(byte[] profile, String name, String objectId){
-        this.profile=profile;
-        this.name=name;
+
+    public TeamAddItem(byte[] profile, String name, String objectId) {
+        this.profile = profile;
+        this.name = name;
         this.objectId = objectId;
     }
 }

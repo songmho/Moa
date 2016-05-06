@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout android:id="@+id/container"
-                                                 xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 tools:context=".activity.MypageActivity">
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:title=""
+    tools:context=".activity.MypageActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="192dp"
+        android:layout_height="180dp"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -23,6 +25,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+
             <ImageView
                 android:id="@+id/profile_blur"
                 android:layout_width="match_parent"
@@ -33,8 +36,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile"
-                android:layout_width="95dp"
-                android:layout_height="95dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_user"/>
 
@@ -133,7 +136,7 @@
                     android:layout_marginLeft="55dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
-                    android:text="dd"
+                    android:text=""
                     android:textSize="17dp"/>
             </LinearLayout>
 
@@ -181,10 +184,19 @@
                     android:layout_marginLeft="55dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="10dp"
-                    android:text="#태그1 #태그2 #태그3"
+                    android:text=""
                     android:textSize="17dp"/>
             </LinearLayout>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="@style/CircularProgress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
+
 </android.support.design.widget.CoordinatorLayout>
