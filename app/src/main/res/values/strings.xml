@@ -10,6 +10,7 @@
     <string name="menu_apply_condition">신청 현황</string>
     <string name="menu_settings">설정</string>
     <string name="menu_about">About</string>
+    <string name="menu_message">쪽지함</string>
 
     <!-- TeamAddActivity 팀개설 -->
     <string name="team_add_intro_title">그룹 간략 소개</string>

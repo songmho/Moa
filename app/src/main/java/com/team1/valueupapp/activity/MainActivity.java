@@ -154,6 +154,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.apply_condition:
                 Toast.makeText(mContext, "준비중입니다.", Toast.LENGTH_SHORT).show();
                 return true;
+
+            //쪽지함
+            case R.id.message:
+                startActivity(new Intent(MainActivity.this,MessageActivity.class));
+                return true;
         }
         return true;
     }

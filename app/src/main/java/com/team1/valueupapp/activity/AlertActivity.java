@@ -8,6 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.team1.valueupapp.R;
+import com.team1.valueupapp.adapter.AlertAdapter;
+import com.team1.valueupapp.item.AlertItem;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,6 +23,8 @@ public class AlertActivity extends AppCompatActivity {
 
     @Bind(R.id.recyclerView) RecyclerView recyclerView;
     @Bind(R.id.toolbar) Toolbar toolbar;
+
+    ArrayList<AlertItem> items = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,5 +41,12 @@ public class AlertActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        for(int i=0;i<5;i++){
+            AlertItem item = new AlertItem("test #"+(i+1));
+            items.add(item);
+        }
+
+        recyclerView.setAdapter(new AlertAdapter(getApplicationContext(),items));
     }
 }
