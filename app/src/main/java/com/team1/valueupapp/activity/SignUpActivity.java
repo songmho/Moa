@@ -38,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("회원가입");
+        getSupportActionBar().setTitle("회원가입");
 
         btn_next.setOnClickListener(this);
     }//onCreate

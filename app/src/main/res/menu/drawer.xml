@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/apply_condition"
-        android:icon="@drawable/ic_setting"
+        android:icon="@drawable/ic_addlist"
         android:title="@string/menu_apply_condition" />
     <item
         android:id="@+id/message"
-        android:icon="@drawable/ic_setting"
+        android:icon="@drawable/ic_message"
         android:title="@string/menu_message" />
     <group
         android:id="@+id/group_setup"

@@ -12,5 +12,6 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/progressbar"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 </FrameLayout>

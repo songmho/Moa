@@ -9,8 +9,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.team1.valueupapp.R;
+import com.team1.valueupapp.fragment.MessageFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,6 +29,9 @@ public class MessageActivity extends AppCompatActivity {
     @Bind(R.id.viewPager) ViewPager viewPager;
     @Bind(R.id.tabs) TabLayout tabLayout;
 
+    MessageFragment sendMsgFragment;        //보낸
+    MessageFragment resvMsgFragment;        //받은
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,28 +44,46 @@ public class MessageActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("쪽지함");
 
         setUpViewPager(viewPager);
-//        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void setUpViewPager(ViewPager viewPager) {
         MsgViewPagerAdapter adapter = new MsgViewPagerAdapter(getSupportFragmentManager());
+        sendMsgFragment = new MessageFragment();
+        resvMsgFragment = new MessageFragment();
+        adapter.addFragment(sendMsgFragment,"보낸쪽지함");
+        adapter.addFragment(resvMsgFragment,"받은쪽지함");
+        viewPager.setAdapter(adapter);
     }
 
 
     private class MsgViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
         public MsgViewPagerAdapter(FragmentManager supportFragmentManager) {
             super(supportFragmentManager);
 
         }
-
-        @Override
-        public Fragment getItem(int position) {
-            return null;
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
         }
 
         @Override
+        public Fragment getItem(int position) {
+            Bundle bundle=new Bundle();
+            bundle.putString("cur_state",mFragmentTitleList.get(position));
+            mFragmentList.get(position).setArguments(bundle);
+            return mFragmentList.get(position);
+        }
+        @Override
         public int getCount() {
-            return 0;
+            return mFragmentList.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
         }
     }
 }

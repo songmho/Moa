@@ -1,25 +1,20 @@
 package com.team1.valueupapp.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.id_text) EditText txtId;
     @Bind(R.id.pass_text) EditText txtPassword;
     @Bind(R.id.login_btn) Button btnLogin;
-    @Bind(R.id.signup_btn) Button btnSignUp;
+    @Bind(R.id.signup_btn) TextView btnSignUp;
     @Bind(R.id.progressbar) ProgressBar progressBar;
 
     @Override
@@ -43,6 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        btnSignUp.setText(Html.fromHtml("<u>회원가입하기</u>"));
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,7 +3,7 @@
              xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="192dp"
-             android:background="@drawable/drawer_pattern"
+    android:background="@color/ColorPrimary"
              android:orientation="vertical">
 
     <LinearLayout

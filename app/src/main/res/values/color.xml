@@ -4,6 +4,7 @@
     <color name="ColorPrimaryDark">#F57C00</color>
     <color name="BackGround">#262626</color>
     <color name="Listdivider">#E0E0E0</color>
+    <color name="Text_time_color">#CDCDCD</color>
     <color name="TextColor">#9e9e9e</color>
     <color name="TextColor_sub">#616161</color>
     <color name="transparent">#22000000</color>

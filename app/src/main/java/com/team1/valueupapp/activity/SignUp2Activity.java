@@ -65,7 +65,7 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("회원가입");
+        getSupportActionBar().setTitle("회원가입");
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

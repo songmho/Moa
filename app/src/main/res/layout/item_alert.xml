@@ -7,7 +7,7 @@
         android:layout_height="50dp">
         <TextView
             android:id="@+id/text"
-            android:text="송명호님이 그룹에 참여신청르 하였습니다."
+            android:text="송명호님이 그룹에 참여신청을 하였습니다."
             android:layout_margin="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

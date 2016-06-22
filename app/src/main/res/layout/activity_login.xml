@@ -42,7 +42,7 @@
                 android:theme="@style/MyAppCompatEdittext"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:hint="e-mail"
+                android:hint="이메일"
                 android:inputType="textEmailAddress"
                 android:id="@+id/id_text"
                 android:singleLine="true"
@@ -61,33 +61,38 @@
                 android:textSize="15dp"
                 />
 
-
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorPrimary"
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+            android:text="로그인"
+            android:id="@+id/login_btn"
+            android:layout_marginTop="15dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
     </LinearLayout>
+
     </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:focusable="false"
             android:orientation="horizontal"
             android:layout_gravity="bottom">
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="@color/ColorPrimary"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
-                android:text="Login"
-                android:id="@+id/login_btn"
-                />
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:background="#f9b323"
-                android:textSize="20dp"
-                android:text="Sign Up"
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:background="#FFFFFF"
                 android:id="@+id/signup_btn"
-                android:textColor="#ffffff"
+                android:textColor="@color/TextColor"
                 />
         </LinearLayout>
         <ProgressBar
