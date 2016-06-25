@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.team1.valueupapp.R;
-import com.team1.valueupapp.item.AlertItem;
 import com.team1.valueupapp.item.MessageItem;
 
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         MessageItem item = items.get(position);
 
         ((Body)holder).title.setText(item.getTitle());
+        ((Body)holder).title_tag.setText(item.getTitle_tag());
         ((Body)holder).body.setText(item.getBody());
         ((Body)holder).time.setText(item.getTime());
     }
@@ -48,10 +48,11 @@ public class MessageAdapter extends RecyclerView.Adapter {
         TextView title;
         TextView body;
         TextView time;
+        TextView title_tag;
         public Body(View itemView) {
             super(itemView);
-
             title=(TextView)itemView.findViewById(R.id.title);
+            title_tag = (TextView)itemView.findViewById(R.id.title_tag);
             body=(TextView)itemView.findViewById(R.id.body);
             time=(TextView)itemView.findViewById(R.id.time);
         }

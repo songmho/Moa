@@ -42,12 +42,13 @@ public class MessageFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         recyclerview.setLayoutManager(layoutManager);
 
+        Log.d("testtest",b.getString("cur_state"));
         MessageItem[] item=new MessageItem[5];
         for(int i=0;i<5;i++){
             if(b.getString("cur_state").equals("받은쪽지함"))
-                item[i]=new MessageItem("정형인","나는 단호박이다.!!","2016.05.28 16:21");
+                item[i]=new MessageItem("From. ","정형인","I'm Danhobak.","2016.05.28 16:21");
             else
-                item[i]=new MessageItem("정형인","누나는 단호박이다.!!","2016.05.28 16:21");
+                item[i]=new MessageItem("To. ","정형인","빨리 개발하겠습니다.","2016.05.28 16:21");
 
             items.add(item[i]);
         }

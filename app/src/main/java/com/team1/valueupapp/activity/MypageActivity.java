@@ -11,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,7 +33,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 /**
  * Created by eugene on 2015-08-08.
  */
-public class MypageActivity extends AppCompatActivity {
+public class MypageActivity extends AppCompatActivity implements View.OnClickListener {
     ParseUser parseUser;
     String profileUrl = null;
 
@@ -43,6 +45,7 @@ public class MypageActivity extends AppCompatActivity {
     @Bind(R.id.profile) CircleImageView profile;
     @Bind(R.id.profile_blur) ImageView profileBlur;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.bt_sndMsg) Button bt_sndMsg;
 
     Context mContext;
     private static final String TAG = "MypageActivity";
@@ -61,6 +64,8 @@ public class MypageActivity extends AppCompatActivity {
         parseUser = ParseUser.getCurrentUser();
         initAppBarLayout();
         loadProfile();
+
+        bt_sndMsg.setOnClickListener(this);
     }
 
     //앱바 레이아웃 설정
@@ -156,4 +161,10 @@ public class MypageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.bt_sndMsg){
+            Toast.makeText(MypageActivity.this, "테스트 중 입니다ㅠㅜ", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

@@ -5,11 +5,17 @@ package com.team1.valueupapp.item;
  */
 public class MessageItem {
     String title;
+    String title_tag;
     String body;
     String time;
 
+
     public String getTitle() {
         return title;
+    }
+
+    public String getTitle_tag() {
+        return title_tag;
     }
 
     public String getBody() {
@@ -20,7 +26,9 @@ public class MessageItem {
         return time;
     }
 
-    public MessageItem(String title, String body, String time){
+
+    public MessageItem(String title_tag, String title,  String body, String time){
+        this.title_tag =title_tag;
         this.title = title;
         this.body = body;
         this.time = time;

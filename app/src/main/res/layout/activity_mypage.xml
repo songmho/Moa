@@ -188,6 +188,25 @@
                     android:textSize="17dp"/>
             </LinearLayout>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:id="@+id/bt_sndMsg"
+                android:background="@color/ColorPrimary"
+                android:textColor="@color/white"
+                android:text="쪽지보내기"/>
+            <Button
+                android:id="@+id/bt_join"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="@color/ColorPrimary"
+                android:text=""
+                android:textColor="@color/white"
+                android:visibility="gone"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
