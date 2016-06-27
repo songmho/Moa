@@ -188,6 +188,15 @@
                     android:textSize="17dp"/>
             </LinearLayout>
 
+            <Button
+                android:id="@+id/bt_sndMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="@color/ColorPrimary"
+                android:text="쪽지보내기"
+                android:textColor="@color/white"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

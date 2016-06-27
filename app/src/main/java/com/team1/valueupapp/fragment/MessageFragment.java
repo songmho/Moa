@@ -59,20 +59,22 @@ public class MessageFragment extends Fragment {
             public void done(List<ParseObject> list, ParseException e) {
                 MessageItem i;
                 for(ParseObject o : list){
+                    Log.d("dfdfd",""+list.size());
                     try {
                         if(b.getString("cur_state").equals("받은쪽지함")) {
                             ParseUser u= o.getParseUser("user_from");
                             u.fetchIfNeeded();
                             i = new MessageItem("From. ", u.getString("name"), o.getString("text"), o.getString("createdAt"));
+                            items.add(i);
                         }else {
                             ParseUser u= o.getParseUser("user_to");
                             u.fetchIfNeeded();
-                            i = new MessageItem("to. ", u.getString("name")   , o.getString("text"), o.getString("createdAt"));
-                        }items.add(i);
+                            i = new MessageItem("to. ", u.getString("name"), o.getString("text"), o.getString("createdAt"));
+                            items.add(i);
+                        }
                     } catch (ParseException e1) {
                         e1.printStackTrace();
                     }
-
                 }
                 recyclerview.setAdapter(new MessageAdapter(mContext, items));
 

@@ -7,6 +7,11 @@ public class MessageItem {
     String title;
     String body;
     String time;
+    String status;
+
+    public String getStatus() {
+        return status;
+    }
 
     public String getTitle() {
         return title;
@@ -20,7 +25,9 @@ public class MessageItem {
         return time;
     }
 
-    public MessageItem(String title, String body, String time){
+
+    public MessageItem(String status, String title, String body, String time){
+        this.status=status;
         this.title = title;
         this.body = body;
         this.time = time;
