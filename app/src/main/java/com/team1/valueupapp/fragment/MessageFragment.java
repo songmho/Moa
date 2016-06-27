@@ -12,11 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 import com.team1.valueupapp.adapter.MessageAdapter;
 import com.team1.valueupapp.item.MessageItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by songmho on 2016-05-28.
@@ -35,24 +42,42 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        Bundle b=getArguments();
+        final Bundle b=getArguments();
 
-        RecyclerView recyclerview=(RecyclerView)view.findViewById(R.id.recyclerview);
+        final RecyclerView recyclerview=(RecyclerView)view.findViewById(R.id.recyclerview);
         recyclerview.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         recyclerview.setLayoutManager(layoutManager);
 
-        MessageItem[] item=new MessageItem[5];
-        for(int i=0;i<5;i++){
-            if(b.getString("cur_state").equals("받은쪽지함"))
-                item[i]=new MessageItem("정형인","나는 단호박이다.!!","2016.05.28 16:21");
-            else
-                item[i]=new MessageItem("정형인","누나는 단호박이다.!!","2016.05.28 16:21");
+        ParseQuery<ParseObject> query=ParseQuery.getQuery("message");
+        if(b.getString("cur_state").equals("받은쪽지함"))
+            query.whereEqualTo("user_to", ParseUser.getCurrentUser());
+        else
+            query.whereEqualTo("user_from",ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                MessageItem i;
+                for(ParseObject o : list){
+                    try {
+                        if(b.getString("cur_state").equals("받은쪽지함")) {
+                            ParseUser u= o.getParseUser("user_from");
+                            u.fetchIfNeeded();
+                            i = new MessageItem("From. ", u.getString("name"), o.getString("text"), o.getString("createdAt"));
+                        }else {
+                            ParseUser u= o.getParseUser("user_to");
+                            u.fetchIfNeeded();
+                            i = new MessageItem("to. ", u.getString("name")   , o.getString("text"), o.getString("createdAt"));
+                        }items.add(i);
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
 
-            items.add(item[i]);
-        }
+                }
+                recyclerview.setAdapter(new MessageAdapter(mContext, items));
 
-        recyclerview.setAdapter(new MessageAdapter(mContext, items));
+            }
+        });
         return view;
     }
 }

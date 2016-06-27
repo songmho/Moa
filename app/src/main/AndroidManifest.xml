@@ -228,6 +228,9 @@
                 android:value=".activity.MainActivity"/>
         </activity>
 
+        <activity android:name=".activity.SndMsgActivity"
+            android:screenOrientation="portrait"/>
+
 
         <meta-data
             android:name="io.fabric.ApiKey"

@@ -1,7 +1,9 @@
 package com.team1.valueupapp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.team1.valueupapp.R;
 import com.team1.valueupapp.fragment.MessageFragment;
@@ -23,11 +27,13 @@ import butterknife.ButterKnife;
 /**
  * Created by songmho on 2016-05-08.
  */
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.viewPager) ViewPager viewPager;
     @Bind(R.id.tabs) TabLayout tabLayout;
+    @Bind(R.id.fab)
+    FloatingActionButton fab;
 
     MessageFragment sendMsgFragment;        //보낸
     MessageFragment resvMsgFragment;        //받은
@@ -45,15 +51,23 @@ public class MessageActivity extends AppCompatActivity {
 
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+        fab.setOnClickListener(this);
     }
 
     private void setUpViewPager(ViewPager viewPager) {
         MsgViewPagerAdapter adapter = new MsgViewPagerAdapter(getSupportFragmentManager());
         sendMsgFragment = new MessageFragment();
         resvMsgFragment = new MessageFragment();
-        adapter.addFragment(sendMsgFragment,"보낸쪽지함");
         adapter.addFragment(resvMsgFragment,"받은쪽지함");
+        adapter.addFragment(sendMsgFragment,"보낸쪽지함");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.fab){
+            startActivity(new Intent(this,SndMsgActivity.class));
+        }
     }
 
 
