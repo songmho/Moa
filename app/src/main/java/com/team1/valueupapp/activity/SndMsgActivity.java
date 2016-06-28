@@ -1,9 +1,11 @@
 package com.team1.valueupapp.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,8 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
+
+import java.lang.reflect.Member;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,6 +32,7 @@ public class SndMsgActivity extends AppCompatActivity implements View.OnClickLis
     @Bind(R.id.text) EditText text;
     @Bind(R.id.bt_send) Button bt_send;
 
+    String recv_objId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,16 +55,26 @@ public class SndMsgActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==19000)
+            if(resultCode==RESULT_OK){
+                recv_name.setText(data.getStringExtra("name"));
+                recv_objId=data.getStringExtra("objectId");
+            }
+    }
+
+    @Override
     public void onClick(View v) {
         if(v.getId()==R.id.bt_choose){
-
-
+            Intent i=new Intent(this,MemberActivity.class);
+            startActivityForResult(i, 19000);
         }
         else if(v.getId()==R.id.bt_send){
             ParseObject msg=new ParseObject("message");
             try {
                 msg.put("user_from", ParseUser.getCurrentUser());
-                msg.put("user_to",ParseUser.getQuery().get("KEL34NrfVa"));
+                msg.put("user_to",ParseUser.getQuery().get(recv_objId));
                 msg.put("text",text.getText().toString());
                 msg.saveInBackground();
             } catch (ParseException e) {

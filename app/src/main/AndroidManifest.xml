@@ -178,7 +178,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
+                android:value=".activity.SndMsgActivity"/>
         </activity>
 
         <activity

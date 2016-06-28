@@ -1,18 +1,32 @@
 package com.team1.valueupapp.activity;
 
+import android.app.Activity;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.team1.valueupapp.adapter.MyViewPagerAdapter;
 import com.team1.valueupapp.R;
+import com.team1.valueupapp.adapter.UserRecyclerAdapter;
+import com.team1.valueupapp.item.UserItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,8 +37,11 @@ import butterknife.ButterKnife;
 public class MemberActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.viewPager) ViewPager viewPager;
-    @Bind(R.id.tablayout) TabLayout tabLayout;
+    @Bind(R.id.recyclerView) RecyclerView recyclerView;
+
+    ArrayList<UserItem> items=new ArrayList<>();
+    RecyclerView.LayoutManager layoutManager;
+    Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,15 +49,41 @@ public class MemberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_member);
 
         ButterKnife.bind(this);
+        mContext=this;
 
         toolbar.setTitle("전체멤버");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        MyViewPagerAdapter adapter = new MyViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
+
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        ParseQuery<ParseUser> query=ParseUser.getQuery();
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> list, ParseException e) {
+
+                 for(ParseUser u : list) {
+                    UserItem item = new UserItem(u.getObjectId(), u.getString("name"),u.getUsername());
+                    items.add(item);
+                    recyclerView.setAdapter(new UserRecyclerAdapter(mContext,items,R.layout.activity_member));
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            Intent intent = new Intent();
+            intent.putExtra("objectId",data.getStringExtra("objectId")); //objectId
+            intent.putExtra("name",data.getStringExtra("name"));  //name
+            setResult(Activity.RESULT_OK,intent);
+        }
     }
 
     @Override

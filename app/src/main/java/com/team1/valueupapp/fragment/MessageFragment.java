@@ -29,8 +29,12 @@ import java.util.List;
  * Created by songmho on 2016-05-28.
  */
 public class MessageFragment extends Fragment {
-    Context mContext;
     ArrayList<MessageItem> items = new ArrayList<>();
+    Bundle b;
+    Context mContext;
+    RecyclerView recyclerview;
+    RecyclerView.LayoutManager layoutManager;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,33 +46,40 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        final Bundle b=getArguments();
+        b = getArguments();     //Activity에서 보낸 정보 받아옴
 
-        final RecyclerView recyclerview=(RecyclerView)view.findViewById(R.id.recyclerview);
+        //recyclerview 초기화 및 설정
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerview.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
+        layoutManager = new LinearLayoutManager(mContext);
         recyclerview.setLayoutManager(layoutManager);
 
-        ParseQuery<ParseObject> query=ParseQuery.getQuery("message");
-        if(b.getString("cur_state").equals("받은쪽지함"))
-            query.whereEqualTo("user_to", ParseUser.getCurrentUser());
-        else
-            query.whereEqualTo("user_from",ParseUser.getCurrentUser());
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        items.clear();      //불러올 때마다 데이터 지움.
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("message");
+        if (b.getString("cur_state").equals("받은쪽지함"))       //받은 쪽지의 경우
+            query.whereEqualTo("user_to", ParseUser.getCurrentUser());      //user_to에 현재 유저와 같은 경우만 씀
+        else        //보낸 쪽지의 경우
+            query.whereEqualTo("user_from", ParseUser.getCurrentUser());      //user_from에 현재 유저와 같은 경우만 씀
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
                 MessageItem i;
-                for(ParseObject o : list){
-                    Log.d("dfdfd",""+list.size());
+                for (ParseObject o : list) {
                     try {
-                        if(b.getString("cur_state").equals("받은쪽지함")) {
-                            ParseUser u= o.getParseUser("user_from");
-                            u.fetchIfNeeded();
+                        if (b.getString("cur_state").equals("받은쪽지함")) {     //현재 받은 쪽지함일 경우
+                            ParseUser u = o.getParseUser("user_from");      //보낸 사람불러옴
+                            u.fetchIfNeeded();          //ParseUser 변수에서 값을 가져다 쓰기 위해
                             i = new MessageItem("From. ", u.getString("name"), o.getString("text"), o.getString("createdAt"));
                             items.add(i);
-                        }else {
-                            ParseUser u= o.getParseUser("user_to");
-                            u.fetchIfNeeded();
+                        } else {                //현재 보낸 쪽지함일 경우
+                            ParseUser u = o.getParseUser("user_to");        //받은 사람 불러옴
+                            u.fetchIfNeeded();          //ParseUser 변수에서 값을 가져다 쓰기 위해
                             i = new MessageItem("to. ", u.getString("name"), o.getString("text"), o.getString("createdAt"));
                             items.add(i);
                         }
@@ -76,10 +87,9 @@ public class MessageFragment extends Fragment {
                         e1.printStackTrace();
                     }
                 }
-                recyclerview.setAdapter(new MessageAdapter(mContext, items));
-
+                recyclerview.setAdapter(new MessageAdapter(mContext, items));       //adapter 설정
             }
         });
-        return view;
+
     }
 }

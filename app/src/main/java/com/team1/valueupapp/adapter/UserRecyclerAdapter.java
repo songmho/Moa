@@ -1,16 +1,20 @@
 package com.team1.valueupapp.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.team1.valueupapp.R;
+import com.team1.valueupapp.activity.MemberActivity;
 import com.team1.valueupapp.activity.MypageActivity;
+import com.team1.valueupapp.activity.SndMsgActivity;
 import com.team1.valueupapp.activity.TeamDetailActivity;
 import com.team1.valueupapp.activity.UserDetailActivity;
 import com.team1.valueupapp.item.TeamItem;
@@ -67,21 +71,31 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter {
             ((holder) holder).cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context.getApplicationContext(), UserDetailActivity.class);
-                    intent.putExtra("info", item.getInfo());
-                    intent.putExtra("name", item.getName());
-                    intent.putExtra("username", item.getUserName());
-                    context.startActivity(intent);
+                    Intent intent;
+                    if(itemLayout==R.layout.activity_member){
+                        intent = new Intent(context,SndMsgActivity.class);
+                        intent.putExtra("objectId",item.getUserName()); //objectId
+                        intent.putExtra("name",item.getName());  //name
+                        ((MemberActivity)context).setResult(Activity.RESULT_OK,intent);
+                        ((MemberActivity)context).finish();
+
+                    }
+                    else{
+                        Log.d("testest","d");
+                        intent = new Intent(context.getApplicationContext(), UserDetailActivity.class);
+                        intent.putExtra("info", item.getInfo());
+                        intent.putExtra("name", item.getName());
+                        intent.putExtra("username", item.getUserName());
+                        context.startActivity(intent);
+                    }
                 }
             });
-        } else if (holder instanceof footer) {
-
         }
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size() + 1;
+        return itemList.size();
     }
 
 
