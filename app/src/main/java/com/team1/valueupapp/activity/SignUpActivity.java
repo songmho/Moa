@@ -11,7 +11,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.team1.valueupapp.R;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,17 +63,30 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                     //전부 입력되었을 때
                 else {
-                    if (String.valueOf(pass.getText()).equals(String.valueOf(pass_check.getText()))) {   //비밀번호와 확인이 같을 경우
-                        Intent intent = new Intent(SignUpActivity.this, SignUp2Activity.class);
-                        intent.putExtra("username", String.valueOf(mail.getText()));      //이름, email, 비밀번호 SignUp_2_Activity로 전달
-                        intent.putExtra("password", String.valueOf(pass.getText()));
-                        intent.putExtra("name", String.valueOf(userName.getText()));
-                        startActivity(intent);              // SignUp_2_Activity로 이동
-                        finish();
-                    }           //endif
-                    else {      //비밀번호와 확인이 다를 경우
-                        Toast.makeText(SignUpActivity.this, "비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show(); //비밀번호 확인 관련 토스트
-                    }       //end else
+                    ParseQuery<ParseUser> query=ParseUser.getQuery();
+                    query.whereEqualTo("username",String.valueOf(mail.getText()));
+                    query.findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(List<ParseUser> list, ParseException e) {
+                            if(list.isEmpty()) {
+                                if (String.valueOf(pass.getText()).equals(String.valueOf(pass_check.getText()))) {   //비밀번호와 확인이 같을 경우
+                                    Intent intent = new Intent(SignUpActivity.this, SignUp2Activity.class);
+                                    intent.putExtra("username", String.valueOf(mail.getText()));      //이름, email, 비밀번호 SignUp_2_Activity로 전달
+                                    intent.putExtra("password", String.valueOf(pass.getText()));
+                                    intent.putExtra("name", String.valueOf(userName.getText()));
+                                    startActivity(intent);              // SignUp_2_Activity로 이동
+                                    finish();
+                                }           //endif
+                                else {      //비밀번호와 확인이 다를 경우
+                                    Toast.makeText(SignUpActivity.this, "비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show(); //비밀번호 확인 관련 토스트
+                                }       //end else
+                            }
+                            else
+                                Toast.makeText(SignUpActivity.this, "아이디를 확인하세요.", Toast.LENGTH_SHORT).show(); //아이디 확인 관련 토스트
+
+                        }
+                    });
+
                 }
                 break;
         }       //end switch

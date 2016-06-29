@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,8 +85,8 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.profile:          //profile을 클릭했을 때
-                //  MakingAlertDialog();
-                Toast.makeText(SignUp2Activity.this, "아직 기능이 완벽히 구현이 안됐으니 이쁜사진을 골라두자!", Toast.LENGTH_SHORT).show();
+                MakingAlertDialog();
+                //Toast.makeText(SignUp2Activity.this, "아직 기능이 완벽히 구현이 안됐으니 이쁜사진을 골라두자!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_tag_1:                                               //관심사 태그에서 1번째
                 if (!arrTags.contains(btnTag1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
@@ -118,9 +119,7 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                 signUp_User.setEmail(getIntent().getStringExtra("username"));
                 signUp_User.put("info", editInfo.getText().toString());
                 signUp_User.put("tag", arrTags);
-            /*    if(thum!=null)
-                    imgSendParse(thum);
-            */
+
                 signUp_User.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -128,7 +127,11 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                             Toast.makeText(SignUp2Activity.this, "가입 완료!", Toast.LENGTH_SHORT).show();
                             finish();
                             startActivity(new Intent(SignUp2Activity.this, MainActivity.class));
+                            if(thum!=null)
+                                imgSendParse(thum);
                         }       //endif
+                        else
+                            Log.d("fdfdf",e.getMessage());
                     }       //done method
                 });
                 break;
