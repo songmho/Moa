@@ -149,10 +149,10 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                     if (camera.resolveActivity(getPackageManager()) != null)
                         startActivityForResult(camera, CAMERA_REQUEST);
                 } else if (item[position].equals("갤러리에서 사진 가져오기")) {
-                    Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    gallery.addCategory(Intent.CATEGORY_OPENABLE);
-                    gallery.setType("image/*");
-                    startActivityForResult(Intent.createChooser(gallery, "갤러리 선택"), SELECT_FILE);
+                    Intent gallery = new Intent(Intent.ACTION_PICK);
+                    gallery.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                    gallery.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(gallery, SELECT_FILE);
                 } else if (item[position].equals("삭제")) {
                     ParseUser.getCurrentUser().remove("profile");
                     Toast.makeText(getApplicationContext(), "삭제하였습니다.", Toast.LENGTH_SHORT).show();
