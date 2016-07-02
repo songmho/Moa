@@ -43,9 +43,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("회원가입");
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("회원가입");
 
         btn_next.setOnClickListener(this);
     }//onCreate

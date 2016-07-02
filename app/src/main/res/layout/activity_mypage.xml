@@ -160,7 +160,7 @@
                     <ImageView
                         android:layout_width="38dp"
                         android:layout_height="38dp"
-                        android:background="@drawable/ic_intro_descrip"/>
+                        android:background="@drawable/ic_signup_name"/>
 
                     <TextView
                         android:id="@+id/str_tag"

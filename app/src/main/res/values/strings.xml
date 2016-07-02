@@ -13,7 +13,7 @@
     <string name="menu_message">쪽지함</string>
 
     <!-- TeamAddActivity 팀개설 -->
-    <string name="team_add_intro_title">그룹 간략 소개</string>
+    <string name="team_add_intro_title">그룹명</string>
     <string name="team_add_intro_hint">그룹 성격을 15자 이내로...</string>
     <string name="team_add_detail_title">그룹 상세 설명</string>
     <string name="team_add_detail_hint">상세 설명을 입력하세요</string>

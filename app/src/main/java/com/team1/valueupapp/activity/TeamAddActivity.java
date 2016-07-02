@@ -44,7 +44,7 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
     @Bind(R.id.edit_tag) EditText editTag;
     @Bind(R.id.title) EditText editTitle;
     @Bind(R.id.detail) EditText editDetail;
-
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,6 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
         mContext = this;
         setContentView(R.layout.activity_teamadd);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("그룹 만들기");
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
@@ -150,13 +149,13 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.btn_make_team:
                 if (editTitle.getText().length() < 1) {
-                    Toast.makeText(mContext, "그룹 간략 소개를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "그룹명을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 } else if (editDetail.getText().length() < 1) {
                     Toast.makeText(mContext, "그룹 상세 설명을 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 } else if (editTag.getText().length() < 1) {
                     Toast.makeText(mContext, "그룹 관심사를 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 } else if (editTitle.getText().length() > 15) {
-                    Toast.makeText(mContext, "그룹 간략 소개는 15자 이내로 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "그룹명은 15자 이내로 입력해 주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     ParseObject object = new ParseObject("Team");
                     object.put("intro", String.valueOf(editTitle.getText()));
