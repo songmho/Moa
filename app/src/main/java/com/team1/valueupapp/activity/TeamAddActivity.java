@@ -45,6 +45,8 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
     @Bind(R.id.title) EditText editTitle;
     @Bind(R.id.detail) EditText editDetail;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.btn_remove_team) TextView btn_remove_team;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,7 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        btn_remove_team.setVisibility(View.GONE);
         btnMakeTeam.setOnClickListener(this);
         btnTag1.setOnClickListener(this);
         btnTag2.setOnClickListener(this);
@@ -170,6 +173,7 @@ public class TeamAddActivity extends AppCompatActivity implements View.OnClickLi
                             arrTags.add(s.trim());
                     }
                     object.put("tag", arrTags);
+                    object.put("isVisible",true);
                     object.getRelation("member").add(ParseUser.getCurrentUser());
                     object.saveInBackground();
                     setResult(RESULT_OK, new Intent());

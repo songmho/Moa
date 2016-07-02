@@ -1,5 +1,6 @@
 package com.team1.valueupapp.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -93,10 +94,12 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
     public static final int RESULT_EDIT = 52;
     public static final int RESULT_EDIT_FINISH = 53;
 
+    public static Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        activity = this;
         setContentView(R.layout.activity_team_detail);
         ButterKnife.bind(this);
 

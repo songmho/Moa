@@ -1,8 +1,11 @@
 package com.team1.valueupapp.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,6 +56,7 @@ public class TeamEditActivity extends AppCompatActivity implements View.OnClickL
     @Bind(R.id.title) EditText editTitle;
     @Bind(R.id.detail) EditText editDetail;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.btn_remove_team) TextView btn_remove_team;
 
     public static final int RESULT_EDIT_FINISH = 53;
     Context mContext;
@@ -97,6 +101,7 @@ public class TeamEditActivity extends AppCompatActivity implements View.OnClickL
         });
 
         btnMakeTeam.setVisibility(View.GONE);
+        btn_remove_team.setOnClickListener(this);
         btnTag1.setOnClickListener(this);
         btnTag2.setOnClickListener(this);
         btnTag3.setOnClickListener(this);
@@ -184,6 +189,36 @@ public class TeamEditActivity extends AppCompatActivity implements View.OnClickL
                     editTag.append(btnTag3.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
+            case R.id.btn_remove_team:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Alert");
+                builder.setMessage("그룹을 삭제하시겠습니까?");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
+                        query.whereEqualTo("objectId",intent.getStringExtra("objId"));
+                        query.getFirstInBackground(new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject parseObject, ParseException e) {
+                                parseObject.put("isVisible",false);
+                                parseObject.saveInBackground();
+                            }
+                        });
+                        TeamDetailActivity activity = (TeamDetailActivity) TeamDetailActivity.activity;
+                        activity.finish();
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+                break;
+
         }
     }
 }//class

@@ -18,6 +18,9 @@
     <color name="white">#FFFFFF</color>
 
 
+    <color name="red">#cc0000</color>
+
+
     <!--floating action buttons-->
     <color name="black_semi_transparent">#B2000000</color>
     <color name="background">#e5e5e5</color>

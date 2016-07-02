@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             swipeRefreshLayout.setVisibility(View.GONE);
                         }
                         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Team");
+                        parseQuery.whereEqualTo("isVisible",true);
                         parseQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(final List<ParseObject> list, ParseException e) {
