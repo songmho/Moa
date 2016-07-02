@@ -157,7 +157,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //쪽지함
             case R.id.message:
-                startActivity(new Intent(MainActivity.this,MessageActivity.class));
+                if(user!=null)
+                    startActivity(new Intent(MainActivity.this,MessageActivity.class));
+                else {
+                    Toast.makeText(MainActivity.this, "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
+
+                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                    loginIntent.putExtra("goBackPreviousPage", true);
+                    startActivityForResult(loginIntent, RESULT_LOGIN);
+                    overridePendingTransition(0, 0);
+                }
                 return true;
         }
         return true;

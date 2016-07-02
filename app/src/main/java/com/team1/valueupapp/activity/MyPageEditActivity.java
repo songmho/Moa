@@ -49,6 +49,7 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
     private List<String> arrTags;
     Context mContext;
+    FileOutputStream fos = null;
 
     @Bind(R.id.name) EditText editName;
     @Bind(R.id.myinfo) EditText editInfo;
@@ -91,7 +92,7 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
     public void setProfileImage() {
         if (profileUrl != null) {
             if (!isFinishing())
-                Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile);
+                Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ic_user).into(profile);
         }
     }
 
@@ -146,6 +147,13 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
                     startActivityForResult(gallery, SELECT_FILE);
 
                 } else if (item[position].equals("삭제")) {
+
+                    try {
+                        fos = openFileOutput("profile.jpg", 0);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     ParseUser.getCurrentUser().remove("profile");
                     Toast.makeText(mContext, "삭제하였습니다.", Toast.LENGTH_SHORT).show();
                     Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user);
@@ -176,7 +184,6 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
                 }
             }
 
-            FileOutputStream fos = null;
             try {
                 fos = openFileOutput("profile.jpg", 0);
                 if (thum != null) {
