@@ -16,6 +16,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
+import com.team1.valueupapp.utility.Utility;
 
 import java.util.List;
 
@@ -58,17 +59,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(SignUpActivity.this, getString(R.string.signup_name_hint), Toast.LENGTH_SHORT).show();
                 else if (mail.getText().length() == 0) //이메일이 입력되지 않았을 때
                     Toast.makeText(SignUpActivity.this, getString(R.string.signup_email_hint), Toast.LENGTH_SHORT).show();
-                else if (pass.getText().length() == 0 || pass_check.getText().length() == 0) //비밀번호나 확인이 입력되지 않았을 때
+                else if (!Utility.isEmailValid(mail.getText().toString())) {
+                    Toast.makeText(SignUpActivity.this, getString(R.string.signup_email_valid_hint), Toast.LENGTH_SHORT).show();
+                } else if (pass.getText().length() == 0 || pass_check.getText().length() == 0) //비밀번호나 확인이 입력되지 않았을 때
                     Toast.makeText(SignUpActivity.this, getString(R.string.signup_password_hint), Toast.LENGTH_SHORT).show();
 
                     //전부 입력되었을 때
                 else {
-                    ParseQuery<ParseUser> query=ParseUser.getQuery();
-                    query.whereEqualTo("username",String.valueOf(mail.getText()));
+                    ParseQuery<ParseUser> query = ParseUser.getQuery();
+                    query.whereEqualTo("username", String.valueOf(mail.getText()));
                     query.findInBackground(new FindCallback<ParseUser>() {
                         @Override
                         public void done(List<ParseUser> list, ParseException e) {
-                            if(list.isEmpty()) {
+                            if (list.isEmpty()) {
                                 if (String.valueOf(pass.getText()).equals(String.valueOf(pass_check.getText()))) {   //비밀번호와 확인이 같을 경우
                                     Intent intent = new Intent(SignUpActivity.this, SignUp2Activity.class);
                                     intent.putExtra("username", String.valueOf(mail.getText()));      //이름, email, 비밀번호 SignUp_2_Activity로 전달
@@ -80,8 +83,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 else {      //비밀번호와 확인이 다를 경우
                                     Toast.makeText(SignUpActivity.this, "비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show(); //비밀번호 확인 관련 토스트
                                 }       //end else
-                            }
-                            else
+                            } else
                                 Toast.makeText(SignUpActivity.this, "아이디를 확인하세요.", Toast.LENGTH_SHORT).show(); //아이디 확인 관련 토스트
 
                         }
