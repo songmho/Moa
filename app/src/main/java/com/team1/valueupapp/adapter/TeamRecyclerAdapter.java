@@ -68,6 +68,7 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context.getApplicationContext(), TeamDetailActivity.class);
+                    intent.putExtra("objId",item.getObjId());
                     intent.putExtra("title", item.getTitle());
                     intent.putExtra("name", item.getName());
                     intent.putExtra("username", item.getUsername());

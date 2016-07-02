@@ -8,6 +8,11 @@ public class TeamItem {
     String name;
     String detail;
     String username;
+    String objId;
+
+    public String getObjId() {
+        return objId;
+    }
 
     public String getName() {
         return name;
@@ -25,7 +30,8 @@ public class TeamItem {
         return username;
     }
 
-    public TeamItem(String title, String name, String username , String detail) {
+    public TeamItem(String objectId, String title, String name, String username, String detail) {
+        this.objId = objectId;
         this.title = title;
         this.name = name;
         this.detail = detail;

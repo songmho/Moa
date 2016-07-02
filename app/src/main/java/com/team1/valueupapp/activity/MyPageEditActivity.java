@@ -11,11 +11,13 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -58,7 +60,7 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
     @Bind(R.id.btn_tag_1) Button btnTag1;
     @Bind(R.id.btn_tag_2) Button btnTag2;
     @Bind(R.id.btn_tag_3) Button btnTag3;
-    @Bind(R.id.my_image) CircleImageView profile;
+    @Bind(R.id.my_image) ImageView profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +92,12 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
 
     //프로필 사진 보여준다.
     public void setProfileImage() {
-        if (profileUrl != null) {
-            if (!isFinishing())
-                Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ic_user).into(profile);
-        }
+        if (profileUrl == null)
+            Glide.with(mContext).load(R.drawable.ic_user).into(profile);
+
+        else
+            Glide.with(mContext).load(profileUrl).diskCacheStrategy(DiskCacheStrategy.ALL).placeholder(R.drawable.ic_user).into(profile);
+
     }
 
     @Override
@@ -150,7 +154,8 @@ public class MyPageEditActivity extends AppCompatActivity implements View.OnClic
 
                     try {
                         fos = openFileOutput("profile.jpg", 0);
-
+                        File f = new File("profile.jpg");
+                        f.delete();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

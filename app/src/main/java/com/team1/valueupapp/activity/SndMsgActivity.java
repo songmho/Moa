@@ -18,6 +18,10 @@ import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 
 import java.lang.reflect.Member;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,9 +77,12 @@ public class SndMsgActivity extends AppCompatActivity implements View.OnClickLis
         else if(v.getId()==R.id.bt_send){
             ParseObject msg=new ParseObject("message");
             try {
+                Date date = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA);
                 msg.put("user_from", ParseUser.getCurrentUser());
                 msg.put("user_to",ParseUser.getQuery().get(recv_objId));
                 msg.put("text",text.getText().toString());
+                msg.put("sendDate",format.format(date));
                 msg.saveInBackground();
             } catch (ParseException e) {
                 e.printStackTrace();

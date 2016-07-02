@@ -126,6 +126,16 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                         if (e == null) {
                             Toast.makeText(SignUp2Activity.this, "가입 완료!", Toast.LENGTH_SHORT).show();
                             finish();
+
+                            //회원가입 완료 후 같이 finish할 액티비티들
+                            SignUpActivity a1 = (SignUpActivity) SignUpActivity.signUpActivity;
+                            LoginActivity a2 = (LoginActivity) LoginActivity.loginActivity;
+                            MainActivity a3 = (MainActivity) MainActivity.mainActivity;
+
+                            a1.finish();
+                            a2.finish();
+                            a3.finish();
+
                             startActivity(new Intent(SignUp2Activity.this, MainActivity.class));
                             if(thum!=null)
                                 imgSendParse(thum);

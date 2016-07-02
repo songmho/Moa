@@ -1,20 +1,26 @@
 package com.team1.valueupapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -24,167 +30,160 @@ import com.team1.valueupapp.R;
 import com.team1.valueupapp.adapter.TeamAddAdapter;
 import com.team1.valueupapp.item.TeamAddItem;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by hyemi on 2015-07-26.
  */
-public class TeamEditActivity extends AppCompatActivity {            //동명이인 처리가능하게 변경해야 됨.
+public class TeamEditActivity extends AppCompatActivity implements View.OnClickListener {            //동명이인 처리가능하게 변경해야 됨.
 
-    EditText title;
-    EditText detail;
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    ArrayList<TeamAddItem> items;
-    ProgressBar progressBar;
-    ArrayList<ParseUser> s;
+    @Bind(R.id.btn_tag_1) Button btnTag1;
+    @Bind(R.id.btn_tag_2) Button btnTag2;
+    @Bind(R.id.btn_tag_3) Button btnTag3;
+    @Bind(R.id.btn_make_team)
+    TextView btnMakeTeam;
+    @Bind(R.id.edit_tag) EditText editTag;
+    @Bind(R.id.title) EditText editTitle;
+    @Bind(R.id.detail) EditText editDetail;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+
+    public static final int RESULT_EDIT_FINISH = 53;
+    Context mContext;
+    Intent intent;
+    private List<String> arrTags = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
         setContentView(R.layout.activity_teamadd);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
 
+
+        intent = getIntent();
+        Log.d("fdfdfd",intent.getStringExtra("title"));
+
+        toolbar.setTitle("그룹 정보 수정");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("그룹 정보 수정");
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
+        editTitle.setText(intent.getStringExtra("title"));
+        editDetail.setText(intent.getStringExtra("detail"));
+        editTag.setText(intent.getStringExtra("tag"));
 
-        title=(EditText)findViewById(R.id.title);
-        detail=(EditText)findViewById(R.id.detail);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
-        progressBar=(ProgressBar)findViewById(R.id.progressbar);
-     //   ImageView add=(ImageView)findViewById(R.id.add);
+        ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
+        query.whereEqualTo("objectId",intent.getStringExtra("objId"));
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                JSONArray a = parseObject.getJSONArray("tag");
+                for(int i = 0 ;i<a.length();i++) {
+                    try {
+                        arrTags.add("#"+a.getString(i));
+                        Log.d("asdfadsfasdf",arrTags.get(i));
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
 
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
+        btnMakeTeam.setVisibility(View.GONE);
+        btnTag1.setOnClickListener(this);
+        btnTag2.setOnClickListener(this);
+        btnTag3.setOnClickListener(this);
 
-//        title.setText(intent.getStringExtra("title"));
-//        detail.setText(intent.getStringExtra("detail"));
- //       add.setVisibility(View.GONE);
     }//onCreate
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        items = new ArrayList<>();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = getIntent();
-                        progressBar.setVisibility(View.VISIBLE);
-                        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
-                        query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
-//                        query.whereEqualTo("idea", intent.getStringExtra("title"));
-//                        query.whereEqualTo("idea_info", intent.getStringExtra("detail"));
-                        query.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> list, ParseException e) {
-                                title.setText(list.get(0).getString("idea"));
-                                detail.setText(list.get(0).getString("idea_info"));
-                                ParseRelation<ParseUser> relation = list.get(0).getRelation("member");
-                                relation.getQuery().findInBackground(new FindCallback<ParseUser>() {
-                                    @Override
-                                    public void done(List<ParseUser> list, ParseException e) {
-                                        for (int i = 0; i < list.size(); i++) {
-                                            TeamAddItem item = new TeamAddItem(null, list.get(i).getString("name"),list.get(i).getObjectId());
-                                            items.add(item);
-                                        }
-                                    }
-                                });
-                                recyclerView.setAdapter(new TeamAddAdapter(getApplicationContext(), items));
-                                progressBar.setVisibility(View.GONE);
-
-                            }
-                        });
-                    }
-                });
-            }
-        }).start();
-
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_teamadd, menu);
-        MenuItem additem = menu.findItem(R.id.action_add);
-        additem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-                        if (!list.isEmpty()) {
-                            ParseObject object = list.get(0);
-//                            object.remove("idea");
-                            object.put("idea", String.valueOf(title.getText()));
-                            object.remove("idea_info");
-                            object.put("idea_info", String.valueOf(detail.getText()));
-                            object.saveInBackground();
-                        }
-                    }
-                });
-                finish();
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+      return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id){
-            case android.R.id.home:
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-                        try {
-                            if(!list.isEmpty())
-                            list.get(0).delete();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
+            case R.id.action_add:
+                if (editTitle.getText().length() < 1) {
+                    Toast.makeText(mContext, "그룹 간략 소개를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                } else if (editDetail.getText().length() < 1) {
+                    Toast.makeText(mContext, "그룹 상세 설명을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                } else if (editTag.getText().length() < 1) {
+                    Toast.makeText(mContext, "그룹 관심사를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                } else if (editTitle.getText().length() > 15) {
+                    Toast.makeText(mContext, "그룹 간략 소개는 15자 이내로 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    ParseQuery<ParseObject> object = ParseQuery.getQuery("Team");
+                    object.whereEqualTo("objectId",intent.getStringExtra("objId"));
+                    object.getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            parseObject.put("intro", String.valueOf(editTitle.getText()));
+                            parseObject.put("intro_detail", String.valueOf(editDetail.getText()));
+                            int i=0;
+                            for (String s : arrTags) {
+                                arrTags.set(i,s.replace("#",""));
+                                i++;
+                            }
+                            parseObject.put("tag", arrTags);
+                            parseObject.saveInBackground();
+                            Toast.makeText(mContext, "변경 되었습니다.", Toast.LENGTH_SHORT).show();
                         }
+                    });
+
+                    String strTag= "";
+                    for (String a : arrTags) {
+                            if (!a.equals(""))
+                                strTag += "#" + a + " ";
                     }
-                });
+
+                    Intent i = new Intent(TeamEditActivity.this,TeamDetailActivity.class);
+                    i.putExtra("objId",intent.getStringExtra("objId"));
+                    i.putExtra("title", String.valueOf(editTitle.getText()));
+                    i.putExtra("name", ParseUser.getCurrentUser().getString("name"));
+                    i.putExtra("username", ParseUser.getCurrentUser().getUsername());
+                    i.putExtra("detail", String.valueOf(editDetail.getText()));
+                    i.putExtra("tag",strTag);
+                    setResult(RESULT_EDIT_FINISH,i);
+                    finish();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                ParseQuery<ParseObject> query=ParseQuery.getQuery("Team");
-                query.whereEqualTo("admin_member", ParseUser.getCurrentUser());
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-                        try {
-                            if(!list.isEmpty())
-                            list.get(0).delete();
-                        } catch (ParseException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                });
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_tag_1:                                               //관심사 태그에서 1번째
+                if (!arrTags.contains(btnTag1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
+                    arrTags.add(btnTag1.getText().toString());             //리스트에 관심사 추가
+                    editTag.append(btnTag1.getText().toString() + " ");   //edittext에 이어서 씀
+                }
+                break;
+            case R.id.btn_tag_2:                                               //관심사 태그에서 2번째
+                if (!arrTags.contains(btnTag2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
+                    arrTags.add(btnTag2.getText().toString());             //리스트에 관심사 추가
+                    editTag.append(btnTag2.getText().toString() + " ");   //edittext에 이어서 씀
+                }
+                break;
+            case R.id.btn_tag_3:                                               //관심사 태그에서 3번째
+                if (!arrTags.contains(btnTag3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
+                    arrTags.add(btnTag3.getText().toString());             //리스트에 관심사 추가
+                    editTag.append(btnTag3.getText().toString() + " ");   //edittext에 이어서 씀
+                }
                 break;
         }
-
-        return true;
     }
-
 }//class

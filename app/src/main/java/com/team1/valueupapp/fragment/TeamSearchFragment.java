@@ -83,7 +83,7 @@ public class TeamSearchFragment extends android.support.v4.app.Fragment {
                                     ParseUser user = parseObject.getParseUser("admin_member");
                                     try {
                                         user.fetchIfNeeded();
-                                        TeamItem item = new TeamItem(parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
+                                        TeamItem item = new TeamItem(parseObject.getObjectId(), parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
                                         mainTeamItems.add(item);
                                     } catch (ParseException e1) {
                                         e1.printStackTrace();

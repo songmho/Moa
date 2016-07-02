@@ -33,7 +33,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 /**
  * Created by eugene on 2015-08-08.
  */
-public class MypageActivity extends AppCompatActivity implements View.OnClickListener {
+public class MypageActivity extends AppCompatActivity {
     ParseUser parseUser;
     String profileUrl = null;
 
@@ -65,7 +65,7 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
         initAppBarLayout();
         loadProfile();
 
-        bt_sndMsg.setOnClickListener(this);
+        bt_sndMsg.setVisibility(View.GONE);
     }
 
     //앱바 레이아웃 설정
@@ -161,10 +161,4 @@ public class MypageActivity extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v.getId()==R.id.bt_sndMsg){
-            startActivity(new Intent(this,SndMsgActivity.class));
-        }
-    }
 }

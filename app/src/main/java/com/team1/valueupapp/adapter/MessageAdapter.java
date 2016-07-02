@@ -35,6 +35,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MessageItem item = items.get(position);
 
+        ((Body)holder).title_tag.setText(item.getStatus());
         ((Body)holder).title.setText(item.getTitle());
         ((Body)holder).body.setText(item.getBody());
         ((Body)holder).time.setText(item.getTime());
@@ -48,9 +49,10 @@ public class MessageAdapter extends RecyclerView.Adapter {
         TextView title;
         TextView body;
         TextView time;
+        TextView title_tag;
         public Body(View itemView) {
             super(itemView);
-
+            title_tag = (TextView)itemView.findViewById(R.id.title_tag);
             title=(TextView)itemView.findViewById(R.id.title);
             body=(TextView)itemView.findViewById(R.id.body);
             time=(TextView)itemView.findViewById(R.id.time);

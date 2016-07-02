@@ -5,12 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -85,8 +87,11 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
 
     String teamName, adminName, adminUsername;
     Context mContext;
+    String strTag = "";
 
     private static final String TAG = "TeamDetailActivity";
+    public static final int RESULT_EDIT = 52;
+    public static final int RESULT_EDIT_FINISH = 53;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,7 +272,6 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                     }
                     //태그 설정
                     if (teamObject.getJSONArray("tag") != null) {      //리스트가 비어 있지 않고, 태그가 존재할 때
-                        String strTag = "";
                         JSONArray tagArray = teamObject.getJSONArray("tag");       //태그를 JsonArray형식으로 가져옴
                         for (int i = 0; i < tagArray.length(); i++) {
                             try {
@@ -409,7 +413,19 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         switch (type) {
             //1. 팀장
             case TYPE_OWNER:
-                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.menu_team_edit);
+                toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Intent i = new Intent(TeamDetailActivity.this, TeamEditActivity.class);
+                        i.putExtra("objId",intent.getStringExtra("objId"));
+                        i.putExtra("title", intent.getStringExtra("title"));
+                        i.putExtra("detail", intent.getStringExtra("detail"));
+                        i.putExtra("tag", strTag);
+                        startActivityForResult(i, RESULT_EDIT);
+                        return true;
+                    }
+                });
                 break;
             //2. 멤버
             case TYPE_MEMBER:
@@ -489,6 +505,12 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         layoutAll.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     //참여완료된 팀원 리스트 설정
     public void setMemberListForOwner(ParseQuery<ParseUser> user) {
         user.findInBackground(new FindCallback<ParseUser>() {
@@ -534,6 +556,14 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
         if (requestCode == RESULT_LOGIN && resultCode == RESULT_OK) {
             initDataAndView();
             //팀장, 혹은 이미 참여한 팀, 차단(?) 당한 팀일 수도 있으므로 자동으로 버튼 다시 클릭하게는 하지 않았다.
+        }
+        else if(requestCode == RESULT_EDIT && resultCode == RESULT_EDIT_FINISH){
+            Log.e("Dfafadsf","adsfadfads");
+            if(data.getStringExtra("objId")==null)
+                Log.e("Dfafadsf","빡침");
+            collapsingToolbarLayout.setTitle(data.getStringExtra("title"));
+            txtDetail.setText(data.getStringExtra("detail"));
+            tag.setText(data.getStringExtra("tag"));
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.team1.valueupapp.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,9 +30,13 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.signup_btn) TextView btnSignUp;
     @Bind(R.id.progressbar) ProgressBar progressBar;
 
+    public static Activity loginActivity;      //signup2Activity에서 finish시키기 위해 쓰는 변수
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        loginActivity = this;
+
         if (ParseUser.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();

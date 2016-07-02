@@ -11,9 +11,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -36,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by eugene on 2015-08-08.
  */
-public class UserDetailActivity extends AppCompatActivity {
+public class UserDetailActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.txt_info) TextView txtInfo;
     @Bind(R.id.txt_name) TextView txtName;
     @Bind(R.id.txt_tag) TextView txtTag;
@@ -46,6 +48,9 @@ public class UserDetailActivity extends AppCompatActivity {
     @Bind(R.id.profile) CircleImageView profile;
     @Bind(R.id.progressbar) ProgressBar progressBar;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.bt_sndMsg)
+    Button bt_sndMsg;
+
     Context mContext;
 
     private static final String TAG = "UserDetailActivity";
@@ -117,6 +122,8 @@ public class UserDetailActivity extends AppCompatActivity {
             }
         });
 
+
+        bt_sndMsg.setOnClickListener(this);
     }
 
     //앱바 레이아웃 설정
@@ -168,4 +175,19 @@ public class UserDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.bt_sndMsg){
+            if(ParseUser.getCurrentUser()!=null)
+                startActivity(new Intent(this,SndMsgActivity.class));
+            else{
+                Toast.makeText(UserDetailActivity.this, "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
+
+                Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                startActivity(loginIntent);
+                overridePendingTransition(0, 0);
+            }
+
+        }
+    }
 }

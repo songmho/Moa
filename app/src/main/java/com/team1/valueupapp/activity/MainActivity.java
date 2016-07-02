@@ -1,6 +1,7 @@
 package com.team1.valueupapp.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final int RESULT_MAKE_TEAM = 13;
 
     public static final String TAG = "MainActivity";
+    public static Activity mainActivity;      //signup2Activity에서 finish시키기 위해 쓰는 변수
     int listSize = 0;       //내그룹 찾는 for 문의 마지막 콜백에서 뷰 처리하기위해서 flag로 둔 값임.
 
     @Bind(R.id.fab) FloatingActionButton fab;
@@ -79,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-
+        mainActivity = this;
 
         SharedPreferences shpref = getSharedPreferences("myPref", 0);
         int count = shpref.getInt("Count", -100);
@@ -318,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     final ParseUser user = parseObject.getParseUser("admin_member");
                                     try {
                                         user.fetchIfNeeded();
-                                        TeamItem item = new TeamItem(parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
+                                        TeamItem item = new TeamItem(parseObject.getObjectId(),parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
                                         mainTeamItems.add(item);
                                     } catch (ParseException e1) {
                                         e1.printStackTrace();
@@ -343,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             @Override
                                             public void done(List<ParseUser> mylist, ParseException e) {
                                                 if (mylist != null && mylist.size() > 0) {
-                                                    TeamItem item = new TeamItem(parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
+                                                    TeamItem item = new TeamItem(parseObject.getObjectId(), parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
                                                     myTeamItems.add(item);
                                                 }
                                                 //마지막 콜백인지 확인하여 맞으면 뷰를 변경한다. (작업 도중에 뷰를 변경하면 적용이 되지 않을 수도 있으므로)

@@ -110,7 +110,7 @@ public class TeamActivity extends AppCompatActivity {
                     ParseUser user = o.getParseUser("admin_member");
                     try {
                         user.fetchIfNeeded();
-                        TeamItem item = new TeamItem(o.getString("idea"), user.getString("name"), user.getUsername() , o.getString("idea_info"));
+                        TeamItem item = new TeamItem(o.getObjectId(), o.getString("idea"), user.getString("name"), user.getUsername(), o.getString("idea_info"));
                         items.add(item);
                     } catch (ParseException e1) {
                         e1.printStackTrace();

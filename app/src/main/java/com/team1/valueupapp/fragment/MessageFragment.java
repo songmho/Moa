@@ -62,6 +62,7 @@ public class MessageFragment extends Fragment {
         super.onResume();
         items.clear();      //불러올 때마다 데이터 지움.
         ParseQuery<ParseObject> query = ParseQuery.getQuery("message");
+        query.addDescendingOrder("sendDate");
         if (b.getString("cur_state").equals("받은쪽지함"))       //받은 쪽지의 경우
             query.whereEqualTo("user_to", ParseUser.getCurrentUser());      //user_to에 현재 유저와 같은 경우만 씀
         else        //보낸 쪽지의 경우
@@ -75,12 +76,13 @@ public class MessageFragment extends Fragment {
                         if (b.getString("cur_state").equals("받은쪽지함")) {     //현재 받은 쪽지함일 경우
                             ParseUser u = o.getParseUser("user_from");      //보낸 사람불러옴
                             u.fetchIfNeeded();          //ParseUser 변수에서 값을 가져다 쓰기 위해
-                            i = new MessageItem("From. ", u.getString("name"), o.getString("text"), o.getString("createdAt"));
+
+                            i = new MessageItem("From. ", u.getString("name"), o.getString("text"), o.getString("sendDate"));
                             items.add(i);
                         } else {                //현재 보낸 쪽지함일 경우
                             ParseUser u = o.getParseUser("user_to");        //받은 사람 불러옴
                             u.fetchIfNeeded();          //ParseUser 변수에서 값을 가져다 쓰기 위해
-                            i = new MessageItem("to. ", u.getString("name"), o.getString("text"), o.getString("createdAt"));
+                            i = new MessageItem("to. ", u.getString("name"), o.getString("text"), o.getString("sendDate"));
                             items.add(i);
                         }
                     } catch (ParseException e1) {
