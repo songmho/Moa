@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * Created by songmho on 16. 6. 27.
  */
-public class SndMsgActivity extends AppCompatActivity implements View.OnClickListener {
+public class SendMsgActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.receiver_name) TextView recvName;
     @Bind(R.id.bt_choose) Button btChoose;
@@ -87,7 +87,7 @@ public class SndMsgActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
 
-            Toast.makeText(SndMsgActivity.this, "쪽지를 전송했습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SendMsgActivity.this, "쪽지를 전송했습니다.", Toast.LENGTH_SHORT).show();
             finish();
         }
     }

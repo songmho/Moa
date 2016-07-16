@@ -21,6 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
+ * 로그인 액티비티
  * Created by eugene on 2015-07-18.
  */
 public class LoginActivity extends AppCompatActivity {

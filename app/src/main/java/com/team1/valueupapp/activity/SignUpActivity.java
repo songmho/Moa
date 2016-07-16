@@ -7,13 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -30,7 +27,7 @@ import butterknife.ButterKnife;
 
 /**
  * Created by hyemi on 2015-08-02.
- * 가입 첫번째 페이지
+ * 회원가입 1단계
  */
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -59,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeDailog();
+                makeDialog();
             }
         });
 
@@ -69,11 +66,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==KeyEvent.KEYCODE_BACK)
-            makeDailog();
+            makeDialog();
         return super.onKeyDown(keyCode, event);
     }
 
-    void makeDailog() {
+    void makeDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Alert");
         builder.setMessage("회원가입을 취소하시겠습니까?");
@@ -103,10 +100,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(SignUpActivity.this, getString(R.string.signup_email_hint), Toast.LENGTH_SHORT).show();
                 else if (!Utility.isEmailValid(mail.getText().toString())) {
                     Toast.makeText(SignUpActivity.this, getString(R.string.signup_email_valid_hint), Toast.LENGTH_SHORT).show();
-                } else if (pass.getText().length() == 0 || pass_check.getText().length() == 0) //비밀번호나 확인이 입력되지 않았을 때
+                } else if (pass.getText().length() == 0 || pass_check.getText().length() == 0) { //비밀번호나 확인이 입력되지 않았을 때
                     Toast.makeText(SignUpActivity.this, getString(R.string.signup_password_hint), Toast.LENGTH_SHORT).show();
 
-                    //전부 입력되었을 때
+                }
+                //전부 입력되었을 때
                 else {
                     ParseQuery<ParseUser> query = ParseUser.getQuery();
                     query.whereEqualTo("username", String.valueOf(mail.getText()));

@@ -26,7 +26,6 @@ import com.parse.SignUpCallback;
 import com.team1.valueupapp.R;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -38,17 +37,18 @@ import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
+ * 회원가입 2단계
  * Created by songmho on 16. 2. 27.
  */
 public class SignUp2Activity extends AppCompatActivity implements View.OnClickListener {
     private List<String> arrTags = new ArrayList<>();
-    private ParseUser signUp_User = new ParseUser();
+    private ParseUser signUpUser = new ParseUser();
 
     int CAMERA_REQUEST = 1000;
     int SELECT_FILE = 2000;
     CharSequence[] item = {"카메라", "갤러리에서 사진 가져오기", "삭제"};
     ParseFile profileParse;
-    Bitmap thum = null;
+    Bitmap imgThumbnail = null;
 
     @Bind(R.id.profile) ImageView profile;
     @Bind(R.id.edit_info) EditText editInfo;
@@ -66,7 +66,7 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
 
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("회원가입");
+        toolbar.setTitle("회원가입");
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -84,43 +84,44 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.profile:          //profile을 클릭했을 때
+            case R.id.profile:      //profile을 클릭했을 때
                 MakingAlertDialog();
                 //Toast.makeText(SignUp2Activity.this, "아직 기능이 완벽히 구현이 안됐으니 이쁜사진을 골라두자!", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.btn_tag_1:                                               //관심사 태그에서 1번째
+
+            case R.id.btn_tag_1:   //관심사 태그에서 1번째
                 if (!arrTags.contains(btnTag1.getText().toString())) {      //리스트에 관심사 1번 태그가 없으면
                     arrTags.add(btnTag1.getText().toString());             //리스트에 관심사 추가
                     editTags.append(btnTag1.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
-            case R.id.btn_tag_2:                                               //관심사 태그에서 2번째
+            case R.id.btn_tag_2:    //관심사 태그에서 2번째
                 if (!arrTags.contains(btnTag2.getText().toString())) {      //리스트에 관심사 2번 태그가 없으면
                     arrTags.add(btnTag2.getText().toString());             //리스트에 관심사 추가
                     editTags.append(btnTag2.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
-            case R.id.btn_tag_3:                                               //관심사 태그에서 3번째
+            case R.id.btn_tag_3:    //관심사 태그에서 3번째
                 if (!arrTags.contains(btnTag3.getText().toString())) {      //리스트에 관심사 3번 태그가 없으면
                     arrTags.add(btnTag3.getText().toString());             //리스트에 관심사 추가
                     editTags.append(btnTag3.getText().toString() + " ");   //edittext에 이어서 씀
                 }
                 break;
-            case R.id.bt_signUp:                            //회원가입 버튼 눌렀을 때
+            case R.id.bt_signUp:    //회원가입 버튼 눌렀을 때
                 arrTags.clear();
                 String[] arr_s = editTags.getText().toString().split("#");
                 for (String s : arr_s) {
                     if (!s.equals(""))
                         arrTags.add(s);
                 }
-                signUp_User.setUsername(getIntent().getStringExtra("username"));
-                signUp_User.put("name", getIntent().getStringExtra("name"));
-                signUp_User.setPassword(getIntent().getStringExtra("password"));
-                signUp_User.setEmail(getIntent().getStringExtra("username"));
-                signUp_User.put("info", editInfo.getText().toString());
-                signUp_User.put("tag", arrTags);
+                signUpUser.setUsername(getIntent().getStringExtra("username"));
+                signUpUser.put("name", getIntent().getStringExtra("name"));
+                signUpUser.setPassword(getIntent().getStringExtra("password"));
+                signUpUser.setEmail(getIntent().getStringExtra("username"));
+                signUpUser.put("info", editInfo.getText().toString());
+                signUpUser.put("tag", arrTags);
 
-                signUp_User.signUpInBackground(new SignUpCallback() {
+                signUpUser.signUpInBackground(new SignUpCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
@@ -137,11 +138,11 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
                             a3.finish();
 
                             startActivity(new Intent(SignUp2Activity.this, MainActivity.class));
-                            if(thum!=null)
-                                imgSendParse(thum);
+                            if (imgThumbnail != null)
+                                imgSendParse(imgThumbnail);
                         }       //endif
                         else
-                            Log.d("fdfdf",e.getMessage());
+                            Log.d("fdfdf", e.getMessage());
                     }       //done method
                 });
                 break;
@@ -178,50 +179,45 @@ public class SignUp2Activity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        thum = null;
+        imgThumbnail = null;
         if (resultCode == RESULT_OK && data != null) {
             if (requestCode == CAMERA_REQUEST) {
-                thum = (Bitmap) data.getExtras().get("data");
-                profile.setImageBitmap(thum);
+                imgThumbnail = (Bitmap) data.getExtras().get("data");
+                profile.setImageBitmap(imgThumbnail);
             } else if (requestCode == SELECT_FILE) {
                 Uri uri = data.getData();
                 try {
-                    thum = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                    profile.setImageBitmap(thum);
+                    imgThumbnail = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                    profile.setImageBitmap(imgThumbnail);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-            FileOutputStream fos = null;
             try {
-                fos = openFileOutput("profile.jpg", 0);
-                if (thum != null) {
-                    thum.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+                FileOutputStream fos = openFileOutput("profile.jpg", 0);
+                if (imgThumbnail != null) {
+                    imgThumbnail.compress(Bitmap.CompressFormat.JPEG, 50, fos);
                     fos.flush();
                 }
                 fos.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
+            } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void imgSendParse(Bitmap thum) {
-        profileParse = new ParseFile("profile.jpg", bitmapToByteArray(thum));
-        if (signUp_User.get("profile") != null)
-            signUp_User.remove("profile");
-        signUp_User.put("profile", profileParse);
-        signUp_User.saveInBackground();
+    private void imgSendParse(Bitmap imgThumbnail) {
+        profileParse = new ParseFile("profile.jpg", bitmapToByteArray(imgThumbnail));
+        if (signUpUser.get("profile") != null)
+            signUpUser.remove("profile");
+        signUpUser.put("profile", profileParse);
+        signUpUser.saveInBackground();
     }
 
-    private byte[] bitmapToByteArray(Bitmap bm) {
+    private byte[] bitmapToByteArray(Bitmap bmpImg) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        bmpImg.compress(Bitmap.CompressFormat.JPEG, 50, stream);
         return stream.toByteArray();
     }
 

@@ -11,9 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.team1.valueupapp.R;
 import com.team1.valueupapp.fragment.MessageFragment;
@@ -66,7 +64,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.fab){
-            startActivity(new Intent(this,SndMsgActivity.class));
+            startActivity(new Intent(this,SendMsgActivity.class));
         }
     }
 

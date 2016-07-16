@@ -56,7 +56,6 @@ public class AlertActivity extends AppCompatActivity {
     }
 
     private void makeList() {
-
         ParseQuery<ParseObject> q= ParseQuery.getQuery("message");
         q.whereEqualTo("user_to", ParseUser.getCurrentUser());
         q.findInBackground(new FindCallback<ParseObject>() {

@@ -13,11 +13,8 @@ import android.widget.TextView;
 
 import com.team1.valueupapp.R;
 import com.team1.valueupapp.activity.MemberActivity;
-import com.team1.valueupapp.activity.MypageActivity;
-import com.team1.valueupapp.activity.SndMsgActivity;
-import com.team1.valueupapp.activity.TeamDetailActivity;
+import com.team1.valueupapp.activity.SendMsgActivity;
 import com.team1.valueupapp.activity.UserDetailActivity;
-import com.team1.valueupapp.item.TeamItem;
 import com.team1.valueupapp.item.UserItem;
 
 import java.util.List;
@@ -73,7 +70,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent;
                     if(itemLayout==R.layout.activity_member){
-                        intent = new Intent(context,SndMsgActivity.class);
+                        intent = new Intent(context,SendMsgActivity.class);
                         intent.putExtra("objectId",item.getUserName()); //objectId
                         intent.putExtra("name",item.getName());  //name
                         intent.putExtra("eMail",item.getInfo());  //email

@@ -179,7 +179,7 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         if(v.getId()==R.id.bt_sndMsg){
             if(ParseUser.getCurrentUser()!=null)
-                startActivity(new Intent(this,SndMsgActivity.class));
+                startActivity(new Intent(this,SendMsgActivity.class));
             else{
                 Toast.makeText(UserDetailActivity.this, "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
 
