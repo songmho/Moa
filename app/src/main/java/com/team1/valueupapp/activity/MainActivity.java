@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         setUpNavDrawer();
-
         makeDrawerHeader();
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -124,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getListData();
     }
 
+    //네비게이션 드로어 설정
     private void setUpNavDrawer() {
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -135,10 +135,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
+        //로그인 하지 않은 상태이면 일부 메뉴 숨김.
+        if(user == null) {
+            navigationView.getMenu().findItem(R.id.apply_condition).setVisible(false);  //신청 현황 숨김
+            navigationView.getMenu().findItem(R.id.message).setVisible(false);  //쪽지함 숨김
+        }
     }
 
+    //네비게이션 드로어 아이템 클릭 설정
     private boolean changeDrawerMenu(MenuItem menuItem) {
-
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         switch (menuItem.getItemId()) {
@@ -159,8 +165,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //쪽지함
             case R.id.message:
-                if(user!=null)
-                    startActivity(new Intent(MainActivity.this,MessageActivity.class));
+                if (user != null)
+                    startActivity(new Intent(MainActivity.this, MessageActivity.class));
                 else {
                     Toast.makeText(MainActivity.this, "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
 
@@ -252,14 +258,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_search:    //서치버튼 클릭 시
                 startActivity(new Intent(mContext, SearchActivity.class));
                 overridePendingTransition(0, 0);
 //            Toast.makeText(mContext, "준비중입니다 '-'", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_alert:     //알림 버튼 클릭 시
-                startActivity(new Intent(mContext,AlertActivity.class));
+                startActivity(new Intent(mContext, AlertActivity.class));
                 overridePendingTransition(0, 0);
                 return true;
         }
@@ -308,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             swipeRefreshLayout.setVisibility(View.GONE);
                         }
                         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Team");
-                        parseQuery.whereEqualTo("isVisible",true);
+                        parseQuery.whereEqualTo("isVisible", true);
                         parseQuery.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(final List<ParseObject> list, ParseException e) {
@@ -321,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     final ParseUser user = parseObject.getParseUser("admin_member");
                                     try {
                                         user.fetchIfNeeded();
-                                        TeamItem item = new TeamItem(parseObject.getObjectId(),parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
+                                        TeamItem item = new TeamItem(parseObject.getObjectId(), parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
                                         mainTeamItems.add(item);
                                     } catch (ParseException e1) {
                                         e1.printStackTrace();
