@@ -76,6 +76,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter {
                         intent = new Intent(context,SndMsgActivity.class);
                         intent.putExtra("objectId",item.getUserName()); //objectId
                         intent.putExtra("name",item.getName());  //name
+                        intent.putExtra("eMail",item.getInfo());  //email
                         ((MemberActivity)context).setResult(Activity.RESULT_OK,intent);
                         ((MemberActivity)context).finish();
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +16,6 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.team1.valueupapp.R;
 
-import java.lang.reflect.Member;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -31,12 +28,12 @@ import butterknife.ButterKnife;
  */
 public class SndMsgActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.receiver_name) TextView recv_name;
-    @Bind(R.id.bt_choose) Button bt_choose;
+    @Bind(R.id.receiver_name) TextView recvName;
+    @Bind(R.id.bt_choose) Button btChoose;
     @Bind(R.id.text) EditText text;
-    @Bind(R.id.bt_send) Button bt_send;
+    @Bind(R.id.bt_send) Button btSend;
 
-    String recv_objId;
+    String recvObjId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +50,9 @@ public class SndMsgActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        bt_choose.setOnClickListener(this);
-        bt_send.setOnClickListener(this);
+        btChoose.setText("선택");
+        btChoose.setOnClickListener(this);
+        btSend.setOnClickListener(this);
 
     }
 
@@ -63,8 +61,9 @@ public class SndMsgActivity extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==19000)
             if(resultCode==RESULT_OK){
-                recv_name.setText(data.getStringExtra("name"));
-                recv_objId=data.getStringExtra("objectId");
+                recvName.setText(data.getStringExtra("name")+" ("+data.getStringExtra("eMail")+")");
+                recvObjId =data.getStringExtra("objectId");
+                btChoose.setText("다시 선택");
             }
     }
 
@@ -80,7 +79,7 @@ public class SndMsgActivity extends AppCompatActivity implements View.OnClickLis
                 Date date = new Date();
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.KOREA);
                 msg.put("user_from", ParseUser.getCurrentUser());
-                msg.put("user_to",ParseUser.getQuery().get(recv_objId));
+                msg.put("user_to",ParseUser.getQuery().get(recvObjId));
                 msg.put("text",text.getText().toString());
                 msg.put("sendDate",format.format(date));
                 msg.saveInBackground();

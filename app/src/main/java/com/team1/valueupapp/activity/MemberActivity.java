@@ -82,6 +82,7 @@ public class MemberActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra("objectId",data.getStringExtra("objectId")); //objectId
             intent.putExtra("name",data.getStringExtra("name"));  //name
+            intent.putExtra("eMail",data.getStringExtra("eMail"));  //eMail
             setResult(Activity.RESULT_OK,intent);
         }
     }
