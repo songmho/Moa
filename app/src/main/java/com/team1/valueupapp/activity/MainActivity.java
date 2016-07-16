@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -47,8 +46,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    CircleImageView profile;
-    CircleImageView profile_drawer;
+    CircleImageView profileDrawer;
     Context mContext;
     FragmentTransaction fragmentTransaction;
 
@@ -74,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.progressbar) ProgressBar progressBar;
     @Bind(R.id.layout_refresh) SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.header_my_team) TextView headerMyTeam;
-    @Bind(R.id.header_all_team) TextView headerAllTeam;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -83,22 +80,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mContext = this;
         mainActivity = this;
 
-        SharedPreferences shpref = getSharedPreferences("myPref", 0);
-        int count = shpref.getInt("Count", -100);
-        if (count == -100) {
-            startActivity(new Intent(MainActivity.this, SplashActivity.class));
-            count = 1;
-        } else {
-            count++;
-        }
-        SharedPreferences.Editor editor = shpref.edit();
-        editor.putInt("Count", count).apply();
-
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        swipeRefreshLayout.setOnRefreshListener(this);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setTitle("모아");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+        toolbar.setNavigationIcon(R.drawable.drawericon);
 
+        fab.setOnClickListener(this);
+
+        setMainRecyclerView();      //메인 리사이클러 뷰 설정
+        setUpNavDrawer();       //네비게이션 드로어 설정
+        setUpNavDrawerHeader();     //네비게이션 드로어 헤더 설정
+        getListData();      //리사이클러 뷰 리스트 데이터 불러오기
+    }
+
+    //메인 리사이클러뷰 설정
+    private void setMainRecyclerView() {
+        swipeRefreshLayout.setOnRefreshListener(this);
         mainRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mainRecyclerView.setLayoutManager(layoutManager);
@@ -106,12 +113,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         myTeamRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(mContext);
         myTeamRecyclerView.setLayoutManager(layoutManager2);
+    }
 
-        fab.setOnClickListener(this);
-        setSupportActionBar(toolbar);
-
-        setUpNavDrawer();
-        makeDrawerHeader();
+    //네비게이션 드로어 설정
+    private void setUpNavDrawer() {
+        //로그인 하지 않은 상태이면 일부 메뉴 숨김.
+        if (user == null) {
+            navigationView.getMenu().findItem(R.id.apply_condition).setVisible(false);  //신청 현황 숨김
+            navigationView.getMenu().findItem(R.id.message).setVisible(false);  //쪽지함 숨김
+        }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -119,27 +129,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return changeDrawerMenu(menuItem);
             }
         });
-
-        getListData();
     }
 
-    //네비게이션 드로어 설정
-    private void setUpNavDrawer() {
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setTitle("모아");
-        toolbar.setNavigationIcon(R.drawable.drawericon);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+    //드로어 헤더 설정
+    private void setUpNavDrawerHeader() {
+        View headerLayout = navigationView.inflateHeaderView(R.layout.drawer_header);
+        headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
+                if (user != null) {
+                    startActivity(new Intent(MainActivity.this, MypageActivity.class));
+                } else {
+                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                    loginIntent.putExtra("goBackPreviousPage", true);
+                    startActivityForResult(loginIntent, RESULT_LOGIN);
+                    overridePendingTransition(0, 0);
+                }
             }
         });
+        TextView txtName = (TextView) headerLayout.findViewById(R.id.name);
+        if (user != null) {
+            txtName.setText(user.getString("name"));
+        } else {
+            txtName.setText("로그인을 해 주세요.");
+        }
+        profileDrawer = (CircleImageView) headerLayout.findViewById(R.id.profile);
+    }
 
-        //로그인 하지 않은 상태이면 일부 메뉴 숨김.
-        if(user == null) {
-            navigationView.getMenu().findItem(R.id.apply_condition).setVisible(false);  //신청 현황 숨김
-            navigationView.getMenu().findItem(R.id.message).setVisible(false);  //쪽지함 숨김
+    //드로어 프로필 사진 설정
+    private void loadProfile() {
+        boolean isProfileExists = false;
+        if (user != null) {
+            ParseFile parseFile = user.getParseFile("profile");
+            if (parseFile != null) {
+                isProfileExists = true;
+                if (!isFinishing())
+                    Glide.with(mContext).load(parseFile.getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(profileDrawer);
+            }
+        }
+        if (!isProfileExists) {
+            profileDrawer.setImageResource(R.drawable.ic_user);
         }
     }
 
@@ -167,59 +196,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.message:
                 if (user != null)
                     startActivity(new Intent(MainActivity.this, MessageActivity.class));
-                else {
-                    Toast.makeText(MainActivity.this, "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
-
-                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
-                    loginIntent.putExtra("goBackPreviousPage", true);
-                    startActivityForResult(loginIntent, RESULT_LOGIN);
-                    overridePendingTransition(0, 0);
-                }
                 return true;
         }
         return true;
     }
 
-    //드로어 헤더 설정
-    private void makeDrawerHeader() {
-        View headerLayout = navigationView.inflateHeaderView(R.layout.drawer_header);
-        headerLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (user != null) {
-                    startActivity(new Intent(MainActivity.this, MypageActivity.class));
-                } else {
-                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
-                    loginIntent.putExtra("goBackPreviousPage", true);
-                    startActivityForResult(loginIntent, RESULT_LOGIN);
-                    overridePendingTransition(0, 0);
-                }
-            }
-        });
-        TextView txtName = (TextView) headerLayout.findViewById(R.id.name);
-        if (user != null) {
-            txtName.setText(user.getString("name"));
-        } else {
-            txtName.setText("로그인을 해 주세요.");
-        }
-        profile_drawer = (CircleImageView) headerLayout.findViewById(R.id.profile);
-    }
 
-    //드로어 프로필 사진 설정
-    private void loadProfile() {
-        boolean isProfileExists = false;
-        if (user != null) {
-            ParseFile parseFile = user.getParseFile("profile");
-            if (parseFile != null) {
-                isProfileExists = true;
-                if (!isFinishing())
-                    Glide.with(mContext).load(parseFile.getUrl()).diskCacheStrategy(DiskCacheStrategy.ALL).into(profile_drawer);
-            }
-        }
-        if (!isProfileExists) {
-            profile_drawer.setImageResource(R.drawable.ic_user);
-        }
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -240,18 +222,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private long timeBackKeyPressed = 0;
 
+    //백버튼 클릭 설정
     public void backKeyPressed() {
         if (System.currentTimeMillis() <= timeBackKeyPressed + 2000) {
             finish();
         } else {
             timeBackKeyPressed = System.currentTimeMillis();
-            Toast.makeText(this, "뒤로 가기 버튼을 한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.back_button), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_2, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -259,10 +241,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:    //서치버튼 클릭 시
+            case R.id.action_search:    //검색 버튼 클릭 시
                 startActivity(new Intent(mContext, SearchActivity.class));
                 overridePendingTransition(0, 0);
-//            Toast.makeText(mContext, "준비중입니다 '-'", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_alert:     //알림 버튼 클릭 시
                 startActivity(new Intent(mContext, AlertActivity.class));
@@ -388,28 +369,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_MAKE_TEAM && resultCode == RESULT_OK) {
-            //팀 생성 성공 후 리스트 새로 불러오기.
-            getListData();
-        } else if (requestCode == RESULT_LOGIN && resultCode == RESULT_OK) {
-            //로그인 후 화면 변화
-            user = ParseUser.getCurrentUser();
-            if (drawerLayout.isDrawerOpen(navigationView)) {
-                drawerLayout.closeDrawers();
-            }
-            navigationView.removeHeaderView(navigationView.getHeaderView(0));        //기존 드로어 헤더뷰 삭제
-            makeDrawerHeader();
-            loadProfile();
-            getListData();
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                //팀 생성 성공 후 리스트 새로 불러오기
+                case RESULT_MAKE_TEAM:
+                    getListData();
+                    break;
 
-        } else if (requestCode == RESULT_LOGIN_MAKE_TEAM && resultCode == RESULT_OK) {
-            //로그인 후 화면 변화
-            user = ParseUser.getCurrentUser();
-            navigationView.removeHeaderView(navigationView.getHeaderView(0));        //기존 드로어 헤더뷰 삭제
-            makeDrawerHeader();
-            loadProfile();
-            fab.performClick();
-            getListData();
+                //로그인 후 화면 변화
+                case RESULT_LOGIN:
+                    user = ParseUser.getCurrentUser();
+                    if (drawerLayout.isDrawerOpen(navigationView)) {
+                        drawerLayout.closeDrawers();
+                    }
+                    navigationView.removeHeaderView(navigationView.getHeaderView(0));        //기존 드로어 헤더뷰 삭제
+                    setUpNavDrawerHeader();
+                    loadProfile();
+                    getListData();
+                    break;
+
+                //팀생성 버튼 비로그인 상태에서 클릭시 로그인 후 화면 변화
+                case RESULT_LOGIN_MAKE_TEAM:
+                    user = ParseUser.getCurrentUser();
+                    navigationView.removeHeaderView(navigationView.getHeaderView(0));        //기존 드로어 헤더뷰 삭제
+                    setUpNavDrawerHeader();
+                    loadProfile();
+                    fab.performClick();
+                    getListData();
+                    break;
+            }
         }
     }
 
