@@ -100,7 +100,7 @@ public class TeamSearchFragment extends android.support.v4.app.Fragment {
                                     emptyView.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.VISIBLE);
                                 }
-                                recyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team));
+                                recyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team, -1));
                             }
                         });
                     }

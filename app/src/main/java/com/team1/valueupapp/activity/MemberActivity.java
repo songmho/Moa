@@ -106,7 +106,7 @@ public class MemberActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Intent intent = new Intent(MemberActivity.this, SearchActivity_Legacy.class);
+                    Intent intent = new Intent(MemberActivity.this, SearchActivity.class);
                     intent.putExtra("query", query);
                     intent.putExtra("page", "main");
                     startActivity(intent);
