@@ -6,14 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -93,7 +91,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
     private static final String TAG = "TeamDetailActivity";
     public static final int RESULT_EDIT = 52;
     public static final int RESULT_EDIT_FINISH = 53;
-
+    private static final int RESULT_EDIT_BACK = 54;
     public static Activity activity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +159,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                                         ParseUser user = list.get(i);
                                         if (user.getUsername().equals(adminUsername))
                                             continue;     //팀장 제외
-                                        UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
+                                        UserItem userItem = new UserItem(user.getObjectId(), user.getUsername(), user.get("name").toString(), user.get("info").toString());
                                         memberArrayList.add(userItem);
                                     }
                                     if (memberThumbnailAdapter == null)
@@ -194,7 +192,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                                     for (int i = 0; i < list.size(); i++) {
                                         Log.e(TAG, i + "번째 대기 멤버 : " + list.get(i).getUsername());
                                         ParseUser user = list.get(i);
-                                        UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
+                                        UserItem userItem = new UserItem(user.getObjectId(), user.getUsername(), user.get("name").toString(), user.get("info").toString());
                                         memberWaitingArrayList.add(userItem);
                                     }
                                     if (memberWaitingThumbnailAdapter == null) {
@@ -232,7 +230,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                                         if (user.getUsername().equals(adminUsername)) {     //팀장은 팀원에서 제외해서 보여준다.
                                             continue;
                                         }
-                                        UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
+                                        UserItem userItem = new UserItem(user.getObjectId(), user.getUsername(), user.get("name").toString(), user.get("info").toString());
                                         memberArrayList.add(userItem);
                                     }
                                     if (memberThumbnailAdapter == null)
@@ -528,7 +526,7 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
                         if (user.getUsername().equals(adminUsername)) {
                             continue;
                         }
-                        UserItem userItem = new UserItem(user.getUsername(), user.get("name").toString(), user.get("info").toString());
+                        UserItem userItem = new UserItem("", user.getUsername(), user.get("name").toString(), user.get("info").toString());
                         memberArrayList.add(userItem);
                     }
                     if (memberThumbnailAdapter == null)
@@ -567,6 +565,9 @@ public class TeamDetailActivity extends AppCompatActivity implements View.OnClic
             collapsingToolbarLayout.setTitle(data.getStringExtra("title"));
             txtDetail.setText(data.getStringExtra("detail"));
             tag.setText(data.getStringExtra("tag"));
+        }
+        else if(requestCode == RESULT_EDIT && resultCode == RESULT_EDIT_BACK){
+            intent = data;
         }
     }
 }

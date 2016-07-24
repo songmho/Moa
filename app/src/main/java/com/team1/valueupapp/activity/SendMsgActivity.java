@@ -50,6 +50,11 @@ public class SendMsgActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+        if(getIntent()!=null){
+            recvName.setText(getIntent().getStringExtra("name")+" ("+getIntent().getStringExtra("eMail")+")");
+            recvObjId =getIntent().getStringExtra("objectId");
+        }
+
         btChoose.setText("선택");
         btChoose.setOnClickListener(this);
         btSend.setOnClickListener(this);

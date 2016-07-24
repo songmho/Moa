@@ -58,7 +58,8 @@
                         android:maxLines="1"
                         android:textColor="@color/mypageColor"
                         android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:maxLength="15"/>
                 </LinearLayout>
             </LinearLayout>
 

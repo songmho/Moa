@@ -71,7 +71,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter {
                     Intent intent;
                     if(itemLayout==R.layout.activity_member){
                         intent = new Intent(context,SendMsgActivity.class);
-                        intent.putExtra("objectId",item.getUserName()); //objectId
+                        intent.putExtra("objectId",item.getObjId()); //objectId
                         intent.putExtra("name",item.getName());  //name
                         intent.putExtra("eMail",item.getInfo());  //email
                         ((MemberActivity)context).setResult(Activity.RESULT_OK,intent);
@@ -81,6 +81,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter {
                     else{
                         Log.d("testest","d");
                         intent = new Intent(context.getApplicationContext(), UserDetailActivity.class);
+                        intent.putExtra("objectId",item.getObjId()); //objectId
                         intent.putExtra("info", item.getInfo());
                         intent.putExtra("name", item.getName());
                         intent.putExtra("username", item.getUserName());

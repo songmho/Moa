@@ -81,7 +81,7 @@ public class PersonSearchFragment extends android.support.v4.app.Fragment {
                             public void done(List<ParseUser> list, ParseException e) {
                                 Log.e(TAG, "search size :" + list.size());
                                 for (ParseObject parseObject : list) {
-                                    UserItem item = new UserItem(parseObject.getString("username"), parseObject.getString("name"), parseObject.getString("info"));
+                                    UserItem item = new UserItem(parseObject.getObjectId(),parseObject.getString("username"), parseObject.getString("name"), parseObject.getString("info"));
                                     mainTeamItems.add(item);
                                 }
                                 if (isAdded()) {

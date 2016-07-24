@@ -5,14 +5,11 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,7 +17,6 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.team1.valueupapp.adapter.MyViewPagerAdapter;
 import com.team1.valueupapp.R;
 import com.team1.valueupapp.adapter.UserRecyclerAdapter;
 import com.team1.valueupapp.item.UserItem;
@@ -67,7 +63,7 @@ public class MemberActivity extends AppCompatActivity {
             public void done(List<ParseUser> list, ParseException e) {
 
                  for(ParseUser u : list) {
-                    UserItem item = new UserItem(u.getObjectId(), u.getString("name"),u.getUsername());
+                    UserItem item = new UserItem(u.getObjectId(), "", u.getString("name"), u.getUsername());
                     items.add(item);
                     recyclerView.setAdapter(new UserRecyclerAdapter(mContext,items,R.layout.activity_member));
                 }

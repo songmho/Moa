@@ -67,13 +67,11 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
         View v;
         if(viewType == HEADER){
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_header, parent, false);
-            Log.e("fdfdfd","1");
-            return new header(v);
+               return new header(v);
         }
         else if (viewType == HOLDER) {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_team, parent, false);
-            Log.e("fdfdfd","2");
-            return new holder(v);
+               return new holder(v);
         } else if (viewType == FOOTER) {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fab_footer, parent, false);
             return new footer(v);
@@ -87,8 +85,7 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
                 ((header)holder).header.setText("추천 그룹");
             if(myListSize>0 && position == 0)
                 ((header)holder).header.setText("내 그룹");
-            Log.e("fdfdfd","3");
-        }
+           }
         else if (holder instanceof holder) {
             int curPosition = position-1;   //헤더가 있을 경우 생각하여 position을 -1 시킴
             if(myListSize==-1)      //헤더가 없는 경우(검색에서 사용한 경우)에는 연산 필요없음(+1시킴)
@@ -96,7 +93,6 @@ public class TeamRecyclerAdapter extends RecyclerView.Adapter {
             if(myListSize>0 && position>myListSize+1)   //로그인 하고 내 그룹이 있는 경우 -1 더 시킴
                 curPosition-=1;
             final TeamItem item = items_list.get(curPosition);
-            Log.e("fdfdfd",item.getUsername());
             ((holder) holder).title.setText(item.getTitle());
             ((holder) holder).detail.setText(item.getDetail());
 
