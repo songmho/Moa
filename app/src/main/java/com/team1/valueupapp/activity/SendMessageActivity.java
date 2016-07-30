@@ -47,7 +47,7 @@ public class SendMessageActivity extends AppCompatActivity implements View.OnCli
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("쪽지보내기");
+        getSupportActionBar().setTitle("쪽지보내기");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +59,10 @@ public class SendMessageActivity extends AppCompatActivity implements View.OnCli
         btChoose.setOnClickListener(this);
         btSend.setOnClickListener(this);
 
+        if(getIntent()!=null && (getIntent().hasExtra("name") || getIntent().hasExtra("eMail"))){
+            recvName.setText(getIntent().getStringExtra("name")+" ("+getIntent().getStringExtra("eMail")+")");
+            recvObjId =getIntent().getStringExtra("objectId");
+        }
     }
 
     @Override

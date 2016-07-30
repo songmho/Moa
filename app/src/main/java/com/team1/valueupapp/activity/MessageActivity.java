@@ -47,7 +47,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("쪽지함");
+        getSupportActionBar().setTitle("쪽지함");
 
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);

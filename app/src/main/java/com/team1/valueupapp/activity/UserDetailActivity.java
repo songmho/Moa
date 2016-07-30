@@ -180,7 +180,7 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         if(v.getId()==R.id.bt_sndMsg){
             if(ParseUser.getCurrentUser()!=null) {
-                Intent sendMsgIntent = new Intent(mContext, SendMsgActivity.class);
+                Intent sendMsgIntent = new Intent(mContext, SendMessageActivity.class);
                 sendMsgIntent.putExtra("objectId",getIntent().getStringExtra("objectId")); //objectId
                 sendMsgIntent.putExtra("name",getIntent().getStringExtra("name"));  //name
                 sendMsgIntent.putExtra("eMail",getIntent().getStringExtra("username"));  //email

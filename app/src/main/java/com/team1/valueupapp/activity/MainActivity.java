@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                drawerLayout.closeDrawers();
                 if (user != null) {
                     startActivity(new Intent(MainActivity.this, MypageActivity.class));
                 } else {
@@ -174,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //네비게이션 드로어 아이템 클릭 설정
     private boolean changeDrawerMenu(MenuItem menuItem) {
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
+        drawerLayout.closeDrawers();
         switch (menuItem.getItemId()) {
             //어바웃
             case R.id.about:
@@ -405,6 +406,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         loadProfile();
+        setUpNavDrawer();
     }
 
     @Override
