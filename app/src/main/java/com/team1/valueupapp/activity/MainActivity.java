@@ -45,7 +45,6 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
-
     CircleImageView profileDrawer;
     Context mContext;
     FragmentTransaction fragmentTransaction;
@@ -121,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user == null) {
             navigationView.getMenu().findItem(R.id.apply_condition).setVisible(false);  //신청 현황 숨김
             navigationView.getMenu().findItem(R.id.message).setVisible(false);  //쪽지함 숨김
+        } else {
+            navigationView.getMenu().findItem(R.id.apply_condition).setVisible(true);  //신청 현황 숨김
+            navigationView.getMenu().findItem(R.id.message).setVisible(true);  //쪽지함 숨김
         }
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

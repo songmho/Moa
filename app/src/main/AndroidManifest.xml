@@ -143,7 +143,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.SendMsgActivity"/>
+                android:value=".activity.SendMessageActivity"/>
         </activity>
 
         <activity
@@ -177,7 +177,7 @@
                 android:value=".activity.MainActivity"/>
         </activity>
 
-        <activity android:name=".activity.SendMsgActivity"
+        <activity android:name=".activity.SendMessageActivity"
             android:screenOrientation="portrait"/>
 
 

@@ -1,5 +1,6 @@
 package com.team1.valueupapp.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -30,11 +31,12 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.viewPager) ViewPager viewPager;
     @Bind(R.id.tabs) TabLayout tabLayout;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+    @Bind(R.id.fab) FloatingActionButton fab;
 
     MessageFragment sendMsgFragment;        //보낸
-    MessageFragment resvMsgFragment;        //받은
+    MessageFragment recvMsgFragment;        //받은
+
+    private final int RESULT_SEND = 11; //메시지 보내기
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("쪽지함");
+        toolbar.setTitle("쪽지함");
 
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
@@ -55,19 +57,27 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
     private void setUpViewPager(ViewPager viewPager) {
         MsgViewPagerAdapter adapter = new MsgViewPagerAdapter(getSupportFragmentManager());
         sendMsgFragment = new MessageFragment();
-        resvMsgFragment = new MessageFragment();
-        adapter.addFragment(resvMsgFragment,"받은쪽지함");
-        adapter.addFragment(sendMsgFragment,"보낸쪽지함");
+        recvMsgFragment = new MessageFragment();
+        adapter.addFragment(recvMsgFragment, "받은쪽지함");
+        adapter.addFragment(sendMsgFragment, "보낸쪽지함");
         viewPager.setAdapter(adapter);
     }
 
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.fab){
-            startActivity(new Intent(this,SendMsgActivity.class));
+            startActivityForResult(new Intent(this,SendMessageActivity.class), RESULT_SEND);
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_SEND && resultCode == Activity.RESULT_OK) {
+            sendMsgFragment.initData();
+        }
+    }
 
     private class MsgViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
