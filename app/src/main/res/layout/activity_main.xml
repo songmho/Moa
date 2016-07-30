@@ -28,55 +28,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-
-                    <LinearLayout
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/main_recyclerview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="100dp"
+                        />
 
-                        <TextView
-                            android:id="@+id/header_my_team"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="내 그룹"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/myteam_recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="30dp"/>
-
-                        <TextView
-                            android:id="@+id/header_all_team"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="추천 그룹"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            />
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/main_recyclerview"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="100dp"
-                            />
-                    </LinearLayout>
-
-                </ScrollView>
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
 

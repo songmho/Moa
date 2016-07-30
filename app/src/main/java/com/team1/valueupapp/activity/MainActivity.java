@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,17 +61,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static final String TAG = "MainActivity";
     public static Activity mainActivity;      //signup2Activity에서 finish시키기 위해 쓰는 변수
-    int listSize = 0;       //내그룹 찾는 for 문의 마지막 콜백에서 뷰 처리하기위해서 flag로 둔 값임.
+    int myListSize = 0;       //내그룹 찾는 for 문의 마지막 콜백에서 뷰 처리하기위해서 flag로 둔 값임.
 
     @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawerlayout) DrawerLayout drawerLayout;
     @Bind(R.id.navigationView) NavigationView navigationView;
     @Bind(R.id.main_recyclerview) RecyclerView mainRecyclerView;
-    @Bind(R.id.myteam_recyclerview) RecyclerView myTeamRecyclerView;
+//    @Bind(R.id.myteam_recyclerview) RecyclerView myTeamRecyclerView;
     @Bind(R.id.progressbar) ProgressBar progressBar;
     @Bind(R.id.layout_refresh) SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.header_my_team) TextView headerMyTeam;
+//    @Bind(R.id.header_my_team) TextView headerMyTeam;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -108,10 +109,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mainRecyclerView.setLayoutManager(layoutManager);
-
-        myTeamRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(mContext);
-        myTeamRecyclerView.setLayoutManager(layoutManager2);
     }
 
     //네비게이션 드로어 설정
@@ -304,62 +301,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 if (swipeRefreshLayout.isRefreshing())
                                     swipeRefreshLayout.setRefreshing(false);
                                 if (list == null || list.size() == 0) return;
-                                listSize = 0;
-                                for (final ParseObject parseObject : list) {
-                                    listSize++;
-                                    final ParseUser user = parseObject.getParseUser("admin_member");
-                                    try {
-                                        user.fetchIfNeeded();
-                                        TeamItem item = new TeamItem(parseObject.getObjectId(), parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
-                                        mainTeamItems.add(item);
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                    /*1. 로그아웃 상태일 때 */
-                                    if (MainActivity.this.user == null) {
-                                        if (!isFinishing())
-                                            progressBar.setVisibility(View.GONE);
-                                        mainRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team));
-                                        //로그아웃 상태이므로 내 그룹은 감춰준다.
-                                        headerMyTeam.setVisibility(View.GONE);
-                                        myTeamRecyclerView.setVisibility(View.GONE);
-                                        if (swipeRefreshLayout.getVisibility() == View.GONE) {
-                                            swipeRefreshLayout.setVisibility(View.VISIBLE);
+
+                                if(MainActivity.this.user == null){         //로그인이 안되어 있을 경우
+                                    for (final ParseObject parseObject : list) {        //전체 리스트 불러옴
+                                        final ParseUser user = parseObject.getParseUser("admin_member");
+                                        try {
+                                            user.fetchIfNeeded();
+                                            TeamItem item = new TeamItem(parseObject.getObjectId(), parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
+                                            mainTeamItems.add(item);
+                                        } catch (ParseException e1) {
+                                            e1.printStackTrace();
                                         }
-                                        /*2. 로그인 상태일 때 */
-                                    } else {
-                                        ParseRelation<ParseUser> memberRelation = parseObject.getRelation("member");
-                                        final ParseQuery<ParseUser> memberQuery = memberRelation.getQuery();             //릴레이션을 가지고 쿼리문 돌림
-                                        memberQuery.whereEqualTo("username", MainActivity.this.user.getUsername());     //내가 멤버로 있는 팀 검색
-                                        memberQuery.findInBackground(new FindCallback<ParseUser>() {
-                                            @Override
-                                            public void done(List<ParseUser> mylist, ParseException e) {
-                                                if (mylist != null && mylist.size() > 0) {
-                                                    TeamItem item = new TeamItem(parseObject.getObjectId(), parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
-                                                    myTeamItems.add(item);
-                                                }
-                                                //마지막 콜백인지 확인하여 맞으면 뷰를 변경한다. (작업 도중에 뷰를 변경하면 적용이 되지 않을 수도 있으므로)
-                                                if (listSize == list.size()) {
-                                                    if (!isFinishing())
+                                    }   //end for
+
+                                    progressBar.setVisibility(View.GONE);
+                                    mainRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team,myListSize));
+                                    if (swipeRefreshLayout.getVisibility() == View.GONE) {
+                                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                                    }
+                                    return;
+                                }
+
+                                else {      //로그인이 되어 있을 경우
+                                     for(final ParseObject parseObject : list) {        //전체 리스트 불러옴
+                                        final ParseUser user = parseObject.getParseUser("admin_member");
+                                        try {
+                                            user.fetchIfNeeded();
+                                            ParseRelation<ParseUser> memberRelation = parseObject.getRelation("member");
+                                            final ParseQuery<ParseUser> memberQuery = memberRelation.getQuery();             //릴레이션을 가지고 쿼리문 돌림
+                                            memberQuery.whereEqualTo("username", MainActivity.this.user.getUsername());     //내가 멤버로 있는 팀 검색
+                                            memberQuery.findInBackground(new FindCallback<ParseUser>() {
+                                                @Override
+                                                public void done(List<ParseUser> mylist, ParseException e) {
+                                                   if (mylist != null && mylist.size() > 0) {      //내 이름이 포함되어 있을 경우 내 그릅에 포함시킴
+                                                        TeamItem item = new TeamItem(parseObject.getObjectId(), parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
+                                                        myTeamItems.add(item);
+                                                    }
+                                                    else{           //내 이름이 포함 되어있지 않을 경우 추천 그룹에 포함시킴
+                                                        TeamItem item = new TeamItem(parseObject.getObjectId(), parseObject.getString("intro"), user.getString("name"), user.getUsername(), parseObject.getString("intro_detail"));
+                                                        mainTeamItems.add(item);
+                                                    }
+                                                    if(list.size()==(myTeamItems.size()+mainTeamItems.size())){     //내 그룹 리스트와 추천 그룹 리스트 수가 전체 리스트 수와 같을 경우
+                                                        mainTeamItems.addAll(0,myTeamItems);        //내 그룹 리스트를 전체 리스트 맨 앞에 포함시켜 둠
                                                         progressBar.setVisibility(View.GONE);
-                                                    //내 팀이 없을 경우 레이아웃을 감춰둔다.
-                                                    if (myTeamItems == null || myTeamItems.size() == 0) {
-                                                        headerMyTeam.setVisibility(View.GONE);
-                                                        myTeamRecyclerView.setVisibility(View.GONE);
-                                                    } else {
-                                                        headerMyTeam.setVisibility(View.VISIBLE);
-                                                        myTeamRecyclerView.setVisibility(View.VISIBLE);
-                                                    }
-                                                    mainRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team));
-                                                    myTeamRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, myTeamItems, R.layout.activity_team));
-                                                    if (swipeRefreshLayout.getVisibility() == View.GONE) {
-                                                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                                                        mainRecyclerView.setAdapter(new TeamRecyclerAdapter(mContext, mainTeamItems, R.layout.activity_team,myTeamItems.size()));
+                                                        if (swipeRefreshLayout.getVisibility() == View.GONE) {
+                                                            swipeRefreshLayout.setVisibility(View.VISIBLE);
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        });
+                                            });
+
+                                        } catch (ParseException e1) {
+                                            e1.printStackTrace();
+                                        }
                                     }
                                 }
+
                             }
                         });
                     }

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.team1.valueupapp.R;
 import com.team1.valueupapp.activity.MemberActivity;
-import com.team1.valueupapp.activity.SendMessageActivity;
+import com.team1.valueupapp.activity.SendMsgActivity;
 import com.team1.valueupapp.activity.UserDetailActivity;
 import com.team1.valueupapp.item.UserItem;
 
@@ -70,8 +70,8 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent;
                     if(itemLayout==R.layout.activity_member){
-                        intent = new Intent(context,SendMessageActivity.class);
-                        intent.putExtra("objectId",item.getUserName()); //objectId
+                        intent = new Intent(context,SendMsgActivity.class);
+                        intent.putExtra("objectId",item.getObjId()); //objectId
                         intent.putExtra("name",item.getName());  //name
                         intent.putExtra("eMail",item.getInfo());  //email
                         ((MemberActivity)context).setResult(Activity.RESULT_OK,intent);
@@ -81,6 +81,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter {
                     else{
                         Log.d("testest","d");
                         intent = new Intent(context.getApplicationContext(), UserDetailActivity.class);
+                        intent.putExtra("objectId",item.getObjId()); //objectId
                         intent.putExtra("info", item.getInfo());
                         intent.putExtra("name", item.getName());
                         intent.putExtra("username", item.getUserName());

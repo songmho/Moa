@@ -75,7 +75,8 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
         txtName.setText(name);
         if (info != null)
             txtInfo.setText(info);
-
+        if(username.equals(ParseUser.getCurrentUser().getUsername()))
+            bt_sndMsg.setVisibility(View.GONE);
         initAppBarLayout(); //앱바 초기화
         runOnUiThread(new Runnable() {
             @Override
@@ -178,8 +179,13 @@ public class UserDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.bt_sndMsg){
-            if(ParseUser.getCurrentUser()!=null)
-                startActivity(new Intent(this,SendMessageActivity.class));
+            if(ParseUser.getCurrentUser()!=null) {
+                Intent sendMsgIntent = new Intent(mContext, SendMsgActivity.class);
+                sendMsgIntent.putExtra("objectId",getIntent().getStringExtra("objectId")); //objectId
+                sendMsgIntent.putExtra("name",getIntent().getStringExtra("name"));  //name
+                sendMsgIntent.putExtra("eMail",getIntent().getStringExtra("username"));  //email
+                startActivity(sendMsgIntent);
+            }
             else{
                 Toast.makeText(UserDetailActivity.this, "로그인을 해주세요.", Toast.LENGTH_SHORT).show();
 
