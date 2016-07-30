@@ -67,7 +67,7 @@ public class MemberActivity extends AppCompatActivity {
             public void done(List<ParseUser> list, ParseException e) {
 
                  for(ParseUser u : list) {
-                    UserItem item = new UserItem(u.getObjectId(), u.getString("name"),u.getUsername());
+                    UserItem item = new UserItem(u.getObjectId(), u.getString("name"),u.getUsername(), "");
                     items.add(item);
                     recyclerView.setAdapter(new UserRecyclerAdapter(mContext,items,R.layout.activity_member));
                 }
@@ -106,10 +106,10 @@ public class MemberActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-//                    Intent intent = new Intent(MemberActivity.this, SearchActivity_Legacy.class);
-//                    intent.putExtra("query", query);
-//                    intent.putExtra("page", "main");
-//                    startActivity(intent);
+                    Intent intent = new Intent(MemberActivity.this, SearchActivity.class);
+                    intent.putExtra("query", query);
+                    intent.putExtra("page", "main");
+                    startActivity(intent);
                     return false;
                 }
 
